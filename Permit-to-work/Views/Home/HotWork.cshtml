@@ -1,6 +1,224 @@
-﻿@{
-    ViewData["Title"] = "Hot Work ";
+﻿@model HotWorkPermit
+@{
+    ViewData["Title"] = "HotWorkPermit";
 }
-<div>
-    hai
-</div>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Hot Work Permit</title>
+
+    <!-- Bootstrap 5 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #ffecec;
+        }
+
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: #ffb3b3;
+            border-bottom: 3px solid #000;
+        }
+
+        .permit-card {
+            animation: fadeUp 0.7s ease-in-out;
+            border: 2px solid #000;
+            background: #ffb3b3;
+        }
+
+        @@keyframes fadeUp {
+            from
+
+        {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        }
+
+        .section-title {
+            font-weight: bold;
+            text-transform: uppercase;
+            background: #ff9999;
+            padding: 8px;
+            border: 1px solid #000;
+        }
+
+        label {
+            font-weight: 600;
+        }
+
+        .form-control, .form-check-input {
+            border: 1px solid #000;
+        }
+
+        @@media print {
+            .no-print
+
+        {
+            display: none;
+        }
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <section class="sticky-header text-center py-3">
+        <h3 class="fw-bold">HOT WORK PERMIT</h3>
+    </section>
+
+    <form method="post" class="container my-4">
+
+        <!-- BASIC DETAILS -->
+        <section class="card permit-card mb-3">
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <label>Unit</label>
+                        @Html.TextBoxFor(m => m.Unit, new { @class = "form-control" })
+                    </div>
+                    <div class="col-md-3">
+                        <label>Contractor</label>
+                        @Html.TextBoxFor(m => m.ContractorName, new { @class = "form-control" })
+                    </div>
+                    <div class="col-md-3">
+                        <label>Location</label>
+                        @Html.TextBoxFor(m => m.Location, new { @class = "form-control" })
+                    </div>
+                    <div class="col-md-3">
+                        <label>No. of Workmen</label>
+                        @Html.TextBoxFor(m => m.NoOfWorkmen, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DATE & TIME -->
+        <section class="card permit-card mb-3">
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <label>Start Date</label>
+                        @Html.TextBoxFor(m => m.StartDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
+                    </div>
+                    <div class="col-md-3">
+                        <label>Start Time</label>
+                        @Html.TextBoxFor(m => m.StartTime, new { type = "time", @class = "form-control" })
+                    </div>
+                    <div class="col-md-3">
+                        <label>End Date</label>
+                        @Html.TextBoxFor(m => m.EndDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
+                    </div>
+                    <div class="col-md-3">
+                        <label>End Time</label>
+                        @Html.TextBoxFor(m => m.EndTime, new { type = "time", @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- WORK DESCRIPTION -->
+        <section class="card permit-card mb-3">
+            <div class="card-body">
+                <label>Work Description</label>
+                @Html.TextAreaFor(m => m.WorkDescription, 3, 100, new { @class = "form-control" })
+            </div>
+        </section>
+
+        <!-- TOOLS -->
+        <section class="card permit-card mb-3">
+            <div class="card-body">
+                <label>Tools / Equipment</label>
+                @Html.TextAreaFor(m => m.ToolsEquipment, 2, 100, new { @class = "form-control" })
+            </div>
+        </section>
+
+        <!-- RISKS -->
+        <section class="card permit-card mb-3">
+            <div class="section-title">Identify Risks</div>
+            <div class="card-body row">
+                @foreach (var risk in new[] {
+                                "Electrocution","Arc Flash","Flying Particles","Noise","Fire/Spark",
+                                "Manual Handling","Tripping","Electric Shock","Explosion"
+                                })
+                {
+                    <div class="col-md-4 form-check">
+                        <input class="form-check-input" type="checkbox" />
+                        <label class="form-check-label">@risk</label>
+                    </div>
+                }
+            </div>
+        </section>
+
+        <!-- INSURANCE -->
+        <section class="card permit-card mb-3">
+            <div class="card-body">
+                <label>Insurance / WC / ESI copy available for workmen</label><br />
+                <input type="radio" name="Insurance" /> Yes
+                <input type="radio" name="Insurance" class="ms-3" /> No
+            </div>
+        </section>
+
+        <!-- INSPECTION -->
+        <section class="card permit-card mb-3">
+            <div class="section-title">Inspected Areas / Items</div>
+            <div class="card-body row">
+                <div class="col-md-3"><input type="checkbox" /> Fire Extinguisher</div>
+                <div class="col-md-3"><input type="checkbox" /> Fire Blanket</div>
+                <div class="col-md-3"><input type="checkbox" /> Warning Signs</div>
+                <div class="col-md-3"><input type="checkbox" /> Safety Barriers</div>
+            </div>
+        </section>
+
+        <!-- PPE -->
+        <section class="card permit-card mb-3">
+            <div class="section-title">PPE Required</div>
+            <div class="card-body row">
+                <div class="col-md-3"><input type="checkbox" /> Helmet</div>
+                <div class="col-md-3"><input type="checkbox" /> Safety Shoes</div>
+                <div class="col-md-3"><input type="checkbox" /> Welding Gloves</div>
+                <div class="col-md-3"><input type="checkbox" /> Face Shield</div>
+            </div>
+        </section>
+
+        <!-- AUTHORIZATION -->
+        <section class="card permit-card mb-3">
+            <div class="section-title">Authorization</div>
+            <div class="card-body row">
+                <div class="col-md-6">
+                    <label>Permit Receiver Name</label>
+                    @Html.TextBoxFor(m => m.ReceiverName, new { @class = "form-control" })
+                </div>
+                <div class="col-md-6">
+                    <label>Permit Issuer Name</label>
+                    @Html.TextBoxFor(m => m.IssuerName, new { @class = "form-control" })
+                </div>
+            </div>
+        </section>
+
+        <!-- BUTTONS -->
+        <div class="text-center no-print mb-5">
+            <button class="btn btn-success px-4">Save</button>
+            <button type="button" onclick="window.print()" class="btn btn-secondary px-4 ms-2">Print</button>
+        </div>
+
+    </form>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

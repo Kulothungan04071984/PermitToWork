@@ -1,0 +1,119 @@
+﻿@model ElectricalIsolationPermit
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Electrical Isolation Permit</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #fff8c6;
+        }
+
+        .card {
+            animation: fadeUp .6s ease;
+        }
+        @@keyframes fadeUp {
+            from
+
+        {
+            opacity: 0;
+            transform: translateY(25px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        }
+
+        .section-title {
+            background: #f4c430;
+            font-weight: bold;
+            padding: 6px 10px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <form method="post" class="container my-4">
+        <div class="card border-dark">
+            <div class="card-header text-center fw-bold">
+                ELECTRICAL (ISOLATION) PERMIT
+            </div>
+
+            <div class="card-body">
+
+                <section>
+                    <div class="section-title">Basic Details</div>
+                    <div class="row">
+                        <div class="col-md-3">@Html.TextBoxFor(m => m.Unit, new { @class = "form-control", placeholder = "Unit" })</div>
+                        <div class="col-md-3">@Html.TextBoxFor(m => m.Location, new { @class = "form-control", placeholder = "Location" })</div>
+                        <div class="col-md-3">@Html.TextBoxFor(m => m.NumberOfWorkmen, new { @class = "form-control", placeholder = "Workmen" })</div>
+                    </div>
+                </section>
+
+                <section class="mt-3">
+                    <div class="section-title">Date & Time</div>
+                    <div class="row">
+                        <div class="col">@Html.TextBoxFor(m => m.StartDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })</div>
+                        <div class="col">@Html.TextBoxFor(m => m.StartTime, new { type = "time", @class = "form-control" })</div>
+                        <div class="col">@Html.TextBoxFor(m => m.EndDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })</div>
+                        <div class="col">@Html.TextBoxFor(m => m.EndTime, new { type = "time", @class = "form-control" })</div>
+                    </div>
+                </section>
+
+                <section class="mt-3">
+                    <div class="section-title">Energy Status</div>
+                    <div class="row">
+                        <div class="col">@Html.CheckBoxFor(m => m.EnergizedEquipment) Energized</div>
+                        <div class="col">@Html.CheckBoxFor(m => m.DeEnergizedEquipment) De-Energized</div>
+                    </div>
+                </section>
+
+                <section class="mt-3">
+                    <div class="section-title">Risks</div>
+                    <div class="row">
+                        <div class="col">@Html.CheckBoxFor(m => m.RiskElectrocution) Electrocution</div>
+                        <div class="col">@Html.CheckBoxFor(m => m.RiskArcFlash) Arc Flash</div>
+                        <div class="col">@Html.CheckBoxFor(m => m.RiskElectricShock) Electric Shock</div>
+                        <div class="col">@Html.CheckBoxFor(m => m.RiskFire) Fire</div>
+                    </div>
+                </section>
+
+                <section class="mt-3">
+                    <div class="section-title">PPE Required</div>
+                    <div class="row">
+                        <div class="col">@Html.CheckBoxFor(m => m.PPEHelmet) Helmet</div>
+                        <div class="col">@Html.CheckBoxFor(m => m.PPEElectricalGloves) Electrical Gloves</div>
+                        <div class="col">@Html.CheckBoxFor(m => m.PPEArcFlash) Arc Flash PPE</div>
+                        <div class="col">@Html.CheckBoxFor(m => m.PPEFaceShield) Face Shield</div>
+                    </div>
+                </section>
+
+                <section class="mt-3">
+                    <div class="section-title">Authorization</div>
+                    <div class="row">
+                        <div class="col-md-6">@Html.TextBoxFor(m => m.ReceiverName, new { @class = "form-control", placeholder = "Receiver Name" })</div>
+                        <div class="col-md-6">@Html.TextBoxFor(m => m.IssuerName, new { @class = "form-control", placeholder = "Issuer Name" })</div>
+                    </div>
+                </section>
+
+                <div class="text-center mt-4">
+                    <button class="btn btn-success px-5">Submit Permit</button>
+                </div>
+
+            </div>
+        </div>
+    </form>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

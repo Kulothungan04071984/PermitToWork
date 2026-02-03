@@ -64,12 +64,148 @@ namespace Permit_to_work.Controllers
             return RedirectToAction("Success");
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Hotwork(HotWorkPermit model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            model.Status = "Pending";
+
+            _context.HotWorkPermits.Add(model);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Success");
+        }
 
         public IActionResult Hotwork()
         {
             return View(); 
         }
 
+
+        public IActionResult Liftingoperation()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Liftingoperation(LiftingOperationPermit model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            _context.LiftingOperationPermits.Add(model);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Success");
+        }
+
+        public IActionResult WorkAtHeightPermit()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> WorkAtHeightPermit(WorkAtHeightPermit model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            _context.WorkAtHeightPermits.Add(model);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Success");
+        }
+
+        public IActionResult ElectricalIsolationPermit()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> ElectricalIsolationPermit(ElectricalIsolationPermit model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            _context.ElectricalIsolationPermits.Add(model);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Success");
+        }
+        public IActionResult Home()
+        {
+            return View();
+        }
+        public IActionResult Dashboard()
+        {
+            var dashboard = new List<PermitDashboardVM>();
+
+            dashboard.AddRange(
+                _context.HotWorkPermits.Select(x => new PermitDashboardVM
+                {
+                    PermitId = x.PermitId,
+                    PermitType = "Hot Work",
+                    Unit = x.Unit,
+                    Location = x.Location,
+                    StartDate = x.StartDate,
+                    EndDate = x.EndDate,
+                    Status = "Active"
+                })
+            );
+
+            dashboard.AddRange(
+                _context.LiftingOperationPermits.Select(x => new PermitDashboardVM
+                {
+                    PermitId = x.PermitId,
+                    PermitType = "Lifting Operation",
+                    Unit = x.Unit,
+                    Location = x.Location,
+                    StartDate = x.StartDate,
+                    EndDate = x.EndDate,
+                    Status = "Active"
+                })
+            );
+
+            dashboard.AddRange(
+                _context.WorkAtHeightPermits.Select(x => new PermitDashboardVM
+                {
+                    PermitId = x.PermitId,
+                    PermitType = "Work At Height",
+                    Unit = x.Unit,
+                    Location = x.Location,
+                    StartDate = x.StartDate,
+                    EndDate = x.EndDate,
+                    Status = "Active"
+                })
+            );
+
+            dashboard.AddRange(
+                _context.ElectricalIsolationPermits.Select(x => new PermitDashboardVM
+                {
+                    PermitId = x.PermitId,
+                    PermitType = "Electrical Isolation",
+                    Unit = x.Unit,
+                    Location = x.Location,
+                    StartDate = x.StartDate,
+                    EndDate = x.EndDate,
+                    Status = "Active"
+                })
+            );
+
+            return View(dashboard.OrderByDescending(x => x.StartDate));
+        }
+
+        public IActionResult Delete(string type, int id)
+        {
+            // handle delete based on type
+            return RedirectToAction("Dashboard");
+        }
+
+        public IActionResult Extend(string type, int id)
+        {
+            return RedirectToAction("Dashboard");
+        }
         public IActionResult Success()
         {
             return View();

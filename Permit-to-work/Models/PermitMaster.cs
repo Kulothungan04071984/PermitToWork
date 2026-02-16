@@ -2,11 +2,12 @@
 {
     public class PermitMaster
     {
-        public int PermitId { get; set; }
+        public int Id { get; set; }
 
         public string PermitNumber { get; set; }
+
         public string PermitType { get; set; }
-        // Work, HotWork, Height, Lifting, Electrical
+        // Cold Work / Hot Work / Lifting / Height / Electrical
 
         public string Unit { get; set; }
         public string Location { get; set; }
@@ -15,14 +16,13 @@
         public DateTime EndDate { get; set; }
 
         public string Status { get; set; }
-        // Issued, PendingSafety, PendingElectrical, Approved, Rejected, Closed, Extended
+        // Draft / PendingSafety / PendingElectrical / Approved / Closed
 
-        public int CreatedByUserId { get; set; }
+        public bool IsActive { get; set; } = true;
 
         public DateTime CreatedOn { get; set; } = DateTime.Now;
 
-//        4. LOGIN → SESSION ROLE SETUP
-//HttpContext.Session.SetString("UserRole", user.Role.ToString());
-//        HttpContext.Session.SetInt32("UserId", user.Id);
+        public int CreatedByUserId { get; set; }
+        public AppUser CreatedBy { get; set; }
     }
 }

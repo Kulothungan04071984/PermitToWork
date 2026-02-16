@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Home\PermitDashboardVM.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="wwwroot\img\.DS_Store" />
     <None Include="wwwroot\img\about\.DS_Store" />
     <None Include="wwwroot\js\.DS_Store" />

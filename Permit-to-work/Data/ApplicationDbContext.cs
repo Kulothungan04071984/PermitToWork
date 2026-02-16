@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Permit_to_work.Models;
+using Permit_to_work.ViewModel;
 
 namespace Permit_to_work.Data
 {
@@ -18,7 +19,12 @@ namespace Permit_to_work.Data
         public DbSet<WorkAtHeightPermit> WorkAtHeightPermits { get; set; }
         public DbSet<ElectricalIsolationPermit> ElectricalIsolationPermits { get; set; }
 
+        public DbSet<PermitMaster> PermitMasters { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Ignore<PermitDashboardVM>();
+        }
 
     }
 }

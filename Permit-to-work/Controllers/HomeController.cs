@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Permit_to_work.Data;
 using Permit_to_work.Models;
+using Permit_to_work.ViewModel;
 using System.Diagnostics;
 
 namespace Permit_to_work.Controllers
@@ -61,7 +62,8 @@ namespace Permit_to_work.Controllers
 
             _context.ColdWorkPermits.Add(entity);
             _context.SaveChanges();
-            return RedirectToAction("Success");
+            //return RedirectToAction("Success");
+            return View();
         }
 
         [HttpPost]
@@ -142,9 +144,21 @@ namespace Permit_to_work.Controllers
             var dashboard = new List<PermitDashboardVM>();
 
             dashboard.AddRange(
+                _context.ColdWorkPermits.Select(x => new PermitDashboardVM
+                {
+                    PermitDashBoardId = x.Id,
+                    PermitType = "Cold Work",
+                    Unit = x.Unit,
+                    Location = x.Location,
+                    StartDate = x.StartDate,
+                    EndDate = x.EndDate,
+                    Status = "Active"
+                })
+            );
+            dashboard.AddRange(
                 _context.HotWorkPermits.Select(x => new PermitDashboardVM
                 {
-                    PermitId = x.PermitId,
+                    PermitDashBoardId = x.PermitId,
                     PermitType = "Hot Work",
                     Unit = x.Unit,
                     Location = x.Location,
@@ -157,7 +171,7 @@ namespace Permit_to_work.Controllers
             dashboard.AddRange(
                 _context.LiftingOperationPermits.Select(x => new PermitDashboardVM
                 {
-                    PermitId = x.PermitId,
+                    PermitDashBoardId = x.PermitId,
                     PermitType = "Lifting Operation",
                     Unit = x.Unit,
                     Location = x.Location,
@@ -170,7 +184,7 @@ namespace Permit_to_work.Controllers
             dashboard.AddRange(
                 _context.WorkAtHeightPermits.Select(x => new PermitDashboardVM
                 {
-                    PermitId = x.PermitId,
+                    PermitDashBoardId = x.PermitId,
                     PermitType = "Work At Height",
                     Unit = x.Unit,
                     Location = x.Location,
@@ -183,7 +197,7 @@ namespace Permit_to_work.Controllers
             dashboard.AddRange(
                 _context.ElectricalIsolationPermits.Select(x => new PermitDashboardVM
                 {
-                    PermitId = x.PermitId,
+                    PermitDashBoardId = x.PermitId,
                     PermitType = "Electrical Isolation",
                     Unit = x.Unit,
                     Location = x.Location,
@@ -216,5 +230,15 @@ namespace Permit_to_work.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        //[HttpPost]
+        //public IActionResult ExtendPermit(int PermitId, DateTime NewEndDate)
+        //{
+        //    var permit = _context.Permits.Find(PermitId);
+        //    permit.EndDate = NewEndDate;
+        //    permit.Status = "Extended";
+        //    _context.SaveChanges();
+        //    return RedirectToAction("Index");
+        //}
     }
 }

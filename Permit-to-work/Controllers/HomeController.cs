@@ -63,6 +63,7 @@ namespace Permit_to_work.Controllers
             _context.ColdWorkPermits.Add(entity);
             _context.SaveChanges();
             //return RedirectToAction("Success");
+            //test
             return View();
         }
 

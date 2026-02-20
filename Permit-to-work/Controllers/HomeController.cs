@@ -57,7 +57,7 @@ namespace Permit_to_work.Controllers
                 PPEGloves = vm.PPEGloves,
                 ReceiverName = vm.ReceiverName,
                 IssuerName = vm.IssuerName,
-                InsuranceAvailable = true
+                InsuranceAvailable = false
             };
 
             _context.ColdWorkPermits.Add(entity);

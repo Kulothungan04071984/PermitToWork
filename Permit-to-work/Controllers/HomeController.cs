@@ -38,7 +38,7 @@ namespace Permit_to_work.Controllers
                 return View(vm);
 
             var entity = new ColdWorkPermitVM
-            {
+            {              
                 Unit = vm.Unit,
                 ContractorTeam = vm.ContractorTeam,
                 Location = vm.Location,
@@ -59,11 +59,19 @@ namespace Permit_to_work.Controllers
                 IssuerName = vm.IssuerName,
                 InsuranceAvailable = true
             };
+           
+            if (vm.Id > 0)
+            {
+                entity.Id = vm.Id;
+                _context.ColdWorkPermits.Update(entity);
+            }
+            else
+                _context.ColdWorkPermits.Add(entity);
 
-            _context.ColdWorkPermits.Add(entity);
             _context.SaveChanges();
-            //return RedirectToAction("Success");
-            return View();
+
+            return RedirectToAction("Dashboard");
+            //return View();
         }
 
         [HttpPost]

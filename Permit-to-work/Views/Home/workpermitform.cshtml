@@ -22,12 +22,13 @@
         <h4 class="m-0">COLD WORK PERMIT</h4>
     </header>
 
-    <form method="post" class="container permit-container">
+        <form method="post" asp-action="workpermitform" asp-controller="Home" class="container permit-container">
       
         <!-- SECTION: BASIC DETAILS -->
         <section class="permit-section">
             <h5>Basic Details</h5>
             <div class="row g-3">
+                    @Html.HiddenFor(m => m.Id)
                 <div class="col-md-4">
                     <label>Unit</label>
                     @Html.TextBoxFor(m => m.Unit, new { @class = "form-control" })

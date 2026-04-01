@@ -12,64 +12,38 @@ namespace Permit_to_work.Models
         public string ContractorName { get; set; }
         public string Location { get; set; }
         public int NoOfWorkmen { get; set; }
-
-        // Date & Time
         public DateTime StartDate { get; set; }
         public string StartTime { get; set; }
         public DateTime EndDate { get; set; }
-        public string EndTime { get; set; }
+        public string ExpectedCompletionTime { get; set; }
 
-        // Lifting Equipment
         public bool TruckMounted { get; set; }
         public bool HydraCrane { get; set; }
         public bool OverheadCrane { get; set; }
-        public bool TowerCrane { get; set; }
 
-        // Load Details
-        public decimal WeightApprox { get; set; }
-        public string DimensionMax { get; set; }
-        public int Quantity { get; set; }
+        public string LoadWeight { get; set; }
+        public string LoadDimension { get; set; }
+        public string LoadQuantity { get; set; }
 
-        // Rigger Level
-        public string RiggerLevel { get; set; }
+        public bool Toppling { get; set; }
+        public bool FallingObjects { get; set; }
+        public bool Overload { get; set; }
+        public bool AdverseWeather { get; set; }
+        public string OtherRisk { get; set; }
 
-        // Equipment Details
-        public string SerialNo { get; set; }
-        public DateTime InspectionDate { get; set; }
-        public string CapacitySWL { get; set; }
+        public bool Helmet { get; set; }
+        public bool SafetyShoes { get; set; }
+        public bool ReflectiveVest { get; set; }
+        public bool WC { get; set; }
+        public bool ESI { get; set; }
 
-        // Work
-        public string WorkDescription { get; set; }
-        public string ToolsEquipment { get; set; }
 
-        // Risks
-        public bool RiskToppling { get; set; }
-        public bool RiskSuspendedLoad { get; set; }
-        public bool RiskHighWind { get; set; }
-        public bool RiskMovingVehicle { get; set; }
-        public bool RiskFallingObjects { get; set; }
-        public bool RiskOverLoad { get; set; }
-        public bool RiskTripping { get; set; }
-        public bool RiskNoise { get; set; }
-        public bool RiskCrushing { get; set; }
-        public bool RiskCollapse { get; set; }
-        public bool RiskNearOverheadLines { get; set; }
-        public bool RiskTraffic { get; set; }
-
-        // PPE
-        public bool PPEHelmet { get; set; }
-        public bool PPEShoes { get; set; }
-        public bool PPEGloves { get; set; }
-        public bool PPEEarPlug { get; set; }
-        public bool PPEReflectiveVest { get; set; }
-        public bool PPEDustMask { get; set; }
-
-        // Authorization
         public string ReceiverName { get; set; }
+        public DateTime ReceiverDate { get; set; }
         public string IssuerName { get; set; }
+        public DateTime IssuerDate { get; set; }
 
-        // Status
-        public string Status { get; set; } = "Pending";
-        public DateTime CreatedOn { get; set; } = DateTime.Now;
+        public string SuspensionName { get; set; }
+        public string SuspensionSignatureDate { get; set; }
     }
 }

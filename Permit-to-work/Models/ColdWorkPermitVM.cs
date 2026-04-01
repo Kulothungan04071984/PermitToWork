@@ -40,13 +40,23 @@ namespace Permit_to_work.Models
         public bool PPEShoes { get; set; }
         public bool PPEGloves { get; set; }
 
+
         // Insurance
         public bool InsuranceAvailable { get; set; }
+        public bool WC { get; set; }
+        public bool ESI { get; set; }
 
         // Authorization
         public string ReceiverName { get; set; }
-        public string IssuerName { get; set; }
 
+        public string ReceiverDate { get; set; }
+        public string IssuerName { get; set; }
+        public string IssuerDate { get; set; }
+
+        //Suspension of permit
+
+        public string Name { get; set; }
+        public DateTime? SuspensionDate { get; set; }
         public DateTime CreatedOn { get; set; } = DateTime.Now;
 
         public bool IsActive { get; set; }

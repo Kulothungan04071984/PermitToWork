@@ -69,9 +69,15 @@ namespace Permit_to_work.Controllers
                 _context.ColdWorkPermits.Add(entity);
 
             _context.SaveChanges();
+<<<<<<< HEAD
 
             return RedirectToAction("Dashboard");
             //return View();
+=======
+            //return RedirectToAction("Success");
+            //test
+            return View();
+>>>>>>> other/master
         }
 
         [HttpPost]

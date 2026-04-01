@@ -30,6 +30,12 @@ namespace Permit_to_work.Models
         public string WorkDescription { get; set; }
         public string ToolsEquipment { get; set; }
 
+        //Precaution
+        public string Precaution { get; set; }
+
+        //Riskcontrol
+        public string Riskcontrol { get; set; }
+
         // Risks
         public bool RiskFallHeight { get; set; }
         public bool RiskWeather { get; set; }
@@ -44,6 +50,29 @@ namespace Permit_to_work.Models
         public bool RiskNearOverheadLines { get; set; }
         public bool RiskNonEnergizedEquipment { get; set; }
 
+        public bool RiskControlImplemented { get; set; }
+        public bool GuardRailsSystem { get; set; }
+        public bool SafetyNet { get; set; }
+        public bool ToeBoard { get; set; }
+        public bool LifeLine { get; set; }
+        public bool RetractableHarness { get; set; }
+        public bool HarnessShockAbsorber { get; set; }
+        public bool AccessProvided { get; set; }
+        public bool WindGreater32 { get; set; }
+        public bool FloorOpeningsCovered { get; set; }
+        public bool ScaffoldCertified { get; set; }
+        public string OtherRiskControl { get; set; }
+
+        public bool DangerWarningSign { get; set; }
+        public bool ScaffoldTagSystem { get; set; }
+        public bool Lighting { get; set; }
+        public bool SafetyBarriers { get; set; }
+        public bool BuddySystem { get; set; }
+        public bool Rescue { get; set; }
+        public bool MaterialBasket { get; set; }
+        public string OtherInspection { get; set; }
+
+
         // PPE
         public bool PPEHelmet { get; set; }
         public bool PPEHelmetChinStrap { get; set; }
@@ -57,15 +86,24 @@ namespace Permit_to_work.Models
         // Safety Systems
         public bool FallProtection { get; set; }
         public bool GuardRail { get; set; }
-        public bool SafetyNet { get; set; }
-        public bool ToeBoard { get; set; }
-        public bool LifeLine { get; set; }
-        public bool RetractableHarness { get; set; }
+
         public bool HarnessDoubleHook { get; set; }
+
+        //INSURANCE
+        public bool WC { get; set; }
+        public bool ESI { get; set; }
+
 
         // Authorization
         public string ReceiverName { get; set; }
         public string IssuerName { get; set; }
+        public DateTime ReceiverDate { get; set; }
+        public DateTime IssuerDate { get; set; }
+
+
+        // ===== SUSPENSION =====
+        public string SuspensionName { get; set; }
+        public string SuspensionSignatureDate { get; set; }
 
         public DateTime CreatedOn { get; set; } = DateTime.Now;
     }

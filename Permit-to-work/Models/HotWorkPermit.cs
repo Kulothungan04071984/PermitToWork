@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Permit_to_work.Models
 {
@@ -8,72 +9,99 @@ namespace Permit_to_work.Models
         public int PermitId { get; set; }
 
         // ===== BASIC DETAILS =====
-        [Required]
         public string Unit { get; set; }
-
-        [Required]
         public string ContractorName { get; set; }
-
-        [Required]
         public string Location { get; set; }
-
-        [Required]
         public int NoOfWorkmen { get; set; }
 
         // ===== DATE & TIME =====
-        [Required]
         public DateTime StartDate { get; set; }
-
-        [Required]
         public string StartTime { get; set; }
-
-        [Required]
         public DateTime EndDate { get; set; }
-
-        [Required]
         public string EndTime { get; set; }
 
-        // ===== WORK DETAILS =====
-        [Required]
-        public string WorkDescription { get; set; }
+        // ===== WORK TYPE =====
+        public bool Welding { get; set; }
+        public bool ChippingCuttingGrinding { get; set; }
 
+        // ===== WORK DETAILS =====
+        public string WorkDescription { get; set; }
         public string ToolsEquipment { get; set; }
 
-        // ===== RISK IDENTIFICATION =====
-        public bool RiskElectrocution { get; set; }
-        public bool RiskArcFlash { get; set; }
-        public bool RiskFlyingParticles { get; set; }
-        public bool RiskNoise { get; set; }
-        public bool RiskFireSpark { get; set; }
-        public bool RiskManualHandling { get; set; }
-        public bool RiskTripping { get; set; }
-        public bool RiskElectricShock { get; set; }
-        public bool RiskExplosion { get; set; }
+        // ===== DOCUMENTS =====
+        public bool AttachJSA { get; set; }
+        public bool AttachRiskAssessment { get; set; }
+        public string AttachOther { get; set; }
 
-        // ===== INSURANCE =====
-        public bool InsuranceAvailable { get; set; }
+        // ===== PRECAUTION =====
+        public string Precaution { get; set; }
+
+        //=====HOSE INSPECTION===
+
+
+
+        // ===== SAFETY =====
+        public string IsWelderCertified { get; set; }
+        public string CombustibleRemoved { get; set; }
+        public bool HosesFreeGrease { get; set; }
+        public bool HosesCutCrack { get; set; }
+        public bool HosesSpecialClips { get; set; }
+        public string HosesNA { get; set; }
+
+        public List<string> Regulator { get; set; }
+        public string RegulatorNA { get; set; }
+
+
+        public string FlashbackArrestors { get; set; }
+        public string CylindersProvided { get; set; }
+
+        // ===== EMERGENCY =====
+        public string EmergencyTeamAvailable { get; set; }
+        public string EmergencyContact1 { get; set; }
+        public string EmergencyContact2 { get; set; }
+        public string EmergencyContact3 { get; set; }
+        public string ToolsTested { get; set; }
+
+
+        public bool WC { get; set; }
+        public bool ESI { get; set; }
+        public string WCFilePath { get; set; }
+        public string ESIFilePath { get; set; }
 
         // ===== INSPECTION =====
-        public bool FireExtinguisher { get; set; }
-        public bool FireBlanket { get; set; }
-        public bool WarningSigns { get; set; }
-        public bool SafetyBarriers { get; set; }
+        public string FireExtinguisherDetails { get; set; }
+        public bool FireExtinguisherChecked { get; set; }
+        public bool FireBlanketChecked { get; set; }
+        public bool WarningSignChecked { get; set; }
+        public bool LightingChecked { get; set; }
+        public bool SafetyBarriersChecked { get; set; }
+        public bool SandBucketChecked { get; set; }
 
         // ===== PPE =====
-        public bool PPEHelmet { get; set; }
-        public bool PPESafetyShoes { get; set; }
-        public bool PPEWeldingGloves { get; set; }
-        public bool PPEFaceShield { get; set; }
+        public bool Helmet { get; set; }
+        public bool SafetyShoes { get; set; }
+        public bool WeldingGloves { get; set; }
+        public bool FaceShield { get; set; }
+        public bool WeldingGoggles { get; set; }
+        public bool Apron { get; set; }
+        public bool GasMask { get; set; }
+        public bool EarPlugs { get; set; }
+        public bool WeldingShield { get; set; }
+        public bool WeldingClothes { get; set; }
+        public string OtherPPE { get; set; }
 
         // ===== AUTHORIZATION =====
         public string ReceiverName { get; set; }
+        public string ReceiverDate { get; set; }
         public string IssuerName { get; set; }
+        public string IssuerDate { get; set; }
 
-        // ===== WORKFLOW =====
-        public string Status { get; set; }   // Pending / Approved / Rejected
-        public string Remarks { get; set; }
+        // ===== SUSPENSION =====
+        public string SuspensionName { get; set; }
+        public string SuspensionSignatureDate { get; set; }
 
-        // ===== AUDIT =====
+        // ===== SYSTEM =====
+        public string Status { get; set; }
         public DateTime CreatedOn { get; set; } = DateTime.Now;
     }
 }

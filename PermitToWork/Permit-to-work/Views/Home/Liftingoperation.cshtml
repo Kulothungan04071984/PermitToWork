@@ -1,0 +1,335 @@
+﻿@model LiftingOperationPermit
+
+@{
+    ViewData["Title"] = "Lifting Operation Permit";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Lifting Operation Permit</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #f5f8fa;
+            padding: 20px;
+        }
+
+        .card {
+            border: 2px solid #add8e6;
+            border-radius: 10px;
+            background-color: #d4e6f1;
+            padding: 15px;
+        }
+
+        .section-title {
+            background-color: #add8e6;
+            font-weight: bold;
+            padding: 6px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            border: 1px solid #000;
+        }
+
+        .border-section {
+            border: 1px solid #add8e6;
+            padding: 10px;
+            margin-bottom: 15px;
+            background: #eef7fb;
+        }
+
+        .form-check {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            min-width: 250px; /* controls alignment */
+        }
+    </style>
+</head>
+
+<body>
+
+    <form method="post" action="/Home/Liftingoperation">
+
+        <div class="card">
+            <div class="card-header text-center fw-bold">
+                LIFTING OPERATION PERMIT
+            </div>
+
+            <!-- BASIC DETAILS -->
+            <section class="border-section">
+                <div class="section-title">Basic Details</div>
+                <div class="row">
+                    <div class="col-md-3"><label>Unit</label><input name="Unit" class="form-control"></div>
+                    <div class="col-md-3"><label>Contractor Name</label><input name="ContractorName" class="form-control"></div>
+                    <div class="col-md-3"><label>Location</label><input name="Location" class="form-control"></div>
+                    <div class="col-md-3"><label>No. of Workmen</label><input type="number" name="NoOfWorkmen" class="form-control"></div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-md-3"><label>Start Date</label><input type="date" name="StartDate" class="form-control"></div>
+                    <div class="col-md-3"><label>Start Time</label><input type="time" name="StartTime" class="form-control"></div>
+                    <div class="col-md-3"><label>EndDate</label><input type="date" name="EndDate" class="form-control"></div>
+                    <div class="col-md-3"><label>Expected Completion Time</label><input type="time" name="ExpectedCompletionTime" class="form-control"></div>
+                </div>
+            </section>
+
+            <!-- LIFTING EQUIPMENT -->
+            <section class="border-section">
+                <div class="section-title">Lifting Equipment</div>
+                <input type="checkbox" name="TruckMounted"> Truck Mounted
+                <input type="checkbox" name="HydraCrane"> Hydra Crane
+                <input type="checkbox" name="OverheadCrane"> Overhead Crane
+                <input type="checkbox" name="TowerCrane"> Tower Crane
+            </section>
+
+            <!-- LOAD DETAILS -->
+            <section class="border-section">
+                <div class="section-title">Details of Load</div>
+                <div class="row">
+                    <div class="col-md-3"><label>Weight</label><input name="LoadWeight" class="form-control"></div>
+                    <div class="col-md-3"><label>Dimension</label><input name="LoadDimension" class="form-control"></div>
+                    <div class="col-md-3"><label>Quantity</label><input name="LoadQuantity" class="form-control"></div>
+                </div>
+            </section>
+
+            <!-- RIGGER -->
+            <section class="border-section">
+                <div class="section-title">Rigger Level</div>
+                <input type="radio" name="RiggerLevel" value="LessThan10Ton"> Less than 10 ton (Level 3)
+                <input type="radio" name="RiggerLevel" value="Between10And40Ton"> 10–40 ton (Level 2)
+                <input type="radio" name="RiggerLevel" value="Morethan40"> More than 40 (rigger level1)
+            </section>
+            </section>
+
+            <!-- EQUIPMENT -->
+            <section class="border-section">
+                <div class="section-title">Equipment & Work Details</div>
+                <div class="row">
+                    <div class="col-md-3"><label>Serial No</label><input name="SerialNo" class="form-control"></div>
+                    <div class="col-md-3"><label>Inspection Date</label><input type="date" name="InspectionDate" class="form-control"></div>
+                    <div class="col-md-3"><label>Capacity</label><input name="CapacitySWL" class="form-control"></div>
+                </div>
+
+                <label class="mt-2">Work Description</label>
+<textarea name="WorkDescription" class="form-control"></textarea>
+
+                <label class="mt-2">Tools</label>
+<textarea name="ToolsEquipment" class="form-control"></textarea>
+            </section>
+
+            <!-- RISKS -->
+            <section class="border-section">
+                <div class="section-title">Identify Risks</div>
+
+                <input type="checkbox" name="Toppling"> Toppling/Tip Over/Turn Over
+                <input type="checkbox" name="SuspendedLoad"> Suspended Load
+                <input type="checkbox" name="HighWind"> High Wind
+                <input type="checkbox" name="MovingVehicle/Equipment"> Moving Vehicle/ Equipment
+                <input type="checkbox" name="FallingObjects"> Falling Objects
+                <input type="checkbox" name="Overload"> Over Load
+                <input type="checkbox" name="Tripping"> Tripping / Slipping
+                <input type="checkbox" name="Noise"> Noise
+                <input type="checkbox" name="Crushing"> Crushing
+                <input type="checkbox" name="Collapse"> Collapse
+                <input type="checkbox" name="OverheadLines"> Near Overhead Lines
+                <input type="checkbox" name="Traffic"> Traffic
+                <input type="checkbox" name="Weather"> Adverse Weather
+
+                <input name="OtherRisk" placeholder="Other Risk" class="form-control mt-2">
+            </section>
+
+            <!-- DOCUMENTS -->
+            <section class="border-section">
+                <div class="section-title">Documents</div>
+
+                <input type="checkbox" name="JSA"> JSA
+                <input type="checkbox" name="RiskAssessment"> Risk Assessment
+
+                <div class="mt-2">
+                    <label>Precautions Required</label><br>
+                    <input type="radio" name="PrecautionRequired" value="Yes"> Yes
+                    <input type="radio" name="PrecautionRequired" value="No"> No
+                    <input type="radio" name="PrecautionRequired" value="NA"> N/A
+                </div>
+
+                <div class="mt-2">
+                    <label>Equipment Certified</label><br>
+                    <input type="radio" name="EquipmentCertified" value="Yes"> Yes
+                    <input type="radio" name="EquipmentCertified" value="No"> No
+                </div>
+            </section>
+
+            <!-- RIGGING -->
+            <section class="border-section">
+                <div class="section-title">Rigging Accessories</div>
+
+                <input type="checkbox" name="WireRopeSling"> Wire Rope
+                <input type="checkbox" name="WebSling"> Web Sling
+                <input type="checkbox" name="ChainSling"> Chain Sling
+                <input type="checkbox" name="Shackles"> Shackles
+                <input type="checkbox" name="EyeBolt"> Eye Bolt
+
+                <input name="OtherRisk" placeholder="Other Risk" class="form-control mt-2">
+            </section>
+
+            <!-- LOAD CHECK -->
+            <section class="border-section">
+                <div class="section-title">Load & Wind Check</div>
+
+                <div class="form-check">
+                    <input type="checkbox" name="LoadChartChecked" class="form-check-input">
+                    <label class="form-check-label">
+                        Is Load Charts Checked? Is the Load within Crane capability at the given radius of operation?
+                    </label>
+                </div>
+
+                <div class="form-check mt-2">
+                    <input type="checkbox" name="WindAcceptable" class="form-check-input">
+                    <label class="form-check-label">
+                        Is wind speed acceptable to proceed the activity? (Stop if dusty wind or > 32 km/h)
+                    </label>
+                </div>
+            </section>
+
+            <!--Inspected Area-->
+          
+            <section class="border-section">
+                <div class="section-title">
+                    The following areas / items have been inspected by issuer and receiver
+                </div>
+
+                <div class="d-flex flex-wrap gap-3">
+
+                    <div class="form-check">
+                        <input type="checkbox" name="GroundCondition" class="form-check-input">
+                        <label class="form-check-label">Ground Condition</label>
+                    </div>
+
+                    <div class="form-check">
+                        <input type="checkbox" name="DangerSign" class="form-check-input">
+                        <label class="form-check-label">Danger / Warning Sign</label>
+                    </div>
+
+                    <div class="form-check">
+                        <input type="checkbox" name="SignalMan" class="form-check-input">
+                        <label class="form-check-label">Signal Man</label>
+                    </div>
+
+                    <div class="form-check">
+                        <input type="checkbox" name="SafetyBarriers" class="form-check-input">
+                        <label class="form-check-label">Safety Barriers</label>
+                    </div>
+
+                    <div class="form-check">
+                        <input type="checkbox" name="TagLine" class="form-check-input">
+                        <label class="form-check-label">Tag Line</label>
+                    </div>
+
+                    <div class="form-check">
+                        <input type="checkbox" name="Rigger" class="form-check-input">
+                        <label class="form-check-label">Rigger</label>
+                    </div>
+
+                    <div class="form-check">
+                        <input type="checkbox" name="OutriggerExtended" class="form-check-input">
+                        <label class="form-check-label">Outrigger (Extended)</label>
+                    </div>
+
+                    <div class="form-check">
+                        <input type="checkbox" name="Lighting" class="form-check-input">
+                        <label class="form-check-label">Lighting</label>
+                    </div>
+
+                    <div class="form-check">
+                        <input type="checkbox" name="OutriggerPad" class="form-check-input">
+                        <label class="form-check-label">Outrigger Pad</label>
+                    </div>
+
+                    <div class="form-check">
+                        <input type="checkbox" name="SpreaderBeam" class="form-check-input">
+                        <label class="form-check-label">Spreader Beam</label>
+                    </div>
+
+                    <div class="form-check">
+                        <input type="checkbox" name="ManMaterialBasket" class="form-check-input">
+                        <label class="form-check-label">Man/Material Basket (Certified)</label>
+                    </div>
+
+                </div>
+            </section>
+            <!-- PPE -->
+            <section class="border-section">
+                <div class="section-title">PPE</div>
+
+                <input type="checkbox" name="Helmet"> Helmet
+                <input type="checkbox" name="SafetyShoes"> Safety Shoes
+                <input type="checkbox" name="Gloves"> Mechanical Gloves
+                <input type="checkbox" name="EarPlugs"> Ear Plugs/muff
+                <input type="checkbox" name="Goggles"> Safety goggles
+                <input type="checkbox" name="Vest"> Reflective Vest
+                <input type="checkbox" name="Dust"> Dust Mask
+
+                <input name="OtherRisk" placeholder="Other Risk" class="form-control mt-2">
+            </section>
+            <!-- INSURANCE COPY -->
+            <section class="border-section">
+                <div class="section-title">Insurance copy available for workmen:</div>
+
+                <div class="d-flex gap-3 align-items-center">
+                    <div class="form-check">
+                        @Html.CheckBoxFor(m => m.WC, new { @class = "form-check-input", id = "wc" })
+                        <label class="form-check-label" for="wc">WC</label>
+                    </div>
+
+                    <div class="form-check">
+                        @Html.CheckBoxFor(m => m.ESI, new { @class = "form-check-input", id = "esi" })
+                        <label class="form-check-label" for="esi">ESI</label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- AUTH -->
+            <div class="section-title mt-4">Authorization</div>
+            <div class="row g-3">
+                <div class="col-md-6"> <label>Permit Receiver name</label>@Html.TextBoxFor(m => m.ReceiverName, new { @class = "form-control" })</div>
+                <div class="col-md-3"> <label>Receiver Date</label>@Html.TextBoxFor(m => m.ReceiverDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })</div>
+
+            </div>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label>Permit Issuer name</label>@Html.TextBoxFor(m => m.IssuerName, new { @class = "form-control" })
+                </div>
+                <div class="col-md-3">
+                    <label>Issuer Date</label>@Html.TextBoxFor(m => m.IssuerDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
+                </div>
+
+            <!-- SUSPENSION -->
+                <div class="section-title">Suspension</div>
+                <label>This permit is suspended, area/equipment is not safe to use.</label>
+                <div class="row g-3 mt-2">
+                    <div class="col-md-6">
+                        <label>Name</label>
+                        @Html.TextBoxFor(m => m.SuspensionName, new { @class = "form-control" })
+                    </div>
+
+                    <div class="col-md-6">
+                        <label>Date</label>
+                        <div class="col-md-6">@Html.TextBoxFor(m => m.SuspensionSignatureDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })</div>
+
+                    </div>
+                </div>
+
+
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary px-5">Submit Permit</button>
+            </div>
+
+        </div>
+
+    </form>
+
+</body>
+</html>mit" class="btn btn-primary px-5">Submit</button>

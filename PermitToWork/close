@@ -1,0 +1,283 @@
+[33mcommit f118320e1f6ae0c3ad17c3603a354c4d41010e39[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m
+Merge: 328ed57 890f99b
+Author: testdev26 <testerdesign@syrmasgs.com>
+Date:   Wed Apr 1 12:34:51 2026 +0530
+
+    Resolved merge conflicts
+
+[1mdiff --cc Permit-to-work/Controllers/HomeController.cs[m
+[1mindex 93b7b20,38a4533..92fc17c[m
+[1m--- a/Permit-to-work/Controllers/HomeController.cs[m
+[1m+++ b/Permit-to-work/Controllers/HomeController.cs[m
+[36m@@@ -59,19 -59,12 +59,25 @@@[m [mnamespace Permit_to_work.Controller[m
+                  IssuerName = vm.IssuerName,[m
+                  InsuranceAvailable = false[m
+              };[m
+[32m +           [m
+[32m +            if (vm.Id > 0)[m
+[32m +            {[m
+[32m +                entity.Id = vm.Id;[m
+[32m +                _context.ColdWorkPermits.Update(entity);[m
+[32m +            }[m
+[32m +            else[m
+[32m +                _context.ColdWorkPermits.Add(entity);[m
+  [m
+[31m -            _context.ColdWorkPermits.Add(entity);[m
+              _context.SaveChanges();[m
+[32m++<<<<<<< HEAD[m
+[32m +[m
+[32m +            return RedirectToAction("Dashboard");[m
+[32m +            //return View();[m
+[32m++=======[m
+[32m+             //return RedirectToAction("Success");[m
+[32m+             //test[m
+[32m+             return View();[m
+[32m++>>>>>>> other/master[m
+          }[m
+  [m
+          [HttpPost][m
+[1mdiff --cc Permit-to-work/Views/Home/workpermitform.cshtml[m
+[1mindex c9052b1,747f8aa..7fc3760[m
+[1m--- a/Permit-to-work/Views/Home/workpermitform.cshtml[m
+[1m+++ b/Permit-to-work/Views/Home/workpermitform.cshtml[m
+[36m@@@ -17,126 -17,129 +17,157 @@@[m
+  [m
+  <body>[m
+      <div class="hero">[m
+[31m-     <!-- STICKY HEADER -->[m
+[31m-     <header class="sticky-header shadow">[m
+[31m-         <h4 class="m-0">COLD WORK PERMIT</h4>[m
+[31m-     </header>[m
+[32m+         <!-- STICKY HEADER -->[m
+[32m+         <header class="sticky-header shadow">[m
+[32m+             <h4 class="m-0">COLD WORK PERMIT</h4>[m
+[32m+         </header>[m
+  [m
+[32m++<<<<<<< HEAD[m
+[32m +        <form method="post" asp-action="workpermitform" asp-controller="Home" class="container permit-container">[m
+[32m +      [m
+[32m +        <!-- SECTION: BASIC DETAILS -->[m
+[32m +        <section class="permit-section">[m
+[32m +            <h5>Basic Details</h5>[m
+[32m +            <div class="row g-3">[m
+[32m +                    @Html.HiddenFor(m => m.Id)[m
+[32m +                <div class="col-md-4">[m
+[32m +                    <label>Unit</label>[m
+[32m +                    @Html.TextBoxFor(m => m.Unit, new { @class = "form-control" })[m
+[32m +                </div>[m
+[32m +                <div class="col-md-4">[m
+[32m +                    <label>Contractor / Internal Team</label>[m
+[32m +                    @Html.TextBoxFor(m => m.ContractorTeam, new { @class = "form-control" })[m
+[32m +                </div>[m
+[32m +                <div class="col-md-4">[m
+[32m +                    <label>Location</label>[m
+[32m +                    @Html.TextBoxFor(m => m.Location, new { @class = "form-control" })[m
+[32m +                </div>[m
+[32m +                <div class="col-md-4">[m
+[32m +                    <label>No. of Workmen</label>[m
+[32m +                    @Html.TextBoxFor(m => m.NoOfWorkmen, new { @class = "form-control" })[m
+[32m +                </div>[m
+[32m +            </div>[m
+[32m +        </section>[m
+[32m++=======[m
+[32m+         <form method="post" class="container permit-container">[m
+[32m++>>>>>>> other/master[m
+  [m
+[31m-         <!-- SECTION: SCHEDULE -->[m
+[31m-         <section class="permit-section">[m
+[31m-             <h5>Schedule</h5>[m
+[31m-             <div class="row g-3">[m
+[31m-                 <div class="col-md-3">[m
+[31m-                     <label>Start Date</label>[m
+[31m-                     @Html.TextBoxFor(m => m.StartDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })[m
+[31m-                 </div>[m
+[31m-                 <div class="col-md-3">[m
+[31m-                     <label>Start Time</label>[m
+[31m-                     @Html.TextBoxFor(m => m.StartTime, new { type = "time", @class = "form-control" })[m
+[31m-                 </div>[m
+[31m-                 <div class="col-md-3">[m
+[31m-                     <label>End Date</label>[m
+[31m-                     @Html.TextBoxFor(m => m.EndDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })[m
+[31m-                 </div>[m
+[31m-                 <div class="col-md-3">[m
+[31m-                     <label>End Time</label>[m
+[31m-                     @Html.TextBoxFor(m => m.EndTime, new { type = "time", @class = "form-control" })[m
+[32m+             <!-- SECTION: BASIC DETAILS -->[m
+[32m+             <section class="permit-section">[m
+[32m+                 <h5>Basic Details</h5>[m
+[32m+                 <div class="row g-3">[m
+[32m+                     <div class="col-md-4">[m
+[32m+                         <label>Unit</label>[m
+[32m+                         @Html.TextBoxFor(m => m.Unit, new { @class = "form-control" })[m
+[32m+                     </div>[m
+[32m+                     <div class="col-md-4">[m
+[32m+                         <label>Contractor / Internal Team</label>[m
+[32m+                         @Html.TextBoxFor(m => m.ContractorTeam, new { @class = "form-control" })[m
+[32m+                     </div>[m
+[32m+                     <div class="col-md-4">[m
+[32m+                         <label>Location</label>[m
+[32m+                         @Html.TextBoxFor(m => m.Location, new { @class = "form-control" })[m
+[32m+                     </div>[m
+[32m+                     <div class="col-md-4">[m
+[32m+                         <label>No. of Workmen</label>[m
+[32m+                         @Html.TextBoxFor(m => m.NoOfWorkmen, new { @class = "form-control" })[m
+[32m+                     </div>[m
+                  </div>[m
+[31m-             </div>[m
+[31m-         </section>[m
+[32m+             </section>[m
+  [m
+[31m-         <!-- SECTION: WORK -->[m
+[31m-         <section class="permit-section">[m
+[31m-             <h5>Work Description</h5>[m
+[31m-             @Html.TextAreaFor(m => m.WorkDescription, 3, 100, new { @class = "form-control" })[m
+[31m-         </section>[m
+[32m+             <section class="card permit-card">[m
+[32m+                 <div class="row g-3">[m
+  [m
+[31m-         <!-- SECTION: TOOLS -->[m
+[31m-         <section class="permit-section">[m
+[31m-             <h5>Tools / Equipment</h5>[m
+[31m-             @Html.TextAreaFor(m => m.ToolsEquipment, 2, 100, new { @class = "form-control" })[m
+[31m-         </section>[m
+[32m+                     <div class="col-md-3">[m
+[32m+                         <label>Starting From Date</label>[m
+[32m+                         @Html.TextBoxFor(m => m.StartDate,[m
+[32m+                                  "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })[m
+[32m+                     </div>[m
+[32m+                     <div class="col-md-3">[m
+[32m+                         <label>Starting From Time</label>[m
+[32m+                         @Html.TextBoxFor(m => m.StartTime,[m
+[32m+                                  new { type = "time", @class = "form-control" })[m
+[32m+                     </div>[m
+  [m
+[31m-         <!-- SECTION: RISKS -->[m
+[31m-         <section class="permit-section">[m
+[31m-             <h5>Risk Identification</h5>[m
+[31m-             <div class="row">[m
+[31m-                 <div class="col-md-4 form-check">[m
+[31m-                     @Html.CheckBoxFor(m => m.RiskFallHeight) Fall from Height[m
+[31m-                 </div>[m
+[31m-                 <div class="col-md-4 form-check">[m
+[31m-                     @Html.CheckBoxFor(m => m.RiskWeather) Adverse Weather[m
+[31m-                 </div>[m
+[31m-                 <div class="col-md-4 form-check">[m
+[31m-                     @Html.CheckBoxFor(m => m.RiskFlying) Flying Particles[m
+[31m-                 </div>[m
+[31m-             </div>[m
+[31m-             <div class="row">[m
+[31m-                 <div class="col-md-4 form-check">[m
+[31m-                     @Html.CheckBoxFor(m => m.Equipment) Moving Vehicle/ Equipment[m
+[31m-                 </div>[m
+[31m-                 <div class="col-md-4 form-check">[m
+[31m-                     @Html.CheckBoxFor(m => m.Falling) Falling Debris/ Objects[m
+[32m+                     <!-- Expected Completion Date & Time -->[m
+[32m+                     <div class="col-md-3">[m
+[32m+                         <label>Expected Completion Date</label>[m
+[32m+                         @Html.TextBoxFor(m => m.EndDate,[m
+[32m+                                  "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })[m
+[32m+                     </div>[m
+[32m+                     <div class="col-md-3">[m
+[32m+                         <label>Expected Completion Time</label>[m
+[32m+                         @Html.TextBoxFor(m => m.EndTime,[m
+[32m+                                  new { type = "time", @class = "form-control" })[m
+[32m+                     </div>[m
+[32m+             </section>[m
+[32m+ [m
+[32m+             <!-- SECTION: WORK -->[m
+[32m+             <section class="permit-section">[m
+[32m+                 <h5>Work Description</h5>[m
+[32m+                 @Html.TextAreaFor(m => m.WorkDescription, 3, 100, new { @class = "form-control" })[m
+[32m+             </section>[m
+[32m+ [m
+[32m+             <!-- SECTION: TOOLS -->[m
+[32m+             <section class="permit-section">[m
+[32m+                 <h5>Tools / Equipment</h5>[m
+[32m+                 @Html.TextAreaFor(m => m.ToolsEquipment, 2, 100, new { @class = "form-control" })[m
+[32m+             </section>[m
+[32m+ [m
+[32m+             <!-- SECTION: RISKS -->[m
+[32m+             <section class="permit-section">[m
+[32m+                 <h5>Risk Identification</h5>[m
+[32m+                 <div class="row">[m
+[32m+                     <div class="col-md-4 form-check">[m
+[32m+                         @Html.CheckBoxFor(m => m.RiskFallHeight) Fall from Height[m
+[32m+                     </div>[m
+[32m+                     <div class="col-md-4 form-check">[m
+[32m+                         @Html.CheckBoxFor(m => m.RiskWeather) Adverse Weather[m
+[32m+                     </div>[m
+[32m+                     <div class="col-md-4 form-check">[m
+[32m+                         @Html.CheckBoxFor(m => m.RiskFlying) Flying Particles[m
+                      </div>[m
+[31m-                 <div class="col-md-4 form-check">[m
+[31m-                     @Html.CheckBoxFor(m => m.Protruding) Protruding objects, parts[m
+[31m-                 </div>[m
+[31m-             </div>[m
+[31m-             <div class="row">[m
+[31m-                 <div class="col-md-4 form-check">[m
+[31m-                     @Html.CheckBoxFor(m => m.Tripping) Tripping / Slipping[m
+[31m-                 </div>[m
+[31m-                 <div class="col-md-4 form-check">[m
+[31m-                     @Html.CheckBoxFor(m => m.Faulty) Faulty Tool/ Material[m
+[31m-                 </div>[m
+[31m-                 <div class="col-md-4 form-check">[m
+[31m-                     @Html.CheckBoxFor(m => m.Noise) Noise[m
+                  </div>[m
+[31m-             </div>[m
+[31m-             <div class="row">[m
+[31m-                 <div class="col-md-4 form-check">[m
+[31m-                     @Html.CheckBoxFor(m => m.Heat) Heat[m
+[32m+                 <div class="row">[m
+[32m+                     <div class="col-md-4 form-check">[m
+[32m+                         @Html.CheckBoxFor(m => m.Equipment) Moving Vehicle/ Equipment[m
+[32m+                     </div>[m
+[32m+                     <div class="col-md-4 form-check">[m
+[32m+                         @Html.CheckBoxFor(m => m.Falling) Falling Debris/ Objects[m
+[32m+                     </div>[m
+[32m+                     <div class="col-md-4 form-check">[m
+[32m+                         @Html.CheckBoxFor(m => m.Protruding) Protruding objects, parts[m
+[32m+                     </div>[m
+                  </div>[m
+[31m-                 <div class="col-md-4 form-check">[m
+[31m-                     @Html.CheckBoxFor(m => m.Vibration) Vibration[m
+[32m+                 <div class="row">[m
+[32m+                     <div class="col-md-4 form-check">[m
+[32m+                         @Html.CheckBoxFor(m => m.Tripping) Tripping / Slipping[m
+[32m+                     </div>[m
+[32m+                     <div class="col-md-4 form-check">[m
+[32m+                         @Html.CheckBoxFor(m => m.Faulty) Faulty Tool/ Material[m
+[32m+                     </div>[m
+[32m+                     <div class="col-md-4 form-check">[m
+[32m+                         @Html.CheckBoxFor(m => m.Noise) Noise[m
+[32m+                     </div>[m
+                  </div>[m
+[31m-                 <div class="col-md-4 form-check">[m
+[31m-                     @Html.CheckBoxFor(m => m.Illumination) Poor Illumination[m
+[32m+                 <div class="row">[m
+[32m+                     <div class="col-md-4 form-check">[m
+[32m+                         @Html.CheckBoxFor(m => m.Heat) Heat[m
+[32m+                     </div>[m
+[32m+                     <div class="col-md-4 form-check">[m
+[32m+                         @Html.CheckBoxFor(m => m.Vibration) Vibration[m
+[32m+                     </div>[m
+[32m+                     <div class="col-md-4 form-check">[m
+[32m+                         @Html.CheckBoxFor(m => m.Illumination) Poor Illumination[m
+[32m+                     </div>[m
+                  </div>[m
+[31m-             </div>[m
+[31m-             <div class="row">[m
+[31m-                 <div class="col-md-12">[m
+[31m-                    @*  @Html.TextBoxFor() *@[m
+[31m-                    <input type="text" class="form-control" />[m
+[32m+                 <div class="row">[m
+[32m+                     <div class="col-md-6">[m
+[32m+                         Other[m
+[32m+                         <input type="text" class="form-control" />[m
+[32m+                     </div>[m
+                  </div>[m
+[31m-          </div>[m
+[31m-         </section>[m
+[32m+             </section>[m
+  [m
+              <!-- SECTION: DOCUMENT -->[m
+              <section class="permit-section">[m

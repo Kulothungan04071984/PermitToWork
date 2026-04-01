@@ -1,0 +1,60 @@
+﻿<style >
+
+body {
+    background: #c8a27a; /* outer darker brown */
+    padding: 40px;
+}
+
+.card {
+    background: #f5e6d3; /* inner soft brown */
+    border: none;
+    border-radius: 10px;
+}
+
+.sticky-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: #d2b48c; /* tan */
+    border-bottom: 3px solid #5c4033; /* dark brown */
+}
+
+.permit-card {
+    border: 2px solid #5c4033;
+    background: #e6ccb2; /* soft light brown */
+    padding: 20px;
+    margin-bottom: 15px;
+}
+
+.section-title {
+    font-weight: bold;
+    text-transform: uppercase;
+    background: #d2b48c; /* tan */
+    padding: 8px;
+    border: 1px solid #5c4033;
+    margin-top: 8px;
+    margin-bottom: 10px;
+    color: #3e2723; /* dark brown text */
+}
+
+label {
+    font-weight: 600;
+    color: #3e2723;
+}
+
+.form-control,
+.form-check-input {
+    border: 1px solid #5c4033;
+}
+
+.btn-success {
+    background-color: #8b5e3c;
+    border-color: #5c4033;
+}
+
+    .btn-success:hover {
+        background-color: #6f4e37;
+        border-color: #4b2e2e;
+    }
+
+</style >

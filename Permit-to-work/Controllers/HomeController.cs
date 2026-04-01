@@ -72,6 +72,11 @@ namespace Permit_to_work.Controllers
 
             return RedirectToAction("Dashboard");
             //return View();
+
+            //return RedirectToAction("Success");
+            //test
+           // return View();
+
         }
 
         [HttpPost]

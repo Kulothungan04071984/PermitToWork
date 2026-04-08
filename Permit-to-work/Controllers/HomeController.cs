@@ -154,7 +154,15 @@ namespace Permit_to_work.Controllers
         }
         public IActionResult Dashboard()
         {
+            PermitDetails objpermit = new PermitDetails();
+           // PermitDashboardVM objPermitDetails = new PermitDashboardVM();
+            objpermit.PermitTypes = _context.PermitTypeMasters.Select(x => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Value = x.PermitTypeId.ToString(), Text = x.PermitTypeName }).ToList();
+            objpermit.Departments = _context.DepartmentMasters.Select(x => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Value = x.DepartmentId.ToString(), Text = x.DepartmentName }).ToList();
+            objpermit.Units = _context.UnitMasters.Select(x => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Value = x.UnitId.ToString(), Text = x.UnitName }).ToList();
+            objpermit.Approvers = _context.ApproverMasters.Select(x => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Value = x.ApproverId.ToString(), Text = x.ApproverName }).ToList();
+
             var dashboard = new List<PermitDashboardVM>();
+
 
             dashboard.AddRange(
                 _context.ColdWorkPermits.Select(x => new PermitDashboardVM
@@ -219,8 +227,10 @@ namespace Permit_to_work.Controllers
                     Status = "Active"
                 })
             );
-
-            return View(dashboard.OrderByDescending(x => x.StartDate));
+          
+            objpermit.PermitDetailsList = dashboard.OrderByDescending(x => x.StartDate).ToList();
+            // return View(dashboard.OrderByDescending(x => x.StartDate));
+            return View(objpermit);
         }
 
         public IActionResult Delete(string type, int id)

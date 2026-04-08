@@ -1,4 +1,7 @@
-﻿namespace Permit_to_work.ViewModel
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Permit_to_work.Models;
+
+namespace Permit_to_work.ViewModel
 {
     public class PermitDashboardVM
     {
@@ -11,5 +14,7 @@
         public string Status { get; set; }
 
         public bool IsActive { get; set; }
+        
+      
     }
 }

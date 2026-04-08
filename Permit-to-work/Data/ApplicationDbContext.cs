@@ -21,6 +21,16 @@ namespace Permit_to_work.Data
 
         public DbSet<PermitMaster> PermitMasters { get; set; }
 
+        public DbSet<DepartmentMaster> DepartmentMasters { get; set; }
+
+        public DbSet<UnitMaster> UnitMasters { get; set; }
+
+        public DbSet<ApproverMaster> ApproverMasters { get; set; }
+
+        public DbSet<ApprovalStructure> ApprovalStructures { get; set; }
+
+        public DbSet<PermitTypeMaster> PermitTypeMasters { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Ignore<PermitDashboardVM>();

@@ -225,7 +225,7 @@
 </html> *@
 
 @using Permit_to_work.ViewModel
-@model IEnumerable<PermitDashboardVM>
+@model PermitDetails
 @{
     ViewData["Title"] = "PermitDashboard";
 }
@@ -284,23 +284,17 @@
    <div>
        <div class="container">
            <div class="row">
-               <div class="col-lg-4">        
-                   <select id="ddlDepartment" class="form-control">
-              <option value="0">Select</option>
-                <option value="1">Facility</option>
-                <option value="2">IT</option>
-                <option value="3">Equipment</option>
-                <option value="4">Calibration</option>
-                <option value="5">MFG</option>
-                <option value="6">MFG</option>
-           
-          </select>
+               <div class="col-lg-3">
+                    @Html.DropDownListFor(m => m.SelectedPermitTypeId,Model.PermitTypes, "Select Permit Type", new { @class = "form-control", id = "ddlPermitType"})
                 </div>
-                <div class="col-lg-4">
-                    <select id="ddlUnit" class="form-control">Select</select>
+                <div class="col-lg-3">
+                    @Html.DropDownListFor(m => m.SelectedUnitId, Model.Units, "Select Unit", new { @class = "form-control", id = "ddlUnit" })
                 </div>
-                <div class="col-lg-4">
-                    <select id="ddlApprover" class="form-control">select</select>
+                <div class="col-lg-3">
+                    @Html.DropDownListFor(m => m.SelectedDepartmentId, Model.Departments, "Select Department", new { @class = "form-control", id = "ddlDepartments" })
+                </div>
+                <div class="col-lg-3">
+                    @Html.DropDownListFor(m => m.SelectedApproverId, Model.Approvers, "Select Approvers", new { @class = "form-control", id = "ddlApprovers" })
                 </div>
 
             </div>
@@ -334,7 +328,7 @@
                     </thead>
 
                     <tbody>
-                        @foreach (var item in Model)
+                        @foreach (var item in Model.PermitDetailsList)
                         {
                             <tr data-type="@item.PermitType" data-dashboardid="@item.PermitDashBoardId">
                                 <td class="fw-bold">@item.PermitType</td>

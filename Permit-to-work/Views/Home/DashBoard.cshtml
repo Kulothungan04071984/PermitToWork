@@ -1,22 +1,44 @@
-﻿@* @using Permit_to_work.ViewModel
-@model IEnumerable<PermitDashboardVM>
+﻿@using Permit_to_work.ViewModel
+@model PermitDetails
 @{
-    ViewData["Title"] = "PermitDashboard";
+     ViewData["Title"] = "PermitDashboard";
 }
-
-
 
 <!DOCTYPE html>
 <html>
 <head>
     <title>Permit Dashboard</title>
+
+    <!-- Bootstrap + Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
-   
-        /* Overlay background */
+        body {
+            background: #f4f6f9;
+        }
+
+        .card {
+            border: none;
+            border-radius: 12px;
+        }
+
+        .card-header {
+            border-radius: 12px 12px 0 0;
+        }
+
+        table tbody tr:hover {
+            background: #f1f1f1;
+            transition: 0.3s;
+        }
+
+        .btn {
+            border-radius: 8px;
+        }
+
+        /* Modal Styling */
         #modalOverlay {
             display: none;
             position: fixed;
@@ -24,300 +46,86 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.6);
+            background: rgba(0,0,0,0.6);
+            z-index: 999;
         }
 
-        /* Modal box */
-        #modalBox {
-            background: white;
-            width: 350px;
+        .custom-modal {
+            background: #fff;
+            width: 400px;
             padding: 20px;
-            border-radius: 8px;
+            border-radius: 12px;
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+            animation: fadeIn 0.3s ease-in-out;
         }
 
-        .closeBtn {
-            float: right;
-            cursor: pointer;
-            color: red;
-            font-weight: bold;
-        }
-
-        button {
-            padding: 8px 15px;
-            cursor: pointer;
-        }
-        body {
-            background: linear-gradient(135deg,#eef2f3,#dfe9f3);
-        }
-
-        .card {
-            animation: slideUp .6s ease;
-            border-radius: 15px;
-        }
-
-        @@keyframes slideUp {
+        @@keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translate(-50%, -60%);
             }
 
             to {
                 opacity: 1;
-                transform: translateY(0);
+                transform: translate(-50%, -50%);
             }
-        }
-
-        table tbody tr {
-            transition: all .3s;
-        }
-
-            table tbody tr:hover {
-                background: #f1f8ff;
-                transform: scale(1.01);
-            }
-
-        .badge {
-            font-size: 0.85rem;
         }
     </style>
 </head>
-<div id="modalOverlay">
-    <div class="modal-dialog">
-        <form method="post" action="/Dashboard/ExtendPermit">
-            <div class="modal-content">
-                <div class="modal-header bg-warning">
-                    <h5>Extend Permit</h5>
-                </div>
-                <input type="hidden" id="hdnpermittype" />
-                <input type="hidden" id="permitid" />
-                <div class="modal-body">
-                    <input type="hidden" id="PermitId" name="PermitId" />
-                    <label>New End Date</label>
-                    <input type="date" class="form-control" name="NewEndDate" required />
-                </div>
 
-                <div class="modal-footer">
-                    <button class="btn btn-success">Extend</button>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
-<body>
-  
-    <div class="row mb-1">
-        <div class="col-md-4">
-            <input type="text" id="searchInput" class="form-control"
-                   placeholder="Search Permit Type, Unit, Location, Status...">
-        </div>
-    </div>
-    <div class="container mt-5">
-        <div class="card shadow-lg">
-          
-            <div class="card-header bg-dark text-white text-center fs-4">
-                Permit To Work – Dashboard
-            </div>
-          
-            <div class="card-body">
-                <table class="table table-bordered align-middle text-center" id="permitTable">
-                    <thead class="table-secondary">
-                        <tr>
-                            <th>Permit Type</th>
-                            <th>Unit</th>
-                            <th>Location</th>
-                            <th>Start</th>
-                            <th>End</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
-                            <tr>
-                                <td class="fw-bold">@item.PermitType</td>
-                                <td>@item.Unit</td>
-                                <td>@item.Location</td>
-                                <td>@item.StartDate.ToString("dd-MM-yyyy")</td>
-                                <td>@item.EndDate.ToString("dd-MM-yyyy")</td>
-                                <td>
-                                    <span class="badge bg-success">@item.Status</span>
-                                </td>
-                                <td>
-                                   @*  onclick="modelopen('@item.PermitType',@item.PermitDashBoardId)" 
-                                    <a class="btn btn-sm btn-primary"
-                                       href="/@item.PermitType.Replace(" ", "")/Edit/@item.PermitDashBoardId">
-                                        ✏ Edit
-                                    </a>
-
-                                    <a class="btn btn-sm btn-warning" id="openModal" >
-                                        ⏱ Extend
-                                    </a>
-
-                                    <a class="btn btn-sm btn-danger"
-                                       href="/Dashboard/Delete?type=@item.PermitType&id=@item.PermitDashBoardId"
-                                       onclick="return confirm('Delete this permit?');">
-                                        🗑 Delete
-                                    </a>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-   
-
-    <script>
-            $(document).ready(function () {
-
-            $("#searchInput").on("keyup", function () {
-
-                var value = $(this).val().toLowerCase();
-
-                $("#permitTable tbody tr").filter(function () {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
-                });
-
-            });
-
-           // Open modal
-            $("#openModal").click(function () {
-                $("#modalOverlay").fadeIn();
-            });
-
-            // Close modal
-            $(".closeBtn").click(function () {
-                $("#modalOverlay").fadeOut();
-            });
-
-            // Close when clicking outside
-            $("#modalOverlay").click(function (e) {
-                if ($(e.target).is("#modalOverlay")) {
-                    $("#modalOverlay").fadeOut();
-                }
-            });
-
-
-        });
-        // function modelopen(type,id){
-        //     debugger;
-        //     document.getElementById("hdnpermittype").value = type;
-        //      document.getElementById("permitid").value = id;
-        //     // $("#extendModal").slideDown();
-
-        // }
-
-        function setPermitId(id){
-            document.getElementById("PermitId").value = id;
-        }
-    </script>
-
-
-   
-</body>
-</html> *@
-
-@using Permit_to_work.ViewModel
-@model PermitDetails
-@{
-    ViewData["Title"] = "PermitDashboard";
-}
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Simple Modal Popup</title>
-
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <style>
-        body {
-            font-family: Arial;
-        }
-
-        /* Overlay background */
-        #modalOverlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-        }
-
-        /* Modal box */
-        #modalBox {
-            background: white;
-            width: 350px;
-            padding: 20px;
-            border-radius: 8px;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        /* .closeBtn {
-            float: right;
-            cursor: pointer;
-            color: red;
-            font-weight: bold;
-        } */
-
-        button {
-            padding: 8px 15px;
-            cursor: pointer;
-        }
-    </style>
-</head>
 <body>
 
-  
-   <div>
-       <div class="container">
-           <div class="row">
-               <div class="col-lg-3">
-                    @Html.DropDownListFor(m => m.SelectedPermitTypeId,Model.PermitTypes, "Select Permit Type", new { @class = "form-control", id = "ddlPermitType"})
-                </div>
-                <div class="col-lg-3">
-                    @Html.DropDownListFor(m => m.SelectedUnitId, Model.Units, "Select Unit", new { @class = "form-control", id = "ddlUnit" })
-                </div>
-                <div class="col-lg-3">
-                    @Html.DropDownListFor(m => m.SelectedDepartmentId, Model.Departments, "Select Department", new { @class = "form-control", id = "ddlDepartments" })
-                </div>
-                <div class="col-lg-3">
-                    @Html.DropDownListFor(m => m.SelectedApproverId, Model.Approvers, "Select Approvers", new { @class = "form-control", id = "ddlApprovers" })
-                </div>
+    <div class="container mt-4">
 
-            </div>
-       </div>
-   </div>
-    <div class="row" style="padding:1%;">
-        <div class="col-md-4">
-            <input type="text" id="searchInput" class="form-control"
-                   placeholder="Search Permit Type, Unit, Location, Status...">
-        </div>
-    </div>
-      <div class="container mt-1">
-        <div class="card shadow-lg">
-          
-            <div class="card-header bg-dark text-white text-center fs-4">
-                 Dashboard
-            </div>
-           
+        <!-- Filters -->
+        <div class="card shadow-sm mb-3">
             <div class="card-body">
-                <table class="table table-bordered align-middle text-center" id="permitTable">
-                    <thead class="table-secondary">
+                <div class="row g-3">
+                    <div class="col-lg-3">
+                        @Html.DropDownListFor(m => m.SelectedPermitTypeId, Model.PermitTypes, "Permit Type", new { @class = "form-select", id = "ddlPermitType" })
+                    </div>
+                    <div class="col-lg-3">
+                        @Html.DropDownListFor(m => m.SelectedUnitId, Model.Units, "Unit", new { @class = "form-select", id = "ddlUnit" })
+                    </div>
+                    <div class="col-lg-3">
+                        @Html.DropDownListFor(m => m.SelectedDepartmentId, Model.Departments, "Department", new { @class = "form-select", id = "ddlDepartments" })
+                    </div>
+                    <div class="col-lg-3">
+                        @Html.DropDownListFor(m => m.SelectedApproverId, Model.Approvers, "Approver", new { @class = "form-select", id = "ddlApprovers" })
+                    </div>
+                </div>
+                <div class="row g-3">
+                    <div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search + Add -->
+        <div class="d-flex justify-content-between mb-3">
+            <input type="text" id="searchInput" class="form-control w-25"
+                   placeholder="🔍 Search...">
+
+            <button class="btn btn-success" id="btnAddPermit">
+                <i class="bi bi-plus-circle"></i> Add Permit
+            </button>
+        </div>
+
+        <!-- Table -->
+        <div class="card shadow-lg">
+            <div class="card-header bg-dark text-white text-center fs-5">
+                Permit Dashboard
+            </div>
+
+            <div class="card-body">
+                <table class="table table-hover align-middle text-center" id="permitTable">
+                    <thead class="table-light">
                         <tr>
-                            <th>Permit Type</th>
+                            <th>Type</th>
                             <th>Unit</th>
                             <th>Location</th>
                             <th>Start</th>
@@ -331,29 +139,30 @@
                         @foreach (var item in Model.PermitDetailsList)
                         {
                             <tr data-type="@item.PermitType" data-dashboardid="@item.PermitDashBoardId">
-                                <td class="fw-bold">@item.PermitType</td>
+                                <td class="fw-bold text-primary">@item.PermitType</td>
                                 <td>@item.Unit</td>
                                 <td>@item.Location</td>
                                 <td>@item.StartDate.ToString("dd-MM-yyyy")</td>
                                 <td>@item.EndDate.ToString("dd-MM-yyyy")</td>
+
                                 <td>
-                                    <span class="badge bg-success">@item.Status</span>
+                                    <span class="badge bg-success px-3 py-2">@item.Status</span>
                                 </td>
+
                                 <td>
-                                 
                                     <a class="btn btn-sm btn-primary"
                                        href="/@item.PermitType.Replace(" ", "")/Edit/@item.PermitDashBoardId">
-                                        ✏ Edit
+                                        <i class="bi bi-pencil"></i>
                                     </a>
 
-                                    <a class="btn btn-sm btn-warning openModal">
-                                        ⏱ Extend
-                                    </a>
+                                    <button class="btn btn-sm btn-warning openModal">
+                                        <i class="bi bi-clock-history"></i>
+                                    </button>
 
                                     <a class="btn btn-sm btn-danger"
                                        href="/Dashboard/Delete?type=@item.PermitType&id=@item.PermitDashBoardId"
                                        onclick="return confirm('Delete this permit?');">
-                                        🗑 Delete
+                                        <i class="bi bi-trash"></i>
                                     </a>
                                 </td>
                             </tr>
@@ -361,71 +170,100 @@
                     </tbody>
                 </table>
             </div>
-
-            <div class="row">
-                <div class="col-lg-12" style="text-align:right;padding-right:2%;padding-bottom:1%;">
-                <button class="btn btn-success" style="width:20%;">Add New Permit</button>
-                </div>
-            </div>
         </div>
     </div>
 
     <!-- Modal -->
-  
     <div id="modalOverlay">
-        <div class="modal-dialog">
+        <div class="custom-modal shadow">
             <form method="post" action="/Dashboard/ExtendPermit">
-                <div class="modal-content">
-                    <div class="modal-header bg-warning">
-                        <h5>Extend Permit</h5>
-                    </div>
-                    <input type="hidden" id="hdnpermittype" />
-                    <input type="hidden" id="permitid" />
-                    <div class="modal-body">
-                        <input type="hidden" id="PermitId" name="PermitId" />
-                        <label>New End Date</label>
-                        <input type="date" class="form-control" name="NewEndDate" required />
-                    </div>
+                <h5 class="mb-3 text-warning">Extend Permit</h5>
 
-                    <div class="modal-footer">
-                        <button class="btn btn-success">Extend</button>
-                        <button class="btn btn-warning closeBtn">Close</button>
-                    </div>
+                <input type="hidden" id="PermitId" name="PermitId" />
+
+                <label class="form-label">New End Date</label>
+                <input type="date" class="form-control mb-3" name="NewEndDate" required />
+
+                <div class="d-flex justify-content-end gap-2">
+                    <button class="btn btn-success">Extend</button>
+                    <button type="button" class="btn btn-secondary closeBtn">Close</button>
                 </div>
             </form>
         </div>
     </div>
+
     <script>
         $(document).ready(function () {
-
-            // Open modal
-            // $("#openModal").click(function () {
-            //     debugger;
-            //     $("#modalOverlay").fadeIn();
-            // });
-
-                   
-
-            // Close modal
-            $(".closeBtn").click(function () {
-                $("#modalOverlay").fadeOut();
-            });
-
-            // Close when clicking outside
-            $("#modalOverlay").click(function (e) {
-                if ($(e.target).is("#modalOverlay")) {
-                    $("#modalOverlay").fadeOut();
-                }
-            });
-
+              $('#sidebar').hide();
         });
 
-         $(document).on("click", ".openModal", function () {
-             var permitType = $(this).closest("tr").data("type");
-             var dashboardId = $(this).closest("tr").data("dashboardid");
-             $("#hdnpermittype").val(permitType);
-             $("#permitid").val(dashboardId);
+        $("#btnAddPermit").on("click", function(){
+            debugger;
+             var formData = {
+            SelectedPermitTypeId: $("#ddlPermitType").val(),
+            SelectedUnitId: $("#ddlUnit").val(),
+            SelectedDepartmentId: $("#ddlDepartments").val(),
+            SelectedApproverId: $("#ddlApprover").val(),
+            Location: $("input[name='Location']").val(),
+            StartDate: $("input[name='StartDate']").val(),
+            EndDate: $("input[name='EndDate']").val()
+        };
+        if(formData.SelectedPermitTypeId == 1)
+           location.href = '@Url.Action("workpermitform", "Home")';
+        else if(formData.SelectedPermitTypeId == 2)
+           location.href = '@Url.Action("Hotwork", "Home")';
+        else if(formData.SelectedPermitTypeId == 3)
+           location.href = '@Url.Action("WorkAtHeightPermit", "Home")';
+        else if(formData.SelectedPermitTypeId == 4)
+           location.href = '@Url.Action("ElectricalIsolationPermit", "Home")';
+        else if(formData.SelectedPermitTypeId == 5)
+           location.href = '@Url.Action("Liftingoperation", "Home")';
+        else if(formData.SelectedPermitTypeId == 6)
+           location.href = '@Url.Action("Liftingoperation", "Home")';
+        else
+           alert("Please select a permit type");
+
+        // $.ajax({
+        //     url: '/Home/CreatePermit',
+        //     type: 'POST',
+        //     data: formData,
+        //     success: function (response) {
+        //         if(response == "Success")
+        //             alert("Insert Successfully");
+        //         else
+        //           alert("Not Insert");
+
+        //         // Close modal
+        //        // $("#addModalOverlay").fadeOut();
+
+        //         // OPTION 1: Reload page
+        //         location.reload();
+
+        //         // OPTION 2 (better): append row dynamically (see below)
+        //     },
+        //     error: function () {
+        //         alert("Error saving permit");
+        //     }
+        // });
+        });
+        // Open Modal
+        $(document).on("click", ".openModal", function () {
+            var dashboardId = $(this).closest("tr").data("dashboardid");
+            $("#PermitId").val(dashboardId);
             $("#modalOverlay").fadeIn();
+          
+        });
+
+        // Close Modal
+        $(".closeBtn").click(function () {
+            $("#modalOverlay").fadeOut();
+        });
+
+        // Close outside click
+        $("#modalOverlay").click(function (e) {
+            if ($(e.target).is("#modalOverlay")) {
+                $(this).fadeOut();
+            }
         });
     </script>
 

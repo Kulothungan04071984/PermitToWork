@@ -233,6 +233,21 @@ namespace Permit_to_work.Controllers
             return View(objpermit);
         }
 
+        //public JsonResult CreatePermit(PermitDetails modelvalues)
+        //{
+        //    string result = string.Empty;
+        //    try
+        //    {
+        //        _context.Add(modelvalues);
+        //        _context.SaveChanges();
+        //        result = "Success";
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        result= ex.Message;
+        //    }
+        //    return Json(result);
+        //}
         public IActionResult Delete(string type, int id)
         {
             // handle delete based on type

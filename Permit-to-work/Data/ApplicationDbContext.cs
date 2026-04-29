@@ -31,6 +31,8 @@ namespace Permit_to_work.Data
 
         public DbSet<PermitTypeMaster> PermitTypeMasters { get; set; }
 
+        public DbSet<Login> Logins { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Ignore<PermitDashboardVM>();

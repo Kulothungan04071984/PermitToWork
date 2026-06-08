@@ -84,10 +84,10 @@
         <div class="card shadow-sm mb-3">
             <div class="card-body">
                 <div class="row g-3">
-                    <div class="col-lg-3">
+                    <div class="col-lg-6">
                         @Html.DropDownListFor(m => m.SelectedPermitTypeId, Model.PermitTypes, "Permit Type", new { @class = "form-select", id = "ddlPermitType" })
                     </div>
-                    <div class="col-lg-3">
+                   @*  <div class="col-lg-3">
                         @Html.DropDownListFor(m => m.SelectedUnitId, Model.Units, "Unit", new { @class = "form-select", id = "ddlUnit" })
                     </div>
                     <div class="col-lg-3">
@@ -95,24 +95,25 @@
                     </div>
                     <div class="col-lg-3">
                         @Html.DropDownListFor(m => m.SelectedApproverId, Model.Approvers, "Approver", new { @class = "form-select", id = "ddlApprovers" })
+                    </div> *@
+                    <div class="col-lg-6" style="text-align:right;">
+                        <button class="btn btn-success" id="btnAddPermit">
+                            <i class="bi bi-plus-circle"></i> Add Permit
+                        </button>
                     </div>
                 </div>
-                <div class="row g-3">
+               @*  <div class="row g-3">
                     <div>
 
                     </div>
-                </div>
+                </div> *@
             </div>
         </div>
 
         <!-- Search + Add -->
-        <div class="d-flex justify-content-between mb-3">
+        <div class="d-flex justify-content-between mb-3 pt-5">
             <input type="text" id="searchInput" class="form-control w-25"
                    placeholder="🔍 Search...">
-
-            <button class="btn btn-success" id="btnAddPermit">
-                <i class="bi bi-plus-circle"></i> Add Permit
-            </button>
         </div>
 
         <!-- Table -->
@@ -142,8 +143,8 @@
                                 <td class="fw-bold text-primary">@item.PermitType</td>
                                 <td>@item.Unit</td>
                                 <td>@item.Location</td>
-                                <td>@item.StartDate.ToString("dd-MM-yyyy")</td>
-                                <td>@item.EndDate.ToString("dd-MM-yyyy")</td>
+                                <td>@item.StartDate</td>
+                                <td>@item.EndDate</td>
 
                                 <td>
                                     <span class="badge bg-success px-3 py-2">@item.Status</span>

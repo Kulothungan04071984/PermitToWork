@@ -26,6 +26,8 @@ namespace Permit_to_work.Models
         public bool RoofWork { get; set; }
         public string OtherWork { get; set; }
 
+        public bool AttachJSA { get; set; }
+
         // Description
         public string WorkDescription { get; set; }
         public string ToolsEquipment { get; set; }

@@ -30,7 +30,7 @@ namespace Permit_to_work.Models
 
         // ===== DOCUMENTS =====
         public bool AttachJSA { get; set; }
-        public bool AttachRiskAssessment { get; set; }
+    
         public string AttachOther { get; set; }
 
         // ===== PRECAUTION =====

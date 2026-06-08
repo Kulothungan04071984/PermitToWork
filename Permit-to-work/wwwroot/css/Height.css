@@ -56,5 +56,9 @@ label {
         background-color: #6f4e37;
         border-color: #4b2e2e;
     }
-
+table td,
+table th {
+    background-color: white !important;
+    color: black !important;
+}
 </style >

@@ -43,8 +43,8 @@ namespace Permit_to_work.Models
         public string OtherRisk { get; set; }
 
         // Documents
-        public bool JSA { get; set; }
-        public bool RiskAssessment { get; set; }
+        public bool AttachJSA { get; set; }
+      
         public string OtherDocument { get; set; }
 
         // Precaution

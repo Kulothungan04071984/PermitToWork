@@ -179,11 +179,28 @@
             <section class="mt-3 border-section">
                 <div class="section-title">Documents to Attach</div>
                 <div class="row">
-                    <div class="col-md-2">@Html.CheckBoxFor(m => m.JSA) <label>JSA</label></div>
-                    <div class="col-md-2">@Html.CheckBoxFor(m => m.RiskAssessment) <label>Risk Assessment</label></div>
+                    <div class="col-md-2">
+                        @Html.CheckBoxFor(m => m.AttachJSA, new { id = "jsa" })
+                        <label>JSA</label>
+                    </div>
+
+                        <div id="jsaList" style="display:none; max-height:150px; overflow-y:auto; border:1px solid #ccc; padding:8px;">
+
+                        <div><input type="checkbox" id="jsa_cutting"> Cutting machine</div>
+                        <div><input type="checkbox" id="jsa_excavation"> Excavation</div>
+                        <div><input type="checkbox" id="jsa_welding"> Welding</div>
+                        <div><input type="checkbox" id="jsa_electrical"> Electrical Work</div>
+                        <div><input type="checkbox" id="jsa_Height"> Height Work</div>
+                        <div><input type="checkbox" id="jsa_plumbing"> plumbing</div>
+                        <div><input type="checkbox" id="jsa_cable"> cable Routing</div>
+                        <div><input type="checkbox" id="jsa_Lifting"> Lifting</div>
+                        <div><input type="checkbox" id="jsa_Machine"> Machine maintenance</div>
+                        </div>
+                    </div>
+
                     <div class="col-md-4">
                         <label>Other (Specify)</label>
-                        <input type="text" name="OtherDocument" class="form-control others-input" />
+                        <input type="text" class="form-control" />
                     </div>
                 </div>
             </section>
@@ -198,14 +215,14 @@
 
                 <div class="container mt-2">
 
-                    <!-- Safe Distance Label -->
+                 
                     <div class="row mb-2">
                         <div class="col-md-12">
                             <label><strong>Safe Distance Maintained?</strong></label>
                         </div>
                     </div>
 
-                    <!-- Safe Distance Yes/No -->
+                    
                     <div class="row mb-3">
                         <div class="col-md-2">
                             <div class="form-check">
@@ -221,7 +238,7 @@
                         </div>
                     </div>
 
-                    <!-- Voltage & Distance -->
+                  
                     <div class="row mb-3">
                         <div class="col-md-3">-
                             <label>Voltage</label>
@@ -234,14 +251,13 @@
                         </div>
                     </div>
 
-                    <!-- Confined Space Label -->
+                 
                     <div class="row mb-2">
                         <div class="col-md-12">
                             <label><strong>Confined Space Required?</strong></label>
                         </div>
                     </div>
 
-                    <!-- Confined Yes/No -->
                     <div class="row">
                         <div class="col-md-2">
                             <div class="form-check">
@@ -331,14 +347,37 @@
             <!-- INSURANCE -->
             <section class="mt-3 border-section">
                 <div class="section-title">Insurance / WC / ESI Copy available for Workmen</div>
-                <div class="row">
-                    <div class="col-md-2">@Html.CheckBoxFor(m => m.WC) <label>WC</label></div>
-                    <div class="col-md-2">@Html.CheckBoxFor(m => m.ESI) <label>ESI</label></div>
-                    <div class="col-md-4">
-                        <label>Other (Specify)</label>
-                        <input type="text" name="OtherInsurance" class="form-control others-input" />
+            <div class="row align-items-center">
+
+                <div class="col-md-3 d-flex align-items-center gap-2">
+                    @Html.CheckBoxFor(m => m.WC, new { id = "wc" })
+                    <label>WC</label>
+
+                    <div id="wcUpload" style="display:none;">
+                        <input type="file" name="WCFile" id="wcFile"
+                               class="form-control form-control-sm" />
+
+                      
                     </div>
                 </div>
+
+                <div class="col-md-3 d-flex align-items-center gap-2">
+                    @Html.CheckBoxFor(m => m.ESI, new { id = "esi" })
+                    <label>ESI</label>
+
+                    <div id="esiUpload" style="display:none;">
+                        <input type="file" name="ESIFile" id="esiFile"
+                               class="form-control form-control-sm" />
+
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <label>Other (Specify)</label>
+                    <input type="text" name="OtherInsurance" class="form-control" />
+                </div>
+
+            </div>
             </section>
 
             <!-- INSPECTION -->
@@ -465,5 +504,340 @@
     </form>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const wc = document.getElementById("wc");
+            const esi = document.getElementById("esi");
+
+            const wcUpload = document.getElementById("wcUpload");
+            const esiUpload = document.getElementById("esiUpload");
+
+            const wcFile = document.getElementById("wcFile");
+            const esiFile = document.getElementById("esiFile");
+
+            const wcFileName = document.getElementById("wcFileName");
+            const esiFileName = document.getElementById("esiFileName");
+
+            if (wc) {
+                wc.addEventListener("change", function () {
+                    wcUpload.style.display = this.checked ? "block" : "none";
+                });
+            }
+
+            if (esi) {
+                esi.addEventListener("change", function () {
+                    esiUpload.style.display = this.checked ? "block" : "none";
+                });
+            }
+
+            if (wcFile && wcFileName) {
+                wcFile.addEventListener("change", function () {
+                    wcFileName.innerText = this.files.length > 0 ? this.files[0].name : "";
+                });
+            }
+
+            if (esiFile && esiFileName) {
+                esiFile.addEventListener("change", function () {
+                    esiFileName.innerText = this.files.length > 0 ? this.files[0].name : "";
+                });
+            }
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+
+            const jsa = document.getElementById("jsa");
+
+
+            const jsaList = document.getElementById("jsaList");
+
+
+            if (jsa) {
+                jsa.addEventListener("change", function () {
+                    jsaList.style.display = this.checked ? "block" : "none";
+                });
+            }
+
+
+
+
+
+            const jsaCutting = document.getElementById("jsa_cutting");
+
+            if (jsaCutting) {
+                jsaCutting.addEventListener("change", function () {
+                    if (this.checked) {
+                        var modal = new bootstrap.Modal(document.getElementById('cuttingModal'));
+                        modal.show();
+                    }
+                });
+            }
+
+            const jsaExcavation = document.getElementById("jsa_excavation");
+
+            if (jsaExcavation) {
+                jsaExcavation.addEventListener("change", function () {
+                    if (this.checked) {
+                        var modal = new bootstrap.Modal(document.getElementById('excavationModal'));
+                        modal.show();
+                    }
+                });
+            }
+
+            const welding = document.getElementById("jsa_welding");
+
+            if (welding) {
+                welding.addEventListener("change", function () {
+
+                    if (this.checked) {
+                        var modal = new bootstrap.Modal(document.getElementById('weldingModal'));
+                        modal.show();
+                    }
+
+                });
+            }
+            const jsaElectrical = document.getElementById("jsa_electrical");
+
+            if (jsaElectrical) {
+                jsaElectrical.addEventListener("change", function () {
+
+                    if (this.checked) {
+                        var modal = new bootstrap.Modal(document.getElementById('electricalModal'));
+                        modal.show();
+                    }
+
+                });
+            }
+            const jsaHeight = document.getElementById("jsa_Height");
+
+            if (jsaHeight) {
+                jsaHeight.addEventListener("change", function () {
+
+                    if (this.checked) {
+                        var modal = new bootstrap.Modal(document.getElementById('heightModal'));
+                        modal.show();
+                    }
+
+                });
+            }
+            const plumbing = document.getElementById("jsa_plumbing");
+
+            if (plumbing) {
+                plumbing.addEventListener("change", function () {
+                    if (this.checked) {
+                        var modal = new bootstrap.Modal(document.getElementById('plumbingModal'));
+                        modal.show();
+                    }
+                });
+            }
+            const cableCheckbox = document.getElementById("jsa_cable");
+
+            if (cableCheckbox) {
+                cableCheckbox.addEventListener("change", function () {
+                    if (this.checked) {
+                        let modal = new bootstrap.Modal(document.getElementById("cableModal"));
+                        modal.show();
+                    }
+                });
+            }
+            const liftingCheckbox = document.getElementById("jsa_Lifting");
+
+            if (liftingCheckbox) {
+                liftingCheckbox.addEventListener("change", function () {
+                    if (this.checked) {
+                        const liftingModal = new bootstrap.Modal(document.getElementById("liftingModal"));
+                        liftingModal.show();
+                    }
+                });
+            }
+            const machineCheckbox = document.getElementById("jsa_Machine");
+
+            if (machineCheckbox) {
+                machineCheckbox.addEventListener("change", function () {
+                    if (this.checked) {
+                        const modal = new bootstrap.Modal(document.getElementById("machineModal"));
+                        modal.show();
+                    }
+                });
+            }
+        });
+    </script>
+    <div class="modal fade" id="cuttingModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">JSA - Cutting</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    @await Html.PartialAsync("~/Views/Home/_JSA_Cutting.cshtml")
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-success" data-bs-dismiss="modal">OK</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="excavationModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">JSA - Excavation</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    @await Html.PartialAsync("~/Views/Home/_JSA_Excavation.cshtml")
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-success" data-bs-dismiss="modal">OK</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="weldingModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">JSA - Welding</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    @await Html.PartialAsync("~/Views/Home/_JSA_Welding.cshtml")
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-success" data-bs-dismiss="modal">OK</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="electricalModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">JSA - Electrical Work</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    @await Html.PartialAsync("~/Views/Home/_JSA_Electrical.cshtml")
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-success" data-bs-dismiss="modal">OK</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="heightModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">JSA - Work at Height</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    @await Html.PartialAsync("~/Views/Home/_JSA_Height.cshtml")
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-success" data-bs-dismiss="modal">OK</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="plumbingModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">JSA - Plumbing</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    @await Html.PartialAsync("~/Views/Home/_JSA_Plumbing.cshtml")
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-success" data-bs-dismiss="modal">OK</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="cableModal">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">JSA - Cable Routing</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    @await Html.PartialAsync("~/Views/Home/_JSA_CableRouting.cshtml")
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">OK</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="liftingModal" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">JSA - Lifting</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    @await Html.PartialAsync("~/Views/Home/_JSA_Lifting.cshtml")
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="machineModal" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">JSA - Machine Maintenance</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    @await Html.PartialAsync("~/Views/Home/_JSA_Machine.cshtml")
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>

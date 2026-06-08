@@ -115,7 +115,10 @@ namespace Permit_to_work.Controllers
 
             return RedirectToAction("Success");
         }
-
+        public IActionResult ElectricalIsolationPermit()
+        {
+            return View();
+        }
         public IActionResult WorkAtHeightPermit()
         {
             return View();
@@ -133,10 +136,7 @@ namespace Permit_to_work.Controllers
             return RedirectToAction("Success");
         }
 
-        public IActionResult ElectricalIsolationPermit()
-        {
-            return View();
-        }
+   
         [HttpPost]
         public async Task<IActionResult> ElectricalIsolationPermit(ElectricalIsolationPermit model)
         {
@@ -148,6 +148,28 @@ namespace Permit_to_work.Controllers
 
             return RedirectToAction("Success");
         }
+       
+        public IActionResult ConfinedSpace()
+        {
+            return View();
+        }
+
+    
+        [HttpPost]
+        public async Task<IActionResult> ConfinedSpace(ConfinedSpacePermit model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+          
+
+            _context.ConfinedSpacePermits.Add(model);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("ConfinedSpace");
+        }
+
+
         public IActionResult Home()
         {
             return View();
@@ -219,6 +241,18 @@ namespace Permit_to_work.Controllers
                     Status = "Active"
                 })
             );
+            dashboard.AddRange(
+       _context.ConfinedSpacePermits.Select(x => new PermitDashboardVM
+       {
+           PermitDashBoardId = x.Id,
+           PermitType = "Confined Space",
+           Unit = x.Unit,
+           Location = x.Location,
+           StartDate = x.StartDate,
+           EndDate = x.EndDate,
+           Status = "Active"
+       })
+   );
 
             return View(dashboard.OrderByDescending(x => x.StartDate));
         }
@@ -236,6 +270,21 @@ namespace Permit_to_work.Controllers
         public IActionResult Success()
         {
             return View();
+        }
+        public IActionResult LoadJSA(string type)
+        {
+            if (type == "cutting")
+                return PartialView("_JSA_Cutting");
+
+            return Content("No data found");
+        }
+
+        public IActionResult LoadRA(string type)
+        {
+            if (type == "excavation")
+                return PartialView("_RA_Excavation");
+
+            return Content("No data found");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

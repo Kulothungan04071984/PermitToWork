@@ -25,6 +25,8 @@ namespace Permit_to_work.Models
         public string LoadDimension { get; set; }
         public string LoadQuantity { get; set; }
 
+        public bool AttachJSA { get; set; }
+
         public bool Toppling { get; set; }
         public bool FallingObjects { get; set; }
         public bool Overload { get; set; }

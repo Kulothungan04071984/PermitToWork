@@ -20,11 +20,13 @@ namespace Permit_to_work.Data
         public DbSet<ElectricalIsolationPermit> ElectricalIsolationPermits { get; set; }
 
         public DbSet<PermitMaster> PermitMasters { get; set; }
+        public DbSet<ConfinedSpacePermit> ConfinedSpacePermits { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Ignore<PermitDashboardVM>();
-        }
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.Ignore<PermitDashboardVM>();
+        //    modelBuilder.Entity<ConfinedSpacePermit>().ToTable("ConfinedSpacePermits");
+        //}
 
     }
 }

@@ -35,6 +35,8 @@ namespace Permit_to_work.Models
         public bool Heat { get; set; }
         public bool Vibration { get; set; }
         public bool Illumination { get; set; }
+
+        public bool AttachJSA { get; set; }
         // PPE
         public bool PPEHelmet { get; set; }
         public bool PPEShoes { get; set; }

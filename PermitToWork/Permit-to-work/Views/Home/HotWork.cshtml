@@ -1,0 +1,674 @@
+﻿@model Permit_to_work.Models.HotWorkPermit
+
+@{
+    ViewData["Title"] = "HotWorkPermit";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Hot Work Permit</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #ffecec;
+        }
+
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: #ffb3b3;
+            border-bottom: 3px solid #000;
+        }
+
+        .permit-card {
+            border: 2px solid #000;
+            background: #ffb3b3;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .section-title {
+            font-weight: bold;
+            text-transform: uppercase;
+            background: #ff9999;
+            padding: 8px;
+            border: 1px solid #000;
+            margin-bottom: 10px;
+        }
+
+        label {
+            font-weight: 600;
+        }
+
+        .form-control, .form-check-input {
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+<body>
+    <style>
+        <text >
+        @@media print {
+            .no-print
+
+        {
+            display: none;
+        }
+
+        }
+
+        table, th, td {
+            border: 1px solid #000;
+            border-collapse: collapse;
+            padding: 5px;
+        }
+
+        </text >
+    </style>
+
+
+
+    <!-- HEADER -->
+    <section class="sticky-header text-center py-3">
+        <h3 class="fw-bold">HOT WORK PERMIT</h3>
+    </section>
+
+    <form asp-action="Create" method="post" class="container my-4">
+
+        <!-- BASIC DETAILS -->
+        <section class="card permit-card">
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <label>Unit</label>
+                    @Html.TextBoxFor(m => m.Unit, new { @class = "form-control" })
+                </div>
+                <div class="col-md-3">
+                    <label>Contractor</label>
+                    @Html.TextBoxFor(m => m.ContractorName, new { @class = "form-control" })
+                </div>
+                <div class="col-md-3">
+                    <label>Location</label>
+                    @Html.TextBoxFor(m => m.Location, new { @class = "form-control" })
+                </div>
+                <div class="col-md-3">
+                    <label>No. of Workmen involved</label>
+                    @Html.TextBoxFor(m => m.NoOfWorkmen, new { @class = "form-control" })
+                </div>
+            </div>
+        </section>
+
+        <!-- DATE & TIME -->
+        <section class="card permit-card">
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <label>Starting From Date</label>
+                    @Html.TextBoxFor(m => m.StartDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
+                </div>
+                <div class="col-md-3">
+                    <label>Starting From Time</label>
+                    @Html.TextBoxFor(m => m.StartTime, new { type = "time", @class = "form-control" })
+                </div>
+                <div class="col-md-3">
+                    <label>Expected Completion Date</label>
+                    @Html.TextBoxFor(m => m.EndDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
+                </div>
+                <div class="col-md-3">
+                    <label>Expected Completion Time</label>
+                    @Html.TextBoxFor(m => m.EndTime, new { type = "time", @class = "form-control" })
+                </div>
+            </div>
+        </section>
+
+        <!-- WORK TYPE -->
+        <section class="card permit-card">
+            <label>Work Type</label>
+            <div class="form-check form-check-inline">
+                @Html.CheckBoxFor(m => m.Welding, new { @class = "form-check-input" }) <label class="form-check-label">Welding</label>
+            </div>
+            <div class="form-check form-check-inline">
+                @Html.CheckBoxFor(m => m.ChippingCuttingGrinding, new { @class = "form-check-input" }) <label class="form-check-label">Chipping/Cutting/Grinding</label>
+            </div>
+        </section>
+
+        <!-- WORK DESCRIPTION -->
+        <section class="card permit-card">
+            <label>Work Description</label>
+            @Html.TextAreaFor(m => m.WorkDescription, 3, 100, new { @class = "form-control" })
+        </section>
+
+        <!-- TOOLS / EQUIPMENT -->
+        <section class="card permit-card">
+            <label>Tools / Equipment to be used</label>
+            @Html.TextAreaFor(m => m.ToolsEquipment, 3, 100, new { @class = "form-control" })
+        </section>
+
+        <!-- RISKS -->
+        <section class="card permit-card">
+            <div class="section-title">Identify Risks associated with this Hot Work</div>
+            <div class="row">
+                @foreach (var risk in new[] { "Electrocution", "Arc Flash", "Flying particles", "Noise", "Falling Objects", "Protruding objects/parts", "Tripping/Slipping", "Electric Shock", "Fire/Spark", "Manual Handling", "Hot burn", "Explosion", "Health Hazard", "Fume/Smoke" })
+                {
+                    <div class="col-md-4 form-check">
+                        @Html.CheckBox("Risks", false, new { @class = "form-check-input" })
+                        <label class="form-check-label">@risk</label>
+                    </div>
+
+                }
+            </div>
+            <div class="col-md-4">
+                <label>Other (specify):</label>
+                @Html.TextBoxFor(m => m.AttachOther, new { @class = "form-control" })
+            </div>
+        </section>
+
+        <!-- DOCUMENTS -->
+        <section class="card permit-card">
+            <div class="section-title">Documents to attach</div>
+
+            <div class="row g-3 align-items-end">
+                <div class="col-md-4">
+                    <div class="form-check">
+                        @Html.CheckBoxFor(m => m.AttachJSA, new { @class = "form-check-input", id = "jsa" })
+                        <label class="form-check-label" for="jsa">JSA</label>
+                    </div>
+
+                    <!-- Scroll List -->
+                    <div id="jsaList" style="display:none; max-height:100px; overflow-y:auto; border:1px solid #ccc; padding:5px;">
+                        <div><input type="checkbox"> Saran</div>
+                        <div><input type="checkbox"> Nova</div>
+                        <div><input type="checkbox"> Keto</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-check">
+                        @Html.CheckBoxFor(m => m.AttachRiskAssessment, new { @class = "form-check-input", id = "ra" })
+                        <label class="form-check-label" for="ra">Risk Assessment</label>
+                    </div>
+
+                    <!-- Scroll List -->
+                    <div id="raList" style="display:none; max-height:100px; overflow-y:auto; border:1px solid #ccc; padding:5px;">
+                        <div><input type="checkbox"> Saran</div>
+                        <div><input type="checkbox"> Nova</div>
+                        <div><input type="checkbox"> Keto</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label>Other (specify):</label>
+                    @Html.TextBoxFor(m => m.AttachOther, new { @class = "form-control" })
+                </div>
+
+            </div>
+        </section>
+
+        <!--Precaution-->
+
+        <section class="card permit-card">
+            <div class="section-title">
+                Precaution measures required to complete the work safely
+            </div>
+
+            <div class="d-flex gap-4">
+
+                <div class="form-check form-check-inline">
+                    @Html.RadioButtonFor(m => m.Precaution, "Yes",
+                             new { @class = "form-check-input", id = "prec_yes" })
+                    <label class="form-check-label" for="prec_yes">Yes</label>
+                </div>
+
+                <div class="form-check form-check-inline">
+                    @Html.RadioButtonFor(m => m.Precaution, "No",
+                             new { @class = "form-check-input", id = "prec_no" })
+                    <label class="form-check-label" for="prec_no">No</label>
+                </div>
+
+                <div class="form-check form-check-inline">
+                    @Html.RadioButtonFor(m => m.Precaution, "NA",
+                             new { @class = "form-check-input", id = "prec_na" })
+                    <label class="form-check-label" for="prec_na">N/A</label>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- CERTIFICATION & SAFETY CHECKS -->
+        <section class="card permit-card">
+            <div class="section-title">Certification & Safety Checks</div>
+
+            <!-- Welder Certification -->
+            <div class="mb-2">
+                <label class="form-label">Are you certified (welder) to undertake this work?</label>
+                <div class="d-flex gap-3">
+                    <div class="form-check form-check-inline">
+                        @Html.RadioButtonFor(m => m.IsWelderCertified, "Y", new { @class = "form-check-input", id = "cert_yes" })
+                        <label class="form-check-label" for="cert_yes">Yes</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        @Html.RadioButtonFor(m => m.IsWelderCertified, "N", new { @class = "form-check-input", id = "cert_no" })
+                        <label class="form-check-label" for="cert_no">No</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        @Html.RadioButtonFor(m => m.IsWelderCertified, "NA", new { @class = "form-check-input", id = "cert_na" })
+                        <label class="form-check-label" for="cert_na">N/A</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Combustible Material -->
+            <div class="mb-2">
+                <label class="form-label">Are all combustible materials removed or shielded from sparks?</label>
+                <div class="d-flex gap-3">
+                    <div class="form-check form-check-inline">
+                        @Html.RadioButtonFor(m => m.CombustibleRemoved, "Y", new { @class = "form-check-input", id = "comb_yes" })
+                        <label class="form-check-label" for="comb_yes">Yes</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        @Html.RadioButtonFor(m => m.CombustibleRemoved, "N", new { @class = "form-check-input", id = "comb_no" })
+                        <label class="form-check-label" for="comb_no">No</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        @Html.RadioButtonFor(m => m.CombustibleRemoved, "NA", new { @class = "form-check-input", id = "comb_na" })
+                        <label class="form-check-label" for="comb_na">N/A</label>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- Hoses -->
+        <section class="card permit-card">
+            <div class="section-title mt-3">Hoses Inspection</div>
+
+            <div class="d-flex gap-3 align-items-center">
+                <!-- Checkboxes -->
+                <div class="form-check">
+                    @Html.CheckBoxFor(m => m.HosesFreeGrease, new { @class = "form-check-input hose-cb", id = "hose1" })
+                    <label class="form-check-label" for="hose1">Free from grease/oil</label>
+                </div>
+
+                <div class="form-check">
+                    @Html.CheckBoxFor(m => m.HosesCutCrack, new { @class = "form-check-input hose-cb", id = "hose2" })
+                    <label class="form-check-label" for="hose2">Cut/crack</label>
+                </div>
+
+                <div class="form-check">
+                    @Html.CheckBoxFor(m => m.HosesSpecialClips, new { @class = "form-check-input hose-cb", id = "hose3" })
+                    <label class="form-check-label" for="hose3">Fitting (Special clips)</label>
+                </div>
+
+                <!-- N/A Radio -->
+                <div class="form-check">
+                    @Html.RadioButtonFor(m => m.HosesNA, "NA", new { @class = "form-check-input", id = "hose_na" })
+                    <label class="form-check-label" for="hose_na">N/A</label>
+                </div>
+            </div>
+
+            <!-- Regulators -->
+
+            <div class="section-title mt-3">Regulators & Gauges</div>
+
+            <div class="d-flex gap-3 align-items-center">
+                <!-- Checkboxes -->
+                <div class="form-check">
+                    <input type="checkbox" name="Regulator" value="Defects/Broken"
+                           class="form-check-input regulator-cb" id="reg1">
+                    <label class="form-check-label" for="reg1">Defects/Broken</label>
+                </div>
+
+                <div class="form-check">
+                    <input type="checkbox" name="Regulator" value="Fitting"
+                           class="form-check-input regulator-cb" id="reg2">
+                    <label class="form-check-label" for="reg2">Fitting</label>
+                </div>
+
+                <div class="form-check">
+                    <input type="checkbox" name="Regulator" value="Calibration"
+                           class="form-check-input regulator-cb" id="reg3">
+                    <label class="form-check-label" for="reg3">Calibration</label>
+                </div>
+
+                <!-- N/A Radio -->
+                <div class="form-check">
+                    <input type="radio" name="RegulatorNA" value="NA"
+                           class="form-check-input" id="reg_na">
+                    <label class="form-check-label" for="reg_na">N/A</label>
+                </div>
+            </div>
+
+            <div class="mt-3">
+                <label class="form-label fw-bold me-3">Are flashback arrestors provided?</label>
+
+                <div class="d-flex gap-3 align-items-center">
+                    <div class="form-check">
+                        @Html.RadioButtonFor(m => m.FlashbackArrestors, "Y", new { @class = "form-check-input", id = "fa_yes" })
+                        <label class="form-check-label" for="fa_yes">Yes</label>
+                    </div>
+
+                    <div class="form-check">
+                        @Html.RadioButtonFor(m => m.FlashbackArrestors, "N", new { @class = "form-check-input", id = "fa_no" })
+                        <label class="form-check-label" for="fa_no">No</label>
+                    </div>
+
+                    <div class="form-check">
+                        @Html.RadioButtonFor(m => m.FlashbackArrestors, "NA", new { @class = "form-check-input", id = "fa_na" })
+                        <label class="form-check-label" for="fa_na">N/A</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <label class="form-label fw-bold me-3">
+                    Are cylinders provided with cap, trolley, chain, and appropriate relief valve?
+                </label>
+
+                <div class="d-flex gap-3 align-items-center">
+                    <div class="form-check">
+                        @Html.RadioButtonFor(m => m.CylindersProvided, "Y", new { @class = "form-check-input", id = "cy_yes" })
+                        <label class="form-check-label" for="cy_yes">Yes</label>
+                    </div>
+
+                    <div class="form-check">
+                        @Html.RadioButtonFor(m => m.CylindersProvided, "N", new { @class = "form-check-input", id = "cy_no" })
+                        <label class="form-check-label" for="cy_no">No</label>
+                    </div>
+
+                    <div class="form-check">
+                        @Html.RadioButtonFor(m => m.CylindersProvided, "NA", new { @class = "form-check-input", id = "cy_na" })
+                        <label class="form-check-label" for="cy_na">N/A</label>
+                    </div>
+                </div>
+            </div>
+
+
+        </section>
+
+        <!-- EMERGENCY TEAM -->
+        <section class="card permit-card">
+            <div class="section-title">Emergency Team</div>
+            <div class="form-check">
+                @Html.RadioButtonFor(m => m.EmergencyTeamAvailable, "Y", new { @class = "form-check-input" })
+                <label class="form-check-label">Are emergency team available?</label>
+            </div>
+            <div class="form-group mt-2">
+                <label>Contact Numbers:</label>
+
+                <div class="col-md-3">
+                    @Html.TextBoxFor(m => m.EmergencyContact1, new { @class = "form-control", placeholder = "1..." })
+                    @Html.TextBoxFor(m => m.EmergencyContact2, new { @class = "form-control", placeholder = "2..." })
+                    @Html.TextBoxFor(m => m.EmergencyContact3, new { @class = "form-control", placeholder = "3..." })
+                </div>
+            </div>
+            <div class="form-check mt-2">
+
+                <label class="form-check-label">Have tools and devices to be used been tested and adjusted?</label>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" style="border-radius:15% !important" type="radio" name="EmergencyTeam" value="yes">
+                    Yes</label>
+                </div>
+
+                <div class="form-check form-check-inline ms-3">
+                    <input class="form-check-input" style="border-radius:15% !important" type="radio" name="EmergencyTeam" value="no">
+
+                    No </label>
+                </div>
+                <div class="form-check form-check-inline ms-3">
+                    <input class="form-check-input" style="border-radius:15% !important" type="radio" name="EmergencyTeam" value="N/A">
+                    N/A </label>
+                </div>
+                <div class="col-md-3">@Html.TextBoxFor(m => m.OtherPPE, new { @class = "form-control", placeholder = "Other (specify)" })</div>
+        </section>
+
+        <!-- INSURANCE COPY -->
+        <section class="permit-section">
+            <div class="section-title">Insurance copy available for workmen:</div>
+
+            <div class="d-flex gap-4">
+
+                <div>
+                    <div class="form-check">
+                        @Html.CheckBoxFor(m => m.WC, new { @class = "form-check-input", id = "wc" })
+                        <label class="form-check-label" for="wc">WC</label>
+                    </div>
+
+                
+                    <div id="wcUpload" style="display:none; margin-top:5px;">
+                        <input type="file" name="WCFile" id="wcFile" class="form-control" />
+                       <!-- <small id="wcFileName" class="text-success"></small>-->
+                    </div>
+                </div>
+
+                <div>
+                    <div class="form-check">
+                        @Html.CheckBoxFor(m => m.ESI, new { @class = "form-check-input", id = "esi" })
+                        <label class="form-check-label" for="esi">ESI</label>
+                    </div>
+
+                    <div id="esiUpload" style="display:none; margin-top:5px;">
+                        <input type="file" name="ESIFile" id="esiFile" class="form-control" />
+                        <!--<small id="esiFileName" class="text-success"></small>-->
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- INSPECTIONS & PPE -->
+        <section class="card permit-card">
+            <div class="section-title">Inspections & PPE</div>
+            <table class="table table-bordered">
+                <tr>
+                    <th>Item</th>
+                    <th>Details / Qty / Type</th>
+                    <th>Checked (Y/N)</th>
+                </tr>
+                <tr>
+                    <td>Fire Extinguisher</td>
+                    <td>@Html.TextBoxFor(m => m.FireExtinguisherDetails, new { @class = "form-control" })</td>
+                    <td>@Html.CheckBoxFor(m => m.FireExtinguisherChecked)</td>
+                </tr>
+                <tr>
+                    <td>Fire Blanket</td>
+                    <td>-</td>
+                    <td>@Html.CheckBoxFor(m => m.FireBlanketChecked)</td>
+                </tr>
+                <tr>
+                    <td>Danger / Warning Sign</td>
+                    <td>-</td>
+                    <td>@Html.CheckBoxFor(m => m.WarningSignChecked)</td>
+                </tr>
+                <tr>
+                    <td>Lighting</td>
+                    <td>-</td>
+                    <td>@Html.CheckBoxFor(m => m.LightingChecked)</td>
+                </tr>
+                <tr>
+                    <td>Safety Barriers</td>
+                    <td>-</td>
+                    <td>@Html.CheckBoxFor(m => m.SafetyBarriersChecked)</td>
+                </tr>
+                <tr>
+                    <td>Sand Bucket</td>
+                    <td>-</td>
+                    <td>@Html.CheckBoxFor(m => m.SandBucketChecked)</td>
+                </tr>
+
+            </table>
+            <div class="col-md-3">@Html.TextBoxFor(m => m.OtherPPE, new { @class = "form-control", placeholder = "Other (specify)" })</div>
+
+            <div class="section-title mt-3">PPE Required</div>
+            <div class="row">
+                <div class="col-md-3">@Html.CheckBoxFor(m => m.Helmet) <label>Helmet</label></div>
+                <div class="col-md-3">@Html.CheckBoxFor(m => m.SafetyShoes) <label>Safety Shoes</label></div>
+                <div class="col-md-3">@Html.CheckBoxFor(m => m.WeldingGloves) <label>Welding Gloves</label></div>
+                <div class="col-md-3">@Html.CheckBoxFor(m => m.FaceShield) <label>Face Shield</label></div>
+                <div class="col-md-3">@Html.CheckBoxFor(m => m.WeldingGoggles) <label>Welding Goggles</label></div>
+                <div class="col-md-3">@Html.CheckBoxFor(m => m.Apron) <label>Apron (Welding)</label></div>
+                <div class="col-md-3">@Html.CheckBoxFor(m => m.GasMask) <label>Gas Mask</label></div>
+                <div class="col-md-3">@Html.CheckBoxFor(m => m.EarPlugs) <label>Ear Plugs / Muff</label></div>
+                <div class="col-md-3">@Html.CheckBoxFor(m => m.WeldingShield) <label>Welding Shield</label></div>
+                <div class="col-md-3">@Html.CheckBoxFor(m => m.WeldingClothes) <label>Welding Clothes</label></div>
+                <div class="col-md-3">@Html.TextBoxFor(m => m.OtherPPE, new { @class = "form-control", placeholder = "Other (specify)" })</div>
+            </div>
+        </section>
+
+        <!-- AUTHORIZATION -->
+        <section class="card permit-card">
+            <div class="section-title">Issue and Acceptance</div>
+            <div class="row g-3">
+                <div class="col-md-6"> <label>Permit Receiver name</label>@Html.TextBoxFor(m => m.ReceiverName, new { @class = "form-control" })</div>
+                <div class="col-md-3"> <label>Receiver Date</label>@Html.TextBoxFor(m => m.ReceiverDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })</div>
+            </div>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label>Permit Issuer name</label>@Html.TextBoxFor(m => m.IssuerName, new { @class = "form-control" })
+                </div>
+                <div class="col-md-3">
+                    <label>Issuer Date</label>@Html.TextBoxFor(m => m.IssuerDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
+                </div>
+            </div>
+
+        </section>
+
+        <!-- SUSPENSION -->
+        <section class="card permit-card">
+            <div class="section-title">Suspension</div>
+
+            <p class="mb-2">
+                This permit is suspended, area/equipment is not safe to use.
+            </p>
+
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label>Name</label>
+                    @Html.TextBoxFor(m => m.SuspensionName,
+                             new { @class = "form-control" })
+                </div>
+
+                <div class="col-md-6">
+                    <label>Date</label>
+                    @Html.TextBoxFor(m => m.SuspensionSignatureDate,
+                             "{0:yyyy-MM-dd}",
+                             new { type = "date", @class = "form-control" })
+                </div>
+            </div>
+        </section>
+
+        <!-- BUTTONS -->
+        <div class="text-center no-print mb-5">
+            <button type="submit" class="btn btn-success px-4">Save</button>
+            <button type="button" onclick="window.print()" class="btn btn-secondary px-4 ms-2">Print</button>
+        </div>
+
+    </form>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const naRadioReg = document.getElementById("reg_na");
+            const checkboxesReg = document.querySelectorAll(".regulator-cb");
+
+            function toggleRegulators() {
+                if (naRadioReg.checked) {
+                    checkboxesReg.forEach(cb => {
+                        cb.checked = false;
+                        cb.disabled = true;
+                    });
+                } else {
+                    checkboxesReg.forEach(cb => cb.disabled = false);
+                }
+            }
+
+            naRadioReg.addEventListener("change", toggleRegulators);
+            toggleRegulators(); // run on page load
+
+            checkboxesReg.forEach(cb => {
+                cb.addEventListener("change", () => {
+                    if (cb.checked) {
+                        naRadioReg.checked = false;
+                        toggleRegulators();
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const naRadio = document.getElementById("hose_na"); // N/A radio
+            const checkboxes = document.querySelectorAll(".hose-cb"); // the three checkboxes
+
+            // Function to toggle checkboxes
+            function toggleHoses() {
+                if (naRadio.checked) {
+                    checkboxes.forEach(cb => {
+                        cb.checked = false; // uncheck
+                        cb.disabled = true; // disable
+                    });
+                } else {
+                    checkboxes.forEach(cb => cb.disabled = false); // enable
+                }
+            }
+
+            // Run on N/A change
+            naRadio.addEventListener("change", toggleHoses);
+
+            // Run on page load
+            toggleHoses();
+
+            // Optional: if user clicks any checkbox, uncheck N/A
+            checkboxes.forEach(cb => {
+                cb.addEventListener("change", () => {
+                    if (cb.checked) {
+                        naRadio.checked = false;
+                        toggleHoses();
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const wc = document.getElementById("wc");
+            const esi = document.getElementById("esi");
+
+            const wcUpload = document.getElementById("wcUpload");
+            const esiUpload = document.getElementById("esiUpload");
+
+            const wcFile = document.getElementById("wcFile");
+            const esiFile = document.getElementById("esiFile");
+
+            const wcFileName = document.getElementById("wcFileName");
+            const esiFileName = document.getElementById("esiFileName");
+
+            // 🔹 Toggle upload
+            wc.addEventListener("change", function () {
+                wcUpload.style.display = this.checked ? "block" : "none";
+            });
+
+            esi.addEventListener("change", function () {
+                esiUpload.style.display = this.checked ? "block" : "none";
+            });
+
+            // 🔹 Show file name
+            wcFile.addEventListener("change", function () {
+                wcFileName.innerText = this.files.length > 0 ? this.files[0].name : "";
+            });
+
+            esiFile.addEventListener("change", function () {
+                esiFileName.innerText = this.files.length > 0 ? this.files[0].name : "";
+            });
+
+        });
+    </script>
+
+
+
+
+
+</body>
+</html>

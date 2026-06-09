@@ -106,6 +106,7 @@ namespace Permit_to_work.Models
         public string SuspensionName { get; set; }
         public DateTime SuspensionSignatureDate { get; set; }
 
+<<<<<<< HEAD
         // Approver Details
 
         public string ApproverOne { get; set; }
@@ -113,6 +114,8 @@ namespace Permit_to_work.Models
         public string ApproverThree { get; set; }
         public string ApproverFour { get; set; }
 
+=======
+>>>>>>> faccccd7e844f04b57a176035fe543f761ff19d4
         // Created timestamp
         public DateTime CreatedOn { get; set; } = DateTime.Now;
     }

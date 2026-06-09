@@ -235,6 +235,7 @@ namespace Permit_to_work.Controllers
             }
 
             _context.SaveChanges();
+<<<<<<< HEAD
 
             MailMessage mail = new MailMessage();
             mail.From = new MailAddress("employeetraining@syrmasgs.com");
@@ -251,6 +252,32 @@ namespace Permit_to_work.Controllers
             smtp.EnableSsl = true;
 
             smtp.Send(mail);
+=======
+            //try
+            //{
+
+
+            //    MailMessage mail = new MailMessage();
+            //    mail.From = new MailAddress("employeetraining@syrmasgs.com");
+            //    mail.To.Add("kulothungan.k@syrmasgs.com");
+            //    mail.Subject = "Request to Reschedule";
+            //    mail.Body = "Test Mail";
+
+            //    using (SmtpClient smtp = new SmtpClient("smtp.office365.com", 587))
+            //    {
+            //        smtp.EnableSsl = true;
+            //        smtp.UseDefaultCredentials = false;
+            //        smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+
+            //        smtp.Credentials = new NetworkCredential(
+            //            "employeetraining@syrmasgs.com",
+            //            "Permit@123");
+
+            //        smtp.Send(mail);
+            //    }
+            //}
+            //catch (Exception ex) { }
+>>>>>>> faccccd7e844f04b57a176035fe543f761ff19d4
 
             return RedirectToAction("Dashboard");
         }
@@ -405,6 +432,13 @@ namespace Permit_to_work.Controllers
             );
           
             objpermit.PermitDetailsList = dashboard.OrderByDescending(x => x.StartDate).ToList();
+<<<<<<< HEAD
+=======
+            objpermit.FirstApproval = _context.ApproverMasters.Where(x => x.ApproverId == 1).Select(x => x.ApproverName).FirstOrDefault();
+            objpermit.SecondApproval = _context.ApproverMasters.Where(x => x.ApproverId == 2).Select(x => x.ApproverName).FirstOrDefault();
+            objpermit.ThirdApproval = _context.ApproverMasters.Where(x => x.ApproverId == 3).Select(x => x.ApproverName).FirstOrDefault();
+            objpermit.FourthApproval = _context.ApproverMasters.Where(x => x.ApproverId == 4).Select(x => x.ApproverName).FirstOrDefault();
+>>>>>>> faccccd7e844f04b57a176035fe543f761ff19d4
             // return View(dashboard.OrderByDescending(x => x.StartDate));
             return View(objpermit);
         }

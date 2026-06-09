@@ -15,6 +15,16 @@
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 
+<<<<<<< HEAD
+=======
+        public string FirstApproverStatus { get; set; } = string.Empty;
+
+        public string SecondApproverStatus { get; set; } = string.Empty;
+
+        public string ThirdApproverStatus { get; set; } = string.Empty;
+
+        public string FourthApproverStatus { get; set; } = string.Empty;
+>>>>>>> faccccd7e844f04b57a176035fe543f761ff19d4
         public string Status { get; set; }
         // Draft / PendingSafety / PendingElectrical / Approved / Closed
 

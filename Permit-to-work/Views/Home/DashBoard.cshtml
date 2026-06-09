@@ -73,6 +73,70 @@
                 transform: translate(-50%, -50%);
             }
         }
+
+        .approval-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .approval-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+            .approval-step i {
+                font-size: 32px;
+                transition: .3s;
+            }
+
+            .approval-step:hover {
+                transform: scale(1.1);
+            }
+
+        .approved i {
+            color: #28a745;
+            animation: pulse 1.5s infinite;
+        }
+
+        .rejected i {
+            color: #dc3545;
+        }
+
+        .pending i {
+            color: #ffc107;
+        }
+
+        .approval-line {
+            width: 120px;
+            height: 4px;
+            background: #d6d6d6;
+            margin: 0 10px;
+        }
+
+            .approval-line.active {
+                background: #28a745;
+            }
+
+        @@keyframes pulse {
+            0%
+
+        {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.2);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+
+        }
     </style>
 </head>
 
@@ -151,6 +215,7 @@
                                 </td>
 
                                 <td>
+                                    <a class="btn btn-sm btn-primary" id="btnStatus"> <i class="bi bi-plus-circle"></i></a>
                                     <a class="btn btn-sm btn-primary"
                                        href="/@item.PermitType.Replace(" ", "")/Edit/@item.PermitDashBoardId">
                                         <i class="bi bi-pencil"></i>
@@ -173,7 +238,71 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="StatusModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Status</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="approval-container">
 
+                        <div class="approval-step approved"
+                             data-bs-toggle="tooltip"
+                             title="Approved by Manager on 08-Jun-2026">
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span>Primary Approval</span>
+                        </div>
+
+                        <div class="approval-line active"></div>
+
+                        <div class="approval-step pending">
+                            <i class="bi bi-hourglass-split"></i>
+                            <span>Secondary Approval</span>
+                        </div>
+
+                        <div class="approval-line"></div>
+
+                        <div class="approval-step pending">
+                            <i class="bi bi-hourglass-split"></i>
+                            <span>Thired Approval</span>
+                        </div>
+
+                      @*   <div class="approval-step rejected"
+                             data-bs-toggle="tooltip"
+                             title="Rejected because leave balance is insufficient">
+                            <i class="bi bi-x-circle-fill"></i>
+                            <span>HR</span>
+                        </div> *@
+                      @*   @if (Model.Status == "Approved")
+                        {
+                            <div class="approval-step approved">
+                                <i class="bi bi-check-circle-fill"></i>
+                                <span>@Model.Approver</span>
+                            </div>
+                        }
+                        else if (Model.Status == "Rejected")
+                        {
+                            <div class="approval-step rejected"
+                                 data-bs-toggle="tooltip"
+                                 title="@Model.Reason">
+                                <i class="bi bi-x-circle-fill"></i>
+                                <span>@Model.Approver</span>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="approval-step pending">
+                                <i class="bi bi-hourglass-split"></i>
+                                <span>@Model.Approver</span>
+                            </div>
+                        } *@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Modal -->
     <div id="modalOverlay">
         <div class="custom-modal shadow">
@@ -196,6 +325,10 @@
     <script>
         $(document).ready(function () {
               $('#sidebar').hide();
+        });
+
+        $("#btnStatus").on("click", function(){
+            $("#StatusModal").modal("show");
         });
 
         $("#btnAddPermit").on("click", function(){

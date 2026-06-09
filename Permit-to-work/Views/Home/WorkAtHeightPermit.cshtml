@@ -7,9 +7,12 @@
 
     <div class="card shadow">
         <section class="card permit-card">
+            <div class="section-title">
             <div class="card-header text-center fw-bold">
                 WORK AT HEIGHT PERMIT
             </div>
+            </div>
+            </section>
 
             <div class="card-body">
 
@@ -32,14 +35,49 @@
                 </div>
 
                 <!-- WORK TYPE -->
-                <div class="section-title mt-4">Work Type</div>
-                <div class="row">
-                    <div class="col">@Html.CheckBoxFor(m => m.Scaffolding) Scaffolding</div>
-                    <div class="col">@Html.CheckBoxFor(m => m.Ladder) Ladder</div>
-                    <div class="col">@Html.CheckBoxFor(m => m.AerialLift) Aerial Lift</div>
-                    <div class="col">@Html.CheckBoxFor(m => m.RoofWork) Roof Work</div>
-                    <div class="col-md-4">Other <input type="text" name="OtherWorkType" class="form-control" /></div>
-                </div>
+                
+                <section class="card permit-card">
+                    <fieldset>
+                        <div class="section-title">
+                            Work Type
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" name="Scaffolding" />
+                                    <label class="form-check-label">Scaffolding</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" name="Ladder" />
+                                    <label class="form-check-label">Ladder</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" name="AerialLift" />
+                                    <label class="form-check-label">Aerial Lift</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" name="RoofWork" />
+                                    <label class="form-check-label">Roof Work</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label>Others</label>
+                                <input type="text" name="OtherWorkType" class="form-control" />
+                            </div>
+                        </div>
+                    </fieldset>
+                </section>
 
                 <!-- DESCRIPTION -->
                 <div class="section-title mt-4">Work Description</div>
@@ -67,35 +105,88 @@
 
                             <div class="col-md-4">
                                 <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" name="RiskAssessment" />
-                                    <label class="form-check-label">Risk Assessment</label>
+                                    <input type="checkbox" class="form-check-input" name="AdverseWeather" />
+                                    <label class="form-check-label">Adverse Weather</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" name="FlyingParticles" />
+                                    <label class="form-check-label">Flying Particles</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" name="MovingVehicle/Equipment" />
+                                    <label class="form-check-label">Moving Vehicle/Equipment</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" name="FallingDebris/Objects" />
+                                    <label class="form-check-label">Falling Debris/Objects</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" name="ProtrudingObjects/parts" />
+                                    <label class="form-check-label">Protruding Objects/parts</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" name="Tripping/Slipping" />
+                                    <label class="form-check-label">Tripping / Slipping</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" name="FaultyEquipment/Material" />
+                                    <label class="form-check-label">Faulty Equipment/Material</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" name="FragileSurface/Roof" />
+                                    <label class="form-check-label"> Fragile Surface/Roof</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" name="WorkUnderBelow" />
+                                    <label class="form-check-label">Work Under Below</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" name="NearOverheadLines" />
+                                    <label class="form-check-label">Near Overhead Lines</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" name="NearEnergizedEquipment" />
+                                    <label class="form-check-label">Near Energized Equipment</label>
                                 </div>
                             </div>
 
                             <div class="col-md-4">
                                 <label>Others</label>
-                                <input type="text" name="OtherInspection" class="form-control" />
+                                <input type="text" name="OtherRiskIndentification" class="form-control" />
                             </div>
                         </div>
                     </fieldset>
                 </section>
-
-                <div class="section-title mt-4">Identify Risk Associated with Work at Height</div>
-                <div class="row">
-                    <div class="col-md-4">@Html.CheckBoxFor(m => m.RiskFallHeight) Fall from Height</div>
-                    <div class="col-md-4">@Html.CheckBoxFor(m => m.RiskWeather) Adverse Weather</div>
-                    <div class="col-md-4">@Html.CheckBoxFor(m => m.RiskFlyingParticles) Flying Particles</div>
-                    <div class="col-md-4">@Html.CheckBoxFor(m => m.RiskMovingVehicle) Moving Vehicle/Equipment</div>
-                    <div class="col-md-4">@Html.CheckBoxFor(m => m.RiskFallingObjects) Falling Debris/Objects</div>
-                    <div class="col-md-4">@Html.CheckBoxFor(m => m.RiskProtrudingParts) Protruding Objects/parts</div>
-                    <div class="col-md-4">@Html.CheckBoxFor(m => m.RiskTripping) Tripping / Slipping</div>
-                    <div class="col-md-4">@Html.CheckBoxFor(m => m.RiskFaultyEquipment) Faulty Equipment/Material</div>
-                    <div class="col-md-4">@Html.CheckBoxFor(m => m.RiskFragileSurface) Fragile Surface/Roof</div>
-                    <div class="col-md-4">@Html.CheckBoxFor(m => m.RiskWorkingBelow) Work Under Below</div>
-                    <div class="col-md-4">@Html.CheckBoxFor(m => m.RiskNearOverheadLines) Near Overhead Lines</div>
-                    <div class="col-md-4">@Html.CheckBoxFor(m => m.RiskNonEnergizedEquipment) Near Energized Equipment</div>
-                    <div class="col-md-4">Others <input type="text" name="OtherRisk" class="form-control" /></div>
-                </div>
 
                 <!-- DOCUMENTS -->
 
@@ -122,7 +213,7 @@
 
                             <div class="col-md-4">
                                 <label>Others</label>
-                                <input type="text" name="OtherInspection" class="form-control" />
+                                <input type="text" name="OtherDocuments" class="form-control" />
                             </div>
                         </div>
                     </fieldset>
@@ -414,7 +505,7 @@
 
                         <div class="col-md-4">
                             <label>Others</label>
-                            <input type="text" name="OtherInspection" class="form-control" />
+                            <input type="text" name="OtherPPE" class="form-control" />
                         </div>
                     </div>
                 </fieldset>
@@ -510,6 +601,7 @@
         </section>
     </div>
     </div>
+    
 </form>
 <script>
      $(document).ready(function () {

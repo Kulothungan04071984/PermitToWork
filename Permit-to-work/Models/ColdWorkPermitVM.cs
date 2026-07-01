@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Permit_to_work.Models
 {
-    public class ColdWorkPermitVM
+    public class ColdWorkPermit
     {
         [Key]
         public int Id { get; set; }
@@ -103,7 +103,7 @@ namespace Permit_to_work.Models
         public string? Name { get; set; }
         public DateTime? SuspensionDate { get; set; }// ← nullable
             
-        public string? ApproverOne { get; set; }     // ← nullable
+        public string ApproverOne { get; set; }     // ← nullable
         public string? ApproverTwo { get; set; }     // ← nullable
         public string? ApproverThree { get; set; }   // ← nullable
         public string? ApproverFour { get; set; }    // ← nullable

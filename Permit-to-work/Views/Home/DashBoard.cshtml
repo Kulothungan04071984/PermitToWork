@@ -137,6 +137,68 @@
         }
 
         }
+
+        #StatusModal .approval-container {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            padding: 2rem 0.5rem 1rem;
+        }
+
+        #StatusModal .approval-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            flex: 0 0 auto;
+            text-align: center;
+            min-width: 90px;
+        }
+
+            #StatusModal .approval-step i {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 44px;
+                height: 44px;
+                border-radius: 50%;
+                font-size: 22px;
+            }
+
+            #StatusModal .approval-step.approved i {
+                background-color: #e1f5ee;
+                color: #0f6e56;
+            }
+
+            #StatusModal .approval-step.pending i {
+                background-color: #faeeda;
+                color: #854f0b;
+            }
+
+            #StatusModal .approval-step span {
+                font-size: 13px;
+                font-weight: 600;
+                color: #2c2c2a;
+                word-break: break-word;
+            }
+
+            #StatusModal .approval-step small {
+                display: block;
+                font-size: 11px;
+                color: #888780;
+                margin-top: 2px;
+            }
+
+        #StatusModal .approval-line {
+            flex: 1 1 auto;
+            height: 2px;
+            background-color: #d3d1c7;
+            margin-top: 22px;
+        }
+
+            #StatusModal .approval-line.active {
+                background-color: #5dcaa5;
+            }
     </style>
 </head>
 
@@ -201,8 +263,15 @@
                     </thead>
 
                     <tbody>
-                        @foreach (var item in Model.PermitDetailsList)
+                        @if(Model.PermitDetailsList.Count == 0){
+                            <tr>
+                                <td colspan="7" class="text-center text-muted">No permits found.</td>
+                            </tr>
+                        }
+                        else
                         {
+                            foreach (var item in Model.PermitDetailsList)
+                            {
                             <tr data-type="@item.PermitType" data-dashboardid="@item.PermitDashBoardId">
                                 <td class="fw-bold text-primary">@item.PermitType</td>
                                 <td>@item.Unit</td>
@@ -215,7 +284,12 @@
                                 </td>
 
                                 <td>
-                                    <a class="btn btn-sm btn-primary" id="btnStatus"> <i class="bi bi-plus-circle"></i></a>
+                                    <a class="btn btn-sm btn-primary btnStatus"
+                                       data-id="@item.PermitDashBoardId"
+                                       data-type="@item.PermitType"
+                                       style="cursor:pointer;">
+                                        <i class="bi bi-plus-circle"></i>
+                                    </a>
                                     <a class="btn btn-sm btn-primary"
                                        href="/@item.PermitType.Replace(" ", "")/Edit/@item.PermitDashBoardId">
                                         <i class="bi bi-pencil"></i>
@@ -233,13 +307,14 @@
                                 </td>
                             </tr>
                         }
+                        }
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
     <div class="modal fade" id="StatusModal" tabindex="-1">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Status</h5>
@@ -248,61 +323,43 @@
                 <div class="modal-body">
                     <div class="approval-container">
 
-                        <div class="approval-step approved"
-                             data-bs-toggle="tooltip"
-                             title="Approved by Manager on 08-Jun-2026">
+                        <div class="approval-step approved" data-bs-toggle="tooltip" title="Approved by Manager on 08-Jun-2026">
                             <i class="bi bi-check-circle-fill"></i>
-                            <span>Primary Approval</span>
+                            <span id="snFirstApproval"></span>
+                            <small>Approved</small>
                         </div>
 
                         <div class="approval-line active"></div>
 
-                        <div class="approval-step pending">
-                            <i class="bi bi-hourglass-split"></i>
-                            <span>Secondary Approval</span>
+                        <div class="approval-step approved">
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span id="snSecondApproval"></span>
+                            <small>Approved</small>
                         </div>
 
                         <div class="approval-line"></div>
 
                         <div class="approval-step pending">
                             <i class="bi bi-hourglass-split"></i>
-                            <span>Thired Approval</span>
+                            <span id="snThiredApproval"></span>
+                            <small>Pending</small>
+                        </div>
+                        <div class="approval-line"></div>
+
+                        <div class="approval-step pending">
+                            <i class="bi bi-hourglass-split"></i>
+                            <span id="snFourthApproval"></span>
+                            <small>Pending</small>
                         </div>
 
-                      @*   <div class="approval-step rejected"
-                             data-bs-toggle="tooltip"
-                             title="Rejected because leave balance is insufficient">
-                            <i class="bi bi-x-circle-fill"></i>
-                            <span>HR</span>
-                        </div> *@
-                      @*   @if (Model.Status == "Approved")
-                        {
-                            <div class="approval-step approved">
-                                <i class="bi bi-check-circle-fill"></i>
-                                <span>@Model.Approver</span>
-                            </div>
-                        }
-                        else if (Model.Status == "Rejected")
-                        {
-                            <div class="approval-step rejected"
-                                 data-bs-toggle="tooltip"
-                                 title="@Model.Reason">
-                                <i class="bi bi-x-circle-fill"></i>
-                                <span>@Model.Approver</span>
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="approval-step pending">
-                                <i class="bi bi-hourglass-split"></i>
-                                <span>@Model.Approver</span>
-                            </div>
-                        } *@
+                   
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+
     <!-- Modal -->
     <div id="modalOverlay">
         <div class="custom-modal shadow">
@@ -327,10 +384,43 @@
               $('#sidebar').hide();
         });
 
-        $("#btnStatus").on("click", function(){
-            $("#StatusModal").modal("show");
+          $(document).on('click', '.btnStatus', function () {
+            debugger;
+            var prodId = $(this).data('id');
+            var ptype  = $(this).data('type');
+
+            $.ajax({
+                url: '/Home/GetApprovalStatus',
+                type: 'GET',
+                data: { id: prodId, type: ptype },
+                success: function (data) {
+                  //  $("#StatusModal .modal-body").html(data);
+                  var one=data.approverOne.split('@@');
+                  var two = data.approverTwo.split('@@');
+                  var three=data.approverThree.split('@@');
+                  var four = data.approverFour.split('@@');
+                  if(one.length > 0) {
+                      $('#snFirstApproval').text(one[0]);
+                  }
+                  if(two.length > 0) {
+                      $('#snSecondApproval').text(two[0]);
+                  }
+                  if(three.length > 0) {
+                      $('#snThiredApproval').text(three[0]);
+                  }
+                  if(four.length > 0) {
+                      $('#snFourthApproval').text(four[0]);
+                  }
+                    $("#StatusModal").modal("show");  // ✅ inside success
+                },
+                error: function () {
+                    alert("Error fetching approval status");
+                }
+            });
         });
 
+      
+          
         $("#btnAddPermit").on("click", function(){
             debugger;
              var formData = {

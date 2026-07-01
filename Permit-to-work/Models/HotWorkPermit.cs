@@ -1,5 +1,9 @@
+<<<<<<< HEAD
+﻿using System.ComponentModel.DataAnnotations;
+=======
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+>>>>>>> faccccd7e844f04b57a176035fe543f761ff19d4
 
 namespace Permit_to_work.Models
 {
@@ -100,6 +104,16 @@ namespace Permit_to_work.Models
         public string SuspensionName { get; set; }
         public string SuspensionSignatureDate { get; set; }
 
+<<<<<<< HEAD
+        // Approver Details
+
+        public string ApproverOne { get; set; }
+        public string ApproverTwo { get; set; }
+        public string ApproverThree { get; set; }
+        public string ApproverFour { get; set; }
+
+=======
+>>>>>>> faccccd7e844f04b57a176035fe543f761ff19d4
         // ===== SYSTEM =====
         public string Status { get; set; }
         public DateTime CreatedOn { get; set; } = DateTime.Now;

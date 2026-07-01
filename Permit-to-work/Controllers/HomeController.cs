@@ -447,10 +447,13 @@ namespace Permit_to_work.Controllers
             );
           
             objpermit.PermitDetailsList = dashboard.OrderByDescending(x => x.StartDate).ToList();
+<<<<<<< HEAD
+=======
             objpermit.FirstApproval = _context.ApproverMasters.Where(x => x.ApproverId == 1).Select(x => x.ApproverName).FirstOrDefault();
             objpermit.SecondApproval = _context.ApproverMasters.Where(x => x.ApproverId == 2).Select(x => x.ApproverName).FirstOrDefault();
             objpermit.ThirdApproval = _context.ApproverMasters.Where(x => x.ApproverId == 3).Select(x => x.ApproverName).FirstOrDefault();
             objpermit.FourthApproval = _context.ApproverMasters.Where(x => x.ApproverId == 4).Select(x => x.ApproverName).FirstOrDefault();
+>>>>>>> faccccd7e844f04b57a176035fe543f761ff19d4
             // return View(dashboard.OrderByDescending(x => x.StartDate));
             return View(objpermit);
         }

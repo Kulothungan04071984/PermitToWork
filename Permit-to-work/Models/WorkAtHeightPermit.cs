@@ -106,5 +106,15 @@ namespace Permit_to_work.Models
         public string SuspensionSignatureDate { get; set; }
 
         public DateTime CreatedOn { get; set; } = DateTime.Now;
+<<<<<<< HEAD
+
+        // Approver Details
+
+        public string ApproverOne { get; set; }
+        public string ApproverTwo { get; set; }
+        public string ApproverThree { get; set; }
+        public string ApproverFour { get; set; }
+=======
+>>>>>>> faccccd7e844f04b57a176035fe543f761ff19d4
     }
 }

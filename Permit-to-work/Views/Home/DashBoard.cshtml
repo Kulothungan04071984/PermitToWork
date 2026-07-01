@@ -73,6 +73,8 @@
                 transform: translate(-50%, -50%);
             }
         }
+<<<<<<< HEAD
+=======
 
         .approval-container {
             display: flex;
@@ -284,12 +286,8 @@
                                 </td>
 
                                 <td>
-                                    <a class="btn btn-sm btn-primary btnStatus"
-                                       data-id="@item.PermitDashBoardId"
-                                       data-type="@item.PermitType"
-                                       style="cursor:pointer;">
-                                        <i class="bi bi-plus-circle"></i>
-                                    </a>
+                                    <a class="btn btn-sm btn-primary" id="btnStatus"> <i class="bi bi-plus-circle"></i></a>
+>>>>>>> faccccd7e844f04b57a176035fe543f761ff19d4
                                     <a class="btn btn-sm btn-primary"
                                        href="/@item.PermitType.Replace(" ", "")/Edit/@item.PermitDashBoardId">
                                         <i class="bi bi-pencil"></i>
@@ -313,6 +311,9 @@
             </div>
         </div>
     </div>
+<<<<<<< HEAD
+
+=======
     <div class="modal fade" id="StatusModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
@@ -358,8 +359,6 @@
             </div>
         </div>
     </div>
-
-
     <!-- Modal -->
     <div id="modalOverlay">
         <div class="custom-modal shadow">
@@ -384,43 +383,10 @@
               $('#sidebar').hide();
         });
 
-          $(document).on('click', '.btnStatus', function () {
-            debugger;
-            var prodId = $(this).data('id');
-            var ptype  = $(this).data('type');
-
-            $.ajax({
-                url: '/Home/GetApprovalStatus',
-                type: 'GET',
-                data: { id: prodId, type: ptype },
-                success: function (data) {
-                  //  $("#StatusModal .modal-body").html(data);
-                  var one=data.approverOne.split('@@');
-                  var two = data.approverTwo.split('@@');
-                  var three=data.approverThree.split('@@');
-                  var four = data.approverFour.split('@@');
-                  if(one.length > 0) {
-                      $('#snFirstApproval').text(one[0]);
-                  }
-                  if(two.length > 0) {
-                      $('#snSecondApproval').text(two[0]);
-                  }
-                  if(three.length > 0) {
-                      $('#snThiredApproval').text(three[0]);
-                  }
-                  if(four.length > 0) {
-                      $('#snFourthApproval').text(four[0]);
-                  }
-                    $("#StatusModal").modal("show");  // ✅ inside success
-                },
-                error: function () {
-                    alert("Error fetching approval status");
-                }
-            });
+        $("#btnStatus").on("click", function(){
+            $("#StatusModal").modal("show");
         });
 
-      
-          
         $("#btnAddPermit").on("click", function(){
             debugger;
              var formData = {

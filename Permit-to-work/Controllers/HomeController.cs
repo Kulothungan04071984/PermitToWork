@@ -15,10 +15,12 @@ namespace Permit_to_work.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _context;
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
+        private readonly IConfiguration _configuration;
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context, IConfiguration configuration)
         {
             _logger = logger;
             _context = context;
+            _configuration = configuration;
         }
 
         public IActionResult Index()
@@ -71,11 +73,11 @@ namespace Permit_to_work.Controllers
                 if (existing != null)
                     return View(existing);
             }
-            return View(new ColdWorkPermitVM());
+            return View(new ColdWorkPermit());
         }
 
         [HttpPost]
-        public IActionResult workpermitform(ColdWorkPermitVM vm)
+        public IActionResult workpermitform(ColdWorkPermit vm)
         {
             if (!vm.RiskFallHeight &&
                 !vm.RiskWeather &&
@@ -191,7 +193,7 @@ namespace Permit_to_work.Controllers
                 return View(vm);
             }
 
-            var entity = new ColdWorkPermitVM
+            var entity = new ColdWorkPermit
             {
                 // ── Basic Details ──────────────────────────────────────
                 Unit = vm.Unit,
@@ -323,25 +325,23 @@ namespace Permit_to_work.Controllers
 
             //try
             //{
-
-
             //    MailMessage mail = new MailMessage();
-            //    mail.From = new MailAddress("employeetraining@syrmasgs.com");
+            //    mail.From = new MailAddress(_configuration["SmtpSettings:User"]);
             //    mail.To.Add("kulothungan.k@syrmasgs.com");
             //    mail.Subject = "Request to Reschedule";
             //    mail.Body = "Test Mail";
 
-            //    using (SmtpClient smtp = new SmtpClient("smtp.office365.com", 587))
+            //    using (SmtpClient smtp = new SmtpClient(
+            //        _configuration["SmtpSettings:Host"],
+            //        int.Parse(_configuration["SmtpSettings:Port"])))
             //    {
             //        smtp.EnableSsl = true;
             //        smtp.UseDefaultCredentials = false;
             //        smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-
             //        smtp.Credentials = new NetworkCredential(
-            //            "employeetraining@syrmasgs.com",
-            //            "Permit@123");
-
-            //        smtp.Send(mail);
+            //            _configuration["SmtpSettings:User"],
+            //            _configuration["SmtpSettings:Password"]);
+            //        // smtp.Send(mail); Testing purpose, comment out to avoid actual email sending
             //    }
             //}
             //catch (Exception ex)
@@ -532,6 +532,36 @@ namespace Permit_to_work.Controllers
         {
             return View();
         }
+
+        public JsonResult GetApprovalStatus(int id, string type)
+        {
+            var status = _context.ColdWorkPermits; 
+            //if (type == "ColdWork")
+            //    status = _context.ColdWorkPermits;
+            //else if (type == "HotWork")
+            //    status = _context.HotWorkPermits;
+            //else if (type == "LiftingOperation")
+            //    status = _context.LiftingOperationPermits;
+            //else if (type == "WorkAtHeight")
+            //    status = _context.WorkAtHeightPermits;
+            //else if (type == "ElectricalIsolation")
+            //    status = _context.ElectricalIsolationPermits;
+
+
+            var result = status
+                .Where(x => x.Id == id)
+                .Select(x => new
+                {
+                    x.ApproverOne ,
+                    ApproverTwo = x.ApproverTwo ?? "EMPTY",
+                    ApproverThree = x.ApproverThree ?? "EMPTY",
+                    ApproverFour = x.ApproverFour ?? "EMPTY"
+                })
+                .FirstOrDefault();
+
+            return Json(result);
+        }
+
         public IActionResult Dashboard()
         {
             PermitDetails objpermit = new PermitDetails();

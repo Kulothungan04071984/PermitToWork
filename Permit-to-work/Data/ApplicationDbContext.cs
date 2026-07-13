@@ -12,7 +12,7 @@ namespace Permit_to_work.Data
         {
         }
 
-        public DbSet<ColdWorkPermitVM> ColdWorkPermits { get; set; }
+        public DbSet<ColdWorkPermit> ColdWorkPermits { get; set; }
         public DbSet<HotWorkPermit> HotWorkPermits { get; set; }
         public DbSet<LiftingOperationPermit> LiftingOperationPermits { get; set; }
         public DbSet<AppUser> AppUsers { get; set; }

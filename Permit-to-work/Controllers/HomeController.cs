@@ -346,6 +346,7 @@ namespace Permit_to_work.Controllers
             //}
             //catch (Exception ex)
 
+
             return RedirectToAction("Dashboard");
         }
 
@@ -417,42 +418,42 @@ namespace Permit_to_work.Controllers
                 //ESI = vm.ESI,
 
                 // ── Inspected Areas ───────────────────────────────────
-                //InspectAccess = vm.InspectAccess,
-                //InspectDangerSign = vm.InspectDangerSign,
-                //InspectLighting = vm.InspectLighting,
-                //InspectSafetyBarriers = vm.InspectSafetyBarriers,
-                //InspectHandTools = vm.InspectHandTools,
-                //InspectOther = vm.InspectOther,
-                //InspectedNA = vm.InspectedNA,
+                InspectAccess = vm.InspectAccess,
+                InspectDangerSign = vm.InspectDangerSign,
+                InspectLighting = vm.InspectLighting,
+                InspectSafetyBarriers = vm.InspectSafetyBarriers,
+                InspectHandTools = vm.InspectHandTools,
+                InspectOther = vm.InspectOther,
+                InspectedNA = vm.InspectedNA,
 
                 // ── PPE Required ──────────────────────────────────────
-                //PPEHelmet = vm.PPEHelmet,
-                //PPEShoes = vm.PPEShoes,
-                //PPEGloves = vm.PPEGloves,
-                //PPEGoggles = vm.PPEGoggles,
-                //PPEDustMask = vm.PPEDustMask,
-                //PPEEarPlugs = vm.PPEEarPlugs,
-                //PPEReflectiveVest = vm.PPEReflectiveVest,
-                //PPEHarness = vm.PPEHarness,
-                //PPEOther = vm.PPEOther,
-                //PPENA = vm.PPENA,
+                PPEHelmet = vm.PPEHelmet,
+                PPEShoes = vm.PPEShoes,
+                PPEGloves = vm.PPEGloves,
+                PPEGoggles = vm.PPEGoggles,
+                PPEDustMask = vm.PPEDustMask,
+                PPEEarPlugs = vm.PPEEarPlugs,
+                PPEReflectiveVest = vm.PPEReflectiveVest,
+                PPEHarness = vm.PPEHarness,
+                PPEOther = vm.PPEOther,
+                PPENA = vm.PPENA,
 
                 // ── Authorization ─────────────────────────────────────
-                //ReceiverName = vm.ReceiverName,
-                //ReceiverDate = vm.ReceiverDate,
-                //IssuerName = vm.IssuerName,
-                //IssuerDate = vm.IssuerDate,
+                ReceiverName = vm.ReceiverName,
+                ReceiverDate = vm.ReceiverDate,
+                IssuerName = vm.IssuerName,
+                IssuerDate = vm.IssuerDate,
 
                 // ── Suspension / Clearance ────────────────────────────
-                //Name = vm.Name,
-                //SuspensionDate = vm.SuspensionDate,
+                Name = vm.Name,
+                SuspensionDate = vm.SuspensionDate,
 
-                //── Approver Details ───────────────────────────────────
+                // ── Approver Details ───────────────────────────────────
 
-                //ApproverOne = vm.ApproverOne,
-                //ApproverTwo = vm.ApproverTwo,
-                //ApproverThree = vm.ApproverThree,
-                //ApproverFour = vm.ApproverFour,
+                ApproverOne = vm.ApproverOne,
+                ApproverTwo = vm.ApproverTwo,
+                ApproverThree = vm.ApproverThree,
+                ApproverFour = vm.ApproverFour,
 
                 // ── Meta ──────────────────────────────────────────────
                 CreatedOn = DateTime.Now,
@@ -681,7 +682,7 @@ namespace Permit_to_work.Controllers
                 var PermitApproveDetails =
                     _context.ColdWorkPermits
                     .Where(b => b.Id == Convert.ToInt32(Permitid))
-                    .Select(a => (new ColdWorkPermitVM { Id = a.Id, ApproverOne = a.ApproverOne, ApproverTwo = a.ApproverTwo, ApproverThree = a.ApproverThree, ApproverFour = a.ApproverFour })).FirstOrDefault();
+                    .Select(a => (new ColdWorkPermit { Id = a.Id, ApproverOne = a.ApproverOne, ApproverTwo = a.ApproverTwo, ApproverThree = a.ApproverThree, ApproverFour = a.ApproverFour })).FirstOrDefault();
 
                 if (PermitApproveDetails.ApproverOne == null)
                     count = 0;

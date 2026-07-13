@@ -126,16 +126,7 @@
                         </div>
                     </fieldset>
                 </section>
-@* =======
-                <div class="section-title mt-4">Work Type</div>
-                <div class="row">
-                    <div class="col">@Html.CheckBoxFor(m => m.Scaffolding) Scaffolding</div>
-                    <div class="col">@Html.CheckBoxFor(m => m.Ladder) Ladder</div>
-                    <div class="col">@Html.CheckBoxFor(m => m.AerialLift) Aerial Lift</div>
-                    <div class="col">@Html.CheckBoxFor(m => m.RoofWork) Roof Work</div>
-                    <div class="col-md-4">Other <input type="text" name="OtherWorkType" class="form-control" /></div>
-                </div>
->>>>>>> faccccd7e844f04b57a176035fe543f761ff19d4 *@
+
 
                 <!-- DESCRIPTION -->
                 <div class="section-title mt-4">Work Description</div>
@@ -278,37 +269,10 @@
                     </fieldset>
                 </section>
 
-@* =======
-                <div class="section-title mt-4">Identify Risk Associated with Work at Height</div>
-                <div class="row">
-                    <div class="col-md-4">@Html.CheckBoxFor(m => m.RiskFallHeight) Fall from Height</div>
-                    <div class="col-md-4">@Html.CheckBoxFor(m => m.RiskWeather) Adverse Weather</div>
-                    <div class="col-md-4">@Html.CheckBoxFor(m => m.RiskFlyingParticles) Flying Particles</div>
-                    <div class="col-md-4">@Html.CheckBoxFor(m => m.RiskMovingVehicle) Moving Vehicle/Equipment</div>
-                    <div class="col-md-4">@Html.CheckBoxFor(m => m.RiskFallingObjects) Falling Debris/Objects</div>
-                    <div class="col-md-4">@Html.CheckBoxFor(m => m.RiskProtrudingParts) Protruding Objects/parts</div>
-                    <div class="col-md-4">@Html.CheckBoxFor(m => m.RiskTripping) Tripping / Slipping</div>
-                    <div class="col-md-4">@Html.CheckBoxFor(m => m.RiskFaultyEquipment) Faulty Equipment/Material</div>
-                    <div class="col-md-4">@Html.CheckBoxFor(m => m.RiskFragileSurface) Fragile Surface/Roof</div>
-                    <div class="col-md-4">@Html.CheckBoxFor(m => m.RiskWorkingBelow) Work Under Below</div>
-                    <div class="col-md-4">@Html.CheckBoxFor(m => m.RiskNearOverheadLines) Near Overhead Lines</div>
-                    <div class="col-md-4">@Html.CheckBoxFor(m => m.RiskNonEnergizedEquipment) Near Energized Equipment</div>
-                    <div class="col-md-4">Others <input type="text" name="OtherRisk" class="form-control" /></div>
-                </div>
-
-                <!-- DOCUMENTS -->
-
-                <div class="section-title mt-4">Documents to Attach</div>
-                <div class="row">
-                    <div class="col-md-4"><input type="checkbox" name="JSA" /> JSA</div>
-                    <div class="col-md-4"><input type="checkbox" name="RiskAssessment" /> Risk Assessment</div>
-                    <div class="col-md-4">Others <input type="text" class="form-control" /></div>
-                </div>
-        </section>
->>>>>>> faccccd7e844f04b57a176035fe543f761ff19d4
 
 
-        <!-- SECTION: PRECAUTION --> *@
+
+        <!-- SECTION: PRECAUTION --> 
         <section class="card permit-card">
             <div class="section-title">Precaution measures required to complete the work safely</div>
 
@@ -402,10 +366,7 @@
                     @Html.CheckBoxFor(m => m.HarnessShockAbsorber, new { @class = "form-check-input" })
                     <label class="form-check-label">Double Hook </label>
                 </div>
-@* =======
-            <div class="form-check form-check-inline">
-                <div class="col-md-4">@Html.CheckBoxFor(m => m.HarnessShockAbsorber)Harness with Shock Absorber & Double Hook</div>
->>>>>>> faccccd7e844f04b57a176035fe543f761ff19d4 *@
+
             </div>
 
             <div class="section-title">Have proper access/egress been provided?</div>
@@ -602,27 +563,7 @@
                         </div>
                     </div>
                 </fieldset>
-@* =======
 
-
-
-
-
-
-            <!-- PPE -->
-            <div class="section-title mt-4">PPE Required</div>
-            <div class="row">
-                <div class="col-md-4">@Html.CheckBoxFor(m => m.PPEHelmet) Helmet with Chin strap</div>
-                <div class="col-md-4">@Html.CheckBoxFor(m => m.PPEHelmetChinStrap) Safety goggles</div>
-                <div class="col-md-4">@Html.CheckBoxFor(m => m.PPEShoes) Safety Shoes</div>
-                <div class="col-md-4">@Html.CheckBoxFor(m => m.PPEGloves)Safety  Gloves</div>
-                <div class="col-md-4">@Html.CheckBoxFor(m => m.PPEGloves)Safety Ear Plugs/muff</div>
-                <div class="col-md-4">@Html.CheckBoxFor(m => m.PPEGloves)Reflective Vest</div>
-                <div class="col-md-4">@Html.CheckBoxFor(m => m.PPEGloves)Dust Mask</div>
-                <div class="col-md-4">@Html.CheckBoxFor(m => m.PPEGloves)Safety clothes</div>
-                <div class="col-md-4">Others <input type="text" name="OtherRisk" class="form-control" /></div>
-            </div>
->>>>>>> faccccd7e844f04b57a176035fe543f761ff19d4 *@
 
 
             <!-- INSURANCE COPY -->

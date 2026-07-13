@@ -1,0 +1,286 @@
+﻿@{
+    ViewData["Title"] = "Ticket Approval";
+}
+
+
+<h2 class="ticket-title"> Ticket Approval </h2>
+
+<div class="ticket-container">
+
+<table class="ticket-table">
+    <thead>
+        <tr>
+            <th>Ticket ID</th>
+            <th>Starting Number</th>
+            <th>Ending Number</th>
+            <th>Description</th>
+            <th>Accept</th>
+            <th>Reject</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+            <td>T001</td>
+            <td>100</td>
+            <td>100</td>
+            <td>System Generated Ticket</td>
+
+            <td>
+                <button type ="button" class="btn-accept" onclick="acceptTicket()">Accept</button>
+            </td>
+
+            <td>
+                <button type="button" class="btn-reject" onclick="showReasonPopup()">Reject</button>
+            </td>
+        </tr>
+
+        <tr>
+            <td>T234</td>
+            <td>150</td>
+            <td>160</td>
+            <td>Hardwork Ticket</td>
+
+            <td>
+                <button type="button" class="btn-accept" onclick="acceptTicket()">Accept</button>
+            </td>
+
+            <td>
+                <button type="button" class="btn-reject" onclick="showReasonPopup()">Reject</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<div id="reasonModal" class="modal">
+    <div class="modal-content">
+
+        <span class="close-btn" 
+              onclick="closeReasonPopup()">
+              &#10006;
+        </span>
+
+        <h4>Reason for Rejection</h4>
+        <textarea id="rejectReason" 
+                  placeholder="Enter the Reason for Rejection">
+        </textarea>
+
+        <button type="button" class="btn-save" onclick="saveReason()">
+            Save
+        </button>
+    </div>
+
+</div>
+
+</div>
+
+
+<script>
+
+    function closeReasonPopup()
+    {
+        document.getElementById("reasonModal").style.display = "none";
+    }
+
+
+    function acceptTicket()
+    {
+
+        if (confirm("Are you sure you want to accept this ticket?")) 
+        { 
+            alert("Ticket Accepted");      
+        }
+    }
+
+    function showReasonPopup() {
+        document.getElementById("reasonModal").style.display = "block";
+    }
+ 
+    function saveReason() {
+        var reason = document.getElementById("rejectReason").value;
+
+        if (reason.trim() == "") {
+            alert("Please enter a reason for rejection.");
+            return;
+        }
+
+        if (confirm("Are you sure you want to reject?\n\nReason:\n" + reason))
+        {
+            alert("Ticket Rejected");
+
+            document.getElementById("reasonModal").style.display = "none";
+
+            document.getElementById("rejectReason").value = "";
+        }
+    }
+</script>
+
+
+<style>
+    .ticket-container{
+        width:95%;
+        margin:40px auto;
+    }
+
+    .ticket-title{
+        text-align:center;
+        color: #5494cd;
+        margin-top: 70px;
+        margin-bottom: 30px;
+        font-weight: bold;
+    }
+
+    .ticket-table{
+        width:100%;
+        border-collapse: collapse;
+        background: white;
+        box-shadow: 0px 4px 15px rgba(0,0,0,1);
+    }
+
+    .ticket-table th{
+        background: #1f4e79;
+        color: white;
+        padding: 15px;
+        text-align: center;
+    }
+
+    .ticket-table td{
+        padding: 15px;
+        text-align:center;
+        border-bottom: 1px solid #ddd;
+        color: #212529;
+        font-weight:500;
+        font-size: 15px;
+    }
+
+    .ticket-table td:hover {
+        background: #f5f9ff;
+    }
+
+    .btn-accept{
+        background: #198754;
+        color:white;
+        border: none;
+        padding: 8px 18px;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+    .btn-reject{
+        background: #dc3545;
+        color:white;
+        border:none;
+        padding: 8px 18px;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+    .btn-accept:hover{
+        background: #146c43;
+    }
+
+    .btn-reject:hover {
+        background: #bb2d3b;
+    }
+
+    .reason {
+        margin-right: 10px;
+        accent-color: #ffff;
+    }
+
+    .modal {
+        display: none;
+        position: fixed;
+        height: 100%;
+        top: 0;
+        left:0;
+        width: 100%;
+        z-index: 999;
+        background: rgba(0, 0, 0, 0.55);
+    }
+
+    .modal-content {
+        position: absolute;
+        top: 50%;
+        left:50%;
+        transform: translate(-50%, -50%);
+        background: white;
+        width: 420px;
+        padding:30px;
+        border-radius: 18px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+        text-align: center;
+    }
+
+    .modal-content h4 {
+        color: #343a40;
+        font-size: 24px;
+        margin-bottom: 25px;
+    }
+
+    .close-btn {
+        position: absolute;
+        top: 18px;
+        right: 20px;
+        font-size: 24px;
+        font-weight: bold;
+        color: #dc3545;
+        cursor: pointer;
+    }
+
+    .close-btn:hover {
+        color: red;
+    }
+
+    .reject-title {
+        color: #09122C !important;
+        text-align: center;
+        font-size: 20px;
+        padding: 18px;
+       
+    }  
+
+    #rejectReason{
+        width: 100%;
+        height: 120px;
+        padding: 15px;
+        border: 1px solid #ced4da;
+        border-radius: 10px;
+        resize: none;
+        font-size: 16px;
+        outline: none;
+        box-sizing: border-box;
+    }
+
+    #rejectReason:focus {
+        border: 2px solid #0d6efd;
+    }
+
+    .btn-save{
+        margin-top: 25px;
+        background: #198754;
+        color: white;
+        border: none;
+        padding: 10px 35px;
+        border-radius: 8px;
+        font-size: 16px;
+        cursor: pointer; 
+    }
+
+        .btn-save:hover {
+            background: #157347;
+        }
+
+    #reasonBox{
+      
+        display: none;    
+        margin-top: 25px;
+        background: #fff8f8;
+        padding: 20px;
+        border-radius: 20px;
+        box-shadow: 0px 2px 10px #222831;
+        border: 1px solid #f5c2c7;
+        text-align: center;
+    }
+
+</style>

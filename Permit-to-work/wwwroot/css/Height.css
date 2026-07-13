@@ -1,4 +1,4 @@
-﻿<style >
+﻿<style>
 
 body {
     background: #c8a27a; /* outer darker brown */
@@ -9,6 +9,7 @@ body {
     background: #f5e6d3; /* inner soft brown */
     border: none;
     border-radius: 10px;
+    width: 1664px;
 }
 
 .sticky-header {
@@ -17,19 +18,14 @@ body {
     z-index: 1000;
     background: #d2b48c; /* tan */
     border-bottom: 3px solid #5c4033; /* dark brown */
-<<<<<<< HEAD
-    
-=======
->>>>>>> faccccd7e844f04b57a176035fe543f761ff19d4
+
 }
 
 .permit-card {
     border: 2px solid #5c4033;
-<<<<<<< HEAD
+
     background:  #f5e6d3; /* light brown */
-=======
-    background: #e6ccb2; /* soft light brown */
->>>>>>> faccccd7e844f04b57a176035fe543f761ff19d4
+
     padding: 20px;
     margin-bottom: 15px;
 }
@@ -65,4 +61,11 @@ label {
         border-color: #4b2e2e;
     }
 
-</style >
+.container {
+    margin-left: 205px;
+    width: calc(100%-250px);
+    max-width: none;
+    
+    }
+
+</style>

@@ -11,6 +11,7 @@
     <title>Electrical Isolation Permit</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <style>
         body {
             background: #fff9e6; /* very light yellow for page background */
@@ -31,7 +32,7 @@
             font-weight: bold;
             padding: 6px 10px;
             margin-bottom: 10px;
-            border: 1px solid #e6b800; /* darker yellow border */
+            border: 1px solid #FFC300; /* darker yellow border */
             color: #3e2723; /* dark brown text for contrast */
             border-radius: 4px;
         }
@@ -55,7 +56,7 @@
         }
 
         .border-section {
-            border: 1px solid #f7c948; /* golden yellow border */
+            border: 1px solid #FFC300; /* golden yellow border */
             padding: 10px;
             border-radius: 5px;
             margin-bottom: 15px;
@@ -63,7 +64,7 @@
         }
 
         .btn-success {
-            background-color: #f7b500; /* bright yellow button */
+            background-color: #FFC300; /* bright yellow button */
             border-color: #e6a300;
             color: #ffffff;
         }
@@ -458,7 +459,7 @@
                 </div>
             </section>
 
-<<<<<<< HEAD
+
             <!-- APPROVER DETAILS -->
 
             <section class="mt-3 border-section">
@@ -466,8 +467,13 @@
                 <section class="permit-section">
                 <div class="row">
                     <div class="col-lg-3">
-                        <label>Approver One Email</label>
+                        <label>
+                            Approver One Email <span style="color: red">*</span>
+                        </label>
+
                         @Html.TextBoxFor(m => m.ApproverOne, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.ApproverOne, "", new { @class = "text-danger" })
+                    
                     </div>
                     <div class="col-lg-3">
                         <label>Approver Two Email</label>
@@ -485,8 +491,7 @@
                 </section>
             </section>
 
-=======
->>>>>>> faccccd7e844f04b57a176035fe543f761ff19d4
+
             <div class="text-center mt-4">
                 <button type="submit" class="btn btn-success px-5">Submit Permit</button>
             </div>
@@ -497,7 +502,7 @@
 </body>
 </html>
 <script>
-     $(document).ready(function () {
+    $(document).ready(function () {
         $('#hdLiftingOperations,#hdworkPermitForm,#hdWorkAtHeight,#hdHotwork').hide();
     });
 </script>

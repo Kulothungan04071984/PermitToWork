@@ -102,7 +102,7 @@
                 <input type="radio" name="RiggerLevel" value="Between10And40Ton"> 10–40 ton (Level 2)
                 <input type="radio" name="RiggerLevel" value="Morethan40"> More than 40 (rigger level1)
             </section>
-            </section>
+            
 
             <!-- EQUIPMENT -->
             <section class="border-section">
@@ -260,6 +260,7 @@
 
                 </div>
             </section>
+
             <!-- PPE -->
             <section class="border-section">
                 <div class="section-title">PPE</div>
@@ -292,6 +293,8 @@
             </section>
 
             <!-- AUTH -->
+
+            <section class="border-section">
             <div class="section-title mt-4">Authorization</div>
             <div class="row g-3">
                 <div class="col-md-6"> <label>Permit Receiver name</label>@Html.TextBoxFor(m => m.ReceiverName, new { @class = "form-control" })</div>
@@ -305,8 +308,12 @@
                 <div class="col-md-3">
                     <label>Issuer Date</label>@Html.TextBoxFor(m => m.IssuerDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
                 </div>
+                </div>
+                </section>
 
             <!-- SUSPENSION -->
+
+                <section class="border-section">
                 <div class="section-title">Suspension</div>
                 <label>This permit is suspended, area/equipment is not safe to use.</label>
                 <div class="row g-3 mt-2">
@@ -321,9 +328,11 @@
 
                     </div>
                 </div>
+                </section>
 
-<<<<<<< HEAD
                 <!-- Approver Details -->
+
+                <section class="border-section">
                 <div class="section-title">Approver Details</div>
                 <div class="row g-3 mt-2">
                     <div class="col-md-6">
@@ -331,8 +340,12 @@
                     
                     <div class="row">
                         <div class="col-lg-3">
-                            <label>Approver One Email</label>
+                            <label>
+                                Approver One Email <span style="color: red">*</span>
+                            </label>
                             @Html.TextBoxFor(m => m.ApproverOne, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.ApproverOne, "", new { @class = "text-danger" })
+
                         </div>
                         <div class="col-lg-3">
                             <label>Approver Two Email</label>
@@ -348,13 +361,13 @@
                         </div>
                     </div>
                 </section>
-
-=======
->>>>>>> faccccd7e844f04b57a176035fe543f761ff19d4
+                </div>
+                </div>
+                </section>
 
             <div class="text-center mt-4">
                 <button type="submit" class="btn btn-primary px-5">Submit Permit</button>
-            </div>
+            </div> 
 
         </div>
 
@@ -362,7 +375,7 @@
 
 </body>
 </html>
-@* <button type="submit" class="btn btn-primary px-5">Submit</button> *@
+
 <script>
      $(document).ready(function () {
         $('#hdHotwork,#hdElectricalIsolation,#hdworkPermitForm,#hdWorkAtHeight').hide();

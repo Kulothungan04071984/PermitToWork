@@ -6,7 +6,7 @@
     <title>@ViewData["Title"] - Permit to Work</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Permit_to_work.styles.css" asp-append-version="true" />
+   @*  <link rel="stylesheet" href="~/Permit_to_work.styles.css" asp-append-version="true" /> *@
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
 
     <style>
@@ -70,18 +70,18 @@
         }
 
         .ptw-brand-icon {
-            width: 32px;
-            height: 32px;
-            background: var(--accent);
+            width: 70px;
+            height: 50px;
+            background: #ffff;
             border-radius: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-            .ptw-brand-icon svg {
-                width: 18px;
-                height: 18px;
+            .ptw-brand-icon img {
+                width: 58px;
+                height: 48px;
                 fill: #0d0f14;
             }
 
@@ -263,14 +263,16 @@
             margin-left: var(--nav-width);
             margin-top: var(--header-height);
             flex: 1;
-            display: flex;
+            display: contents;
             flex-direction: column;
             min-height: calc(100vh - var(--header-height));
         }
 
         .ptw-main {
+
             flex: 1;
-            padding: 32px 36px;
+            padding: 32px 20px;
+            overflow-x: auto;
         }
 
         /* ── FOOTER ── */
@@ -350,9 +352,7 @@
     <header class="ptw-header">
         <a class="ptw-brand" asp-area="" asp-controller="Home" asp-action="Dashboard">
             <div class="ptw-brand-icon">
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 4l5 2.18V11c0 3.5-2.33 6.79-5 7.93C9.33 17.79 7 14.5 7 11V7.18L12 5z" />
-                </svg>
+                <img src="~/img/logo/Syrma Logo.png" alt="Logo" />
             </div>
             <span class="ptw-brand-name">Permit <span>to Work</span></span>
         </a>
@@ -364,6 +364,9 @@
                 System Active
               
             </div>
+
+            <a href="javascript:history.back()" class="btn btn-secondary me-2"> BACK </a>
+
             <a class="btn btn-danger ptw-header-right" asp-controller="Login" asp-action="Login">Logout</a>
             <button class="ptw-hamburger" id="hamburgerBtn" aria-label="Toggle menu">
                 <span></span><span></span><span></span>
@@ -372,62 +375,75 @@
     </header>
 
     <!-- SIDEBAR -->
-    <nav class="ptw-sidebar" id="sidebar">
+     @{
+        var action = ViewContext.RouteData.Values["Action"]?.ToString();
+    }
 
-        <div class="ptw-nav-section">
-            <div class="ptw-nav-label">Overview</div>
-            <a class="ptw-nav-item" asp-area="" asp-controller="Home" asp-action="Dashboard">
-                <svg class="ptw-nav-icon" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z" />
-                </svg>
-                Dashboard
-            </a>
-        </div>
+    @if (action != "Registration" && action != "TicketApproval")
+    {
+   
+        <nav class="ptw-sidebar" id="sidebar">
 
-        <div class="ptw-nav-section">
-            <div class="ptw-nav-label">Permits</div>
-            <a class="ptw-nav-item" id="hdworkPermitForm" asp-area="" asp-controller="Home" asp-action="workpermitform">
-                <svg class="ptw-nav-icon" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" />
-                </svg>
-                Work Permit Form
-            </a>
-            <a class="ptw-nav-item" id="hdHotwork" asp-area="" asp-controller="Home" asp-action="Hotwork">
-                <svg class="ptw-nav-icon" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M13.5 .67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-2.15 4.8-4.8 4.8z" />
-                </svg>
-                Hot Work
-            </a>
-            <a class="ptw-nav-item" id="hdLiftingOperations" asp-area="" asp-controller="Home" asp-action="Liftingoperation">
-                <svg class="ptw-nav-icon" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z" />
-                </svg>
-                Lifting Operations
-            </a>
-            <a class="ptw-nav-item" id="hdWorkAtHeight" asp-area="" asp-controller="Home" asp-action="WorkAtHeightPermit">
-                <svg class="ptw-nav-icon" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z" />
-                </svg>
-                Work at Height
-            </a>
-            <a class="ptw-nav-item" id="hdElectricalIsolation" asp-area="" asp-controller="Home" asp-action="ElectricalIsolationPermit">
-                <svg class="ptw-nav-icon" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M7 2v11h3v9l7-12h-4l4-8z" />
-                </svg>
-                Electrical Isolation
-            </a>
-            <a class="ptw-nav-item" asp-area="" asp-controller="Login" asp-action="Login">
-                <svg class="ptw-nav-icon" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M7 2v11h3v9l7-12h-4l4-8z" />
-                </svg>
-              Logout
-            </a>
-        </div>
+            <div class="ptw-nav-section">
+                <div class="ptw-nav-label">Overview</div>
+                <a class="ptw-nav-item" asp-area="" asp-controller="Home" asp-action="Dashboard">
+                    <svg class="ptw-nav-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z" />
+                    </svg>
+                    Dashboard
+                </a>
+            </div>
 
+            <div class="ptw-nav-section">
+                <div class="ptw-nav-label">Permits</div>
+                <a class="ptw-nav-item" id="hdworkPermitForm" asp-area="" asp-controller="Home" asp-action="workpermitform">
+                    <svg class="ptw-nav-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" />
+                    </svg>
+                    Cold Work Permit
+                </a>
+
+                <a class="ptw-nav-item" id="hdHotwork" asp-area="" asp-controller="Home" asp-action="Hotwork">
+                    <svg class="ptw-nav-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M13.5 .67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-2.15 4.8-4.8 4.8z" />
+                    </svg>
+                    Hot Work
+                </a>
+
+                <a class="ptw-nav-item" id="hdLiftingOperations" asp-area="" asp-controller="Home" asp-action="Liftingoperation">
+                    <svg class="ptw-nav-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z" />
+                    </svg>
+                    Lifting Operations
+                </a>
+
+                <a class="ptw-nav-item" id="hdWorkAtHeight" asp-area="" asp-controller="Home" asp-action="WorkAtHeightPermit">
+                    <svg class="ptw-nav-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z" />
+                    </svg>
+                    Work at Height
+                </a>
+
+                <a class="ptw-nav-item" id="hdElectricalIsolation" asp-area="" asp-controller="Home" asp-action="ElectricalIsolationPermit">
+                    <svg class="ptw-nav-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M7 2v11h3v9l7-12h-4l4-8z" />
+                    </svg>
+                    Electrical Isolation
+                </a>
+
+                <a class="ptw-nav-item" asp-area="" asp-controller="Login" asp-action="Login">
+                    <svg class="ptw-nav-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M7 2v11h3v9l7-12h-4l4-8z" />
+                    </svg>
+                    Logout
+                </a>
+            </div>
+  
         <div class="ptw-sidebar-footer">
             <p>&copy; 2025 Permit to Work</p>
         </div>
     </nav>
+    }
 
     <!-- OVERLAY (mobile) -->
     <div class="ptw-overlay" id="overlay"></div>

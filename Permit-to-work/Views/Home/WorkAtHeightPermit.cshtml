@@ -1,52 +1,93 @@
 ﻿@model WorkAtHeightPermit
 
-<form method="post" class="container my-4">
+<form method="post" class="container my-4 px-2">
 
     <link rel="stylesheet" href="~/css/Height.css" asp-append-version="true" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <div class="card shadow">
         <section class="card permit-card">
-<<<<<<< HEAD
+
             <div class="section-title">
             <div class="card-header text-center fw-bold">
                 WORK AT HEIGHT PERMIT
             </div>
             </div>
             </section>
-=======
-            <div class="card-header text-center fw-bold">
-                WORK AT HEIGHT PERMIT
-            </div>
->>>>>>> faccccd7e844f04b57a176035fe543f761ff19d4
+
 
             <div class="card-body">
 
                 <!-- BASIC DETAILS -->
                 <div class="section-title">Basic Details</div>
                 <div class="row g-3">
-                    <div class="col-md-3"><label>Unit</label>@Html.TextBoxFor(m => m.Unit, new { @class = "form-control" })</div>
-                    <div class="col-md-3"><label>Contractor</label>@Html.TextBoxFor(m => m.ContractorTeam, new { @class = "form-control" })</div>
-                    <div class="col-md-3"><label>Location</label>@Html.TextBoxFor(m => m.Location, new { @class = "form-control" })</div>
-                    <div class="col-md-3"><label>No of Workmen</label>@Html.TextBoxFor(m => m.NoOfWorkmen, new { @class = "form-control" })</div>
+                    <div class="col-md-3">
+                        <label>
+                            Unit <span class="required-star">*</span>
+                        </label>
+                        @Html.TextBoxFor(m => m.Unit, new { @class = "form-control" })
+                    </div>
+
+                    <div class="col-md-3">
+                        <label>
+                            Contractor <span class="required-star">*</span>
+                        </label>
+                        @Html.TextBoxFor(m => m.ContractorTeam, new { @class = "form-control" })
+                    </div>
+
+                    <div class="col-md-3">
+                        <label>
+                            Location <span class="required-star">*</span>
+                        </label>
+                        @Html.TextBoxFor(m => m.Location, new { @class = "form-control" })
+                    </div>
+                    
+                    <div class="col-md-3">
+                        <label>
+                            No. of Workmen <span class="required-star">*</span>
+                        </label>
+                        @Html.TextBoxFor(m => m.NoOfWorkmen, new { @class = "form-control" })
+                    </div>
                 </div>
 
                 <!-- DATE & TIME -->
                 <div class="section-title mt-4">Date & Time</div>
                 <div class="row g-3">
-                    <div class="col-md-3"><label>Starting Date</label>@Html.TextBoxFor(m => m.StartDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })</div>
-                    <div class="col-md-3"><label>Starting time</label>@Html.TextBoxFor(m => m.StartTime, new { type = "time", @class = "form-control" })</div>
-                    <div class="col-md-3"><label>Expected Date</label>@Html.TextBoxFor(m => m.EndDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })</div>
-                    <div class="col-md-3"><label>Ecpected time</label>@Html.TextBoxFor(m => m.EndTime, new { type = "time", @class = "form-control" })</div>
+                    <div class="col-md-3">
+                        <label>
+                            Starting Date <span class="required-star">*</span>
+                        </label>
+                        @Html.TextBoxFor(m => m.StartDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
+                    </div>
+
+                    <div class="col-md-3">
+                        <label>
+                            Starting time <span class="required-star">*</span>
+                        </label>
+                        @Html.TextBoxFor(m => m.StartTime, new { type = "time", @class = "form-control" })
+                    </div>
+
+                    <div class="col-md-3">
+                        <label>
+                            Expected Date <span class="required-star">*</span>
+                        </label>
+                        @Html.TextBoxFor(m => m.EndDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
+                    </div>
+
+                    <div class="col-md-3">
+                        <label>
+                            Expected time <span class="required-star">*</span>
+                        </label>
+                        @Html.TextBoxFor(m => m.EndTime, new { type = "time", @class = "form-control" })
+                    </div>
                 </div>
 
                 <!-- WORK TYPE -->
-<<<<<<< HEAD
                 
                 <section class="card permit-card">
                     <fieldset>
                         <div class="section-title">
-                            Work Type
+                            Work Type <span class="required-star">*</span>
                         </div>
 
                         <div class="row">
@@ -85,7 +126,7 @@
                         </div>
                     </fieldset>
                 </section>
-=======
+@* =======
                 <div class="section-title mt-4">Work Type</div>
                 <div class="row">
                     <div class="col">@Html.CheckBoxFor(m => m.Scaffolding) Scaffolding</div>
@@ -94,7 +135,7 @@
                     <div class="col">@Html.CheckBoxFor(m => m.RoofWork) Roof Work</div>
                     <div class="col-md-4">Other <input type="text" name="OtherWorkType" class="form-control" /></div>
                 </div>
->>>>>>> faccccd7e844f04b57a176035fe543f761ff19d4
+>>>>>>> faccccd7e844f04b57a176035fe543f761ff19d4 *@
 
                 <!-- DESCRIPTION -->
                 <div class="section-title mt-4">Work Description</div>
@@ -105,18 +146,18 @@
                 @Html.TextAreaFor(m => m.ToolsEquipment, 2, 100, new { @class = "form-control" })
 
                 <!-- RISK IDENTIFICATION -->
-<<<<<<< HEAD
+
 
                 <section class="card permit-card">
                     <fieldset>
                         <div class="section-title">
-                            Identify Risk Associated with Work at Height
-                        </div>
+                            Identify Risk Associated with Work at Height <span class="required-star">*</span>
+                        </div> 
 
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" name="FallfromHeight" />
+                                    <input type="checkbox" class="form-check-input" name="FallFromHeight" />
                                     <label class="form-check-label">Fall from Height</label>
                                 </div>
                             </div>
@@ -200,7 +241,7 @@
 
                             <div class="col-md-4">
                                 <label>Others</label>
-                                <input type="text" name="OtherRiskIndentification" class="form-control" />
+                                <input type="text" name="OtherRiskIdentification" class="form-control" />
                             </div>
                         </div>
                     </fieldset>
@@ -237,7 +278,7 @@
                     </fieldset>
                 </section>
 
-=======
+@* =======
                 <div class="section-title mt-4">Identify Risk Associated with Work at Height</div>
                 <div class="row">
                     <div class="col-md-4">@Html.CheckBoxFor(m => m.RiskFallHeight) Fall from Height</div>
@@ -265,7 +306,9 @@
                 </div>
         </section>
 >>>>>>> faccccd7e844f04b57a176035fe543f761ff19d4
-        <!-- SECTION: PRECAUTION -->
+
+
+        <!-- SECTION: PRECAUTION --> *@
         <section class="card permit-card">
             <div class="section-title">Precaution measures required to complete the work safely</div>
 
@@ -291,7 +334,7 @@
         <!-- RISK CONTROL -->
         <section class="card permit-card">
             <div class="section-title">
-                Have the risk control/s been implemented
+                Have the risk control/s been implemented 
             </div>
 
             <div class="d-flex gap-3">
@@ -345,7 +388,7 @@
 
 
             <div class="section-title"> Fall Arrest</div>
-<<<<<<< HEAD
+
 
             <div class="form-check">
                 <div class="col-md-4">
@@ -359,10 +402,10 @@
                     @Html.CheckBoxFor(m => m.HarnessShockAbsorber, new { @class = "form-check-input" })
                     <label class="form-check-label">Double Hook </label>
                 </div>
-=======
+@* =======
             <div class="form-check form-check-inline">
                 <div class="col-md-4">@Html.CheckBoxFor(m => m.HarnessShockAbsorber)Harness with Shock Absorber & Double Hook</div>
->>>>>>> faccccd7e844f04b57a176035fe543f761ff19d4
+>>>>>>> faccccd7e844f04b57a176035fe543f761ff19d4 *@
             </div>
 
             <div class="section-title">Have proper access/egress been provided?</div>
@@ -401,12 +444,7 @@
                 </div>
             </div>
 
-<<<<<<< HEAD
 
-            <!-- Scaffold inspected by Certified Person?-->
-
-=======
->>>>>>> faccccd7e844f04b57a176035fe543f761ff19d4
             <div class="section-title">Scaffold inspected by Certified Person?</div>
             <div class="d-flex gap-3 align-items-center">
                 <div class="form-check">
@@ -493,7 +531,7 @@
                 </div>
             </fieldset>
 
-<<<<<<< HEAD
+
             <!-- PPE -->
 
                 <fieldset>
@@ -564,7 +602,7 @@
                         </div>
                     </div>
                 </fieldset>
-=======
+@* =======
 
 
 
@@ -584,7 +622,7 @@
                 <div class="col-md-4">@Html.CheckBoxFor(m => m.PPEGloves)Safety clothes</div>
                 <div class="col-md-4">Others <input type="text" name="OtherRisk" class="form-control" /></div>
             </div>
->>>>>>> faccccd7e844f04b57a176035fe543f761ff19d4
+>>>>>>> faccccd7e844f04b57a176035fe543f761ff19d4 *@
 
 
             <!-- INSURANCE COPY -->
@@ -625,10 +663,9 @@
                 <div class="col-md-3">
                     <label>Issuer Date</label>@Html.TextBoxFor(m => m.IssuerDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
                 </div>
-<<<<<<< HEAD
+
                 </div>
-=======
->>>>>>> faccccd7e844f04b57a176035fe543f761ff19d4
+
 
                 <!-- SUSPENSION -->
 
@@ -647,7 +684,7 @@
                     </div>
                 </div>
 
-<<<<<<< HEAD
+
                 <!-- Approver Details -->
 
                 
@@ -656,8 +693,13 @@
                     
                     <div class="row">
                         <div class="col-lg-3">
-                            <label>Approver One Email</label>
+                            <label>
+                                Approver One Email <span style="color:red">*</span>
+                            </label>
+
                             @Html.TextBoxFor(m => m.ApproverOne, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.ApproverOne, "", new { @class = "text-danger" })
+
                         </div>
                         <div class="col-lg-3">
                             <label>Approver Two Email</label>
@@ -674,8 +716,7 @@
                     </div>
                 </section>
 
-=======
->>>>>>> faccccd7e844f04b57a176035fe543f761ff19d4
+
 
                 <div class="text-center mt-4">
                     <button type="submit" class="btn btn-success px-5">Submit Permit</button>
@@ -683,14 +724,17 @@
         </section>
     </div>
     </div>
-<<<<<<< HEAD
-    
-=======
->>>>>>> faccccd7e844f04b57a176035fe543f761ff19d4
+
+
+
 </form>
+
+
+
 <script>
      $(document).ready(function () {
          debugger;
         $('#hdHotwork, #hdLiftingOperations,#hdElectricalIsolation,#hdworkPermitForm').hide();
     });
 </script>
+

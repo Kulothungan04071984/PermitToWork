@@ -10,7 +10,7 @@
     <meta charset="utf-8" />
     <title>Lifting Operation Permit</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         body {
             background-color: #f5f8fa;
@@ -322,6 +322,7 @@
             </section>
 
             <!-- AUTH -->
+            <section class="border-section">
             <div class="section-title mt-4">Authorization</div>
             <div class="row g-3">
                 <div class="col-md-6"> <label>Permit Receiver name</label>@Html.TextBoxFor(m => m.ReceiverName, new { @class = "form-control" })</div>
@@ -335,8 +336,11 @@
                 <div class="col-md-3">
                     <label>Issuer Date</label>@Html.TextBoxFor(m => m.IssuerDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
                 </div>
+            </div>
+            </section>
 
             <!-- SUSPENSION -->
+                <section class="border-section">
                 <div class="section-title">Suspension</div>
                 <label>This permit is suspended, area/equipment is not safe to use.</label>
                 <div class="row g-3 mt-2">
@@ -351,6 +355,28 @@
 
                     </div>
                 </div>
+                </section>
+
+            <!-- APPROVER DETAILS -->
+                <section class="border-section">
+                <div class="section-title">Suspension</div>
+                <div class="col-lg-3">
+                    <label>Approver One Email</label>
+                    @Html.TextBoxFor(m => m.ApproverOne, new { @class = "form-control" })
+                </div>
+                <div class="col-lg-3">
+                    <label>Approver Two Email</label>
+                    @Html.TextBoxFor(m => m.ApproverTwo, new { @class = "form-control" })
+                </div>
+                <div class="col-lg-3">
+                    <label>Approver Three Email</label>
+                    @Html.TextBoxFor(m => m.ApproverThree, new { @class = "form-control" })
+                </div>
+                <div class="col-lg-3">
+                    <label>Approver Four Email</label>
+                    @Html.TextBoxFor(m => m.ApproverFour, new { @class = "form-control" })
+                </div>
+                </section>
 
 
             <div class="text-center mt-4">
@@ -696,4 +722,10 @@
     </div>
 
 </body>
-</html>mit" class="btn btn-primary px-5">Submit</button>
+</html>
+@* <button type="submit" class="btn btn-primary px-5">Submit</button> *@
+<script>
+     $(document).ready(function () {
+        $('#hdHotwork,#hdElectricalIsolation,#hdworkPermitForm,#hdWorkAtHeight').hide();
+    });
+</script>

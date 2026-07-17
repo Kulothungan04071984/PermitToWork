@@ -3,6 +3,487 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Permit to Work</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Permit_to_work.styles.css" asp-append-version="true" />
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+
+    <style>
+        :root {
+            --bg-base: #0d0f14;
+            --bg-surface: #13161e;
+            --bg-card: #1a1e2a;
+            --bg-hover: #1f2535;
+            --border: rgba(255,255,255,0.07);
+            --border-active: rgba(255,165,0,0.5);
+            --accent: #f5a623;
+            --accent-dim: rgba(245,166,35,0.12);
+            --accent-glow: rgba(245,166,35,0.25);
+            --text-primary: #e8eaf0;
+            --text-secondary: #8b90a0;
+            --text-muted: #555b6e;
+            --danger: #e05555;
+            --success: #4caf82;
+            --nav-width: 240px;
+            --header-height: 60px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* ── TOP HEADER ── */
+        .ptw-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--header-height);
+            background: var(--bg-surface);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            z-index: 100;
+            backdrop-filter: blur(12px);
+        }
+
+        .ptw-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .ptw-brand-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--accent);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .ptw-brand-icon svg {
+                width: 18px;
+                height: 18px;
+                fill: #0d0f14;
+            }
+
+        .ptw-brand-name {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 1rem;
+            color: var(--text-primary);
+            letter-spacing: 0.02em;
+        }
+
+            .ptw-brand-name span {
+                color: var(--accent);
+            }
+
+        .ptw-header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .ptw-status-pill {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(76,175,130,0.12);
+            border: 1px solid rgba(76,175,130,0.25);
+            color: var(--success);
+            font-size: 0.72rem;
+            font-weight: 500;
+            padding: 4px 10px;
+            border-radius: 100px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .ptw-status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--success);
+            animation: pulse-dot 2s ease infinite;
+        }
+
+        @@keyframes pulse-dot {
+            0%, 100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.3;
+            }
+        }
+
+        .ptw-hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 4px;
+            background: none;
+            border: none;
+        }
+
+            .ptw-hamburger span {
+                display: block;
+                width: 22px;
+                height: 2px;
+                background: var(--text-secondary);
+                border-radius: 2px;
+                transition: all 0.3s;
+            }
+
+        /* ── SIDEBAR ── */
+        .ptw-sidebar {
+            position: fixed;
+            top: var(--header-height);
+            left: 0;
+            width: var(--nav-width);
+            height: calc(100vh - var(--header-height));
+            background: var(--bg-surface);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            z-index: 90;
+            transition: transform 0.3s ease;
+        }
+
+            .ptw-sidebar::-webkit-scrollbar {
+                width: 4px;
+            }
+
+            .ptw-sidebar::-webkit-scrollbar-track {
+                background: transparent;
+            }
+
+            .ptw-sidebar::-webkit-scrollbar-thumb {
+                background: var(--border);
+                border-radius: 2px;
+            }
+
+        .ptw-nav-section {
+            padding: 20px 0 8px;
+        }
+
+        .ptw-nav-label {
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            padding: 0 20px;
+            margin-bottom: 6px;
+        }
+
+        .ptw-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            font-weight: 400;
+            border-left: 2px solid transparent;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+            .ptw-nav-item:hover {
+                color: var(--text-primary);
+                background: var(--bg-hover);
+                text-decoration: none;
+            }
+
+            .ptw-nav-item.active {
+                color: var(--accent);
+                background: var(--accent-dim);
+                border-left-color: var(--accent);
+                font-weight: 500;
+            }
+
+        .ptw-nav-icon {
+            width: 18px;
+            height: 18px;
+            opacity: 0.7;
+            flex-shrink: 0;
+        }
+
+        .ptw-nav-item:hover .ptw-nav-icon,
+        .ptw-nav-item.active .ptw-nav-icon {
+            opacity: 1;
+        }
+
+        .ptw-nav-badge {
+            margin-left: auto;
+            font-size: 0.65rem;
+            background: var(--accent);
+            color: #0d0f14;
+            font-weight: 700;
+            padding: 1px 7px;
+            border-radius: 100px;
+        }
+
+        .ptw-sidebar-footer {
+            margin-top: auto;
+            padding: 16px 20px;
+            border-top: 1px solid var(--border);
+        }
+
+            .ptw-sidebar-footer p {
+                font-size: 0.7rem;
+                color: var(--text-muted);
+            }
+
+        /* ── MAIN CONTENT ── */
+        .ptw-wrapper {
+            margin-left: var(--nav-width);
+            margin-top: var(--header-height);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: calc(100vh - var(--header-height));
+        }
+
+        .ptw-main {
+            flex: 1;
+            padding: 32px 36px;
+        }
+
+        /* ── FOOTER ── */
+        .ptw-footer {
+            margin-left: 0;
+            padding: 16px 36px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+            .ptw-footer a {
+                color: var(--accent);
+                text-decoration: none;
+            }
+
+                .ptw-footer a:hover {
+                    text-decoration: underline;
+                }
+
+        /* ── OVERLAY (mobile) ── */
+        .ptw-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 80;
+        }
+
+        /* ── RESPONSIVE ── */
+        @@media (max-width: 768px) {
+            .ptw-hamburger {
+                display: flex;
+            }
+
+            .ptw-sidebar {
+                transform: translateX(-100%);
+            }
+
+                .ptw-sidebar.open {
+                    transform: translateX(0);
+                }
+
+            .ptw-overlay.open {
+                display: block;
+            }
+
+            .ptw-wrapper {
+                margin-left: 0;
+            }
+
+            .ptw-main {
+                padding: 20px 16px;
+            }
+
+            .ptw-footer {
+                padding: 14px 16px;
+                flex-direction: column;
+                gap: 6px;
+                text-align: center;
+            }
+        }
+
+        /* ── PAGE BODY BOOTSTRAP OVERRIDES ── */
+        .container {
+            max-width: 100%;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOP HEADER -->
+    <header class="ptw-header">
+        <a class="ptw-brand" asp-area="" asp-controller="Home" asp-action="Dashboard">
+            <div class="ptw-brand-icon">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 4l5 2.18V11c0 3.5-2.33 6.79-5 7.93C9.33 17.79 7 14.5 7 11V7.18L12 5z" />
+                </svg>
+            </div>
+            <span class="ptw-brand-name">Permit <span>to Work</span></span>
+        </a>
+      
+
+        <div class="ptw-header-right">
+            <div class="ptw-status-pill">
+                <span class="ptw-status-dot"></span>
+                System Active
+              
+            </div>
+            <a class="btn btn-danger ptw-header-right" asp-controller="Login" asp-action="Login">Logout</a>
+            <button class="ptw-hamburger" id="hamburgerBtn" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- SIDEBAR -->
+    <nav class="ptw-sidebar" id="sidebar">
+
+        <div class="ptw-nav-section">
+            <div class="ptw-nav-label">Overview</div>
+            <a class="ptw-nav-item" asp-area="" asp-controller="Home" asp-action="Dashboard">
+                <svg class="ptw-nav-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z" />
+                </svg>
+                Dashboard
+            </a>
+        </div>
+
+        <div class="ptw-nav-section">
+            <div class="ptw-nav-label">Permits</div>
+            <a class="ptw-nav-item" id="hdworkPermitForm" asp-area="" asp-controller="Home" asp-action="workpermitform">
+                <svg class="ptw-nav-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" />
+                </svg>
+                Work Permit Form
+            </a>
+            <a class="ptw-nav-item" id="hdHotwork" asp-area="" asp-controller="Home" asp-action="Hotwork">
+                <svg class="ptw-nav-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M13.5 .67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-2.15 4.8-4.8 4.8z" />
+                </svg>
+                Hot Work
+            </a>
+            <a class="ptw-nav-item" id="hdLiftingOperations" asp-area="" asp-controller="Home" asp-action="Liftingoperation">
+                <svg class="ptw-nav-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z" />
+                </svg>
+                Lifting Operations
+            </a>
+            <a class="ptw-nav-item" id="hdWorkAtHeight" asp-area="" asp-controller="Home" asp-action="WorkAtHeightPermit">
+                <svg class="ptw-nav-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z" />
+                </svg>
+                Work at Height
+            </a>
+            <a class="ptw-nav-item" id="hdElectricalIsolation" asp-area="" asp-controller="Home" asp-action="ElectricalIsolationPermit">
+                <svg class="ptw-nav-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M7 2v11h3v9l7-12h-4l4-8z" />
+                </svg>
+                Electrical Isolation
+            </a>
+            <a class="ptw-nav-item" asp-area="" asp-controller="Login" asp-action="Login">
+                <svg class="ptw-nav-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M7 2v11h3v9l7-12h-4l4-8z" />
+                </svg>
+              Logout
+            </a>
+        </div>
+
+        <div class="ptw-sidebar-footer">
+            <p>&copy; 2025 Permit to Work</p>
+        </div>
+    </nav>
+
+    <!-- OVERLAY (mobile) -->
+    <div class="ptw-overlay" id="overlay"></div>
+
+    <!-- MAIN CONTENT WRAPPER -->
+    <div class="ptw-wrapper">
+        <main class="ptw-main" role="main">
+            @RenderBody()
+        </main>
+
+        <footer class="ptw-footer">
+            <span>&copy; 2025 Permit to Work System — All rights reserved</span>
+            <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy Policy</a>
+        </footer>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script>
+        // Sidebar toggle (mobile)
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+
+        hamburgerBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('open');
+        });
+
+        overlay.addEventListener('click', () => {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('open');
+        });
+
+        // Auto-highlight current nav item
+        const currentPath = window.location.pathname.toLowerCase();
+        document.querySelectorAll('.ptw-nav-item').forEach(link => {
+            const href = link.getAttribute('href') || '';
+            if (href && currentPath.includes(href.toLowerCase().split('/').pop())) {
+                link.classList.add('active');
+            }
+        });
+    </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+
+
+@* <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Permit_to_work</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
@@ -61,7 +542,7 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
-</html>
+</html> *@
 
 
 @* <!DOCTYPE html>

@@ -22,11 +22,22 @@ namespace Permit_to_work.Data
         public DbSet<PermitMaster> PermitMasters { get; set; }
         public DbSet<ConfinedSpacePermit> ConfinedSpacePermits { get; set; }
 
-        //protected override void OnModelCreating(ModelBuilder modelBuilder)
-        //{
-        //    modelBuilder.Ignore<PermitDashboardVM>();
-        //    modelBuilder.Entity<ConfinedSpacePermit>().ToTable("ConfinedSpacePermits");
-        //}
+        public DbSet<DepartmentMaster> DepartmentMasters { get; set; }
+
+        public DbSet<UnitMaster> UnitMasters { get; set; }
+
+        public DbSet<ApproverMaster> ApproverMasters { get; set; }
+
+        public DbSet<ApprovalStructure> ApprovalStructures { get; set; }
+
+        public DbSet<PermitTypeMaster> PermitTypeMasters { get; set; }
+
+        public DbSet<Login> Logins { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Ignore<PermitDashboardVM>();
+        }
 
     }
 }

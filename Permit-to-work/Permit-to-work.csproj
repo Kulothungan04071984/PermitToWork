@@ -8,6 +8,32 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20260121133025_ColdWorkPermitTable.cs" />
+    <Compile Remove="Migrations\20260121133025_ColdWorkPermitTable.Designer.cs" />
+    <Compile Remove="Migrations\20260130064039_CreateHotWorkPermit.cs" />
+    <Compile Remove="Migrations\20260130064039_CreateHotWorkPermit.Designer.cs" />
+    <Compile Remove="Migrations\20260130065428_CreateLiftingOperationPermit.cs" />
+    <Compile Remove="Migrations\20260130065428_CreateLiftingOperationPermit.Designer.cs" />
+    <Compile Remove="Migrations\20260130070420_CreateWorkAtHeightPermit.cs" />
+    <Compile Remove="Migrations\20260130070420_CreateWorkAtHeightPermit.Designer.cs" />
+    <Compile Remove="Migrations\20260130071616_CreateElectricalIsolationPermit.cs" />
+    <Compile Remove="Migrations\20260130071616_CreateElectricalIsolationPermit.Designer.cs" />
+    <Compile Remove="Migrations\20260216105758_CreateDashBoard.cs" />
+    <Compile Remove="Migrations\20260216105758_CreateDashBoard.Designer.cs" />
+    <Compile Remove="Migrations\20260216132730_AddPermitDashBoard.cs" />
+    <Compile Remove="Migrations\20260216132730_AddPermitDashBoard.Designer.cs" />
+    <Compile Remove="Migrations\20260216140213_AddPermitMaster.cs" />
+    <Compile Remove="Migrations\20260216140213_AddPermitMaster.Designer.cs" />
+    <Compile Remove="Migrations\20260216141957_AddIsActiveToColdWorkPermitVM.cs" />
+    <Compile Remove="Migrations\20260216141957_AddIsActiveToColdWorkPermitVM.Designer.cs" />
+    <Compile Remove="Migrations\20260319070820_Updatedb.cs" />
+    <Compile Remove="Migrations\20260319070820_Updatedb.Designer.cs" />
+    <Compile Remove="Migrations\20260408075257_AddDepartmentUnitApproverandStructure.cs" />
+    <Compile Remove="Migrations\20260408075257_AddDepartmentUnitApproverandStructure.Designer.cs" />
+    <Compile Remove="Migrations\ApplicationDbContextModelSnapshot.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="Views\Home\PermitDashboardVM.cshtml" />
   </ItemGroup>
 
@@ -18,6 +44,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="EFCore.AutomaticMigrations.NetTopologySuite" Version="7.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0">
       <PrivateAssets>all</PrivateAssets>
@@ -31,6 +58,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Migrations\" />
     <Folder Include="wwwroot\uploads\" />
   </ItemGroup>
 

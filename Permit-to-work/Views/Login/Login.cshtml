@@ -1,0 +1,727 @@
+﻿@model Login
+@{
+    Layout = null;
+    ViewData["Title"] = "Login";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login — Permit to Work</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg: #0d0f14;
+            --surface: #13161e;
+            --card: #181c27;
+            --border: rgba(255,255,255,0.07);
+            --border-hi: rgba(245,166,35,0.45);
+            --accent: #f5a623;
+            --accent2: #e07b10;
+            --glow: rgba(245,166,35,0.18);
+            --text: #e8eaf0;
+            --muted: #7a8099;
+            --error: #e05555;
+            --success: #4caf82;
+        }
+
+        html, body {
+            height: 100%;
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow: hidden;
+        }
+
+        /* ── ANIMATED BACKGROUND ── */
+        .bg-scene {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+            /* Grid lines */
+            .bg-scene::before {
+                content: '';
+                position: absolute;
+                inset: 0;
+                background-image: linear-gradient(rgba(245,166,35,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(245,166,35,0.04) 1px, transparent 1px);
+                background-size: 48px 48px;
+                animation: grid-drift 20s linear infinite;
+            }
+
+        @@keyframes grid-drift {
+            0%
+
+        {
+            background-position: 0 0;
+        }
+
+        100% {
+            background-position: 48px 48px;
+        }
+
+        }
+
+        /* Radial glows */
+        .glow-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.35;
+            animation: orb-float 8s ease-in-out infinite alternate;
+        }
+
+            .glow-orb.a {
+                width: 480px;
+                height: 480px;
+                background: radial-gradient(circle, #f5a623 0%, transparent 70%);
+                top: -160px;
+                right: -120px;
+                animation-delay: 0s;
+            }
+
+            .glow-orb.b {
+                width: 320px;
+                height: 320px;
+                background: radial-gradient(circle, #e07b10 0%, transparent 70%);
+                bottom: -80px;
+                left: -80px;
+                animation-delay: -4s;
+                opacity: 0.2;
+            }
+
+        @@keyframes orb-float {
+            0%
+
+        {
+            transform: translate(0, 0) scale(1);
+        }
+
+        100% {
+            transform: translate(20px, 30px) scale(1.06);
+        }
+
+        }
+
+        /* Diagonal slash accent */
+        .bg-slash {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(135deg, transparent 60%, rgba(245,166,35,0.03) 100%);
+            border-left: 1px solid rgba(245,166,35,0.06);
+            transform: skewX(-8deg) translateX(60px);
+        }
+
+        /* ── LAYOUT ── */
+        .login-shell {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        /* ── CARD ── */
+        .login-card {
+            width: 100%;
+            max-width: 420px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 44px 40px 36px;
+            box-shadow: 0 0 0 1px rgba(255,255,255,0.03), 0 24px 80px rgba(0,0,0,0.6), 0 0 60px var(--glow);
+            animation: card-rise 0.6s cubic-bezier(0.22,1,0.36,1) both;
+        }
+
+        @@keyframes card-rise {
+            from
+
+        {
+            opacity: 0;
+            transform: translateY(28px) scale(0.97);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        }
+
+        /* ── HEADER ── */
+        .login-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 28px;
+            animation: fade-in 0.5s 0.15s both;
+        }
+
+        .logo-icon {
+            width: 38px;
+            height: 38px;
+            background: var(--accent);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 16px rgba(245,166,35,0.35);
+            flex-shrink: 0;
+        }
+
+            .logo-icon svg {
+                width: 20px;
+                height: 20px;
+                fill: #0d0f14;
+            }
+
+        .logo-text {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 1.05rem;
+            letter-spacing: 0.02em;
+            color: var(--text);
+        }
+
+            .logo-text span {
+                color: var(--accent);
+            }
+
+        .login-heading {
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 1.6rem;
+            letter-spacing: -0.01em;
+            margin-bottom: 6px;
+            animation: fade-in 0.5s 0.2s both;
+        }
+
+        .login-sub {
+            font-size: 0.85rem;
+            color: var(--muted);
+            font-weight: 300;
+            margin-bottom: 32px;
+            animation: fade-in 0.5s 0.25s both;
+        }
+
+        @@keyframes fade-in {
+            from
+
+        {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        }
+
+        /* ── DIVIDER ── */
+        .login-divider {
+            height: 1px;
+            background: var(--border);
+            margin-bottom: 28px;
+            animation: fade-in 0.5s 0.28s both;
+        }
+
+        /* ── FORM ── */
+        .field-group {
+            margin-bottom: 18px;
+            animation: fade-in 0.5s both;
+        }
+
+            .field-group:nth-child(1) {
+                animation-delay: 0.3s;
+            }
+
+            .field-group:nth-child(2) {
+                animation-delay: 0.35s;
+            }
+
+            .field-group:nth-child(3) {
+                animation-delay: 0.4s;
+            }
+
+        .field-label {
+            display: block;
+            font-size: 0.72rem;
+            font-weight: 500;
+            letter-spacing: 0.09em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 8px;
+        }
+
+        .field-wrap {
+            position: relative;
+        }
+
+        .field-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            color: var(--muted);
+            pointer-events: none;
+            transition: color 0.2s;
+        }
+
+        .field-input {
+            width: 100%;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.9rem;
+            padding: 12px 14px 12px 42px;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+            .field-input::placeholder {
+                color: var(--muted);
+                opacity: 0.6;
+            }
+
+            .field-input:focus {
+                border-color: var(--border-hi);
+                box-shadow: 0 0 0 3px var(--glow);
+            }
+
+                .field-input:focus + .field-icon,
+                .field-wrap:focus-within .field-icon {
+                    color: var(--accent);
+                }
+
+        /* Eye toggle for password */
+        .eye-toggle {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            color: var(--muted);
+            transition: color 0.2s;
+            display: flex;
+            align-items: center;
+        }
+
+            .eye-toggle:hover {
+                color: var(--text);
+            }
+
+            .eye-toggle svg {
+                width: 16px;
+                height: 16px;
+            }
+
+        /* ── REMEMBER + FORGOT ── */
+        .login-options {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            animation: fade-in 0.5s 0.42s both;
+        }
+
+        .remember-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.82rem;
+            color: var(--muted);
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .remember-check {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--accent);
+            cursor: pointer;
+        }
+
+        .forgot-link {
+            font-size: 0.82rem;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.2s;
+        }
+
+            .forgot-link:hover {
+                opacity: 0.75;
+            }
+
+        /* ── SUBMIT BUTTON ── */
+        .btn-login {
+            width: 100%;
+            background: var(--accent);
+            color: #0d0f14;
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 0.92rem;
+            letter-spacing: 0.05em;
+            border: none;
+            border-radius: 8px;
+            padding: 13px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+            box-shadow: 0 4px 20px rgba(245,166,35,0.3);
+            animation: fade-in 0.5s 0.45s both;
+        }
+
+            .btn-login::after {
+                content: '';
+                position: absolute;
+                inset: 0;
+                background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+                transform: translateX(-100%);
+                transition: transform 0.4s;
+            }
+
+            .btn-login:hover {
+                background: var(--accent2);
+                box-shadow: 0 6px 28px rgba(245,166,35,0.45);
+                transform: translateY(-1px);
+            }
+
+                .btn-login:hover::after {
+                    transform: translateX(100%);
+                }
+
+            .btn-login:active {
+                transform: translateY(0);
+            }
+
+        /* ── SECURITY BADGE ── */
+        .security-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 24px;
+            font-size: 0.7rem;
+            color: var(--muted);
+            animation: fade-in 0.5s 0.5s both;
+        }
+
+            .security-badge svg {
+                width: 12px;
+                height: 12px;
+                fill: var(--success);
+                opacity: 0.8;
+            }
+
+        /* ── VALIDATION ── */
+        .field-error {
+            font-size: 0.72rem;
+            color: var(--error);
+            margin-top: 5px;
+            display: none;
+        }
+
+        .field-input.invalid {
+            border-color: var(--error);
+            box-shadow: 0 0 0 3px rgba(224,85,85,0.15);
+        }
+
+        /* ── ALERT ── */
+        .login-alert {
+            background: rgba(224,85,85,0.1);
+            border: 1px solid rgba(224,85,85,0.25);
+            border-radius: 8px;
+            color: #f08080;
+            font-size: 0.82rem;
+            padding: 10px 14px;
+            margin-bottom: 20px;
+            display: none;
+            animation: fade-in 0.3s both;
+        }
+
+        /* ── RESPONSIVE ── */
+        @@media (max-width: 480px) {
+            .login-card {
+                padding: 32px 24px 28px;
+            }
+
+            .login-heading {
+                font-size: 1.35rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background -->
+    <div class="bg-scene">
+        <div class="glow-orb a"></div>
+        <div class="glow-orb b"></div>
+        <div class="bg-slash"></div>
+    </div>
+
+    <!-- Login Shell -->
+    <div class="login-shell">
+        <div class="login-card">
+
+            <!-- Logo -->
+            <div class="login-logo">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 4l5 2.18V11c0 3.5-2.33 6.79-5 7.93C9.33 17.79 7 14.5 7 11V7.18L12 5z" /></svg>
+                </div>
+                <div class="logo-text">Permit <span>to Work</span></div>
+            </div>
+
+            <h1 class="login-heading">Welcome back</h1>
+            <p class="login-sub">Sign in to access the safety management system</p>
+
+            <div class="login-divider"></div>
+
+            <!-- Server-side validation summary (ASP.NET) -->
+           @*  <div asp-validation-summary="ModelOnly" class="login-alert" id="serverAlert"></div> *@
+            <div id="serverAlert" class="login-alert" style="display: none;">
+                <strong>Login Failed</strong><br>
+                Invalid username or password. Please try again.
+            </div>
+
+            <form method="post" asp-action="Login" asp-controller="Login" id="loginForm" novalidate>
+                @Html.AntiForgeryToken()
+
+                <!-- Username -->
+                <div class="field-group">
+                    <label class="field-label" for="username">Username / Employee ID</label>
+                    <div class="field-wrap">
+                        <input class="field-input"
+                               type="text"
+                               id="username"
+                               name="Username"
+                               placeholder="Enter your username"
+                               autocomplete="username"
+                               asp-for="Username" />
+                        <svg class="field-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z" />
+                        </svg>
+                    </div>
+                    <span class="field-error" id="usernameErr">Please enter your username.</span>
+                    <span asp-validation-for="Username" class="field-error" style="display:block"></span>
+                </div>
+
+                <!-- Password -->
+                <div class="field-group">
+                    <label class="field-label" for="password">Password</label>
+                    <div class="field-wrap">
+                        <input class="field-input"
+                               type="password"
+                               id="password"
+                               name="Password"
+                               placeholder="Enter your password"
+                               autocomplete="current-password"
+                               asp-for="Password" />
+                        <svg class="field-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1s3.1 1.39 3.1 3.1v2z" />
+                        </svg>
+                        <button type="button" class="eye-toggle" id="eyeBtn" aria-label="Toggle password visibility">
+                            <svg id="eyeIcon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
+                            </svg>
+                        </button>
+                    </div>
+                    <span class="field-error" id="passwordErr">Please enter your password.</span>
+                    <span asp-validation-for="Password" class="field-error" style="display:block"></span>
+                </div>
+
+                <!-- Options -->
+                <div class="login-options">
+                    <label class="remember-label">
+                        <input class="remember-check" type="checkbox" name="RememberMe" asp-for="RememberMe" />
+                        Remember me
+                    </label>
+                    <a class="forgot-link" asp-action="ForgotPassword" asp-controller="Account">Forgot password?</a>
+                </div>
+
+                <!-- Submit -->
+                <button type="submit" class="btn-login" id="loginBtn">
+                    SIGN IN
+                </button>
+            </form>
+
+            <!-- Security note -->
+            <div class="security-badge">
+                <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z" /></svg>
+                Secured connection &nbsp;·&nbsp; Authorized personnel only
+            </div>
+
+        </div>
+    </div>
+
+   @*  <script>
+        // Password visibility toggle
+        const eyeBtn = document.getElementById('eyeBtn');
+        const pwdInput = document.getElementById('password');
+        const eyeIcon = document.getElementById('eyeIcon');
+
+        const eyeOpen = `<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>`;
+        const eyeClosed = `<path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46A11.804 11.804 0 001 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/>`;
+
+        eyeBtn.addEventListener('click', () => {
+            const isHidden = pwdInput.type === 'password';
+            pwdInput.type = isHidden ? 'text' : 'password';
+            eyeIcon.innerHTML = isHidden ? eyeClosed : eyeOpen;
+        });
+            const serverAlert = document.getElementById('serverAlert');
+
+        // Check if there is any ModelState error (from controller)
+        @if (!ViewData.ModelState.IsValid)
+        {
+                <text>
+                    serverAlert.style.display = 'block';
+                </text>
+        }
+        // Client-side validation
+        const form = document.getElementById('loginForm');
+        const usernameInput = document.getElementById('username');
+        const usernameErr = document.getElementById('usernameErr');
+        const passwordErr = document.getElementById('passwordErr');
+
+        function validate() {
+            let valid = true;
+
+            if (!usernameInput.value.trim()) {
+                usernameInput.classList.add('invalid');
+                usernameErr.style.display = 'block';
+                valid = false;
+            } else {
+                usernameInput.classList.remove('invalid');
+                usernameErr.style.display = 'none';
+            }
+
+            if (!pwdInput.value) {
+                pwdInput.classList.add('invalid');
+                passwordErr.style.display = 'block';
+                valid = false;
+            } else {
+                pwdInput.classList.remove('invalid');
+                passwordErr.style.display = 'none';
+            }
+
+            return valid;
+        }
+
+        form.addEventListener('submit', (e) => {
+            if (!validate()) e.preventDefault();
+        });
+
+        // Remove error state on input
+        [usernameInput, pwdInput].forEach(el => {
+            el.addEventListener('input', () => {
+                el.classList.remove('invalid');
+            });
+        });
+
+        // Show server alert if validation summary has content
+        const serverAlert = document.getElementById('serverAlert');
+        if (serverAlert && serverAlert.innerText.trim()) {
+            serverAlert.style.display = 'block';
+        }
+    </script> *@
+    <script>
+        // Password visibility toggle
+        const eyeBtn = document.getElementById('eyeBtn');
+        const pwdInput = document.getElementById('password');
+        const eyeIcon = document.getElementById('eyeIcon');
+
+        const eyeOpen = `<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>`;
+        const eyeClosed = `<path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46A11.804 11.804 0 001 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/>`;
+
+        eyeBtn.addEventListener('click', () => {
+            const isHidden = pwdInput.type === 'password';
+            pwdInput.type = isHidden ? 'text' : 'password';
+            eyeIcon.innerHTML = isHidden ? eyeClosed : eyeOpen;
+        });
+
+        // ==================== FORM & ERROR HANDLING ====================
+        const form = document.getElementById('loginForm');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const usernameErr = document.getElementById('usernameErr');
+        const passwordErr = document.getElementById('passwordErr');
+        const serverAlert = document.getElementById('serverAlert');
+
+        // Show error message ONLY if login failed (after form post)
+        @if (!ViewData.ModelState.IsValid)
+        {
+                <text>
+                    serverAlert.style.display = 'block';
+                </text>
+        }
+
+        // Client-side validation function
+        function validateForm() {
+            let valid = true;
+
+            if (!usernameInput.value.trim()) {
+                usernameInput.classList.add('invalid');
+                usernameErr.style.display = 'block';
+                valid = false;
+            } else {
+                usernameInput.classList.remove('invalid');
+                usernameErr.style.display = 'none';
+            }
+
+            if (!passwordInput.value) {
+                passwordInput.classList.add('invalid');
+                passwordErr.style.display = 'block';
+                valid = false;
+            } else {
+                passwordInput.classList.remove('invalid');
+                passwordErr.style.display = 'none';
+            }
+
+            return valid;
+        }
+
+        // Form submit
+        form.addEventListener('submit', (e) => {
+            if (!validateForm()) {
+                e.preventDefault();
+            }
+        });
+
+        // Hide server alert when user starts typing
+        [usernameInput, passwordInput].forEach(input => {
+            input.addEventListener('input', () => {
+                input.classList.remove('invalid');
+                if (serverAlert.style.display === 'block') {
+                    serverAlert.style.display = 'none';
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

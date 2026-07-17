@@ -47,5 +47,10 @@ namespace Permit_to_work.Models
 
         public string SuspensionName { get; set; }
         public string SuspensionSignatureDate { get; set; }
+
+        public string ApproverOne { get; set; }
+        public string ApproverTwo { get; set; }
+        public string ApproverThree { get; set; }
+        public string ApproverFour { get; set; }
     }
 }

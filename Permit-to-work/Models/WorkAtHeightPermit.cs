@@ -65,6 +65,7 @@ namespace Permit_to_work.Models
         public bool ScaffoldCertified { get; set; }
         public string OtherRiskControl { get; set; }
 
+        //Inspection
         public bool DangerWarningSign { get; set; }
         public bool ScaffoldTagSystem { get; set; }
         public bool Lighting { get; set; }
@@ -106,6 +107,12 @@ namespace Permit_to_work.Models
         // ===== SUSPENSION =====
         public string SuspensionName { get; set; }
         public string SuspensionSignatureDate { get; set; }
+
+        // ===== SUSPENSION =====
+        public string ApproverOne { get; set; }
+        public string ApproverTwo { get; set; }
+        public string ApproverThree { get; set; }
+        public string ApproverFour { get; set; }
 
         public DateTime CreatedOn { get; set; } = DateTime.Now;
     }

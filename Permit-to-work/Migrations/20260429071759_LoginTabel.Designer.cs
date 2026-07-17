@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Permit_to_work.Data;
 
@@ -11,9 +12,11 @@ using Permit_to_work.Data;
 namespace Permit_to_work.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260429071759_LoginTabel")]
+    partial class LoginTabel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -173,16 +176,6 @@ namespace Permit_to_work.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("DocJSA")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("DocOther")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("DocRiskAssessment")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("ESI")
                         .HasColumnType("bit");
 
@@ -193,56 +186,23 @@ namespace Permit_to_work.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("HazardChemical")
+                    b.Property<bool>("Equipment")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("HazardDust")
+                    b.Property<bool>("Falling")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("HazardElectrical")
+                    b.Property<bool>("Faulty")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("HazardHotSurface")
+                    b.Property<bool>("Heat")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("HazardLifting")
+                    b.Property<bool>("Illumination")
                         .HasColumnType("bit");
 
-                    b.Property<string>("HazardNA")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("HazardScaffolding")
+                    b.Property<bool>("InsuranceAvailable")
                         .HasColumnType("bit");
-
-                    b.Property<bool>("HazardToolEquipment")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("HazardWorkAtHeight")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("InspectAccess")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("InspectDangerSign")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("InspectHandTools")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("InspectLighting")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("InspectOther")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("InspectSafetyBarriers")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("InspectedNA")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -267,64 +227,20 @@ namespace Permit_to_work.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("PPEDustMask")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("PPEEarPlugs")
+                    b.Property<bool>("Noise")
                         .HasColumnType("bit");
 
                     b.Property<bool>("PPEGloves")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("PPEGoggles")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("PPEHarness")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("PPEHelmet")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("PPENA")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PPEOther")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PPEReflectiveVest")
                         .HasColumnType("bit");
 
                     b.Property<bool>("PPEShoes")
                         .HasColumnType("bit");
 
-                    b.Property<string>("PermitAssociated")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PermitConfinedSpace")
+                    b.Property<bool>("Protruding")
                         .HasColumnType("bit");
-
-                    b.Property<bool>("PermitElectrical")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("PermitExcavation")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("PermitHotWork")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("PermitOther")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PermitWorkAtHeight")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Precaution")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ReceiverDate")
                         .IsRequired()
@@ -334,41 +250,10 @@ namespace Permit_to_work.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("RiskEquipment")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("RiskFallHeight")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("RiskFalling")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("RiskFaulty")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("RiskFlying")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("RiskHeat")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("RiskIllumination")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("RiskNoise")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("RiskOther")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("RiskProtruding")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("RiskTripping")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("RiskVibration")
                         .HasColumnType("bit");
 
                     b.Property<bool>("RiskWeather")
@@ -388,13 +273,15 @@ namespace Permit_to_work.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ToolsTested")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("Tripping")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Unit")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Vibration")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("WC")
                         .HasColumnType("bit");
@@ -408,157 +295,23 @@ namespace Permit_to_work.Migrations
                     b.ToTable("ColdWorkPermits");
                 });
 
-            modelBuilder.Entity("Permit_to_work.Models.ConfinedSpacePermit", b =>
+            modelBuilder.Entity("Permit_to_work.Models.DepartmentMaster", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("DepartmentId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DepartmentId"));
 
-                    b.Property<string>("COLevel")
-                        .IsRequired()
+                    b.Property<string>("DepartmentName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Contact1")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Contact2")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Contact3")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Contractor")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("EarPlugs")
+                    b.Property<bool>("isActive")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
+                    b.HasKey("DepartmentId");
 
-                    b.Property<TimeSpan>("EndTime")
-                        .HasColumnType("time");
-
-                    b.Property<string>("ExplosiveLevel")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("GasMask")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Gloves")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Goggles")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("H2SLevel")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Harness")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Helmet")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("IssuerDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("IssuerName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Location")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("NoOfWorkmen")
-                        .HasColumnType("int");
-
-                    b.Property<string>("OxygenLevel")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("ReceiverDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ReceiverName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("RiskDust")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("RiskExplosion")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("RiskFire")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("RiskFume")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("RiskHot")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("RiskNoise")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("RiskOther")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("RiskOxygen")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("RiskVibration")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("SafetyShoes")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<TimeSpan>("StartTime")
-                        .HasColumnType("time");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("SuspensionDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("SuspensionName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ToolsEquipment")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Unit")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Vest")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("WorkDescription")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ConfinedSpacePermits");
+                    b.ToTable("DepartmentMasters");
                 });
 
             modelBuilder.Entity("Permit_to_work.Models.ElectricalIsolationPermit", b =>
@@ -608,6 +361,18 @@ namespace Permit_to_work.Migrations
 
                     b.Property<bool>("FireExtinguisher")
                         .HasColumnType("bit");
+
+                    b.Property<string>("FireExtinguisherQuantity")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FireExtinguisherSize")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FireExtinguisherType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("IssuerName")
                         .IsRequired()
@@ -758,6 +523,9 @@ namespace Permit_to_work.Migrations
                     b.Property<string>("SuspensionName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("SuspensionSignatureDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("SwitchOut")
                         .HasColumnType("bit");
@@ -1128,10 +896,30 @@ namespace Permit_to_work.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("WeightApprox")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<bool>("WC")
+                        .HasColumnType("bit");
 
-                    b.Property<string>("WorkDescription")
+                    b.HasKey("PermitId");
+
+                    b.ToTable("LiftingOperationPermits");
+                });
+
+            modelBuilder.Entity("Permit_to_work.Models.Login", b =>
+                {
+                    b.Property<int>("loginId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("loginId"));
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("RememberMe")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

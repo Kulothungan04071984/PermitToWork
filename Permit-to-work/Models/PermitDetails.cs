@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using Permit_to_work.ViewModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Permit_to_work.Models
 {
@@ -18,5 +19,23 @@ namespace Permit_to_work.Models
         public List<SelectListItem> Approvers { get; set; }
         public int SelectedUnitId { get; set; }
         public List<SelectListItem> Units { get; set; }
+
+  
+        public string FirstApproval { get; set; }
+
+        public string SecondApproval { get; set; }
+
+        public string ThirdApproval { get; set; }
+
+        public string FourthApproval { get; set; }
+
+        public string FirstApprovalStatus { get; set; }
+
+        public string SecondApprovalStatus { get; set; }
+
+        public string ThirdApprovalStatus { get; set; }
+
+        public string FourthApprovalStatus { get; set; }
+
     }
 }

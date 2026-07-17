@@ -7,22 +7,34 @@
         public string PermitNumber { get; set; }
 
         public string PermitType { get; set; }
+
         // Cold Work / Hot Work / Lifting / Height / Electrical
 
         public string Unit { get; set; }
-        public string Location { get; set; }
+        public string? Location { get; set; }
 
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
+
+
+        public string FirstApproverStatus { get; set; } = string.Empty;
+
+        public string SecondApproverStatus { get; set; } = string.Empty;
+
+        public string ThirdApproverStatus { get; set; } = string.Empty;
+
+        public string FourthApproverStatus { get; set; } = string.Empty;
 
         public string Status { get; set; }
+
         // Draft / PendingSafety / PendingElectrical / Approved / Closed
 
         public bool IsActive { get; set; } = true;
 
         public DateTime CreatedOn { get; set; } = DateTime.Now;
 
-        public int CreatedByUserId { get; set; }
+        public string CreatedByUserId { get; set; }
         public AppUser CreatedBy { get; set; }
+
     }
 }

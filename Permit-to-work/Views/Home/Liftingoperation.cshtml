@@ -279,6 +279,7 @@
 
                 </div>
             </section>
+
             <!-- PPE -->
             <section class="border-section">
                 <div class="section-title">PPE</div>
@@ -340,7 +341,6 @@
             </section>
 
             <!-- SUSPENSION -->
-                <section class="border-section">
                 <div class="section-title">Suspension</div>
                 <label>This permit is suspended, area/equipment is not safe to use.</label>
                 <div class="row g-3 mt-2">
@@ -357,31 +357,45 @@
                 </div>
                 </section>
 
-            <!-- APPROVER DETAILS -->
+                <!-- Approver Details -->
+
                 <section class="border-section">
-                <div class="section-title">Suspension</div>
-                <div class="col-lg-3">
-                    <label>Approver One Email</label>
-                    @Html.TextBoxFor(m => m.ApproverOne, new { @class = "form-control" })
+                <div class="section-title">Approver Details</div>
+                <div class="row g-3 mt-2">
+                    <div class="col-md-6">
+                <section class="permit-section">
+                    
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label>
+                                Approver One Email <span style="color: red">*</span>
+                            </label>
+                            @Html.TextBoxFor(m => m.ApproverOne, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.ApproverOne, "", new { @class = "text-danger" })
+
+                        </div>
+                        <div class="col-lg-3">
+                            <label>Approver Two Email</label>
+                            @Html.TextBoxFor(m => m.ApproverTwo, new { @class = "form-control" })
+                        </div>
+                        <div class="col-lg-3">
+                            <label>Approver Three Email</label>
+                            @Html.TextBoxFor(m => m.ApproverThree, new { @class = "form-control" })
+                        </div>
+                        <div class="col-lg-3">
+                            <label>Approver Four Email</label>
+                            @Html.TextBoxFor(m => m.ApproverFour, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </section>
                 </div>
-                <div class="col-lg-3">
-                    <label>Approver Two Email</label>
-                    @Html.TextBoxFor(m => m.ApproverTwo, new { @class = "form-control" })
-                </div>
-                <div class="col-lg-3">
-                    <label>Approver Three Email</label>
-                    @Html.TextBoxFor(m => m.ApproverThree, new { @class = "form-control" })
-                </div>
-                <div class="col-lg-3">
-                    <label>Approver Four Email</label>
-                    @Html.TextBoxFor(m => m.ApproverFour, new { @class = "form-control" })
                 </div>
                 </section>
 
 
             <div class="text-center mt-4">
                 <button type="submit" class="btn btn-primary px-5">Submit Permit</button>
-            </div>
+            </div> 
 
         </div>
 
@@ -723,7 +737,7 @@
 
 </body>
 </html>
-@* <button type="submit" class="btn btn-primary px-5">Submit</button> *@
+
 <script>
      $(document).ready(function () {
         $('#hdHotwork,#hdElectricalIsolation,#hdworkPermitForm,#hdWorkAtHeight').hide();

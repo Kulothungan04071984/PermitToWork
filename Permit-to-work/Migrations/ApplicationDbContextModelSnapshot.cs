@@ -158,7 +158,7 @@ namespace Permit_to_work.Migrations
                     b.ToTable("ApproverMasters");
                 });
 
-            modelBuilder.Entity("Permit_to_work.Models.ColdWorkPermitVM", b =>
+            modelBuilder.Entity("Permit_to_work.Models.ColdWorkPermit", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -166,8 +166,23 @@ namespace Permit_to_work.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("ContractorTeam")
+                    b.Property<string>("ApproverFour")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ApproverOne")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ApproverThree")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ApproverTwo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContractorTeam")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedOn")
@@ -177,7 +192,6 @@ namespace Permit_to_work.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("DocOther")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("DocRiskAssessment")
@@ -186,11 +200,10 @@ namespace Permit_to_work.Migrations
                     b.Property<bool>("ESI")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("EndDate")
+                    b.Property<DateTime?>("EndDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("EndTime")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("HazardChemical")
@@ -209,7 +222,6 @@ namespace Permit_to_work.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("HazardNA")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("HazardScaffolding")
@@ -234,37 +246,30 @@ namespace Permit_to_work.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("InspectOther")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("InspectSafetyBarriers")
                         .HasColumnType("bit");
 
                     b.Property<string>("InspectedNA")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<string>("IssuerDate")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("IssuerName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Location")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NoOfWorkmen")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("PPEDustMask")
@@ -286,11 +291,9 @@ namespace Permit_to_work.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("PPENA")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PPEOther")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("PPEReflectiveVest")
@@ -300,7 +303,6 @@ namespace Permit_to_work.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("PermitAssociated")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("PermitConfinedSpace")
@@ -316,22 +318,18 @@ namespace Permit_to_work.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("PermitOther")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("PermitWorkAtHeight")
                         .HasColumnType("bit");
 
                     b.Property<string>("Precaution")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ReceiverDate")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ReceiverName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("RiskEquipment")
@@ -359,7 +357,6 @@ namespace Permit_to_work.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("RiskOther")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("RiskProtruding")
@@ -374,33 +371,28 @@ namespace Permit_to_work.Migrations
                     b.Property<bool>("RiskWeather")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("StartDate")
+                    b.Property<DateTime?>("StartDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("StartTime")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("SuspensionDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ToolsEquipment")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ToolsTested")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Unit")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("WC")
                         .HasColumnType("bit");
 
                     b.Property<string>("WorkDescription")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -1163,6 +1155,14 @@ namespace Permit_to_work.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("FirstApproverStatus")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FourthApproverStatus")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
@@ -1178,10 +1178,18 @@ namespace Permit_to_work.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("SecondApproverStatus")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ThirdApproverStatus")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

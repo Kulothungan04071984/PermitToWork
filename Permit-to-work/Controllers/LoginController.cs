@@ -24,15 +24,16 @@ namespace Permit_to_work.Controllers
             if (ModelState.IsValid)
             {
                var result=_context.Logins.Any(a=>a.Username == model.Username && a.Password == model.Password && a.isActive == true);
-                if(result)
-                {
-                    return RedirectToAction("Dashboard", "Home");
-                }
-                else
-                {
-                    ModelState.AddModelError("", "Invalid username or password. Please try again.");
-                }
-                   
+               if(result)
+               {
+                   HttpContext.Session.SetString("UserId", model.Username);
+                   return RedirectToAction("Dashboard", "Home");
+               }
+               else
+               {
+                   ModelState.AddModelError("", "Invalid username or password. Please try again.");
+               }
+                
             }
             return View(model);
         }

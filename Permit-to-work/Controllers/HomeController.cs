@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Net;
 using System.Net.Mail;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Permit_to_work.Controllers
 {
@@ -97,46 +98,10 @@ namespace Permit_to_work.Controllers
                 ModelState.AddModelError("RiskIdentification", "Please select at least one Risk Identification or enter Other Risk.");
             }
 
-            //else if (!vm.DocJSA &&
-            //         !vm.DocRiskAssessment &&
-            //         string.IsNullOrWhiteSpace(vm.DocOther))
-            //{
-            //    ModelState.AddModelError("Documents", "Please select at least one of the document or enter Other Risk.");
-            //}
-
-            //else if (string.IsNullOrWhiteSpace(vm.Precaution))
-            //{
-            //    ModelState.AddModelError("Precaution&Tools", "Please select at least one of the Precaution.");
-            //}
-
             else if (string.IsNullOrWhiteSpace(vm.ToolsTested))
             {
                 ModelState.AddModelError("ToolsTested", "Please select at least one of the Tools.");
             }
-
-            //else if (!vm.HazardWorkAtHeight &&
-            //         !vm.HazardScaffolding &&
-            //         !vm.HazardToolEquipment &&
-            //         !vm.HazardChemical &&
-            //         !vm.HazardElectrical &&
-            //         !vm.HazardLifting &&
-            //         !vm.HazardHotSurface &&
-            //         !vm.HazardDust &&                   
-            //         string.IsNullOrWhiteSpace(vm.HazardNA))  
-            //{
-            //    ModelState.AddModelError("Hazards", "Please select at least one of the Hazards.");
-            //}
-
-            //else if (!vm.PermitHotWork &&
-            //         !vm.PermitWorkAtHeight &&
-            //         !vm.PermitExcavation &&
-            //         !vm.PermitElectrical &&
-            //         !vm.PermitConfinedSpace &&
-            //         string.IsNullOrWhiteSpace(vm.PermitOther) &&
-            //         string.IsNullOrWhiteSpace(vm.PermitAssociated))
-            //{
-            //    ModelState.AddModelError("AssociatedPermits", "Please select at least one of the Associated Permits or enter other permit.");
-            //}
 
             else if (!vm.WC &&
                      !vm.ESI)
@@ -233,20 +198,10 @@ namespace Permit_to_work.Controllers
                 DocOther = vm.DocOther,
 
                 // ── Precaution & Tools Tested ────────────────────────────
-                Precaution = vm.Precaution,
+               
                 ToolsTested = vm.ToolsTested,
 
-                // ── Hazards Identified ───────────────────────────────────
-                HazardWorkAtHeight = vm.HazardWorkAtHeight,
-                HazardScaffolding = vm.HazardScaffolding,
-                HazardToolEquipment = vm.HazardToolEquipment,
-                HazardChemical = vm.HazardChemical,
-                HazardElectrical = vm.HazardElectrical,
-                HazardLifting = vm.HazardLifting,
-                HazardHotSurface = vm.HazardHotSurface,
-                HazardDust = vm.HazardDust,
-                HazardNA = vm.HazardNA,
-
+              
                 // ── Associated Permits ───────────────────────────────────
                 PermitHotWork = vm.PermitHotWork,
                 PermitWorkAtHeight = vm.PermitWorkAtHeight,
@@ -353,10 +308,132 @@ namespace Permit_to_work.Controllers
         [HttpPost]
         public async Task<IActionResult> Hotwork(HotWorkPermit model)
         {
-            if (!ModelState.IsValid)
-                return View(model);
+            if (!model.Welding &&
+               !model.ChippingCuttingGrinding)
+            {
+                ModelState.AddModelError("WorkType", "Please select at least one Work Type.");
+            }
 
-                // ── Regulators ────────────────────────────────────────────
+            if (!model.Electrocution &&
+                !model.ArcFlash &&
+                !model.FlyingParticles &&
+                !model.Noise &&
+                !model.FallingObjects &&
+                !model.ProtrudingObjects &&
+                !model.TrippingSlipping &&
+                !model.ElectricShock &&
+                !model.FireSpark &&
+                !model.ManualHandling &&
+                !model.HotBurn &&
+                !model.Explosion &&
+                !model.HealthHazard &&
+                !model.FumeSmoke &&
+                string.IsNullOrWhiteSpace(model.AttachOther))
+            {
+                ModelState.AddModelError("Risk", "Please select at least one Risk Identification");
+            }
+
+            if (string.IsNullOrWhiteSpace(model.EmergencyTeamAvailable) &&
+                string.IsNullOrWhiteSpace(model.EmergencyContact1) &&
+                string.IsNullOrWhiteSpace(model.EmergencyContact2) &&
+                string.IsNullOrWhiteSpace(model.EmergencyContact3) &&
+                string.IsNullOrWhiteSpace(model.ToolsTested))
+            {
+                ModelState.AddModelError("EmergencyTeam", "Please fill at least one Emergency Team field.");
+            }
+
+            if(!model.WC &&
+                !model.ESI)
+            {
+                ModelState.AddModelError("Insurance", "Please select at least one Insurance");
+            }
+
+            if(!model.FireExtinguisherChecked &&
+                !model.FireBlanketChecked &&
+                !model.WarningSignChecked &&
+                !model.LightingChecked &&
+                !model.SafetyBarriersChecked &&
+                !model.SandBucketChecked &&
+                string.IsNullOrWhiteSpace(model.FireExtinguisherDetails))
+            {
+                ModelState.AddModelError("Inspection", "Please select at least one Inspection");
+            }
+
+            if(!model.Helmet &&
+                !model.SafetyShoes &&
+                !model.WeldingGloves &&
+                !model.FaceShield &&
+                !model.WeldingGoggles &&
+                !model.Apron &&
+                !model.GasMask &&
+                !model.EarPlugs &&
+                !model.WeldingShield &&
+                !model.WeldingClothes &&
+                string.IsNullOrWhiteSpace(model.OtherPPE))
+            {
+                ModelState.AddModelError("PPE", "Please select at least one PPE");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                //foreach (var item in ModelState)
+                //{
+                //    foreach (var error in item.Value.Errors)
+                //    {
+                //        Console.WriteLine($"{item.Key} : {error.ErrorMessage}");
+                //    }
+                //}
+
+                return View(model);
+            }
+
+            var entity = new HotWorkPermit
+
+            {
+                // ── Basic Details ────────────────────────────────────────────
+                Unit = model.Unit,
+                ContractorName = model.ContractorName,
+                Location = model.Location,
+                NoOfWorkmen = model.NoOfWorkmen,
+
+                // ── Date & Time ────────────────────────────────────────────
+                StartDate = model.StartDate,
+                StartTime = model.StartTime,
+                EndDate = model.EndDate,
+                EndTime = model.EndTime,
+
+                // ── Work Type ────────────────────────────────────────────
+                Welding = model.Welding,
+                ChippingCuttingGrinding = model.ChippingCuttingGrinding,
+
+                // ── Work Details ────────────────────────────────────────────
+                WorkDescription = model.WorkDescription,
+                ToolsEquipment = model.ToolsEquipment,
+
+                // ── Risk ──────────────────────────────────────────────────
+                Electrocution = model.Electrocution,
+                ArcFlash = model.ArcFlash,
+                FlyingParticles = model.FlyingParticles,
+                Noise = model.Noise,
+                FallingObjects = model.FallingObjects,
+                ProtrudingObjects = model.ProtrudingObjects,
+                TrippingSlipping = model.TrippingSlipping,
+                ElectricShock = model.ElectricShock,
+                FireSpark = model.FireSpark,
+                ManualHandling = model.ManualHandling,
+                HotBurn = model.HotBurn,
+                Explosion = model.Explosion,
+                HealthHazard = model.HealthHazard,
+                FumeSmoke = model.FumeSmoke,
+
+                // ── Documents ──────────────────────────────────────────────────
+                AttachJSA = model.AttachJSA,
+                AttachOther = model.AttachOther,
+
+                // ── Certification Safety ───────────────────────────────────────
+                CombustibleRemoved = model.CombustibleRemoved,
+
+                // ── Regulators ───────────────────────────────────────
                 FlashbackArrestors = model.FlashbackArrestors,
                 CylindersProvided = model.CylindersProvided,
 
@@ -391,7 +468,7 @@ namespace Permit_to_work.Controllers
                 Apron = model.Apron,
                 GasMask = model.GasMask,
                 EarPlugs = model.EarPlugs,
-                WeldingShield  = model.WeldingShield,
+                WeldingShield = model.WeldingShield,
                 WeldingClothes = model.WeldingClothes,
                 OtherPPE = model.OtherPPE,
 
@@ -408,30 +485,26 @@ namespace Permit_to_work.Controllers
                 // ── Approver Details ────────────────────────────────────────────
                 ApproverOne = model.ApproverOne,
                 ApproverTwo = model.ApproverTwo,
-                ApproverThree = model. ApproverThree,
+                ApproverThree = model.ApproverThree,
                 ApproverFour = model.ApproverFour,
 
                 // ── Meta ─────────────────────────────────────────────────
                 CreatedOn = DateTime.Now,
-                
             };
+
 
             entity.Status = "Pending";
 
             _context.HotWorkPermits.Add(entity);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("Success");
-
-
+            return RedirectToAction("Hotwork");
         }
 
         public IActionResult Hotwork()
         {
-            return View(); 
+            return View();
         }
-
-       
 
         // LIFTING OPERATION PERMIT
 
@@ -558,7 +631,15 @@ namespace Permit_to_work.Controllers
                     Location = x.Location,
                     StartDate = x.StartDate,
                     EndDate = x.EndDate,
-                    Status = "Active",
+                    //Status = "Active",
+                    Status = _context.PermitMasters.Where(p => Convert.ToInt32(p.PermitNumber) == x.PermitId).Select(p => p.Status).FirstOrDefault(),
+
+                    Count = (x.ApproverOne != null ? 4 : x.ApproverTwo != null ? 3 : x.ApproverThree != null ? 2 : x.ApproverFour != null ? 1 : 0),
+
+                    FirstApprovalStatus = _context.PermitMasters.Where(p => Convert.ToInt32(p.PermitNumber) == x.PermitId).Select(p => p.FirstApproverStatus).FirstOrDefault(),
+                    SecondApprovalStatus = _context.PermitMasters.Where(p => Convert.ToInt32(p.PermitNumber) == x.PermitId).Select(p => p.SecondApproverStatus).FirstOrDefault(),
+                    ThirdApprovalStatus = _context.PermitMasters.Where(p => Convert.ToInt32(p.PermitNumber) == x.PermitId).Select(p => p.ThirdApproverStatus).FirstOrDefault(),
+                    FourthApprovalStatus = _context.PermitMasters.Where(p => Convert.ToInt32(p.PermitNumber) == x.PermitId).Select(p => p.FourthApproverStatus).FirstOrDefault(),
                 })
             );
 
@@ -758,6 +839,158 @@ namespace Permit_to_work.Controllers
 
                 else
 
+                {
+                    var permitMaster = new PermitMaster
+                    {
+                        Unit = permitdetails.Unit,
+                        StartDate = permitdetails.StartDate,
+                        EndDate = permitdetails.EndDate,
+                        PermitType = PermitType,
+                        PermitNumber = Permitid,
+                        Location = permitdetails.Location,
+                        Status = count == 1 && Status != "Rejected" ? "Approved" : "Rejected",
+                        //Status = "Partial Approved",
+                        FirstApproverStatus = Status,
+                        SecondApproverStatus = "Pending",
+                        ThirdApproverStatus = "Pending",
+                        FourthApproverStatus = "Pending",
+                        CreatedByUserId = HttpContext.Session.GetString("UserId"),
+                        CreatedOn = DateTime.Now,
+                    };
+
+                    _context.Add(permitMaster);
+                }
+
+                _context.SaveChanges();
+            }
+
+            else if(PermitType == "Hot Work")
+            {
+                int count = 0;
+                var permitdetails = _context.HotWorkPermits.Where(a => a.PermitId == Convert.ToInt32(Permitid)).FirstOrDefault();
+                var PermitApproveDetails =
+                    _context.HotWorkPermits
+                    .Where(b => b.PermitId == Convert.ToInt32(Permitid))
+                    .Select(a => (new HotWorkPermit { PermitId = a.PermitId, ApproverOne = a.ApproverOne, ApproverTwo = a.ApproverTwo, ApproverThree = a.ApproverThree, ApproverFour = a.ApproverFour })).FirstOrDefault();
+
+                if (PermitApproveDetails.ApproverOne == null)
+                    count = 0;
+                else if (PermitApproveDetails.ApproverTwo == null)
+                    count = 1;
+                else if (PermitApproveDetails.ApproverThree == null)
+                    count = 2;
+                else if (PermitApproveDetails.ApproverFour == null)
+                    count = 3;
+                else
+                    count = 4;
+
+                var permitcheck = _context.PermitMasters.Where(a => a.PermitNumber == Permitid && a.PermitType == PermitType).FirstOrDefault();
+
+                if (permitcheck != null)
+                {
+                    var first = permitcheck.FirstApproverStatus;
+                    var second = permitcheck.SecondApproverStatus;
+                    var third = permitcheck.ThirdApproverStatus;
+                    var fourth = permitcheck.FourthApproverStatus;
+
+                    // Second Approver
+                    if (count >= 2 && second == "Pending")
+                    {
+                        permitcheck.SecondApproverStatus = Status;
+                    }
+
+                    // Third Approver
+                    else if (count >= 3 && third == "Pending")
+                    {
+                        permitcheck.ThirdApproverStatus = Status;
+                    }
+
+                    // Fourth Approver
+                    else if (count == 4 && fourth == "Pending")
+                    {
+                        permitcheck.FourthApproverStatus = Status;
+                    }
+
+                    if (count == 1)
+                    {
+
+                        if (permitcheck.FirstApproverStatus == "Rejected")
+                        {
+                            permitcheck.Status = "Rejected";
+                        }
+                        else
+                        {
+                            permitcheck.Status = "Approved";
+                        }
+                    }
+
+                    else if (count == 2)
+                    {
+
+                        if (permitcheck.FirstApproverStatus == "Rejected" && permitcheck.SecondApproverStatus == "Rejected")
+                        {
+                            permitcheck.Status = "Rejected";
+                        }
+
+                        else if (permitcheck.FirstApproverStatus != "Pending" && permitcheck.SecondApproverStatus != "Pending")
+                        {
+
+                            if (permitcheck.FirstApproverStatus == "Approved" && permitcheck.SecondApproverStatus == "Approved")
+                            {
+                                permitcheck.Status = "Approved";
+                            }
+
+                            else
+                                permitcheck.Status = "Partial Approved";
+                        }
+                    }
+
+                    else if (count == 3)
+                    {
+
+                        if (permitcheck.FirstApproverStatus == "Rejected" && permitcheck.SecondApproverStatus == "Rejected" && permitcheck.ThirdApproverStatus == "Rejected")
+                        {
+                            permitcheck.Status = "Rejected";
+                        }
+
+                        else if (permitcheck.FirstApproverStatus != "Pending" && permitcheck.SecondApproverStatus != "Pending" && permitcheck.ThirdApproverStatus != "Pending")
+                        {
+
+                            if (permitcheck.FirstApproverStatus == "Approved" && permitcheck.SecondApproverStatus == "Approved" && permitcheck.ThirdApproverStatus == "Approved")
+                            {
+                                permitcheck.Status = "Approved";
+                            }
+
+                            else
+                                permitcheck.Status = "Partial Approved";
+                        }
+                    }
+
+                    else if (count == 4)
+                    {
+
+                        if (permitcheck.FirstApproverStatus == "Rejected" && permitcheck.SecondApproverStatus == "Rejected" && permitcheck.ThirdApproverStatus == "Rejected" && permitcheck.FourthApproverStatus == "Rejected")
+                        {
+                            permitcheck.Status = "Rejected";
+                        }
+
+                        else if (permitcheck.FirstApproverStatus != "Pending" && permitcheck.SecondApproverStatus != "Pending" && permitcheck.ThirdApproverStatus != "Pending" && permitcheck.FourthApproverStatus != "Pending")
+                        {
+
+                            if (permitcheck.FirstApproverStatus == "Approved" && permitcheck.SecondApproverStatus == "Approved" && permitcheck.ThirdApproverStatus == "Approved" && permitcheck.FourthApproverStatus == "Approved")
+                            {
+                                permitcheck.Status = "Approved";
+                            }
+
+                            else
+                                permitcheck.Status = "Partial Approved";
+                        }
+                    }
+
+                    _context.PermitMasters.Update(permitcheck);
+                }
+
+                else
                 {
                     var permitMaster = new PermitMaster
                     {

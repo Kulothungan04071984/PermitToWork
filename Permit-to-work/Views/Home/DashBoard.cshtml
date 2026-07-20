@@ -259,7 +259,7 @@
                             <th>End</th>
                             <th>Approval</th>
                             <th>Status</th>
-                            <th>Actions</th>
+                            <th colspan="4" class="text-center">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -287,10 +287,14 @@
                                    </select>                                
                                 </td>
 
-                                <td>
-<<<<<<< HEAD
-=======
-                                    <a class="btn btn-sm btn-primary" id="btnStatus"> <i class="bi bi-plus-circle"></i></a>
+                                <td id="status_@item.PermitDashBoardId">
+                                    @item.Status
+                                </td>
+
+                                <td class="text-center">
+                                    <a class="btn btn-sm btn-primary" id="btnStatus">
+                                        <i class="bi bi-plus-circle"></i>
+                                    </a>
 
                                     @{
                                         bool disableButton = item.Status == "Approved" || item.Status == "Rejected" || item.Status == "Partially Approved";
@@ -311,7 +315,7 @@
                                     </button>
                                 </td>
                             </tr>
-                        }
+                            }
                         }
                     </tbody>
                 </table>
@@ -347,7 +351,7 @@
 
                         <div class="approval-step pending">
                             <i class="bi bi-hourglass-split"></i>
-                            <span>Thired Approval</span>
+                            <span>Third Approval</span>
                         </div>
 
                       @*   <div class="approval-step rejected"
@@ -384,7 +388,7 @@
             </div>
         </div>
     </div>
->>>>>>> faccccd7e844f04b57a176035fe543f761ff19d4
+
     <!-- Modal -->
     <div id="modalOverlay">
         <div class="custom-modal shadow">
@@ -455,8 +459,6 @@
             $('#sidebar').hide();
         });
 
-<<<<<<< HEAD
-=======
         $("#btnStatus").on("click", function(){
             $("#StatusModal").modal("show");
         });
@@ -511,7 +513,7 @@
                 });
             }
 
->>>>>>> faccccd7e844f04b57a176035fe543f761ff19d4
+
         $("#btnAddPermit").on("click", function(){
             debugger;
             var formData = {

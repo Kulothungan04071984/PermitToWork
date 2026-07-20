@@ -142,7 +142,7 @@ namespace Permit_to_work.Models
         [Required(ErrorMessage = "Suspension Date is required")]
         public DateTime? SuspensionDate { get; set; }// ← nullable
             
-        public string ApproverOne { get; set; }     // ← nullable
+        public string? ApproverOne { get; set; }     // ← nullable
         public string? ApproverTwo { get; set; }     // ← nullable
         public string? ApproverThree { get; set; }   // ← nullable
         public string? ApproverFour { get; set; }    // ← nullable

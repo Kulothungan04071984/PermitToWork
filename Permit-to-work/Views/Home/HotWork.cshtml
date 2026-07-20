@@ -94,8 +94,11 @@
                SECTION: BASIC DETAILS
           ════════════════════════════════════════════════════ -->
         <section class="card permit-card">
-        <h5>Basic Details</h5>
             @Html.ValidationMessage("BasicDetails", "", new { @class = "text-danger" })
+            <h5>
+                Basic Details<span class="required-star">*</span>
+            </h5>
+           
             <div class="row g-3">
                 <div class="col-md-3">
                     <label>
@@ -136,11 +139,15 @@
           ════════════════════════════════════════════════════ -->
         <section class="card permit-card">
             @Html.ValidationMessage("Dates", "", new { @class = "text-danger" })
+            <h5>
+                Date and Time<span class="required-star">*</span>
+            </h5>
+            
             <div class="row g-3">
 
                 <div class="col-md-3">
                     <label>
-                        Starting From Date <span class="required-star">*</span>
+                        Starting From Date
                     </label>
                     @Html.TextBoxFor(m => m.StartDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.StartDate, "", new { @class = "text-danger" })
@@ -148,7 +155,7 @@
             
                 <div class="col-md-3">
                     <label>
-                        Starting From Time<span class="required-star">*</span>
+                        Starting From Time
                     </label>
                     @Html.TextBoxFor(m => m.StartTime, new { type = "time", @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.StartTime, "", new { @class = "text-danger" })
@@ -156,7 +163,7 @@
                
                 <div class="col-md-3">
                     <label>
-                        Expected Completion Date <span class="required-star">*</span>
+                        Expected Completion Date 
                     </label>
                     @Html.TextBoxFor(m => m.EndDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.EndDate, "", new { @class = "text-danger" })
@@ -164,7 +171,7 @@
                 
                 <div class="col-md-3">
                     <label>
-                        Expected Completion Time<span class="required-star">*</span>
+                        Expected Completion Time
                     </label>
                     @Html.TextBoxFor(m => m.EndTime, new { type = "time", @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.EndTime, "", new { @class = "text-danger" })
@@ -176,8 +183,11 @@
                SECTION: WORK TYPE
           ════════════════════════════════════════════════════ -->
         <section class="card permit-card">
-            <label>Work Type</label>
             @Html.ValidationMessage("WorkType", "", new { @class = "text-danger" })
+            <label>
+                Work Type <span class="required-star">*</span>
+            </label>
+           
             <div class="form-check form-check-inline">
                 @Html.CheckBoxFor(m => m.Welding, new { @class = "form-check-input" })
                 <label class="form-check-label">
@@ -197,24 +207,26 @@
                SECTION: WORK DESCRIPTION
           ════════════════════════════════════════════════════ -->
         <section class="card permit-card">
-            <label>Work Description</label>
             @Html.TextAreaFor(m => m.WorkDescription, 3, 100, new { @class = "form-control" })
+            <label>Work Description</label>
         </section>
 
         <!-- ════════════════════════════════════════════════════
                SECTION: TOOLS & EQUIPMENTS
           ════════════════════════════════════════════════════ -->
         <section class="card permit-card">
-            <label>Tools / Equipment to be used</label>
             @Html.TextAreaFor(m => m.ToolsEquipment, 3, 100, new { @class = "form-control" })
+            <label>Tools / Equipment to be used</label>
         </section>
 
         <!-- ════════════════════════════════════════════════════
                SECTION: RISK 
           ════════════════════════════════════════════════════ -->
         <section class="card permit-card">
-            <div class="section-title">Identify Risks associated with this Hot Work</div>
             @Html.ValidationMessage("Risk", "", new { @class = "text-danger" })
+            <div class="section-title">
+                Identify Risks associated with this Hot Work <span class="required-star">*</span>
+            </div>
             <div class="row">
 
                 <div class="col-md-4 form-check">
@@ -294,7 +306,7 @@
             </div>
         </section>
 
-        <!--Precaution-->
+        <!--Documents-->
 
         <section class="card permit-card">
             <div class="section-title">Documents to attach</div>
@@ -331,8 +343,6 @@
             </div>
         </section>
 
-        <!--Precaution-->
-
 
         <!-- CERTIFICATION & SAFETY CHECKS -->
         <section class="card permit-card">
@@ -363,7 +373,7 @@
         ════════════════════════════════════════════════════ -->
         <section class="card permit-card">
             <div class="section-title mt-3">
-                Regulators & Gauges <span class="required-star">*</span>
+                Regulators & Gauges
             </div>
             
             <div class="d-flex gap-3 align-items-center">
@@ -420,8 +430,10 @@
               SECTION: EMERGENCY TEAM
          ════════════════════════════════════════════════════ -->
         <section class="card permit-card">
-            <div class="section-title">Emergency Team</div>
             @Html.ValidationMessage("EmergencyTeam", "", new { @class = "text-danger" })
+            <div class="section-title">
+                Emergency Team <span class="required-star">*</span>
+            </div>
             <div class="form-check">
                 @Html.RadioButtonFor(m => m.EmergencyTeamAvailable, "Y", new { @class = "form-check-input" })
                 <label class="form-check-label">Are emergency team available?</label>
@@ -450,7 +462,7 @@
                 </div>
                 <div class="form-check form-check-inline ms-3">
                     <input class="form-check-input" style="border-radius:15% !important" type="radio" name="EmergencyTeam" value="N/A">
-                    <label> N/A </label>
+                    <label> N/A</label>
                 </div>
             </div>
             <div class="col-md-3">@Html.TextBoxFor(m => m.ToolsTested, new { @class = "form-control", placeholder = "Other (specify):" })</div>
@@ -458,8 +470,10 @@
 
         <!-- INSURANCE COPY -->
         <section class="card permit-card">
-            <div class="section-title">Insurance copy available for workmen:</div>
             @Html.ValidationMessage("Insurance", "", new { @class = "text-danger" })
+            <div class="section-title">
+                Insurance copy available for workmen <span class="required-star">*</span>
+            </div>
             <div class="d-flex gap-4 flex-wrap">
 
                 <div>
@@ -491,8 +505,9 @@
               SECTION: INSPECTION
          ════════════════════════════════════════════════════ -->
         <section class="card permit-card">
+            @Html.ValidationMessage("Inspection", "", new { @class = "text-danger" })
             <div class="section-title">
-                Inspections & PPE <span class="required-star">*</span>
+                Inspections <span class="required-star">*</span>
             </div>
             <table class="table table-bordered">
                 <tr>
@@ -532,15 +547,18 @@
                 </tr>
 
             </table>
-            <div class="col-md-3">@Html.TextBoxFor(m => m.OtherPPE, new { @class = "form-control", placeholder = "Other (specify)" })</div>
 
+            <div class="col-md-3">@Html.TextBoxFor(m => m.AttachOther, new { @class = "form-control", placeholder = "Other (specify):" })</div>
 
-            <!-- ════════════════════════════════════════════════════
+        </section>
+
+            <!-- ═══════════════════════════════════════════════════
                  SECTION: PPE
             ════════════════════════════════════════════════════ -->
-
-            <div class="section-title mt-3">
-                PPE Required <span class="required-star">*</span>
+            <section class="card permit-card">
+            @Html.ValidationMessage("PPE", "", new { @class = "text-danger" })
+            <div class="section-title">
+                PPE <span class="required-star">*</span>
             </div>
             <div class="row">
                 <div class="col-md-3">@Html.CheckBoxFor(m => m.Helmet) <label>Helmet</label></div>
@@ -555,14 +573,15 @@
                 <div class="col-md-3">@Html.CheckBoxFor(m => m.WeldingClothes) <label>Welding Clothes</label></div>
                 <div class="col-md-3">@Html.TextBoxFor(m => m.OtherPPE, new { @class = "form-control", placeholder = "Other (specify)" })</div>
             </div>
-        </section>
+            </section>
 
         <!-- ════════════════════════════════════════════════════
               SECTION: AUTHORIZATION
          ════════════════════════════════════════════════════ -->
         <section class="card permit-card">
+            @Html.ValidationMessage("Authorization", "", new { @class = "text-danger" })
             <div class="section-title">
-                Issue and Acceptance
+                Issue and Acceptance <span class="required-star">*</span>
             </div>
             <div class="row g-3">
                 <div class="col-md-6">
@@ -597,8 +616,9 @@
               SECTION: SUSPENSION
          ════════════════════════════════════════════════════ -->
         <section class="card permit-card">
+            @Html.ValidationMessage("Suspension", "", new { @class = "text-danger" })
             <div class="section-title">
-                Suspension
+                Suspension <span class="required-star">*</span>
             </div>
 
             <p class="mb-2">This permit is suspended, area/equipment is not safe to use</p>
@@ -620,7 +640,10 @@
 
         <!-- Approver details -->
         <section class="card permit-card">
-            <h5 class="section-title">Approver Details</h5>
+            <div class="section-title">
+                Approver Details<span class="required-star">*</span>
+            </div>
+            
             <div class="row">
                 <div class="col-lg-3">
                     <label>Approver One Email</label>

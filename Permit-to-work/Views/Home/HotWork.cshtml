@@ -646,7 +646,7 @@
             
             <div class="row">
                 <div class="col-lg-3">
-                    <label>Approver One Email</label>
+                    <label>Approver One Email <span class="required-star">*</span> </label>
                     @Html.TextBoxFor(m => m.ApproverOne, new { @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.ApproverOne, "", new { @class = "text-danger" })
                 </div>

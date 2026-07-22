@@ -490,6 +490,7 @@ namespace Permit_to_work.Controllers
 
                 // ── Meta ─────────────────────────────────────────────────
                 CreatedOn = DateTime.Now,
+                IsActive = true,
             };
 
 
@@ -498,7 +499,29 @@ namespace Permit_to_work.Controllers
             _context.HotWorkPermits.Add(entity);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("Hotwork");
+            //var permitMaster = new PermitMaster()
+            //{
+            //    Unit = entity.Unit,
+            //    StartDate = entity.StartDate,
+            //    EndDate = entity.EndDate,
+            //    PermitType = "Hot Work",
+            //    PermitNumber = entity.PermitId.ToString(),
+            //    Location = entity.Location,
+            //    Status = "Pending",
+            //    FirstApproverStatus = "Pending",
+            //    SecondApproverStatus = "Pending",
+            //    ThirdApproverStatus = "Pending",
+            //    FourthApproverStatus = "Pending",
+
+            //    CreatedByUserId = HttpContext.Session.GetString("UserId"),
+            //    CreatedOn = DateTime.Now
+            //};
+
+            //_context.PermitMasters.Add(permitMaster);
+
+            //await _context.SaveChangesAsync();
+
+            return RedirectToAction("Dashboard");
         }
 
         public IActionResult Hotwork()
@@ -520,13 +543,8 @@ namespace Permit_to_work.Controllers
             return RedirectToAction("Success");
         }
 
-        public IActionResult WorkAtHeightPermit()
-        {
-            return View();
-        }
 
-
-       // WORK AT HEIGHT PERMIT
+        // WORK AT HEIGHT PERMIT
 
         [HttpPost]
         public async Task<IActionResult> WorkAtHeightPermit(WorkAtHeightPermit model)
@@ -540,23 +558,31 @@ namespace Permit_to_work.Controllers
             return RedirectToAction("Success");
         }
 
-        public IActionResult ElectricalIsolationPermit()
+        public IActionResult WorkAtHeightPermit()
         {
             return View();
         }
+
+        // ELECTRICAL ISOLATION PERMIT
+        
         [HttpPost]
         public async Task<IActionResult> ConfinedSpace(ConfinedSpacePermit model)
         {
             if (!ModelState.IsValid)
                 return View(model);
 
-          
-
             _context.ConfinedSpacePermits.Add(model);
             await _context.SaveChangesAsync();
 
             return RedirectToAction("ConfinedSpace");
         }
+
+        public IActionResult ElectricalIsolationPermit()
+        {
+            return View();
+        }
+
+        //HOME
         public IActionResult Home()
         {
             return View();
@@ -604,7 +630,7 @@ namespace Permit_to_work.Controllers
 
 
             dashboard.AddRange(
-                _context.ColdWorkPermits.Where(x => x.IsActive).Select(x => new PermitDashboardVM
+                _context.ColdWorkPermits.Where(a=>a.IsActive == true).Select(x => new PermitDashboardVM
                 {
                     PermitDashBoardId = x.Id,
                     PermitType = "Cold Work",
@@ -612,18 +638,18 @@ namespace Permit_to_work.Controllers
                     Location = x.Location,
                     StartDate = x.StartDate,
                     EndDate = x.EndDate,
-                    Status = _context.PermitMasters.Where(p => Convert.ToInt32(p.PermitNumber) == x.Id).Select(p => p.Status).FirstOrDefault(),
+                    Status = _context.PermitMasters.Where(p => Convert.ToInt32(p.PermitNumber) == x.Id && p.PermitType == "Cold Work").Select(p => p.Status).FirstOrDefault(),
 
                     Count = (x.ApproverOne != null ? 4 : x.ApproverTwo != null ? 3 : x.ApproverThree != null ? 2 : x.ApproverFour != null ? 1 : 0),
 
-                    FirstApprovalStatus = _context.PermitMasters.Where(p => Convert.ToInt32(p.PermitNumber) == x.Id).Select(p => p.FirstApproverStatus).FirstOrDefault(),
-                    SecondApprovalStatus = _context.PermitMasters.Where(p => Convert.ToInt32(p.PermitNumber) == x.Id).Select(p => p.SecondApproverStatus).FirstOrDefault(),
-                    ThirdApprovalStatus = _context.PermitMasters.Where(p => Convert.ToInt32(p.PermitNumber) == x.Id).Select(p => p.ThirdApproverStatus).FirstOrDefault(),
-                    FourthApprovalStatus = _context.PermitMasters.Where(p => Convert.ToInt32(p.PermitNumber) == x.Id).Select(p => p.FourthApproverStatus).FirstOrDefault(),
+                    FirstApprovalStatus = _context.PermitMasters.Where(p => Convert.ToInt32(p.PermitNumber) == x.Id && p.PermitType == "Cold Work").Select(p => p.FirstApproverStatus).FirstOrDefault(),
+                    SecondApprovalStatus = _context.PermitMasters.Where(p => Convert.ToInt32(p.PermitNumber) == x.Id && p.PermitType == "Cold Work").Select(p => p.SecondApproverStatus).FirstOrDefault(),
+                    ThirdApprovalStatus = _context.PermitMasters.Where(p => Convert.ToInt32(p.PermitNumber) == x.Id && p.PermitType == "Cold Work").Select(p => p.ThirdApproverStatus).FirstOrDefault(),
+                    FourthApprovalStatus = _context.PermitMasters.Where(p => Convert.ToInt32(p.PermitNumber) == x.Id && p.PermitType == "Cold Work").Select(p => p.FourthApproverStatus).FirstOrDefault(),
                 })
             );
             dashboard.AddRange(
-                _context.HotWorkPermits.Select(x => new PermitDashboardVM
+                _context.HotWorkPermits.Where(a => a.IsActive == true).Select(x => new PermitDashboardVM
                 {
                     PermitDashBoardId = x.PermitId,
                     PermitType = "Hot Work",
@@ -632,14 +658,14 @@ namespace Permit_to_work.Controllers
                     StartDate = x.StartDate,
                     EndDate = x.EndDate,
                     //Status = "Active",
-                    Status = _context.PermitMasters.Where(p => Convert.ToInt32(p.PermitNumber) == x.PermitId).Select(p => p.Status).FirstOrDefault(),
+                    Status = _context.PermitMasters.Where(p => Convert.ToInt32(p.PermitNumber) == x.PermitId && p.PermitType == "Hot Work").Select(p => p.Status).FirstOrDefault(),
 
                     Count = (x.ApproverOne != null ? 4 : x.ApproverTwo != null ? 3 : x.ApproverThree != null ? 2 : x.ApproverFour != null ? 1 : 0),
 
-                    FirstApprovalStatus = _context.PermitMasters.Where(p => Convert.ToInt32(p.PermitNumber) == x.PermitId).Select(p => p.FirstApproverStatus).FirstOrDefault(),
-                    SecondApprovalStatus = _context.PermitMasters.Where(p => Convert.ToInt32(p.PermitNumber) == x.PermitId).Select(p => p.SecondApproverStatus).FirstOrDefault(),
-                    ThirdApprovalStatus = _context.PermitMasters.Where(p => Convert.ToInt32(p.PermitNumber) == x.PermitId).Select(p => p.ThirdApproverStatus).FirstOrDefault(),
-                    FourthApprovalStatus = _context.PermitMasters.Where(p => Convert.ToInt32(p.PermitNumber) == x.PermitId).Select(p => p.FourthApproverStatus).FirstOrDefault(),
+                    FirstApprovalStatus = _context.PermitMasters.Where(p => Convert.ToInt32(p.PermitNumber) == x.PermitId && p.PermitType == "Hot Work").Select(p => p.FirstApproverStatus).FirstOrDefault(),
+                    SecondApprovalStatus = _context.PermitMasters.Where(p => Convert.ToInt32(p.PermitNumber) == x.PermitId && p.PermitType == "Hot Work").Select(p => p.SecondApproverStatus).FirstOrDefault(),
+                    ThirdApprovalStatus = _context.PermitMasters.Where(p => Convert.ToInt32(p.PermitNumber) == x.PermitId && p.PermitType == "Hot Work").Select(p => p.ThirdApproverStatus).FirstOrDefault(),
+                    FourthApprovalStatus = _context.PermitMasters.Where(p => Convert.ToInt32(p.PermitNumber) == x.PermitId && p.PermitType == "Hot Work").Select(p => p.FourthApproverStatus).FirstOrDefault(),
                 })
             );
 
@@ -848,7 +874,7 @@ namespace Permit_to_work.Controllers
                         PermitType = PermitType,
                         PermitNumber = Permitid,
                         Location = permitdetails.Location,
-                        Status = count == 1 && Status != "Rejected" ? "Approved" : "Rejected",
+                        Status = count > 1 ? "Partial Approved" : count == 1 && Status != "Rejected" ? "Approved" : "Rejected",
                         //Status = "Partial Approved",
                         FirstApproverStatus = Status,
                         SecondApproverStatus = "Pending",
@@ -992,6 +1018,7 @@ namespace Permit_to_work.Controllers
 
                 else
                 {
+
                     var permitMaster = new PermitMaster
                     {
                         Unit = permitdetails.Unit,
@@ -1000,7 +1027,7 @@ namespace Permit_to_work.Controllers
                         PermitType = PermitType,
                         PermitNumber = Permitid,
                         Location = permitdetails.Location,
-                        Status = count == 1 && Status != "Rejected" ? "Approved" : "Rejected",
+                        Status = count > 1 ? "Partial Approved" : count == 1  && Status != "Rejected" ? "Approved" : "Rejected",
                         //Status = "Partial Approved",
                         FirstApproverStatus = Status,
                         SecondApproverStatus = "Pending",
@@ -1025,16 +1052,28 @@ namespace Permit_to_work.Controllers
         [HttpPost]
         public JsonResult Delete (string type, int id)
         {
-            if(type == "Cold Work")
+            if (type == "Cold Work")
             {
-                var permit = _context.ColdWorkPermits.FirstOrDefault(x => x.Id == id);
+                var permit = _context.ColdWorkPermits.FirstOrDefault(x => x.Id == id && x.IsActive == true);
 
-                if(permit != null)
+                if (permit != null)
                 {
                     permit.IsActive = false;
                     _context.SaveChanges();
 
-                    return Json(new {success = true});
+                    return Json(new { success = true });
+                }
+            }
+            else if (type == "Hot Work")
+            {
+                var permit = _context.HotWorkPermits.FirstOrDefault(x => x.PermitId == id && x.IsActive == true);
+
+                if (permit != null)
+                {
+                     permit.IsActive = false;
+                    _context.SaveChanges();
+
+                    return Json(new { success = true });
                 }
             }
 

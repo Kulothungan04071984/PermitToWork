@@ -21,7 +21,7 @@ namespace Permit_to_work.Models
         public string? Location { get; set; }
 
         [Required(ErrorMessage = "Please fill the No. of Workmen field")]
-        public string? NoOfWorkmen { get; set; }
+        public int? NoOfWorkmen { get; set; }
 
         // ===== DATE & TIME =====
 
@@ -129,13 +129,13 @@ namespace Permit_to_work.Models
         public string? ReceiverName { get; set; }
 
         [Required(ErrorMessage = "Please fill the Receiver Date field")]
-        public string? ReceiverDate { get; set; }
+        public DateTime? ReceiverDate { get; set; }
 
         [Required(ErrorMessage = "Please fill the Issuer Name field")]
         public string? IssuerName { get; set; }
 
         [Required(ErrorMessage = "Please fill the Issuer Date field")]
-        public string? IssuerDate { get; set; }
+        public DateTime? IssuerDate { get; set; }
 
         // ===== SUSPENSION =====
 
@@ -143,7 +143,7 @@ namespace Permit_to_work.Models
         public string? SuspensionName { get; set; }
 
         [Required(ErrorMessage = "Suspension Date is required")]
-        public string? SuspensionSignatureDate { get; set; }
+        public DateTime? SuspensionSignatureDate { get; set; }
 
         // ===== APPROVER DETAILS =====
 
@@ -155,6 +155,6 @@ namespace Permit_to_work.Models
 
         public string? Status { get; set; }
         public DateTime CreatedOn { get; set; } = DateTime.Now;
-        //public bool IsActive { get; set; }
+        public bool IsActive { get; set; }
     }
 }

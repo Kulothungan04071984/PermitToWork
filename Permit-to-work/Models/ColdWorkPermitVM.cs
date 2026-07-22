@@ -88,8 +88,8 @@ namespace Permit_to_work.Models
         public bool PermitExcavation { get; set; }
         public bool PermitElectrical { get; set; }
         public bool PermitConfinedSpace { get; set; }
-        public string? PermitOther { get; set; }     // ← nullable
-        public string? PermitAssociated { get; set; }// ← nullable (radio)
+        public string? PermitOther { get; set; }          // ← nullable
+        public string? PermitAssociated { get; set; }     // ← nullable (radio)
 
         // Insurance
 

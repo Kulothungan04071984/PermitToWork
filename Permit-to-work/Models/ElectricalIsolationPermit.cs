@@ -8,26 +8,50 @@ namespace Permit_to_work.Models
         public int PermitId { get; set; }
 
         // Basic Details
+
+        [Required(ErrorMessage = "Please fill the Unit.")]
         public string? Unit { get; set; }
-        public DateTime PermitDate { get; set; }
+
+        [Required(ErrorMessage = "Please fill the Date.")]
+        public DateTime? PermitDate { get; set; }
+
+        [Required(ErrorMessage = "Please fill the Location.")]
         public string? Location { get; set; }
-        public int NumberOfWorkmen { get; set; }
+
+        [Required(ErrorMessage = "Please fill the No. Of Workmen.")]
+        public int? NumberOfWorkmen { get; set; }
 
         // Date & Time
-        public DateTime StartDate { get; set; }
+
+        [Required(ErrorMessage = "Please fill the Starting Date.")]
+        public DateTime? StartDate { get; set; }
+
+        [Required(ErrorMessage = "Please fill the Starting Time.")]
         public string? StartTime { get; set; }
-        public DateTime EndDate { get; set; }
+
+        [Required(ErrorMessage = "Please fill the Ending Date.")]
+        public DateTime? EndDate { get; set; }
+
+        [Required(ErrorMessage = "Please fill the Ending Time.")]
         public string? EndTime { get; set; }
 
         // Energy Status
+
+        [Required(ErrorMessage = "Energy Status is required.")]
         public bool EnergizedEquipment { get; set; }
         public bool DeEnergizedEquipment { get; set; }
 
         // Work
+
+        [Required(ErrorMessage = "Please fill the Work Description.")]
         public string? WorkDescription { get; set; }
+
+        [Required(ErrorMessage = "Please fill the Tools/Equipment.")]
         public string? ToolsEquipment { get; set; }
 
         // Risks
+
+        [Required(ErrorMessage = "Identify Risk is required.")]
         public bool RiskElectrocution { get; set; }
         public bool RiskArcFlash { get; set; }
         public bool RiskFlyingParticles { get; set; }
@@ -44,7 +68,7 @@ namespace Permit_to_work.Models
 
         // Documents
         public bool AttachJSA { get; set; }
-      
+
         public string? OtherDocument { get; set; }
 
         // Precaution
@@ -53,8 +77,6 @@ namespace Permit_to_work.Models
         public string? Voltage { get; set; }
         public string? Distance { get; set; }
         public string? ConfinedSpace { get; set; } // Yes / No
-
-
         public string? ElectricalIsolation { get; set; }
 
         // LOTO / Isolation
@@ -66,11 +88,15 @@ namespace Permit_to_work.Models
         public string? OtherLOTO { get; set; }
 
         // Insurance
+
+        [Required(ErrorMessage = "Insurance is required.")]
         public bool WC { get; set; }
         public bool ESI { get; set; }
         public string? OtherInsurance { get; set; }
 
         // Inspection
+
+        [Required(ErrorMessage = "Inspection is required.")]
         public bool FireExtinguisher { get; set; }
 
         public string? FireExtinguisherType { get; set; }
@@ -83,6 +109,8 @@ namespace Permit_to_work.Models
         public bool SafetyBarriers { get; set; }
 
         // PPE
+
+        [Required(ErrorMessage = "PPE is required.")]
         public bool PPEHelmet { get; set; }
         public bool PPEShoes { get; set; }
         public bool PPEElectricalGloves { get; set; }
@@ -90,23 +118,36 @@ namespace Permit_to_work.Models
         public bool PPEFaceShield { get; set; }
         public bool PPEArcFlash { get; set; }
         public bool PPEDustMask { get; set; }
-        public bool PPEEarPlug { get; set; }
         public bool PPESafetyGoggles { get; set; }
         public bool PPEReflectiveVest { get; set; }
         public bool PPESafetyEar { get; set; }
         public string? OtherPPE { get; set; }
 
-        // Authorization / Issue & Acceptance
+        // Issue & Acceptance
+
+        [Required(ErrorMessage = "Please fill the Receiver Name.")]
         public string? ReceiverName { get; set; }
+
+        [Required(ErrorMessage = "Please fill the Receiver Date.")]
         public DateTime ReceiverSignatureDate { get; set; }
+
+        [Required(ErrorMessage = "Please fill the Issuer Name.")]
         public string? IssuerName { get; set; }
+
+        [Required(ErrorMessage = "Please fill the Issuer Date.")]
         public DateTime IssuerSignatureDate { get; set; }
 
         // Suspension
+
+        [Required(ErrorMessage = "Please fill the Suspension Name.")]
         public string? SuspensionName { get; set; }
+
+        [Required(ErrorMessage = "Please fill the Suspension Date.")]
         public DateTime SuspensionSignatureDate { get; set; }
 
         // Approver Details
+
+        [Required(ErrorMessage = "Please fill the Approver One field.")]
         public string? ApproverOne { get; set; }
         public string? ApproverTwo { get; set; }
         public string? ApproverThree { get; set; }
@@ -114,5 +155,7 @@ namespace Permit_to_work.Models
 
         // Created timestamp
         public DateTime CreatedOn { get; set; } = DateTime.Now;
+        public bool IsActive { get; set; }
+        public string? Status { get; set; }
     }
 }

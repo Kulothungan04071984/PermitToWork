@@ -640,6 +640,7 @@
 
         <!-- Approver details -->
         <section class="card permit-card">
+            @Html.ValidationMessage("ApproverDetails", "", new { @class = "text-danger" })
             <div class="section-title">
                 Approver Details<span class="required-star">*</span>
             </div>

@@ -74,11 +74,15 @@
                 border-color: #cc8f00;
             }
 
+        .required-star {
+            color: darkred;
+        }
+
     </style>
 </head>
 
 <body>
-    <form method="post" class="container">
+    <form asp-action="ElectricalIsolationPermit" method="post" class="container">
 
         <div class="card">
             <div class="card-header text-center fw-bold">
@@ -87,6 +91,7 @@
 
             <!-- BASIC DETAILS -->
             <section class="mt-3 border-section">
+                @Html.ValidationMessage("BasicDetails", "", new { @class = "text-danger" })
                 <div class="section-title">
                     Basic Details <span class="required-star">*</span>
                 </div>
@@ -94,24 +99,29 @@
                     <div class="col-md-3">
                         <label>Unit</label>
                         @Html.TextBoxFor(m => m.Unit, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Unit, "", new { @class = "text-danger" })
                     </div>
                     <div class="col-md-3">
                         <label>Date</label>
                         @Html.TextBoxFor(m => m.PermitDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.PermitDate, "", new { @class = "text-danger" })
                     </div>
                     <div class="col-md-3">
                         <label>Location</label>
                         @Html.TextBoxFor(m => m.Location, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Location, "", new { @class = "text-danger" })
                     </div>
                     <div class="col-md-3">
                         <label>Number of Workmen</label>
                         @Html.TextBoxFor(m => m.NumberOfWorkmen, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.NumberOfWorkmen, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </section>
 
             <!-- DATE & TIME -->
             <section class="mt-3 border-section">
+                @Html.ValidationMessage("Dates", "", new { @class = "text-danger" })
                 <div class="section-title">
                     Date & Time <span class="required-star">*</span>
                 </div>
@@ -119,25 +129,32 @@
                     <div class="col-md-3">
                         <label>Starting From Date</label>
                         @Html.TextBoxFor(m => m.StartDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.StartDate, "", new { @class = "text-danger" })
                     </div>
                     <div class="col-md-3">
                         <label>Starting From Time</label>
                         @Html.TextBoxFor(m => m.StartTime, new { type = "time", @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.StartTime, "", new { @class = "text-danger" })
                     </div>
                     <div class="col-md-3">
                         <label>Expected Completion Date</label>
                         @Html.TextBoxFor(m => m.EndDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.EndDate, "", new { @class = "text-danger" })
                     </div>
                     <div class="col-md-3">
                         <label>Expected Completion Time</label>
                         @Html.TextBoxFor(m => m.EndTime, new { type = "time", @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.EndTime, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </section>
 
             <!-- ENERGY STATUS -->
             <section class="mt-3 border-section">
-                <div class="section-title">Energy Status</div>
+                @Html.ValidationMessage("EnergyStatus", "", new { @class = "text-danger" })
+                <div class="section-title">
+                    Energy Status <span class="required-star">*</span>
+                </div>
                 <div class="row">
                     <div class="col">
                         @Html.CheckBoxFor(m => m.EnergizedEquipment) <label>Energized Lines/Equipment</label>
@@ -150,15 +167,24 @@
 
             <!-- WORK DESCRIPTION & TOOLS -->
             <section class="mt-3 border-section">
-                <div class="section-title">Work Description</div>
-                @Html.TextAreaFor(m => m.WorkDescription, 3, 100, new { @class = "form-control" })
+                @Html.ValidationMessage("WorkDescription", "", new { @class = "text-danger" })
+                <div class="section-title mt-3">
+                    Work Description <span class="required-star">*</span>
+                    @Html.TextAreaFor(m => m.WorkDescription, 3, 100, new { @class = "form-control" })
+                </div>
+            </section>
 
-                <div class="section-title mt-3">Tools/Equipment to be used</div>
+            <section class="mt-3 border-section">
+                @Html.ValidationMessage("ToolsEquipment", "", new { @class = "text-danger" })
+                <div class="section-title mt-3">
+                    Tools/Equipment to be used <span class="required-star">*</span>
+                </div>
                 @Html.TextAreaFor(m => m.ToolsEquipment, 2, 100, new { @class = "form-control" })
             </section>
 
             <!-- RISK IDENTIFICATION -->
             <section class="mt-3 border-section">
+                @Html.ValidationMessage("Risk", "", new { @class = "text-danger" })
                 <div class="section-title">
                     Identify Risks Associated with Work <span class="required-star">*</span>
                 </div>
@@ -220,17 +246,13 @@
                 <div class="form-check form-check-inline">@Html.RadioButtonFor(m => m.Precaution, "No", new { @class = "form-check-input" }) <label class="form-check-label">No</label></div>
                 <div class="form-check form-check-inline">@Html.RadioButtonFor(m => m.Precaution, "N/A", new { @class = "form-check-input" }) <label class="form-check-label">N/A</label></div>
 
-
-                <div class="container mt-2">
-
-                 
+                <div class="container mt-2">               
                     <div class="row mb-2">
                         <div class="col-md-12">
                             <label><strong>Safe Distance Maintained?</strong></label>
                         </div>
                     </div>
-
-                    
+                  
                     <div class="row mb-3">
                         <div class="col-md-2">
                             <div class="form-check">
@@ -280,7 +302,6 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
 
                 <!-- Electrical Isolation (LOTO) -->
@@ -311,9 +332,6 @@
                         </div>
                     </div>
                 </div>
-
-
-
             </section>
 
             <!-- LOTO -->
@@ -354,6 +372,7 @@
 
             <!-- INSURANCE -->
             <section class="mt-3 border-section">
+                @Html.ValidationMessage("Insurance", "", new { @class = "text-danger" })
                 <div class="section-title">
                     Insurance / WC / ESI Copy available for Workmen <span class="required-star">*</span>
                 </div>
@@ -366,8 +385,6 @@
                     <div id="wcUpload" style="display:none;">
                         <input type="file" name="WCFile" id="wcFile"
                                class="form-control form-control-sm" />
-
-                      
                     </div>
                 </div>
 
@@ -392,6 +409,7 @@
 
             <!-- INSPECTION -->
             <section class="mt-3 border-section">
+                @Html.ValidationMessage("Inspection", "", new { @class = "text-danger" })
                 <div class="section-title">
                     Inspection by Issuer / Receiver <span class="required-star">*</span>
                 </div>
@@ -449,6 +467,7 @@
 
             <!-- PPE -->
             <section class="mt-3 border-section">
+                @Html.ValidationMessage("PPE", "", new { @class = "text-danger" })
                 <div class="section-title">
                     PPE Required for Activity <span class="required-star">*</span>
                 </div>
@@ -463,6 +482,7 @@
                     <div class="col-md-3">@Html.CheckBoxFor(m => m.PPEFaceShield) <label>Face Shield</label></div>
                     <div class="col-md-3">@Html.CheckBoxFor(m => m.PPEArcFlash) <label>Arc Flash PPE</label></div>
                     <div class="col-md-3">@Html.CheckBoxFor(m => m.PPESafetyEar) <label>Safety Ear Plugs / Muff</label></div>
+
                     <div class="col-md-3">
                         <label>Other (Specify)</label>
                         <input type="text" name="OtherPPE" class="form-control others-input" />
@@ -470,8 +490,9 @@
                 </div>
             </section>
 
-            <!-- AUTHORIZATION -->
+            <!-- ISSUE & ACCEPTANCE -->
             <section class="mt-3 border-section">
+                @Html.ValidationMessage("Issue", "", new { @class = "text-danger" })
                 <div class="section-title">
                     Issue & Acceptance <span class="required-star">*</span>
                 </div>
@@ -479,26 +500,31 @@
                     <div class="col-md-6">
                         <label>Permit Receiver Name</label>
                         @Html.TextBoxFor(m => m.ReceiverName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.ReceiverName, "", new { @class = "text-danger" })
                     </div>
                     <div class="col-md-6">
                         <label>Receiver Signature / Date</label>
                         @Html.TextBoxFor(m => m.ReceiverSignatureDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.ReceiverSignatureDate, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="row mt-2">
                     <div class="col-md-6">
                         <label>Permit Issuer Name</label>
                         @Html.TextBoxFor(m => m.IssuerName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.IssuerName, "", new { @class = "text-danger" })
                     </div>
                     <div class="col-md-6">
                         <label>Issuer Signature / Date</label>
                         @Html.TextBoxFor(m => m.IssuerSignatureDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.IssuerSignatureDate, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </section>
 
             <!-- SUSPENSION -->
             <section class="mt-3 border-section">
+                @Html.ValidationMessage("Suspension", "", new { @class = "text-danger" })
                 <div class="section-title">
                     Suspension <span class="required-star">*</span>
                 </div>
@@ -507,10 +533,12 @@
                     <div class="col-md-6">
                         <label>Name</label>
                         @Html.TextBoxFor(m => m.SuspensionName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.SuspensionName, "", new { @class = "text-danger" })
                     </div>
                     <div class="col-md-6">
                         <label>Signature / Date</label>
                         @Html.TextBoxFor(m => m.SuspensionSignatureDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.SuspensionSignatureDate, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </section>
@@ -518,6 +546,7 @@
             <!-- APPROVER DETAILS -->
 
             <section class="mt-3 border-section">
+                @Html.ValidationMessage("ApproverDetails", "", new { @class = "text-danger" })
                 <div class="section-title">
                     Approver Details <span class="required-star">*</span>
                 </div>
@@ -548,9 +577,12 @@
                 </section>
             </section>
 
+            <!-- Save Button -->
             <div class="text-center mt-4">
-                <button type="submit" class="btn btn-success px-5">Submit Permit</button>
+                <button type="submit" class="btn btn-success px-5">Save</button>
+                <button type="button" onclick="window.print()" class="btn btn-secondary px-4 ms-2">Print</button>
             </div>
+
         </div>
     </form>
 

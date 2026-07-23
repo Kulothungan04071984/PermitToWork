@@ -10,13 +10,14 @@ namespace Permit_to_work.Models
 
         // ===== BASIC DETAILS =====
 
+      
 
         [Required(ErrorMessage = "Please fill the Unit field")]
         public string? Unit { get; set; }
-
+        
         [Required(ErrorMessage = "Please fill the Contractor Name field")]
         public string? ContractorName { get; set; }
-
+        
         [Required(ErrorMessage = "Please fill the Location field")]
         public string? Location { get; set; }
 
@@ -65,13 +66,14 @@ namespace Permit_to_work.Models
 
 
         // ===== DOCUMENTS =====
-        public bool AttachJSA { get; set; }    
+        public bool AttachJSA { get; set; }
         public string? AttachOther { get; set; }
- 
+
         // ===== CERTIFICATION SAFETY =====
-       
+
         public string? CombustibleRemoved { get; set; }
 
+        // ===== REGULATORS & GAUGES =====
 
         //public List<string> Regulator { get; set; } = [];
         //public string? RegulatorNA { get; set; }
@@ -80,7 +82,7 @@ namespace Permit_to_work.Models
         public string? FlashbackArrestors { get; set; }
         public string? CylindersProvided { get; set; }
 
-        // ===== EMERGENCY TEAM =====
+        // ===== EMERGENCY =====
 
         [Required(ErrorMessage = "Emergency Team is required")]
         public string? EmergencyTeamAvailable { get; set; }

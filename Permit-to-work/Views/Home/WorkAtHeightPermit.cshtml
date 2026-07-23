@@ -569,31 +569,31 @@
             <!-- INSURANCE COPY -->
             <div class="section-title">Insurance copy available for workmen:</div>
             <div class="row align-items-center g-3">
-                    <div class="col-auto">
-                        <div class="form-check">
+                <div class="col-auto">
+                    <div class="form-check">
                             @Html.CheckBoxFor(m => m.WC, new { @class = "form-check-input", id = "wc" })
-                            <label class="form-check-label">WC</label>
-                        </div>
+                        <label class="form-check-label">WC</label>
+                    </div>
 
                         <div id="wcUpload" style="display:none; margin-top:5px;">
                             <input type="file" name="WCFile" id="wcFile"
                                    class="form-control form-control-sm"
                                    style="background: #f4f7fb; border:1px solid #000;" />
-                        </div>
+                </div>
                     </div>
 
-                    <div class="col-auto">
-                        <div class="form-check">
+                <div class="col-auto">
+                    <div class="form-check">
                             @Html.CheckBoxFor(m => m.ESI, new { @class = "form-check-input", id = "esi" })
-                            <label class="form-check-label">ESI</label>
-                        </div>
+                        <label class="form-check-label">ESI</label>
+                    </div>
 
                         <div id="esiUpload" style="display:none; margin-top:5px;">
                             <input type="file" name="ESIFile" id="esiFile"
                                    class="form-control form-control-sm"
                                    style="background: #f4f7fb; border:1px solid #000;" />
                         </div>
-                    </div>
+                </div>
 
                 <div class="col-auto">
                     <label>Others</label>
@@ -622,17 +622,17 @@
 
                 <!-- SUSPENSION -->
 
-            <div class="section-title">Suspension</div>
-            <label>This permit is suspended, area/equipment is not safe to use.</label>
-            <div class="row g-3 mt-2">
-                <div class="col-md-6">
-                    <label>Name</label>
-                    @Html.TextBoxFor(m => m.SuspensionName, new { @class = "form-control" })
-                </div>
+                <div class="section-title">Suspension</div>
+                <label>This permit is suspended, area/equipment is not safe to use.</label>
+                <div class="row g-3 mt-2">
+                    <div class="col-md-6">
+                        <label>Name</label>
+                        @Html.TextBoxFor(m => m.SuspensionName, new { @class = "form-control" })
+                    </div>
 
-                <div class="col-md-6">
-                    <label>Date</label>
-                    <div class="col-md-6">@Html.TextBoxFor(m => m.SuspensionSignatureDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })</div>
+                    <div class="col-md-6">
+                        <label>Date</label>
+                        <div class="col-md-6">@Html.TextBoxFor(m => m.SuspensionSignatureDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })</div>
 
                     </div>
                 </div>
@@ -691,9 +691,9 @@
                 @Html.TextBoxFor(m => m.ApproverFour, new { @class = "form-control" })
             </div>
 
-            <div class="text-center mt-4">
-                <button type="submit" class="btn btn-success px-5">Submit Permit</button>
-            </div>
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-success px-5">Submit Permit</button>
+                </div>
         </section>
     </div>
     </div>

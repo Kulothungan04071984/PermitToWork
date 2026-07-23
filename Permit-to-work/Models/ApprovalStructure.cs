@@ -24,5 +24,6 @@ namespace Permit_to_work.Models
         public bool PPEGloves { get; set; }
         public string? ReceiverName { get; set; }
         public string? IssuerName { get; set; }
+        public string? Status { get; set; }
     }
 }

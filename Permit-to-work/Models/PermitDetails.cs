@@ -18,7 +18,7 @@ namespace Permit_to_work.Models
         public int SelectedApproverId { get; set; }
         public List<SelectListItem> Approvers { get; set; }
         public int SelectedUnitId { get; set; }
-        public List<SelectListItem> Units { get; set; }
+        public List<SelectListItem> Units { get; set; } 
 
   
         public string FirstApproval { get; set; }

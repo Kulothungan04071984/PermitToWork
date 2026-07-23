@@ -19,10 +19,114 @@ namespace Permit_to_work.Controllers
         private readonly IConfiguration _configuration;
         public HomeController(ILogger<HomeController> logger, ApplicationDbContext context, IConfiguration configuration)
         {
-            _logger = logger;
+            _logger = logger; 
             _context = context;
             _configuration = configuration;
         }
+
+        [HttpGet]
+        //public JsonResult GetApprovalCount(int permitDashBoardId)
+        //{
+        //    var master = _context.PermitMasters.Find(permitDashBoardId);
+        //    if (master == null)
+        //        return Json(new { Count = 0 });
+        //    string? firstMail = null, secondMail = null, thirdMail = null, fourthMail = null;
+        //    int count = 0;
+
+        //    if (master.PermitType == "Height")
+        //    {
+        //        var permit = _context.WorkAtHeightPermits.Find(master.RelatedPermitId);
+        //        if (permit !=null)
+        //        {
+        //            firstMail = permit.ApproverOne;
+        //            secondMail = permit.ApproverTwo;
+        //            thirdMail = permit.ApproverThree;
+        //            fourthMail = permit.ApproverFour;
+        //        }
+        //    }
+        //    else if (master.PermitType == "Hot")
+        //    {
+        //        var permit = _context.HotWorkPermits.Find(master.RelatedPermitId)
+        //    }
+
+
+        //    return Json(new {count, firstMail, secondMail, thirdMail, fourthMail});
+
+        //}
+
+
+
+
+        //public IActionResult GetApprovalStatus(int permitDashBoardId)
+        //{
+        //    var permit = _context.PermitMasters
+        //        .FirstOrDefault(x => Convert.ToInt32(x.PermitNumber) == permitDashBoardId);
+
+
+        //    if (permit == null)
+        //    {
+        //        return Json(0);
+        //    }
+
+        //    int approvedCount = 0;
+
+        //    if (permit.FirstApproverStatus == "Approved")
+        //        approvedCount++;
+
+        //    if (permit.SecondApproverStatus == "Approved")
+        //        approvedCount++;
+
+        //    if (permit.ThirdApproverStatus == "Approved")
+        //        approvedCount++;
+
+        //    if (permit.FourthApproverStatus == "Approved")
+        //        approvedCount++;
+
+        //    return Json(approvedCount);
+        //}
+
+        public IActionResult GetApprovalStatus(int permitDashBoardId)
+        {
+            var permit = _context.PermitMasters
+                .FirstOrDefault(x => Convert.ToInt32(x.PermitNumber) == permitDashBoardId);
+
+
+            if (permit == null)
+            {
+                return Json(new
+                {
+                    count = 0,
+                    FirstMail = "",
+                    SecondMail = "",
+                    ThirdMail = "",
+                    FourthMail = ""
+                });
+            }
+
+            int approvedCount = 0;
+
+            if (permit.FirstApproverStatus == "Approved")
+                approvedCount++;
+            if (permit.SecondApproverStatus == "Approved")
+                approvedCount++;
+            if (permit.ThirdApproverStatus == "Approved")
+                approvedCount++;
+            if (permit.FourthApproverStatus == "Approved")
+                approvedCount++;
+
+            return Json(new
+            {
+                count = approvedCount,
+                FirstMail = permit.FirstApproverStatus == "Approved" ? permit.ApproverOne : "",
+                SecondMail = permit.SecondApproverStatus == "Approved" ? permit.ApproverTwo : "",
+                ThirdMail = permit.ThirdApproverStatus == "Approved" ? permit.ApproverThree : "",
+                FourthMail = permit.SecondApproverStatus == "Approved" ? permit.ApproverFour : "",
+
+            });
+                
+
+        }
+
 
         public IActionResult Index()
         {
@@ -98,10 +202,46 @@ namespace Permit_to_work.Controllers
                 ModelState.AddModelError("RiskIdentification", "Please select at least one Risk Identification or enter Other Risk.");
             }
 
+            //else if (!vm.DocJSA &&
+            //         !vm.DocRiskAssessment &&
+            //         string.IsNullOrWhiteSpace(vm.DocOther))
+            //{
+            //    ModelState.AddModelError("Documents", "Please select at least one of the document or enter Other Risk.");
+            //}
+
+            //else if (string.IsNullOrWhiteSpace(vm.Precaution))
+            //{
+            //    ModelState.AddModelError("Precaution&Tools", "Please select at least one of the Precaution.");
+            //}
+
             else if (string.IsNullOrWhiteSpace(vm.ToolsTested))
             {
                 ModelState.AddModelError("ToolsTested", "Please select at least one of the Tools.");
             }
+
+            //else if (!vm.HazardWorkAtHeight &&
+            //         !vm.HazardScaffolding &&
+            //         !vm.HazardToolEquipment &&
+            //         !vm.HazardChemical &&
+            //         !vm.HazardElectrical &&
+            //         !vm.HazardLifting &&
+            //         !vm.HazardHotSurface &&
+            //         !vm.HazardDust &&                   
+            //         string.IsNullOrWhiteSpace(vm.HazardNA))  
+            //{
+            //    ModelState.AddModelError("Hazards", "Please select at least one of the Hazards.");
+            //}
+
+            //else if (!vm.PermitHotWork &&
+            //         !vm.PermitWorkAtHeight &&
+            //         !vm.PermitExcavation &&
+            //         !vm.PermitElectrical &&
+            //         !vm.PermitConfinedSpace &&
+            //         string.IsNullOrWhiteSpace(vm.PermitOther) &&
+            //         string.IsNullOrWhiteSpace(vm.PermitAssociated))
+            //{
+            //    ModelState.AddModelError("AssociatedPermits", "Please select at least one of the Associated Permits or enter other permit.");
+            //}
 
             else if (!vm.WC &&
                      !vm.ESI)
@@ -197,11 +337,24 @@ namespace Permit_to_work.Controllers
                 DocRiskAssessment = vm.DocRiskAssessment,
                 DocOther = vm.DocOther,
 
+                //// ── Precaution ────────────────────────────
+                //Precaution = vm.Precaution,
                 // ── Precaution & Tools Tested ────────────────────────────
-               
+
+                //── Tools Tested ──────────────────────────
                 ToolsTested = vm.ToolsTested,
 
-              
+                // ── Hazards Identified ────────────────────────────────
+                //HazardWorkAtHeight = vm.HazardWorkAtHeight,
+                //HazardScaffolding = vm.HazardScaffolding,
+                //HazardToolEquipment = vm.HazardToolEquipment,
+                //HazardChemical = vm.HazardChemical,
+                //HazardElectrical = vm.HazardElectrical,
+                //HazardLifting = vm.HazardLifting,
+                //HazardHotSurface = vm.HazardHotSurface,
+                //HazardDust = vm.HazardDust,
+                //HazardNA = vm.HazardNA,
+
                 // ── Associated Permits ───────────────────────────────────
                 PermitHotWork = vm.PermitHotWork,
                 PermitWorkAtHeight = vm.PermitWorkAtHeight,
@@ -338,15 +491,15 @@ namespace Permit_to_work.Controllers
                 string.IsNullOrWhiteSpace(model.EmergencyContact2) &&
                 string.IsNullOrWhiteSpace(model.EmergencyContact3) &&
                 string.IsNullOrWhiteSpace(model.ToolsTested))
-            {
+                {
                 ModelState.AddModelError("EmergencyTeam", "Please fill at least one Emergency Team field.");
             }
 
             if(!model.WC &&
                 !model.ESI)
-            {
+                    {
                 ModelState.AddModelError("Insurance", "Please select at least one Insurance");
-            }
+                    }
 
             if(!model.FireExtinguisherChecked &&
                 !model.FireBlanketChecked &&
@@ -357,7 +510,7 @@ namespace Permit_to_work.Controllers
                 string.IsNullOrWhiteSpace(model.FireExtinguisherDetails))
             {
                 ModelState.AddModelError("Inspection", "Please select at least one Inspection");
-            }
+                }
 
             if(!model.Helmet &&
                 !model.SafetyShoes &&
@@ -408,6 +561,8 @@ namespace Permit_to_work.Controllers
 
                 // ── Work Details ────────────────────────────────────────────
                 WorkDescription = model.WorkDescription,
+
+                // ── Tools ───────────────────────────────────────
                 ToolsEquipment = model.ToolsEquipment,
 
                 // ── Risk ──────────────────────────────────────────────────
@@ -526,8 +681,10 @@ namespace Permit_to_work.Controllers
 
         public IActionResult Hotwork()
         {
-            return View();
+            return View(); 
         }
+
+       
 
         // LIFTING OPERATION PERMIT
 
@@ -543,8 +700,13 @@ namespace Permit_to_work.Controllers
             return RedirectToAction("Success");
         }
 
+        public IActionResult Liftingoperation()
+        {
+            return View();
+        }
 
-        // WORK AT HEIGHT PERMIT
+
+       // WORK AT HEIGHT PERMIT
 
         [HttpPost]
         public async Task<IActionResult> WorkAtHeightPermit(WorkAtHeightPermit model)
@@ -563,7 +725,7 @@ namespace Permit_to_work.Controllers
             return View();
         }
 
-        // ELECTRICAL ISOLATION PERMIT
+        // ELECTRICAL ISOLATION PERMIT 
         
         [HttpPost]
         public async Task<IActionResult> ConfinedSpace(ConfinedSpacePermit model)
@@ -1070,7 +1232,7 @@ namespace Permit_to_work.Controllers
 
                 if (permit != null)
                 {
-                     permit.IsActive = false;
+                    permit.IsActive = false;
                     _context.SaveChanges();
 
                     return Json(new { success = true });

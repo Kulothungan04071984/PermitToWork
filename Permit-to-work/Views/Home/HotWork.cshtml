@@ -80,11 +80,11 @@
 
         </text >
     </style>
-
-
-
-  
-
+    
+    
+    
+    
+    
     <form asp-action="Hotwork" method="post" class="container my-4">
         <!-- HEADER -->
         <section class="sticky-header text-center py-3 pt-3">
@@ -94,23 +94,24 @@
                SECTION: BASIC DETAILS
           ════════════════════════════════════════════════════ -->
         <section class="card permit-card">
+        <h5>Basic Details</h5>
             @Html.ValidationMessage("BasicDetails", "", new { @class = "text-danger" })
             <h5>
                 Basic Details<span class="required-star">*</span>
             </h5>
            
             <div class="row g-3">
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <label>
-                        Unit
+                        Unit <span class="required-star">*</span>
                     </label>
                     @Html.TextBoxFor(m => m.Unit, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.Unit, "",new { @class = "text-danger"})
+                    @Html.ValidationMessageFor(m => m.Unit, "", new { @class = "text-danger" })
                 </div>
 
                 <div class="col-md-3">
                     <label>
-                        Contractor Name
+                        Contractor <span class="required-star">*</span>
                     </label>
                     @Html.TextBoxFor(m => m.ContractorName, new { @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.ContractorName, "", new { @class = "text-danger" })
@@ -118,7 +119,7 @@
 
                 <div class="col-md-3">
                     <label>
-                        Location
+                        Location <span class="required-star">*</span>
                     </label>
                     @Html.TextBoxFor(m => m.Location, new { @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.Location, "", new { @class = "text-danger" })
@@ -126,7 +127,7 @@
 
                 <div class="col-md-3">
                     <label>
-                        No. of Workmen involved
+                        No. of Workmen involved <span class="required-star">*</span>
                     </label>
                     @Html.TextBoxFor(m => m.NoOfWorkmen, new { @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.NoOfWorkmen, "", new { @class = "text-danger" })
@@ -147,7 +148,7 @@
 
                 <div class="col-md-3">
                     <label>
-                        Starting From Date
+                        Starting From Date <span class="required-star">*</span>
                     </label>
                     @Html.TextBoxFor(m => m.StartDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.StartDate, "", new { @class = "text-danger" })
@@ -155,7 +156,7 @@
             
                 <div class="col-md-3">
                     <label>
-                        Starting From Time
+                        Starting From Time<span class="required-star">*</span>
                     </label>
                     @Html.TextBoxFor(m => m.StartTime, new { type = "time", @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.StartTime, "", new { @class = "text-danger" })
@@ -163,7 +164,7 @@
                
                 <div class="col-md-3">
                     <label>
-                        Expected Completion Date 
+                        Expected Completion Date <span class="required-star">*</span>
                     </label>
                     @Html.TextBoxFor(m => m.EndDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.EndDate, "", new { @class = "text-danger" })
@@ -171,7 +172,7 @@
                 
                 <div class="col-md-3">
                     <label>
-                        Expected Completion Time
+                        Expected Completion Time<span class="required-star">*</span>
                     </label>
                     @Html.TextBoxFor(m => m.EndTime, new { type = "time", @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.EndTime, "", new { @class = "text-danger" })
@@ -207,6 +208,7 @@
                SECTION: WORK DESCRIPTION
           ════════════════════════════════════════════════════ -->
         <section class="card permit-card">
+            <label>Work Description</label>
             @Html.TextAreaFor(m => m.WorkDescription, 3, 100, new { @class = "form-control" })
             <label>Work Description</label>
         </section>
@@ -215,6 +217,7 @@
                SECTION: TOOLS & EQUIPMENTS
           ════════════════════════════════════════════════════ -->
         <section class="card permit-card">
+            <label>Tools / Equipment to be used</label>
             @Html.TextAreaFor(m => m.ToolsEquipment, 3, 100, new { @class = "form-control" })
             <label>Tools / Equipment to be used</label>
         </section>
@@ -229,15 +232,15 @@
             </div>
             <div class="row">
 
-                <div class="col-md-4 form-check">
+                    <div class="col-md-4 form-check">
                     @Html.CheckBoxFor(m => m.Electrocution, new { @class = "form-check-input" })
                     <label class="form-check-label">Electrocution</label>
-                </div>
+                    </div>
 
                 <div class="col-md-4 form-check">
                     @Html.CheckBoxFor(m => m.ArcFlash, new { @class = "form-check-input" })
                     <label class="form-check-label">Arc Flash</label>
-                </div>
+            </div>
 
                 <div class="col-md-4 form-check">
                     @Html.CheckBoxFor(m => m.FlyingParticles, new { @class = "form-check-input" })
@@ -299,15 +302,17 @@
                     <label class="form-check-label">Fume/Smoke</label>
                 </div>
 
-                <div class="col-md-4">
-                    <label>Other (specify):</label>
-                    @Html.TextBoxFor(m => m.AttachOther, new { @class = "form-control" })
-                </div>
+            <div class="col-md-4">
+                <label>Other (specify):</label>
+                @Html.TextBoxFor(m => m.AttachOther, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.AttachOther, "", new { @class = "text-danger" })
+            </div>
             </div>
         </section>
 
-        <!--Documents-->
-
+        <!-- ════════════════════════════════════════════════════
+               SECTION: DOCUMENTS
+          ════════════════════════════════════════════════════ -->
         <section class="card permit-card">
             <div class="section-title">Documents to attach</div>
 
@@ -343,11 +348,15 @@
             </div>
         </section>
 
-
-        <!-- CERTIFICATION & SAFETY CHECKS -->
+        <!-- ════════════════════════════════════════════════════
+               SECTION: CERTIFICATION & SAFETY CHECKS
+          ════════════════════════════════════════════════════ -->
         <section class="card permit-card">
-            <div class="section-title">Certification & Safety Checks</div>
+            <div class="section-title">
+                Certification & Safety Checks <span class="required-star">*</span>
+            </div>
 
+            <!-- Combustible Material -->
             <div class="mb-2">
                 <label class="form-label">Are all combustible materials removed or shielded from sparks?</label>
                 <div class="d-flex gap-3">
@@ -373,7 +382,7 @@
         ════════════════════════════════════════════════════ -->
         <section class="card permit-card">
             <div class="section-title mt-3">
-                Regulators & Gauges
+                Regulators & Gauges <span class="required-star">*</span>
             </div>
             
             <div class="d-flex gap-3 align-items-center">
@@ -452,29 +461,33 @@
                 <label class="form-check-label">Have tools and devices to be used been tested and adjusted?</label>
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" style="border-radius:15% !important" type="radio" name="EmergencyTeam" value="yes">
-                    <label>Yes</label>
+                   <label> Yes </label>
                 </div>
 
                 <div class="form-check form-check-inline ms-3">
                     <input class="form-check-input" style="border-radius:15% !important" type="radio" name="EmergencyTeam" value="no">
 
-                    <label> No </label>
+                   <label> No </label>
                 </div>
                 <div class="form-check form-check-inline ms-3">
                     <input class="form-check-input" style="border-radius:15% !important" type="radio" name="EmergencyTeam" value="N/A">
-                    <label> N/A</label>
+                   <label>N/A</label>
                 </div>
+                <div class="col-md-3">@Html.TextBoxFor(m => m.OtherPPE, new { @class = "form-control", placeholder = "Other (specify)" })</div>
             </div>
             <div class="col-md-3">@Html.TextBoxFor(m => m.ToolsTested, new { @class = "form-control", placeholder = "Other (specify):" })</div>
         </section>
 
-        <!-- INSURANCE COPY -->
+        <!-- ════════════════════════════════════════════════════
+              SECTION: INSURANCE COPY
+         ════════════════════════════════════════════════════ -->
         <section class="card permit-card">
             @Html.ValidationMessage("Insurance", "", new { @class = "text-danger" })
             <div class="section-title">
                 Insurance copy available for workmen <span class="required-star">*</span>
             </div>
-            <div class="d-flex gap-4 flex-wrap">
+
+            <div class="d-flex gap-4">
 
                 <div>
                     <div class="form-check">
@@ -482,6 +495,7 @@
                         <label class="form-check-label" for="wc">WC</label>
                     </div>
 
+         
                     <div id="wcUpload" style="display:none; margin-top:5px;">
                         <input type="file" name="WCFile" id="wcFile" class="form-control form-control-sm" style="background:#ffb3b3; border:1px solid #000;" />
                     </div>
@@ -573,7 +587,7 @@
                 <div class="col-md-3">@Html.CheckBoxFor(m => m.WeldingClothes) <label>Welding Clothes</label></div>
                 <div class="col-md-3">@Html.TextBoxFor(m => m.OtherPPE, new { @class = "form-control", placeholder = "Other (specify)" })</div>
             </div>
-            </section>
+        </section>
 
         <!-- ════════════════════════════════════════════════════
               SECTION: AUTHORIZATION
@@ -584,18 +598,19 @@
                 Issue and Acceptance <span class="required-star">*</span>
             </div>
             <div class="row g-3">
-                <div class="col-md-6">
+                <div class="col-md-6"> 
                     <label>Permit Receiver name</label>
                     @Html.TextBoxFor(m => m.ReceiverName, new { @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.ReceiverName, "", new { @class = "text-danger" })
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-3"> 
                     <label>Receiver Date</label>
                     @Html.TextBoxFor(m => m.ReceiverDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.ReceiverDate, "", new { @class = "text-danger" })
                 </div>
             </div>
+
             <div class="row g-3">
                 <div class="col-md-6">
                     <label>Permit Issuer name</label>
@@ -640,29 +655,34 @@
 
         <!-- Approver details -->
         <section class="card permit-card">
-            <div class="section-title">
-                Approver Details<span class="required-star">*</span>
-            </div>
+            <section class="permit-section">
+                <div class="section-title">
+                    Approver Details<span class="required-star">*</span>
+                </div>
             
-            <div class="row">
-                <div class="col-lg-3">
+                <div class="row">
+                    <div class="col-lg-3">
                     <label>Approver One Email <span class="required-star">*</span> </label>
-                    @Html.TextBoxFor(m => m.ApproverOne, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.ApproverOne, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(m => m.ApproverOne, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.ApproverOne, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="col-lg-3">
+                        <label>Approver Two Email</label>
+                        @Html.TextBoxFor(m => m.ApproverTwo, new { @class = "form-control" })
+                    </div>
+
+                    <div class="col-lg-3">
+                        <label>Approver Three Email</label>
+                        @Html.TextBoxFor(m => m.ApproverThree, new { @class = "form-control" })
+                    </div>
+
+                    <div class="col-lg-3">
+                        <label>Approver Four Email</label>
+                        @Html.TextBoxFor(m => m.ApproverFour, new { @class = "form-control" })
+                    </div>
                 </div>
-                <div class="col-lg-3">
-                    <label>Approver Two Email</label>
-                    @Html.TextBoxFor(m => m.ApproverTwo, new { @class = "form-control" })
-                </div>
-                <div class="col-lg-3">
-                    <label>Approver Three Email</label>
-                    @Html.TextBoxFor(m => m.ApproverThree, new { @class = "form-control" })
-                </div>
-                <div class="col-lg-3">
-                    <label>Approver Four Email</label>
-                    @Html.TextBoxFor(m => m.ApproverFour, new { @class = "form-control" })
-                </div>
-            </div>
+            </section>
         </section>
 
         <!-- BUTTONS -->
@@ -674,6 +694,7 @@
     </form>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  
     <script>
         document.addEventListener("DOMContentLoaded", function () {
 
@@ -750,27 +771,27 @@
             const esiFileName = document.getElementById("esiFileName");
 
             if (wc) {
-                wc.addEventListener("change", function () {
-                    wcUpload.style.display = this.checked ? "block" : "none";
-                });
+            wc.addEventListener("change", function () {
+                wcUpload.style.display = this.checked ? "block" : "none";
+            });
             }
 
             if (esi) {
-                esi.addEventListener("change", function () {
-                    esiUpload.style.display = this.checked ? "block" : "none";
-                });
+            esi.addEventListener("change", function () {
+                esiUpload.style.display = this.checked ? "block" : "none";
+            });
             }
 
             if (wcFile && wcFileName) {
-                wcFile.addEventListener("change", function () {
-                    wcFileName.innerText = this.files.length > 0 ? this.files[0].name : "";
-                });
+            wcFile.addEventListener("change", function () {
+                wcFileName.innerText = this.files.length > 0 ? this.files[0].name : "";
+            });
             }
 
             if (esiFile && esiFileName) {
-                esiFile.addEventListener("change", function () {
-                    esiFileName.innerText = this.files.length > 0 ? this.files[0].name : "";
-                });
+            esiFile.addEventListener("change", function () {
+                esiFileName.innerText = this.files.length > 0 ? this.files[0].name : "";
+            });
             }
         });
     </script>
@@ -788,7 +809,7 @@
             if (jsa) {
                 jsa.addEventListener("change", function () {
                     jsaList.style.display = this.checked ? "block" : "none";
-                });
+        });
             }
 
           

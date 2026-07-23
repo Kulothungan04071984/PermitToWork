@@ -103,7 +103,7 @@
                 <input type="radio" name="RiggerLevel" value="Between10And40Ton"> 10–40 ton (Level 2)
                 <input type="radio" name="RiggerLevel" value="Morethan40"> More than 40 (rigger level1)
             </section>
-          
+            
 
             <!-- EQUIPMENT -->
             <section class="border-section">
@@ -298,7 +298,7 @@
             <section class="border-section">
                 <div class="section-title">Insurance copy available for workmen:</div>
 
-                <div class="d-flex gap-2 align-items-center">
+                <div class="d-flex gap-3 align-items-center">
                     <div class="form-check">
                         @Html.CheckBoxFor(m => m.WC, new { @class = "form-check-input", id = "wc" })
                         <label class="form-check-label" for="wc">WC</label>
@@ -308,7 +308,7 @@
                                    class="form-control form-control-sm"
                                    style="background: #f4f7fb; border:1px solid #000;" />
                         </div>
-                  
+
 
                     <div class="form-check">
                         @Html.CheckBoxFor(m => m.ESI, new { @class = "form-check-input", id = "esi" })
@@ -318,11 +318,12 @@
                         <input type="file" name="ESIFile" id="esiFile"
                                class="form-control form-control-sm"
                                style="background: #f4f7fb; border:1px solid #000;" />
-                    </div>
+                </div>
                 </div>
             </section>
 
             <!-- AUTH -->
+
             <section class="border-section">
             <div class="section-title mt-4">Authorization</div>
             <div class="row g-3">
@@ -337,10 +338,12 @@
                 <div class="col-md-3">
                     <label>Issuer Date</label>@Html.TextBoxFor(m => m.IssuerDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
                 </div>
-            </div>
-            </section>
+                </div>
+                </section>
 
             <!-- SUSPENSION -->
+
+                <section class="border-section">
                 <div class="section-title">Suspension</div>
                 <label>This permit is suspended, area/equipment is not safe to use.</label>
                 <div class="row g-3 mt-2">

@@ -44,7 +44,7 @@ namespace Permit_to_work.Models
 
         // Documents
         public bool AttachJSA { get; set; }
-      
+
         public string? OtherDocument { get; set; }
 
         // Precaution
@@ -105,6 +105,7 @@ namespace Permit_to_work.Models
         // Suspension
         public string? SuspensionName { get; set; }
         public DateTime SuspensionSignatureDate { get; set; }
+
 
         // Approver Details
         public string? ApproverOne { get; set; }

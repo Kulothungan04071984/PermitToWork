@@ -601,6 +601,18 @@ namespace Permit_to_work.Migrations
                     b.Property<bool>("FireExtinguisher")
                         .HasColumnType("bit");
 
+                    b.Property<string>("FireExtinguisherQuantity")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FireExtinguisherSize")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FireExtinguisherType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("IssuerName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -750,6 +762,9 @@ namespace Permit_to_work.Migrations
                     b.Property<string>("SuspensionName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("SuspensionSignatureDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("SwitchOut")
                         .HasColumnType("bit");

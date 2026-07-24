@@ -1,0 +1,295 @@
+﻿@model Permit_to_work.Models.ConfinedSpacePermit
+
+@{
+    ViewData["Title"] = "ConfinedSpacePermit";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Confined Space Entry Permit</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #f1f8f4;
+        }
+
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            background: #1e8449;
+            color: white;
+            border-bottom: 3px solid black;
+        }
+
+        .permit-card {
+            border: 2px solid #1e8449;
+            background: white;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .section-title {
+            background: #27ae60;
+            color: white;
+            padding: 6px;
+            font-weight: bold;
+            text-transform: uppercase;
+            border: 1px solid black;
+            margin-bottom: 10px;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <section class="sticky-header text-center py-2">
+        <h4>CONFINED SPACE ENTRY PERMIT</h4>
+    </section>
+
+    <form class="container mt-3">
+
+        <!-- BASIC -->
+        <section class="permit-card">
+            <div class="row">
+                <div class="col-md-3">Unit @Html.TextBoxFor(m => m.Unit, new { @class = "form-control" })</div>
+                <div class="col-md-3">Contractor @Html.TextBoxFor(m => m.Contractor, new { @class = "form-control" })</div>
+                <div class="col-md-3">Location @Html.TextBoxFor(m => m.Location, new { @class = "form-control" })</div>
+                <div class="col-md-3">No. of Workmen @Html.TextBoxFor(m => m.Workmen, new { @class = "form-control" })</div>
+            </div>
+        </section>
+
+        <!-- TIME -->
+        <section class="permit-card">
+            <div class="row">
+                <div class="col-md-3">Start Date @Html.TextBoxFor(m => m.StartDate, new { @type = "date", @class = "form-control" })</div>
+                <div class="col-md-3">Start Time @Html.TextBoxFor(m => m.StartTime, new { @type = "time", @class = "form-control" })</div>
+                <div class="col-md-3">End Date @Html.TextBoxFor(m => m.EndDate, new { @type = "date", @class = "form-control" })</div>
+                <div class="col-md-3">End Time @Html.TextBoxFor(m => m.EndTime, new { @type = "time", @class = "form-control" })</div>
+            </div>
+        </section>
+
+        <!-- DESCRIPTION -->
+        <section class="permit-card">
+            <label>Work Description</label>
+            @Html.TextAreaFor(m => m.WorkDescription, 3, 100, new { @class = "form-control" })
+        </section>
+
+        <section class="permit-card">
+            <label>Tools / Equipment</label>
+            @Html.TextAreaFor(m => m.Tools, 3, 100, new { @class = "form-control" })
+        </section>
+
+        <!-- RISK -->
+        <section class="permit-card">
+            <div class="section-title">Identify Risk</div>
+            <div class="row">
+                <div class="col-md-3">@Html.CheckBoxFor(m => m.RiskOxygen) Lack of Oxygen</div>
+                <div class="col-md-3">@Html.CheckBoxFor(m => m.RiskExplosion) Explosion</div>
+                <div class="col-md-3">@Html.CheckBoxFor(m => m.RiskFume) Fume/Vapor</div>
+                <div class="col-md-3">@Html.CheckBoxFor(m => m.RiskNoise) Noise</div>
+
+                <div class="col-md-3">@Html.CheckBoxFor(m => m.RiskHot) Hot</div>
+                <div class="col-md-3">@Html.CheckBoxFor(m => m.RiskFire) Fire</div>
+                <div class="col-md-3">@Html.CheckBoxFor(m => m.RiskDust) Dust</div>
+                <div class="col-md-3">@Html.CheckBoxFor(m => m.RiskVibration) Vibration</div>
+            </div>
+
+            Other: @Html.TextBoxFor(m => m.RiskOther, new { @class = "form-control" })
+        </section>
+
+        <!-- DOCUMENT -->
+        <section class="permit-card">
+            <div class="section-title">Documents</div>
+            @Html.CheckBoxFor(m => m.JSA) JSA
+           
+            Other @Html.TextBoxFor(m => m.DocOther, new { @class = "form-control" })
+        </section>
+
+        <!-- ATMOSPHERE -->
+        <section class="permit-card">
+            <div class="section-title mb-3">Atmospheric Check</div>
+
+            <div class="row g-3">
+               
+                <div class="col-md-3">
+                    <label class="form-label">Oxygen</label>
+                    @Html.TextBoxFor(m => m.OxygenLevel, new { @class = "form-control" })
+                </div>
+                  <div class="col-md-3">
+                    <label class="form-label">Explosive</label>
+                    @Html.TextBoxFor(m => m.ExplosiveLevel, new { @class = "form-control" })
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">CO</label>
+                    @Html.TextBoxFor(m => m.COLevel, new { @class = "form-control" })
+                </div>
+
+                
+                <div class="col-md-3">
+                    <label class="form-label">H2S</label>
+                    @Html.TextBoxFor(m => m.H2SLevel, new { @class = "form-control" })
+                </div>
+            </div>
+
+            <!-- Radio Buttons -->
+            <div class="mt-4">
+                <label class="form-label d-block">Atmospheric Check Done?</label>
+
+                <div class="form-check form-check-inline">
+                    @Html.RadioButtonFor(m => m.AtmosphereDone, "Yes", new { @class = "form-check-input", id = "atm_yes" })
+                    <label class="form-check-label" for="atm_yes">Yes</label>
+                </div>
+
+                <div class="form-check form-check-inline">
+                    @Html.RadioButtonFor(m => m.AtmosphereDone, "No", new { @class = "form-check-input", id = "atm_no" })
+                    <label class="form-check-label" for="atm_no">No</label>
+                </div>
+            </div>
+        </section>
+
+        <!-- VENTILATION -->
+        <section class="permit-card">
+            <div class="section-title">Ventilation</div>
+
+            @Html.RadioButtonFor(m => m.Ventilation, "Natural") Natural
+            @Html.RadioButtonFor(m => m.Ventilation, "Mechanical") Mechanical
+                        @Html.TextBoxFor(m => m.VentilationDetails, new { @class = "form-control" })
+        </section>
+
+        <!-- COMMUNICATION -->
+        <section class="permit-card">
+            <div class="section-title">Communication</div>
+
+            @Html.RadioButtonFor(m => m.Communication, "Yes") Yes
+            @Html.RadioButtonFor(m => m.Communication, "No") No
+
+            @Html.TextBoxFor(m => m.CommunicationDetails, new { @class = "form-control" })
+        </section>
+        <section class="permit-card mt-4">
+            <div class="section-title mb-3">Safety Checklist</div>
+
+            
+            <div class="row align-items-center mb-3">
+                <div class="col-md-8">
+                    <label class="form-label">
+                        Are entrant and attendant well aware of emergency procedure?
+                    </label>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-check form-check-inline">
+                        @Html.RadioButtonFor(m => m.EmergencyAware, "Yes", new { @class = "form-check-input", id = "em_yes" })
+                        <label class="form-check-label" for="em_yes">Yes</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        @Html.RadioButtonFor(m => m.EmergencyAware, "No", new { @class = "form-check-input", id = "em_no" })
+                        <label class="form-check-label" for="em_no">No</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        @Html.RadioButtonFor(m => m.EmergencyAware, "NA", new { @class = "form-check-input", id = "em_na" })
+                        <label class="form-check-label" for="em_na">N/A</label>
+                    </div>
+                </div>
+            </div>
+
+        
+            <div class="row align-items-center mb-3">
+                <div class="col-md-8">
+                    <label class="form-label">
+                        Does the work require access to hot work? If yes, obtain a Hot Work Permit
+                    </label>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-check form-check-inline">
+                        @Html.RadioButtonFor(m => m.HotWorkRequired, "Yes", new { @class = "form-check-input", id = "hot_yes" })
+                        <label class="form-check-label" for="hot_yes">Yes</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        @Html.RadioButtonFor(m => m.HotWorkRequired, "No", new { @class = "form-check-input", id = "hot_no" })
+                        <label class="form-check-label" for="hot_no">No</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        @Html.RadioButtonFor(m => m.HotWorkRequired, "NA", new { @class = "form-check-input", id = "hot_na" })
+                        <label class="form-check-label" for="hot_na">N/A</label>
+                    </div>
+                </div>
+            </div>
+
+            
+            <div class="row align-items-center mb-3">
+                <div class="col-md-8">
+                    <label class="form-label">
+                        If required, Lockout / Tagout system is followed?
+                    </label>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-check form-check-inline">
+                        @Html.RadioButtonFor(m => m.LOTOFollowed, "Yes", new { @class = "form-check-input", id = "loto_yes" })
+                        <label class="form-check-label" for="loto_yes">Yes</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        @Html.RadioButtonFor(m => m.LOTOFollowed, "No", new { @class = "form-check-input", id = "loto_no" })
+                        <label class="form-check-label" for="loto_no">No</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        @Html.RadioButtonFor(m => m.LOTOFollowed, "NA", new { @class = "form-check-input", id = "loto_na" })
+                        <label class="form-check-label" for="loto_na">N/A</label>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- EMERGENCY -->
+        <section class="permit-card">
+            <div class="section-title">Emergency</div>
+
+            @Html.RadioButtonFor(m => m.EmergencyTeam, "Yes") Yes
+            @Html.RadioButtonFor(m => m.EmergencyTeam, "No") No
+
+            Contact1 @Html.TextBoxFor(m => m.Contact1, new { @class = "form-control" })
+            Contact2 @Html.TextBoxFor(m => m.Contact2, new { @class = "form-control" })
+            Contact3 @Html.TextBoxFor(m => m.Contact3, new { @class = "form-control" })
+        </section>
+
+        <!-- PPE -->
+        <section class="permit-card">
+            <div class="section-title">PPE</div>
+
+            <div class="row">
+                <div class="col-md-3">@Html.CheckBoxFor(m => m.Helmet) Helmet</div>
+                <div class="col-md-3">@Html.CheckBoxFor(m => m.Shoes) Safety Shoes</div>
+                <div class="col-md-3">@Html.CheckBoxFor(m => m.Gloves) Gloves</div>
+                <div class="col-md-3">@Html.CheckBoxFor(m => m.Goggles) Goggles</div>
+                <div class="col-md-3">@Html.CheckBoxFor(m => m.Harness) Harness</div>
+                <div class="col-md-3">@Html.CheckBoxFor(m => m.GasMask) Gas Mask</div>
+            </div>
+        </section>
+
+        <!-- SIGN -->
+        <section class="permit-card">
+            <div class="section-title">Authorization</div>
+
+            Receiver @Html.TextBoxFor(m => m.ReceiverName, new { @class = "form-control" })
+            Issuer @Html.TextBoxFor(m => m.IssuerName, new { @class = "form-control" })
+        </section>
+
+        <!-- SUSPENSION -->
+        <section class="permit-card">
+            <div class="section-title">Suspension</div>
+
+            Name @Html.TextBoxFor(m => m.SuspendName, new { @class = "form-control" })
+            Date @Html.TextBoxFor(m => m.SuspendDate, new { @type = "date", @class = "form-control" })
+        </section>
+
+    </form>
+</body>
+</html>

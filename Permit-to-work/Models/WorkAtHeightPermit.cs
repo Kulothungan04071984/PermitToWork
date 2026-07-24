@@ -26,6 +26,8 @@ namespace Permit_to_work.Models
         public bool RoofWork { get; set; }
         public string OtherWork { get; set; }
 
+        public bool AttachJSA { get; set; }
+
         // Description
         public string WorkDescription { get; set; }
         public string ToolsEquipment { get; set; }
@@ -63,6 +65,7 @@ namespace Permit_to_work.Models
         public bool ScaffoldCertified { get; set; }
         public string OtherRiskControl { get; set; }
 
+        //Inspection
         public bool DangerWarningSign { get; set; }
         public bool ScaffoldTagSystem { get; set; }
         public bool Lighting { get; set; }
@@ -106,7 +109,7 @@ namespace Permit_to_work.Models
         public string SuspensionSignatureDate { get; set; }
 
         public DateTime CreatedOn { get; set; } = DateTime.Now;
-<<<<<<< HEAD
+
 
         // Approver Details
 
@@ -114,7 +117,7 @@ namespace Permit_to_work.Models
         public string ApproverTwo { get; set; }
         public string ApproverThree { get; set; }
         public string ApproverFour { get; set; }
-=======
->>>>>>> faccccd7e844f04b57a176035fe543f761ff19d4
+
+     
     }
 }

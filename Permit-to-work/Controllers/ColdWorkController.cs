@@ -3,10 +3,7 @@ using Permit_to_work.Data;
 
 namespace Permit_to_work.Controllers
 {
-<<<<<<< HEAD
-=======
-  
->>>>>>> faccccd7e844f04b57a176035fe543f761ff19d4
+
     public class ColdWorkController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -20,8 +17,6 @@ namespace Permit_to_work.Controllers
             return View("~/Views/Home/workpermitform.cshtml", Coldpermit);
         }
     }
-<<<<<<< HEAD
+
 }
-=======
-}
->>>>>>> faccccd7e844f04b57a176035fe543f761ff19d4
+

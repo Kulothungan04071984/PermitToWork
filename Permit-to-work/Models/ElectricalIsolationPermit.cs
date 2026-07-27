@@ -82,7 +82,7 @@ namespace Permit_to_work.Models
         // LOTO / Isolation
         public bool SwitchOut { get; set; }
         public bool LockoutTagout { get; set; }
-        public int NumberOfLocks { get; set; }
+        public int? NumberOfLocks { get; set; }
         public bool TestConfirmed { get; set; }
         public bool ToolsTested { get; set; }
         public string? OtherLOTO { get; set; }

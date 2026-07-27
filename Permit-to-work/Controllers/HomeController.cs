@@ -255,7 +255,7 @@ namespace Permit_to_work.Controllers
 
                 // ── Meta ──────────────────────────────────────────────
                 CreatedOn = DateTime.Now,
-                IsActive = true
+                IsActive = true,
             };
 
             if (vm.Id > 0)
@@ -459,7 +459,7 @@ namespace Permit_to_work.Controllers
                 SafetyBarriersChecked = model.SafetyBarriersChecked,
                 SandBucketChecked = model.SandBucketChecked,
 
-                // ── PPE ────────────────────────────────────────────
+                // ── PPE ───────────────────────────────────────────────────
                 Helmet = model.Helmet,
                 SafetyShoes = model.SafetyShoes,
                 WeldingGloves = model.WeldingGloves,
@@ -510,7 +510,7 @@ namespace Permit_to_work.Controllers
         // ELECTRICAL ISOLATION PERMIT
 
         [HttpPost]
-        public async Task<IActionResult> ElectricalIsolation (ElectricalIsolationPermit model)
+        public async Task<IActionResult> ElectricalIsolationPermit (ElectricalIsolationPermit model)
         {
             if (!model.EnergizedEquipment &&
                 !model.DeEnergizedEquipment)
@@ -554,7 +554,7 @@ namespace Permit_to_work.Controllers
                 ModelState.AddModelError("Inspection", "Please select at least one Inspection.");
             }
 
-            if(!model.PPEHelmet &&
+            if (!model.PPEHelmet &&
                 !model.PPEShoes &&
                 !model.PPEElectricalGloves &&
                 !model.PPEHalfMask &&
@@ -632,7 +632,7 @@ namespace Permit_to_work.Controllers
                 ConfinedSpace = model.ConfinedSpace,
                 ElectricalIsolation = model.ElectricalIsolation,
 
-                // ── LOTO / Isolation ────────────────────────────────────────────
+                // ── LOTO / Isolation ───────────────────────────────────────
                 SwitchOut = model.SwitchOut,
                 LockoutTagout = model.LockoutTagout,
                 NumberOfLocks = model.NumberOfLocks,
@@ -825,7 +825,7 @@ namespace Permit_to_work.Controllers
             );
 
             dashboard.AddRange(
-                _context.ElectricalIsolationPermits.Select(x => new PermitDashboardVM
+                _context.ElectricalIsolationPermits.Where(a => a.IsActive == true ).Select(x => new PermitDashboardVM
                 {
                     PermitDashBoardId = x.PermitId,
                     PermitType = "Electrical Isolation",

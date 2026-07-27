@@ -4,13 +4,13 @@
     {
         public int Id { get; set; }
 
-        public string PermitNumber { get; set; }
+        public string? PermitNumber { get; set; }
 
-        public string PermitType { get; set; }
+        public string? PermitType { get; set; }
 
         // Cold Work / Hot Work / Lifting / Height / Electrical
 
-        public string Unit { get; set; }
+        public string? Unit { get; set; }
         public string? Location { get; set; }
 
         public DateTime? StartDate { get; set; }
@@ -25,7 +25,7 @@
 
         public string FourthApproverStatus { get; set; } = string.Empty;
 
-        public string Status { get; set; }
+        public string? Status { get; set; }
 
         // Draft / PendingSafety / PendingElectrical / Approved / Closed
 

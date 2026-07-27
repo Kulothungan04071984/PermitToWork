@@ -294,7 +294,7 @@
                                     </a>
 
                                     @{
-                                        bool disableButton = item.Status == "Approved" || item.Status == "Rejected" || item.Status == "Partially Approved";
+                                        bool disableButton = item.Status == "Approved" || item.Status == "Rejected" || item.Status == "Partial Approved";
                                     }
 
                                     <a class="btn btn-sm @(disableButton ? "btn-secondary disabled" : "btn-primary")"

@@ -306,9 +306,9 @@
                                     <td>@item.Status</td>
 
                                 <td class="text-center">
-                                    <a class="btn btn-sm btn-primary" id="btnStatus">
+                                    @* <a class="btn btn-sm btn-primary" id="btnStatus">
                                         <i class="bi bi-plus-circle"></i>
-                                    </a>
+                                    </a> *@
 
                        @*                  <table id="permitTable" class="table">
                                             <thead>
@@ -386,8 +386,8 @@
 
                         <div class="approval-step">
                             <i class="bi bi-check-circle-fill"></i>
-                           @*  <span id="snFirstApproval" class="approver-email"></span> *@
-                            <span id="snFirstApproval"></span>
+                            <span id="snFirstApproval" class="approver-email"></span>
+                            @* <span id="snFirstApproval"></span> *@
                             <small>First Approved</small>
                         </div>
 
@@ -395,8 +395,8 @@
 
                         <div class="approval-step">
                             <i class="bi bi-check-circle-fill"></i>
-                           @*  <span id="snSecondApproval" class="approver-email"></span> *@
-                            <span id="snSecondApproval"></span>
+                            <span id="snSecondApproval" class="approver-email"></span>
+                           @*  <span id="snSecondApproval"></span> *@
                             <small>Second Approved</small>
                         </div>
 
@@ -404,8 +404,8 @@
 
                         <div class="approval-step">
                             <i class="bi bi-check-circle-fill"></i>
-                            @* <span id="snThiredApproval" class="approver-email"></span> *@
-                            <span id="snThiredApproval"></span>
+                            <span id="snThiredApproval" class="approver-email"></span>
+                            @* <span id="snThiredApproval"></span> *@
                             <small>Third Approved</small>
                         </div>
 
@@ -413,8 +413,8 @@
 
                         <div class="approval-step">
                             <i class="bi bi-check-circle-fill"></i>
-                           @*  <span id="snFourthApproval" class="approver-email"></span> *@
-                            <span id="snFourthApproval"></span>
+                            <span id="snFourthApproval" class="approver-email"></span>
+                            @* <span id="snFourthApproval"></span> *@
                             <small>Fourth Approval</small>
                         </div>
 
@@ -424,7 +424,7 @@
                              title="Rejected because leave balance is insufficient">
                             <i class="bi bi-x-circle-fill"></i>
                             <span>HR</span>
-                        </div> *@
+                        </div> *@ 
                         @*   @if (Model.Status == "Approved")
                         {
                             <div class="approval-step approved">
@@ -534,6 +534,9 @@
         type: 'GET',
         data: { permitDashBoardId: id },
         success: function (result) {
+
+
+
             $(".approval-step").removeClass("approved pending").addClass("pending");
 
             $(".approval-step i").removeClass("bi-check-fill bi-hourglass-split").addClass("bi-hourglass-split");
@@ -818,87 +821,116 @@
         //     }
         //     $("#StatusModal").modal("show");
 
-        function showStatus(id) {
-            $.ajax({
-               url: '/GetApprovalCount',
-               type: 'GET',
-               data: { id: id },
-               success: function (data) {
-                   var count = data.count;
+        // function showStatus(id) {
+        //     $.ajax({
+        //        url: '/GetApprovalCount',
+        //        type: 'GET',
+        //        data: { id: id },
+        //        success: function (data) {
+        //            var count = data.count;
 
-                   if (count == 1){
-                       SetApproved(0);
-                       $("#snFirstApproval").text(data.firstMail);
-                   }
-                   else if (count == 2){
-                       SetApproved(0);
-                       SetApproved(1);
-                       $("#snFirstApproval").text(data.firstMail);
-                       $("#snSecondApproval").text(data.SecondMail);
-                   }
-                   else if (count == 3) {
-                       SetApproved(0);
-                       SetApproved(1);
-                       SetApproved(2);
-                       $("#snFirstApproval").text(data.firstMail);
-                       $("#snSecondApproval").text(data.SecondMail);
-                       $("#snThirdApproval").text(data.ThirdMail);
-                   }
-                   else if (count == 4) {
-                       SetApproved(0);
-                       SetApproved(1);
-                       SetApproved(2);
-                       SetApproved(3);
-                       $("#snFirstApproval").text(data.firstMail);
-                       $("#snSecondApproval").text(data.SecondMail);
-                       $("#snThirdApproval").text(data.ThirdMail);
-                       $("#snFurthApproval").text(data.FourthMail);
-                   }
-                   else {
-                       alert("No Member Approved");
-                   }
-                   $("StatusModal").modal("show");
+        //            if (count == 1){
+        //                SetApproved(0);
+        //                $("#snFirstApproval").text(data.firstMail);
+        //            }
+        //            else if (count == 2){
+        //                SetApproved(0);
+        //                SetApproved(1);
+        //                $("#snFirstApproval").text(data.firstMail);
+        //                $("#snSecondApproval").text(data.SecondMail);
+        //            }
+        //            else if (count == 3) {
+        //                SetApproved(0);
+        //                SetApproved(1);
+        //                SetApproved(2);
+        //                $("#snFirstApproval").text(data.firstMail);
+        //                $("#snSecondApproval").text(data.SecondMail);
+        //                $("#snThirdApproval").text(data.ThirdMail);
+        //            }
+        //            else if (count == 4) {
+        //                SetApproved(0);
+        //                SetApproved(1);
+        //                SetApproved(2);
+        //                SetApproved(3);
+        //                $("#snFirstApproval").text(data.firstMail);
+        //                $("#snSecondApproval").text(data.SecondMail);
+        //                $("#snThirdApproval").text(data.ThirdMail);
+        //                $("#snFurthApproval").text(data.FourthMail);
+        //            }
+        //            else {
+        //                alert("No Member Approved");
+        //            }
+        //            $("StatusModal").modal("show");
 
-                }
+        //         }
 
-            });
-        }
+        //     });
+        // }
         // }
 
-        // function ShowStatus(id) {
+        // success: function (result) {
 
-        // $.ajax({
-        // url: '/GetApprovalCount',
-        // type: 'GET',
-        // data: { id: id },
-        // success: function (count) {
+        // $(".approval-step").removeClass("approved pending").addClass("pending");
+        // $(".approval-line").removeClass("active");
 
-        // if (count == 1) {
-        // SetApproved(0);
+        // // Display the approver emails
+        // $("#snFirstApproval").text(result.ApproverOne);
+        // $("#snSecondApproval").text(result.ApproverTwo);
+        // $("#snThiredApproval").text(result.ApproverThree);
+        // $("#snFourthApproval").text(result.ApproverFour);
+
+        // // Highlight approved steps
+        // for (let i = 0; i < result.ApprovedCount; i++) {
+        // $(".approval-step").eq(i)
+        // .removeClass("pending")
+        // .addClass("approved");
+
+        // $(".approval-step").eq(i).find("i")
+        // .removeClass("bi-hourglass-split")
+        // .addClass("bi-check-circle-fill");
+
+        // if (i < 3) {
+        // $(".approval-line").eq(i).addClass("active");
         // }
-        // else if (count == 2) {
-        // SetApproved(0);
-        // SetApproved(1);
-        // }
-        // else if (count == 3) {
-        // SetApproved(0);
-        // SetApproved(1);
-        // SetApproved(2);
-        // }
-        // else if (count == 4) {
-        // SetApproved(0);
-        // SetApproved(1);
-        // SetApproved(2);
-        // SetApproved(3);
-        // }
-        // else {
-        // alert("No Members Approved");
         // }
 
         // $("#StatusModal").modal("show");
         // }
-        // });
-        // }
+
+        function ShowStatus(id) {
+
+            $.ajax({
+               url: '/GetApprovalCount',
+               type: 'GET',
+               data: { id: id },
+               success: function (count) {
+
+                 if (count == 1) {
+                    SetApproved(0);
+                 }
+                 else if (count == 2) {
+                    SetApproved(0);
+                    SetApproved(1);
+                 }
+                 else if (count == 3) {
+                    SetApproved(0);
+                    SetApproved(1);
+                    SetApproved(2);
+                 }
+                 else if (count == 4) {
+                    SetApproved(0);
+                    SetApproved(1);
+                    SetApproved(2);
+                    SetApproved(3);
+                 }
+                 else {
+                    alert("No Members Approved");
+                 }
+
+                 $("#StatusModal").modal("show");
+                 }
+             });
+        }
 
       
     </script>

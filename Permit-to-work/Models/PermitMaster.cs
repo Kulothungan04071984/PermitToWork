@@ -16,10 +16,6 @@
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
 
-        public string? ApproverOne { get; set; }
-        public string? ApproverTwo { get; set; }
-        public string? ApproverThree { get; set; }
-        public string? ApproverFour { get; set; }
 
         public string FirstApproverStatus { get; set; } = string.Empty;
 

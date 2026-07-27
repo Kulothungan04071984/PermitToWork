@@ -124,51 +124,52 @@ namespace Permit_to_work.Controllers
                 FirstMail = permit.FirstApproverStatus == "Approved" ? permit.FirstApproverStatus : "",
                 SecondMail = permit.SecondApproverStatus == "Approved" ? permit.SecondApproverStatus : "",
                 ThirdMail = permit.ThirdApproverStatus == "Approved" ? permit.ThirdApproverStatus : "",
-                FourthMail = permit.FourthApproverStatus == "Approved" ? permit.FourthApproverStatus : "",
+                FourthMail = permit.FourthApproverStatus == "Approved" ? permit.FourthApproverStatus : ""
+            });
 
-        //public IActionResult GetApprovalStatus(int permitDashBoardId)
-        //{
-        //    var permit = _context.PermitMasters
-        //        .FirstOrDefault(x => Convert.ToInt32(x.PermitNumber) == permitDashBoardId);
-
-
-        //    if (permit == null)
-        //    {
-        //        return Json(new
-        //        {
-        //            count = 0,
-        //            FirstMail = "",
-        //            SecondMail = "",
-        //            ThirdMail = "",
-        //            FourthMail = ""
-        //        });
-        //    }
-
-        //    int approvedCount = 0;
-
-        //    if (permit.FirstApproverStatus == "Approved")
-        //        approvedCount++;
-        //    if (permit.SecondApproverStatus == "Approved")
-        //        approvedCount++;
-        //    if (permit.ThirdApproverStatus == "Approved")
-        //        approvedCount++;
-        //    if (permit.FourthApproverStatus == "Approved")
-        //        approvedCount++;
-
-        //    return Json(new
-        //    {
-        //        count = approvedCount,
-        //        FirstMail = permit.FirstApproverStatus == "Approved" ? permit.FirstApproverStatus : string.Empty,
-        //        SecondMail = permit.SecondApproverStatus == "Approved" ? permit.SecondApproverStatus : string.Empty,
-        //        ThirdMail = permit.ThirdApproverStatus == "Approved" ? permit.ThirdApproverStatus : string.Empty,
-        //        FourthMail = permit.SecondApproverStatus == "Approved" ? permit.FourthApproverStatus : string.Empty,
-
-        //    });
+            //public IActionResult GetApprovalStatus(int permitDashBoardId)
+            //{
+            //    var permit = _context.PermitMasters
+            //        .FirstOrDefault(x => Convert.ToInt32(x.PermitNumber) == permitDashBoardId);
 
 
-        //}
+            //    if (permit == null)
+            //    {
+            //        return Json(new
+            //        {
+            //            count = 0,
+            //            FirstMail = "",
+            //            SecondMail = "",
+            //            ThirdMail = "",
+            //            FourthMail = ""
+            //        });
+            //    }
+
+            //    int approvedCount = 0;
+
+            //    if (permit.FirstApproverStatus == "Approved")
+            //        approvedCount++;
+            //    if (permit.SecondApproverStatus == "Approved")
+            //        approvedCount++;
+            //    if (permit.ThirdApproverStatus == "Approved")
+            //        approvedCount++;
+            //    if (permit.FourthApproverStatus == "Approved")
+            //        approvedCount++;
+
+            //    return Json(new
+            //    {
+            //        count = approvedCount,
+            //        FirstMail = permit.FirstApproverStatus == "Approved" ? permit.FirstApproverStatus : string.Empty,
+            //        SecondMail = permit.SecondApproverStatus == "Approved" ? permit.SecondApproverStatus : string.Empty,
+            //        ThirdMail = permit.ThirdApproverStatus == "Approved" ? permit.ThirdApproverStatus : string.Empty,
+            //        FourthMail = permit.SecondApproverStatus == "Approved" ? permit.FourthApproverStatus : string.Empty,
+
+            //    });
 
 
+            //}
+
+        }
         public IActionResult Index()
         {
             return View();

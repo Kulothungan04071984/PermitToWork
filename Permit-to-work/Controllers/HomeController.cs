@@ -117,10 +117,10 @@ namespace Permit_to_work.Controllers
             return Json(new
             {
                 count = approvedCount,
-                FirstMail = permit.FirstApproverStatus == "Approved" ? permit.ApproverOne : "",
-                SecondMail = permit.SecondApproverStatus == "Approved" ? permit.ApproverTwo : "",
-                ThirdMail = permit.ThirdApproverStatus == "Approved" ? permit.ApproverThree : "",
-                FourthMail = permit.SecondApproverStatus == "Approved" ? permit.ApproverFour : "",
+                FirstMail = permit.FirstApproverStatus == "Approved" ? permit.FirstApproverStatus : "",
+                SecondMail = permit.SecondApproverStatus == "Approved" ? permit.SecondApproverStatus : "",
+                ThirdMail = permit.ThirdApproverStatus == "Approved" ? permit.ThirdApproverStatus : "",
+                FourthMail = permit.FourthApproverStatus == "Approved" ? permit.FourthApproverStatus : "",
 
             });
                 

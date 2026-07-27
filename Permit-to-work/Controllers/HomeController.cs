@@ -966,7 +966,7 @@ namespace Permit_to_work.Controllers
             }
 
             if (!model.PPEHelmet &&
-               !model.PPEHelmetChinStrap &&
+               !model.PPEHelmetwithChinStrap &&
                !model.PPEShoes &&
                !model.PPEGloves &&
                !model.PPEEarPlug &&

@@ -16,14 +16,13 @@
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
 
+       public string FirstApproverStatus { get; set; } = string.Empty;
 
-        public string FirstApproverStatus { get; set; } = string.Empty;
+        public string? SecondApproverStatus { get; set; } = string.Empty;
 
-        public string SecondApproverStatus { get; set; } = string.Empty;
+        public string? ThirdApproverStatus { get; set; } = string.Empty;
 
-        public string ThirdApproverStatus { get; set; } = string.Empty;
-
-        public string FourthApproverStatus { get; set; } = string.Empty;
+        public string? FourthApproverStatus { get; set; } = string.Empty;
 
         public string? Status { get; set; }
 
@@ -33,8 +32,10 @@
 
         public DateTime CreatedOn { get; set; } = DateTime.Now;
 
-        public string CreatedByUserId { get; set; }
+        public string? CreatedByUserId { get; set; }
         public AppUser CreatedBy { get; set; }
+
+        //public int PermitDashBoardId { get; set; }
 
     }
 }

@@ -145,6 +145,7 @@ namespace Permit_to_work.Models
         [Required(ErrorMessage = "Please fill the Suspension Date.")]
         public DateTime SuspensionSignatureDate { get; set; }
 
+
         // Approver Details
 
         [Required(ErrorMessage = "Please fill the Approver One field.")]

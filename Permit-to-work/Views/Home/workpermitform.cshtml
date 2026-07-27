@@ -244,8 +244,8 @@
                     </div>
 
                     <div class="col-md-4">
-                        Other
-                        <input type="text" class="form-control" />
+                        <label>Other</label>
+                        @Html.TextBoxFor(m => m.DocOther, new { @class = "form-control" })
                     </div>
                 </div>
             </section>
@@ -430,8 +430,9 @@
                 </div>
             </section>
 
-
-            <!-- SECTION: INSPECTION -->
+            <!-- ════════════════════════════════════════════════════
+                 SECTION: INSPECTED AREAS
+            ════════════════════════════════════════════════════ -->
             <section class="permit-section">
                 @Html.ValidationMessage("InspectedAreas", "", new { @class = "text-danger" })
                 <h5>

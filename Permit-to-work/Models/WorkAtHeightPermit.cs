@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.ComponentModel.DataAnnotations;
 
 namespace Permit_to_work.Models
 {
@@ -8,51 +9,82 @@ namespace Permit_to_work.Models
         public int PermitId { get; set; }
 
         // Basic Details
-        public string Unit { get; set; }
-        public string ContractorTeam { get; set; }
-        public string Location { get; set; }
+
+        [Required(ErrorMessage = "Unit is required")]
+        public string? Unit { get; set; }
+
+        [Required(ErrorMessage = "ContractorTeam is required")]
+        public string? ContractorTeam { get; set; }
+
+        [Required(ErrorMessage = "Location is required")]
+        public string? Location { get; set; }
+
+        [Required(ErrorMessage = "NoOfWorkmen is required")]
         public int NoOfWorkmen { get; set; }
 
         // Date & Time
+
+        [Required(ErrorMessage = "StartDate is required")]
         public DateTime StartDate { get; set; }
-        public string StartTime { get; set; }
+
+        [Required(ErrorMessage = "StartTime is required")]
+        public string? StartTime { get; set; }
+
+        [Required(ErrorMessage = "EndDate is required")]
         public DateTime EndDate { get; set; }
-        public string EndTime { get; set; }
+
+        [Required(ErrorMessage = "EndTime is required")]
+        public string? EndTime { get; set; }
 
         // Work Type
+
+        [Required(ErrorMessage = "Work Type is required")]
         public bool Scaffolding { get; set; }
         public bool Ladder { get; set; }
         public bool AerialLift { get; set; }
         public bool RoofWork { get; set; }
-        public string OtherWork { get; set; }
+        public string? OtherWork { get; set; }
 
-        public bool AttachJSA { get; set; }
 
         // Description
-        public string WorkDescription { get; set; }
-        public string ToolsEquipment { get; set; }
+
+        [Required(ErrorMessage = "Description is required")]
+        public string? WorkDescription { get; set; }
+        public string? ToolsEquipment { get; set; }
 
         //Precaution
-        public string Precaution { get; set; }
+        public string? Precaution { get; set; }
 
         //Riskcontrol
-        public string Riskcontrol { get; set; }
+        public string? Riskcontrol { get; set; }
 
         // Risks
-        public bool RiskFallHeight { get; set; }
-        public bool RiskWeather { get; set; }
-        public bool RiskFlyingParticles { get; set; }
-        public bool RiskMovingVehicle { get; set; }
-        public bool RiskFallingObjects { get; set; }
-        public bool RiskProtrudingParts { get; set; }
-        public bool RiskTripping { get; set; }
-        public bool RiskFaultyEquipment { get; set; }
-        public bool RiskFragileSurface { get; set; }
-        public bool RiskWorkingBelow { get; set; }
-        public bool RiskNearOverheadLines { get; set; }
-        public bool RiskNonEnergizedEquipment { get; set; }
+        public bool FallfromHeight { get; set; }
+        public bool AdverseWeather { get; set; }
+        public bool FlyingParticles { get; set; }
+        public bool MovingVehicleEquipment { get; set; }
+        public bool FallingDebrisObjects { get; set; }
+        public bool ProtrudingObjectsparts { get; set; }
+        public bool TrippingSlipping { get; set; }
+        public bool FaultyEquipmentMaterial { get; set; }
+        public bool FragileSurfaceRoof { get; set; }
+        public bool WorkUnderBelow { get; set; }
+        public bool NearOverheadLines { get; set; }
+        public bool NearEnergizedEquipment { get; set; }
 
+        // ===== DOCUMENTS =====
+        public bool AttachJSA { get; set; }
+        public bool RiskAssessment { get; set; }
+        public string? AttachOther { get; set; }
+
+        // ===== WORK SAFELY =====
+
+        public string? Precautionmeasures { get; set; }
+
+        //risk control
         public bool RiskControlImplemented { get; set; }
+
+        //PRECAUTION
         public bool GuardRailsSystem { get; set; }
         public bool SafetyNet { get; set; }
         public bool ToeBoard { get; set; }
@@ -63,9 +95,11 @@ namespace Permit_to_work.Models
         public bool WindGreater32 { get; set; }
         public bool FloorOpeningsCovered { get; set; }
         public bool ScaffoldCertified { get; set; }
-        public string OtherRiskControl { get; set; }
+        public string? OtherRiskControl { get; set; }
 
         //Inspection
+
+        [Required(ErrorMessage = "Inspection is required")]
         public bool DangerWarningSign { get; set; }
         public bool ScaffoldTagSystem { get; set; }
         public bool Lighting { get; set; }
@@ -73,18 +107,21 @@ namespace Permit_to_work.Models
         public bool BuddySystem { get; set; }
         public bool Rescue { get; set; }
         public bool MaterialBasket { get; set; }
-        public string OtherInspection { get; set; }
+        public string? OtherInspection { get; set; }
 
 
         // PPE
+
+        [Required(ErrorMessage = "PPE is required")]
+        public bool PPEHelmetwithChinStrap { get; set; }
         public bool PPEHelmet { get; set; }
-        public bool PPEHelmetChinStrap { get; set; }
         public bool PPEShoes { get; set; }
         public bool PPEGloves { get; set; }
         public bool PPEEarPlug { get; set; }
         public bool PPEReflectiveVest { get; set; }
         public bool PPEDustMask { get; set; }
         public bool PPESafetyClothes { get; set; }
+        public string? OthersPPE { get; set; }
 
         // Safety Systems
         public bool FallProtection { get; set; }
@@ -93,27 +130,46 @@ namespace Permit_to_work.Models
         public bool HarnessDoubleHook { get; set; }
 
         //INSURANCE
+
+        [Required(ErrorMessage = "INSURANCE is required")]
         public bool WC { get; set; }
         public bool ESI { get; set; }
 
 
         // Authorization
-        public string ReceiverName { get; set; }
-        public string IssuerName { get; set; }
+
+        [Required(ErrorMessage = "ReceiverName is required")]
+        public string? ReceiverName { get; set; }
+
+        [Required(ErrorMessage = "IssuerName is required")]
+        public string? IssuerName { get; set; }
+
+        [Required(ErrorMessage = "ReceiverDate is required")]
         public DateTime ReceiverDate { get; set; }
+
+        [Required(ErrorMessage = "IssuerDate is required")]
         public DateTime IssuerDate { get; set; }
 
 
         // ===== SUSPENSION =====
-        public string SuspensionName { get; set; }
-        public string SuspensionSignatureDate { get; set; }
 
-        // ===== Approver Details =====
-        public string ApproverOne { get; set; }
-        public string ApproverTwo { get; set; }
-        public string ApproverThree { get; set; }
-        public string ApproverFour { get; set; }
+        [Required(ErrorMessage = "SuspensionName is required")]
+        public string? SuspensionName { get; set; }
 
+        [Required(ErrorMessage = "SuspensionSignatureDate is required")]
+        public string? SuspensionSignatureDate { get; set; }
+
+
+        // Approver Details
+
+        [Required(ErrorMessage = "Approver Details is required")]
+        public string? ApproverOne { get; set; }
+        public string? ApproverTwo { get; set; }
+        public string? ApproverThree { get; set; }
+        public string? ApproverFour { get; set; }
+
+        public bool IsActive { get; set; }
         public DateTime CreatedOn { get; set; } = DateTime.Now;
+
     }
 }

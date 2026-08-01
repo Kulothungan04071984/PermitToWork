@@ -90,6 +90,7 @@
         <section class="sticky-header text-center py-3 pt-3">
             <h3 class="fw-bold">HOT WORK PERMIT</h3>
         </section>
+
         <!-- ════════════════════════════════════════════════════
                SECTION: BASIC DETAILS
           ════════════════════════════════════════════════════ -->
@@ -209,7 +210,6 @@
         <section class="card permit-card">
             <label>Work Description</label>
             @Html.TextAreaFor(m => m.WorkDescription, 3, 100, new { @class = "form-control" })
-            <label>Work Description</label>
         </section>
 
         <!-- ════════════════════════════════════════════════════
@@ -218,7 +218,6 @@
         <section class="card permit-card">
             <label>Tools / Equipment to be used</label>
             @Html.TextAreaFor(m => m.ToolsEquipment, 3, 100, new { @class = "form-control" })
-            <label>Tools / Equipment to be used</label>
         </section>
 
         <!-- ════════════════════════════════════════════════════
@@ -474,7 +473,6 @@
                 </div>
                 <div class="col-md-3">@Html.TextBoxFor(m => m.OtherPPE, new { @class = "form-control", placeholder = "Other (specify)" })</div>
             </div>
-            <div class="col-md-3">@Html.TextBoxFor(m => m.ToolsTested, new { @class = "form-control", placeholder = "Other (specify):" })</div>
         </section>
 
         <!-- ════════════════════════════════════════════════════
@@ -681,7 +679,6 @@
                         @Html.TextBoxFor(m => m.ApproverFour, new { @class = "form-control" })
                     </div>
                 </div>
-            </section>
         </section>
 
         <!-- BUTTONS -->

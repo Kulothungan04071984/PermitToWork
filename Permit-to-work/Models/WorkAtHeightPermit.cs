@@ -52,12 +52,6 @@ namespace Permit_to_work.Models
         public string? WorkDescription { get; set; }
         public string? ToolsEquipment { get; set; }
 
-        //Precaution
-        public string? Precaution { get; set; }
-
-        //Riskcontrol
-        public string? Riskcontrol { get; set; }
-
         // Risks
         public bool FallfromHeight { get; set; }
         public bool AdverseWeather { get; set; }
@@ -71,20 +65,21 @@ namespace Permit_to_work.Models
         public bool WorkUnderBelow { get; set; }
         public bool NearOverheadLines { get; set; }
         public bool NearEnergizedEquipment { get; set; }
+        public string? OtherRiskControl { get; set; }
 
-        // ===== DOCUMENTS =====
+        // ===== Document =====
         public bool AttachJSA { get; set; }
         public bool RiskAssessment { get; set; }
         public string? AttachOther { get; set; }
 
-        // ===== WORK SAFELY =====
+        //// ===== WORK SAFELY =====
 
-        public string? Precautionmeasures { get; set; }
+        //public string? Precautionmeasures { get; set; }
 
-        //risk control
-        public bool RiskControlImplemented { get; set; }
+        ////risk control
+        //public bool RiskControlImplemented { get; set; }
 
-        //PRECAUTION
+        //Fall 
         public bool GuardRailsSystem { get; set; }
         public bool SafetyNet { get; set; }
         public bool ToeBoard { get; set; }
@@ -121,33 +116,23 @@ namespace Permit_to_work.Models
         public bool PPEReflectiveVest { get; set; }
         public bool PPEDustMask { get; set; }
         public bool PPESafetyClothes { get; set; }
-        public string? OthersPPE { get; set; }
+        public string? OtherPPE { get; set; }
 
-        // Safety Systems
-        public bool FallProtection { get; set; }
-        public bool GuardRail { get; set; }
-
-        public bool HarnessDoubleHook { get; set; }
+      
 
         //INSURANCE
 
         [Required(ErrorMessage = "INSURANCE is required")]
         public bool WC { get; set; }
         public bool ESI { get; set; }
+        public string? OtherInsurance { get; set; }
 
 
         // Authorization
 
-        [Required(ErrorMessage = "ReceiverName is required")]
         public string? ReceiverName { get; set; }
-
-        [Required(ErrorMessage = "IssuerName is required")]
         public string? IssuerName { get; set; }
-
-        [Required(ErrorMessage = "ReceiverDate is required")]
         public DateTime ReceiverDate { get; set; }
-
-        [Required(ErrorMessage = "IssuerDate is required")]
         public DateTime IssuerDate { get; set; }
 
 
@@ -157,7 +142,7 @@ namespace Permit_to_work.Models
         public string? SuspensionName { get; set; }
 
         [Required(ErrorMessage = "SuspensionSignatureDate is required")]
-        public string? SuspensionSignatureDate { get; set; }
+        public DateTime SuspensionSignatureDate { get; set; }
 
 
         // Approver Details
@@ -168,6 +153,7 @@ namespace Permit_to_work.Models
         public string? ApproverThree { get; set; }
         public string? ApproverFour { get; set; }
 
+        public string? Status { get; set; }
         public bool IsActive { get; set; }
         public DateTime CreatedOn { get; set; } = DateTime.Now;
         public string? Status { get; set; }

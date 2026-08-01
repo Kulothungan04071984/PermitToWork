@@ -143,7 +143,7 @@
 
                 <div class="col-md-4">
                     <label>Others</label>
-                    <input type="text" name="OtherWorkType" class="form-control" />
+                    <input type="text" name="OtherWork" class="form-control" />
                 </div>
             </section>
 
@@ -342,22 +342,22 @@
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="JSA" />
-                            <label class="form-check-label">JSA</label>
+                        <div class="col-md-2">
+                            @Html.CheckBoxFor(m => m.AttachJSA)
+                            <label>JSA</label>
                         </div>
                     </div>
 
                     <div class="col-md-4">
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="RiskAssessment" />
-                            <label class="form-check-label">Risk Assessment</label>
+                        <div class="col-md-2">
+                            @Html.CheckBoxFor(m => m.RiskAssessment)
+                            <label>Risk Assessment</label>
                         </div>
                     </div>
 
                     <div class="col-md-4">
-                        <label>Others</label>
-                        <input type="text" name="OtherDocuments" class="form-control" />
+                        <label>Other (Specify)</label>
+                        <input type="text" name="AttachOther" class="form-control others-input" />
                     </div>
                 </div>
             </section>
@@ -815,7 +815,7 @@
                 <div class="row">
                     <div class="col-lg-3">
                         <label>
-                            Approver One Email <span style="color:red">*</span>
+                            Approver One Email <span class="required-star">*</span>
                         </label>
 
                         @Html.TextBoxFor(m => m.ApproverOne, new { @class = "form-control" })
@@ -841,11 +841,17 @@
                 <button type="submit" class="btn btn-success px-5">Save</button>
                 <button type="button" onclick="window.print()" class="btn btn-secondary px-4 ms-2">Print</button>
             </div>
-        </section>
+
     </div>
 </div>
 
 </form>
+
+<style>
+    .required-star {
+        color: darkred;
+    }
+</style>
 
 <script>
     @section Scripts{

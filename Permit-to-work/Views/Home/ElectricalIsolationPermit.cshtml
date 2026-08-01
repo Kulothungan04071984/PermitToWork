@@ -218,7 +218,7 @@
                         <label>JSA</label>
                     </div>
 
-                        <div id="jsaList" style="display:none; max-height:150px; overflow-y:auto; border:1px solid #ccc; padding:8px;">
+                    <div id="jsaList" style="display:none; max-height:150px; overflow-y:auto; border:1px solid #ccc; padding:8px;">
 
                         <div><input type="checkbox" id="jsa_cutting"> Cutting machine</div>
                         <div><input type="checkbox" id="jsa_excavation"> Excavation</div>
@@ -229,11 +229,12 @@
                         <div><input type="checkbox" id="jsa_cable"> cable Routing</div>
                         <div><input type="checkbox" id="jsa_Lifting"> Lifting</div>
                         <div><input type="checkbox" id="jsa_Machine"> Machine maintenance</div>
-                        </div>
                     </div>
+                </div>
 
                     <div class="col-md-4">
                         <label>Other (Specify)</label>
+                    <input type="text" name="OtherDocument" class="form-control others-input" />
                     </div>
             </section>
 
@@ -927,6 +928,6 @@
 </html>
 <script>
     $(document).ready(function () {
-        $('#hdLiftingOperations,#hdworkPermitForm,#hdWorkAtHeight,#hdHotwork').hide();
+        $('#hdLiftingOperations,#hdworkPermitForm,#hdWorkAtHeight,#hdHotwork,#hdConfinedSpace').hide();
     });
 </script>

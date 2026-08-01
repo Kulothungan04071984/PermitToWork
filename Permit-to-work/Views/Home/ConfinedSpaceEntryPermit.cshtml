@@ -1,0 +1,637 @@
+@model Permit_to_work.Models.ConfinedSpaceEntryPermitModel
+@{
+    ViewData["Title"] = "Confined Space Entry Permit";
+    var statusText = Model.IsSuspended ? "SUSPENDED" : "ACTIVE";
+}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+    :root{
+        --csp-navy:#0B2545;
+        --csp-navy-deep:#071a33;
+        --csp-yellow:#F4B400;
+        --csp-yellow-deep:#D99400;
+        --csp-charcoal:#1F2937;
+        --csp-paper:#F6F5F1;
+        --csp-card:#FFFFFF;
+        --csp-line:#E4E1D8;
+        --csp-red:#B3261E;
+        --csp-red-bg:#FBEAE9;
+        --csp-green:#1E7B45;
+        --csp-muted:#6B7280;
+    }
+
+    body{
+        background:
+            repeating-linear-gradient(135deg, rgba(11,37,69,0.02) 0 2px, transparent 2px 22px),
+            var(--csp-paper);
+        font-family:'Inter', sans-serif;
+        color:var(--csp-charcoal);
+    }
+
+    .csp-shell{
+        max-width:1040px;
+        margin:2.5rem auto 4rem;
+    }
+
+    /* ---------- Header band ---------- */
+    .csp-header{
+        background:linear-gradient(180deg, var(--csp-navy) 0%, var(--csp-navy-deep) 100%);
+        border-radius:14px 14px 0 0;
+        padding:1.9rem 2.25rem 1.6rem;
+        position:relative;
+        overflow:hidden;
+        border-bottom:6px solid var(--csp-yellow);
+    }
+    .csp-header::before{
+        content:"";
+        position:absolute; inset:0;
+        background-image:repeating-linear-gradient(45deg, rgba(244,180,0,0.10) 0 14px, transparent 14px 28px);
+        opacity:.5;
+    }
+    .csp-eyebrow{
+        font-family:'JetBrains Mono', monospace;
+        letter-spacing:.14em;
+        font-size:.72rem;
+        color:var(--csp-yellow);
+        text-transform:uppercase;
+        position:relative;
+        z-index:1;
+    }
+    .csp-title{
+        font-family:'Barlow Condensed', sans-serif;
+        font-weight:800;
+        font-size:2.5rem;
+        color:#fff;
+        letter-spacing:.02em;
+        line-height:1.05;
+        margin-top:.25rem;
+        position:relative;
+        z-index:1;
+    }
+    .csp-title small{
+        display:block;
+        font-family:'Inter',sans-serif;
+        font-weight:500;
+        font-size:.95rem;
+        color:#B9C4D6;
+        letter-spacing:0;
+        margin-top:.35rem;
+    }
+    .csp-stamp{
+        position:absolute;
+        top:1.4rem; right:2rem;
+        z-index:2;
+        border:3px solid @(Model.IsSuspended ? "#E4685D" : "#5FD68A");
+        color:@(Model.IsSuspended ? "#FF8478" : "#5FD68A");
+        font-family:'Barlow Condensed', sans-serif;
+        font-weight:800;
+        letter-spacing:.12em;
+        font-size:1rem;
+        padding:.3rem .9rem;
+        border-radius:6px;
+        transform:rotate(6deg);
+        background:rgba(255,255,255,0.04);
+    }
+
+    /* ---------- Card shell ---------- */
+    .csp-body{
+        background:var(--csp-card);
+        border-radius:0 0 14px 14px;
+        box-shadow:0 18px 40px -22px rgba(11,37,69,0.35);
+    }
+
+    /* ---------- Section ---------- */
+    .csp-section{
+        border-bottom:1px solid var(--csp-line);
+        padding:1.6rem 2.25rem;
+        position:relative;
+    }
+    .csp-section:last-child{ border-bottom:none; }
+    .csp-section-tab{
+        position:absolute;
+        left:0; top:1.6rem; bottom:1.6rem;
+        width:5px;
+        border-radius:3px;
+    }
+    .tab-info{ background:var(--csp-navy); }
+    .tab-risk{ background:var(--csp-red); }
+    .tab-docs{ background:#8A6D3B; }
+    .tab-precaution{ background:#1D6FA5; }
+    .tab-inspect{ background:#5B4B8A; }
+    .tab-ppe{ background:var(--csp-yellow-deep); }
+    .tab-signoff{ background:var(--csp-green); }
+
+    .csp-section-heading{
+        font-family:'Barlow Condensed', sans-serif;
+        font-weight:700;
+        font-size:1.28rem;
+        letter-spacing:.03em;
+        color:var(--csp-navy);
+        text-transform:uppercase;
+        margin-bottom:1rem;
+        display:flex;
+        align-items:center;
+        gap:.6rem;
+    }
+    .csp-section-heading .num{
+        font-family:'JetBrains Mono',monospace;
+        font-size:.75rem;
+        color:#fff;
+        background:var(--csp-navy);
+        border-radius:4px;
+        padding:.15rem .45rem;
+        letter-spacing:0;
+    }
+
+    .csp-label{
+        font-size:.72rem;
+        font-weight:600;
+        text-transform:uppercase;
+        letter-spacing:.06em;
+        color:var(--csp-muted);
+        margin-bottom:.3rem;
+    }
+
+    .form-control, .form-select{
+        border:1px solid #D9D6CC;
+        border-radius:8px;
+        font-size:.92rem;
+        padding:.5rem .7rem;
+    }
+    .form-control:focus, .form-select:focus{
+        border-color:var(--csp-navy);
+        box-shadow:0 0 0 .2rem rgba(11,37,69,0.12);
+    }
+    textarea.form-control{ min-height:80px; }
+
+    .mono-input{ font-family:'JetBrains Mono', monospace; }
+
+    /* ---------- Risk chips ---------- */
+    .csp-risk-grid{
+        display:grid;
+        grid-template-columns:repeat(4, 1fr);
+        gap:.6rem;
+    }
+    @@media (max-width:768px){ .csp-risk-grid{ grid-template-columns:repeat(2,1fr);} }
+
+    .risk-chip{
+        border:1.5px solid var(--csp-line);
+        border-radius:10px;
+        padding:.55rem .75rem;
+        display:flex;
+        align-items:center;
+        gap:.55rem;
+        font-size:.88rem;
+        font-weight:500;
+        background:#FCFBF8;
+        transition:.15s;
+    }
+    .risk-chip:has(input:checked){
+        border-color:var(--csp-red);
+        background:var(--csp-red-bg);
+        color:var(--csp-red);
+        font-weight:600;
+    }
+    .risk-chip input{ accent-color:var(--csp-red); width:1.05rem; height:1.05rem; }
+
+    /* ---------- PPE chips ---------- */
+    .ppe-chip:has(input:checked){
+        border-color:var(--csp-yellow-deep);
+        background:#FFF6E1;
+        color:#8A6300;
+        font-weight:600;
+    }
+    .ppe-chip input{ accent-color:var(--csp-yellow-deep); width:1.05rem; height:1.05rem; }
+
+    /* ---------- Yes/No/NA segmented control ---------- */
+    .csp-ynq{
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:1rem;
+        padding:.65rem .9rem;
+        border:1px solid var(--csp-line);
+        border-radius:10px;
+        background:#FCFBF8;
+        margin-bottom:.55rem;
+    }
+    .csp-ynq-text{ font-size:.88rem; font-weight:500; flex:1; }
+    .csp-seg{
+        display:inline-flex;
+        border:1px solid #D9D6CC;
+        border-radius:8px;
+        overflow:hidden;
+        flex-shrink:0;
+    }
+    .csp-seg label{
+        font-family:'JetBrains Mono', monospace;
+        font-size:.72rem;
+        font-weight:600;
+        letter-spacing:.05em;
+        padding:.35rem .7rem;
+        margin:0;
+        cursor:pointer;
+        background:#fff;
+        color:var(--csp-muted);
+        border-right:1px solid #D9D6CC;
+    }
+    .csp-seg label:last-child{ border-right:none; }
+    .csp-seg input{ display:none; }
+    .csp-seg input:checked + label{ background:var(--csp-navy); color:#fff; }
+
+    /* ---------- Inspection table ---------- */
+    .csp-table thead th{
+        font-family:'JetBrains Mono', monospace;
+        font-size:.68rem;
+        text-transform:uppercase;
+        letter-spacing:.05em;
+        color:var(--csp-muted);
+        border-bottom:2px solid var(--csp-navy);
+        background:#F9F8F4;
+    }
+    .csp-table td{ vertical-align:middle; }
+    .csp-table input.form-control{ font-size:.85rem; padding:.35rem .55rem; }
+
+    /* ---------- Sign-off ---------- */
+    .signoff-card{
+        border:1px solid var(--csp-line);
+        border-radius:10px;
+        padding:1.1rem 1.2rem;
+        background:#FCFBF8;
+        height:100%;
+    }
+    .signoff-card .role{
+        font-family:'Barlow Condensed',sans-serif;
+        font-weight:700;
+        color:var(--csp-navy);
+        font-size:1.05rem;
+        margin-bottom:.15rem;
+    }
+    .signoff-card p{ font-size:.82rem; color:var(--csp-muted); margin-bottom:.75rem; }
+    .sig-line{
+        border-bottom:1.5px dashed #BFC4CC;
+        height:2.4rem;
+        margin-bottom:.3rem;
+    }
+
+    .csp-footer-actions{
+        padding:1.4rem 2.25rem 2rem;
+        display:flex;
+        gap:.75rem;
+        justify-content:flex-end;
+        background:#F9F8F4;
+        border-radius:0 0 14px 14px;
+    }
+    .btn-csp-primary{
+        background:var(--csp-navy);
+        border-color:var(--csp-navy);
+        color:#fff;
+        font-weight:600;
+        padding:.55rem 1.4rem;
+        border-radius:8px;
+    }
+    .btn-csp-primary:hover{ background:var(--csp-navy-deep); border-color:var(--csp-navy-deep); color:#fff; }
+    .btn-csp-outline{
+        border:1.5px solid var(--csp-navy);
+        color:var(--csp-navy);
+        font-weight:600;
+        padding:.55rem 1.4rem;
+        border-radius:8px;
+        background:#fff;
+    }
+    .btn-csp-outline:hover{ background:var(--csp-navy); color:#fff; }
+</style>
+
+<div class="csp-shell">
+    <form asp-action="Save" asp-controller="ConfinedSpacePermit" method="post" id="cspForm">
+        @Html.HiddenFor(m => m.Id)
+
+        <!-- ===================== Header ===================== -->
+        <div class="csp-header">
+            <div class="csp-eyebrow">Permit-to-Work &middot; Confined Space Entry</div>
+            <div class="csp-title">
+                Confined Space Entry Permit
+                <small>Complete every section before work begins. This permit must be displayed at the worksite.</small>
+            </div>
+            <div class="csp-stamp">@statusText</div>
+        </div>
+
+        <div class="csp-body">
+
+            <!-- ===================== 1. Job Details ===================== -->
+            <div class="csp-section">
+                <div class="csp-section-tab tab-info"></div>
+                <div class="csp-section-heading"><span class="num">01</span> Job Details</div>
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="csp-label">Unit</div>
+                        <input asp-for="Unit" class="form-control" placeholder="e.g. Utilities &ndash; Boiler House" />
+                    </div>
+                    <div class="col-md-6">
+                        <div class="csp-label">Contractor / Internal Team</div>
+                        <input asp-for="ContractorOrInternalTeam" class="form-control" />
+                    </div>
+                    <div class="col-md-6">
+                        <div class="csp-label">Location</div>
+                        <input asp-for="Location" class="form-control" />
+                    </div>
+                    <div class="col-md-6">
+                        <div class="csp-label">No. of Workmen Involved</div>
+                        <input asp-for="NumberOfWorkmenInvolved" type="number" min="0" class="form-control mono-input" />
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="csp-label">Starting Date</div>
+                        <input asp-for="StartingDate" type="date" class="form-control mono-input" />
+                    </div>
+                    <div class="col-md-3">
+                        <div class="csp-label">Starting Time</div>
+                        <input asp-for="StartingTime" type="time" class="form-control mono-input" />
+                    </div>
+                    <div class="col-md-3">
+                        <div class="csp-label">Expected Completion Date</div>
+                        <input asp-for="ExpectedCompletionDate" type="date" class="form-control mono-input" />
+                    </div>
+                    <div class="col-md-3">
+                        <div class="csp-label">Expected Completion Time</div>
+                        <input asp-for="ExpectedCompletionTime" type="time" class="form-control mono-input" />
+                    </div>
+
+                    <div class="col-12">
+                        <div class="csp-label">Work Description</div>
+                        <textarea asp-for="WorkDescription" class="form-control" rows="2"></textarea>
+                    </div>
+                    <div class="col-12">
+                        <div class="csp-label">Tools / Equipments to be Used</div>
+                        <textarea asp-for="ToolsAndEquipmentsToBeUsed" class="form-control" rows="2"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===================== 2. Risks ===================== -->
+            <div class="csp-section">
+                <div class="csp-section-tab tab-risk"></div>
+                <div class="csp-section-heading"><span class="num">02</span> Risks Associated With This Entry</div>
+
+                <div class="csp-risk-grid mb-3">
+                    <label class="risk-chip"><input type="checkbox" asp-for="RiskLackOfOxygen" /> Lack of Oxygen</label>
+                    <label class="risk-chip"><input type="checkbox" asp-for="RiskExplosion" /> Explosion</label>
+                    <label class="risk-chip"><input type="checkbox" asp-for="RiskFumeVapor" /> Fume / Vapor</label>
+                    <label class="risk-chip"><input type="checkbox" asp-for="RiskNoise" /> Noise</label>
+                    <label class="risk-chip"><input type="checkbox" asp-for="RiskHot" /> Hot</label>
+                    <label class="risk-chip"><input type="checkbox" asp-for="RiskFire" /> Fire</label>
+                    <label class="risk-chip"><input type="checkbox" asp-for="RiskDust" /> Dust</label>
+                    <label class="risk-chip"><input type="checkbox" asp-for="RiskVibration" /> Vibration</label>
+                </div>
+                <div class="csp-label">Other (specify)</div>
+                <input asp-for="OtherRiskSpecify" class="form-control" />
+            </div>
+
+            <!-- ===================== 3. Attached Documents ===================== -->
+            <div class="csp-section">
+                <div class="csp-section-tab tab-docs"></div>
+                <div class="csp-section-heading"><span class="num">03</span> Documents Attached With This Permit</div>
+
+                <div class="row g-3 align-items-end">
+                    <div class="col-md-4">
+                        <label class="risk-chip" style="border-color:#D9D0BB;">
+                            <input type="checkbox" asp-for="DocumentJsaAttached" style="accent-color:#8A6D3B;" /> JSA
+                        </label>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="risk-chip" style="border-color:#D9D0BB;">
+                            <input type="checkbox" asp-for="DocumentRiskAssessmentAttached" style="accent-color:#8A6D3B;" /> Risk Assessment
+                        </label>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="csp-label">Other (specify)</div>
+                        <input asp-for="OtherDocumentSpecify" class="form-control" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===================== 4. Precautions ===================== -->
+            <div class="csp-section">
+                <div class="csp-section-tab tab-precaution"></div>
+                <div class="csp-section-heading"><span class="num">04</span> Precautions Required to Complete the Work Safely</div>
+
+                @{ var ynOptions = new[] { ("Yes","Yes"), ("No","No"), ("NotApplicable","N/A") }; }
+
+                @@helper YesNoField(string name, string label)
+                {
+                    <div class="csp-ynq">
+                        <div class="csp-ynq-text">@@label</div>
+                        <div class="csp-seg">
+                            <input type="radio" name="@@name" id="@@(name)_yes" value="Yes" />
+                            <label for="@@(name)_yes">Yes</label>
+                            <input type="radio" name="@@name" id="@@(name)_no" value="No" />
+                            <label for="@@(name)_no">No</label>
+                            <input type="radio" name="@@name" id="@@(name)_na" value="NotApplicable" />
+                            <label for="@@(name)_na">N/A</label>
+                        </div>
+                    </div>
+                }
+
+                @@YesNoField("AtmosphericInspectionMade", "Are atmospheric inspections made?")
+
+                <div class="row g-3 mb-3">
+                    <div class="col-md-3">
+                        <div class="csp-label">Oxygen % (19.5&ndash;23.5%)</div>
+                        <input asp-for="OxygenPercentage" class="form-control mono-input" placeholder="%" />
+                    </div>
+                    <div class="col-md-3">
+                        <div class="csp-label">Explosive % LEL (&lt;10%)</div>
+                        <input asp-for="ExplosivePercentageLel" class="form-control mono-input" placeholder="% LEL" />
+                    </div>
+                    <div class="col-md-3">
+                        <div class="csp-label">CO PPM (&lt;35, 8hr)</div>
+                        <input asp-for="CoPpm" class="form-control mono-input" placeholder="PPM" />
+                    </div>
+                    <div class="col-md-3">
+                        <div class="csp-label">H&#8322;S PPM (&lt;10, 8hr)</div>
+                        <input asp-for="H2sPpm" class="form-control mono-input" placeholder="PPM" />
+                    </div>
+                </div>
+
+                @@YesNoField("VentilationProvided", "Has appropriate ventilation been provided after atmospheric inspection?")
+                <div class="row g-3 mb-3">
+                    <div class="col-md-4">
+                        <label class="risk-chip" style="border-color:#BFD9EC;">
+                            <input type="checkbox" asp-for="VentilationNatural" style="accent-color:#1D6FA5;" /> Natural
+                        </label>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="risk-chip" style="border-color:#BFD9EC;">
+                            <input type="checkbox" asp-for="VentilationMechanical" style="accent-color:#1D6FA5;" /> Mechanical
+                        </label>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="csp-label">Mechanical Ventilation Details</div>
+                        <input asp-for="MechanicalVentilationDetails" class="form-control" />
+                    </div>
+                </div>
+
+                @@YesNoField("CommunicationSystemInPlace", "Is appropriate communication system in place?")
+                <div class="mb-3">
+                    <div class="csp-label">If yes, state</div>
+                    <input asp-for="CommunicationSystemDetails" class="form-control" />
+                </div>
+
+                @@YesNoField("EntrantAttendantKnowEmergencyProcedure", "Are entrant and attendant well aware of emergency procedure?")
+                @@YesNoField("RequiresHotWorkAccess", "Does the work require access to hot work?")
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" asp-for="HotWorkPermitObtained" id="hotWorkObtained" />
+                    <label class="form-check-label small text-muted" for="hotWorkObtained">If yes, a Hot Work Permit has been obtained</label>
+                </div>
+
+                @@YesNoField("LockoutTagoutFollowed", "If required, is lockout / tagout system followed?")
+                @@YesNoField("EmergencyTeamAvailableOrContactDisplayed", "Is an emergency team in place, or contact number displayed?")
+
+                <div class="row g-3 mb-3">
+                    <div class="col-md-4">
+                        <div class="csp-label">Emergency Contact 1</div>
+                        <input asp-for="EmergencyContact1" class="form-control mono-input" />
+                    </div>
+                    <div class="col-md-4">
+                        <div class="csp-label">Emergency Contact 2</div>
+                        <input asp-for="EmergencyContact2" class="form-control mono-input" />
+                    </div>
+                    <div class="col-md-4">
+                        <div class="csp-label">Emergency Contact 3</div>
+                        <input asp-for="EmergencyContact3" class="form-control mono-input" />
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <div class="csp-label">Other Precaution (specify)</div>
+                    <input asp-for="OtherPrecautionSpecify" class="form-control" />
+                </div>
+
+                @@YesNoField("InsuranceCopyAvailable", "Is Insurance / WC / ESI copy available for workmen?")
+            </div>
+
+            <!-- ===================== 5. Inspected Areas / Items ===================== -->
+            <div class="csp-section">
+                <div class="csp-section-tab tab-inspect"></div>
+                <div class="csp-section-heading"><span class="num">05</span> Areas / Items Inspected by Issuer &amp; Receiver</div>
+
+                <div class="table-responsive">
+                    <table class="table csp-table align-middle">
+                        <thead>
+                            <tr>
+                                <th style="width:28%">Item</th>
+                                <th style="width:24%">Type</th>
+                                <th style="width:24%">Quantity</th>
+                                <th style="width:24%">Size</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < Model.InspectedItems.Count; i++)
+                            {
+                                <tr>
+                                    <td>
+                                        <input asp-for="InspectedItems[i].ItemName" class="form-control" />
+                                    </td>
+                                    <td><input asp-for="InspectedItems[i].Type" class="form-control" /></td>
+                                    <td><input asp-for="InspectedItems[i].Quantity" class="form-control mono-input" /></td>
+                                    <td><input asp-for="InspectedItems[i].Size" class="form-control mono-input" /></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mt-2">
+                    <div class="csp-label">Other (specify)</div>
+                    <input asp-for="OtherInspectedItemSpecify" class="form-control" />
+                </div>
+            </div>
+
+            <!-- ===================== 6. PPE ===================== -->
+            <div class="csp-section">
+                <div class="csp-section-tab tab-ppe"></div>
+                <div class="csp-section-heading"><span class="num">06</span> PPE Required for the Activity</div>
+
+                <div class="csp-risk-grid mb-3">
+                    <label class="risk-chip ppe-chip"><input type="checkbox" asp-for="PpeHelmet" /> Helmet</label>
+                    <label class="risk-chip ppe-chip"><input type="checkbox" asp-for="PpeSafetyShoes" /> Safety Shoes</label>
+                    <label class="risk-chip ppe-chip"><input type="checkbox" asp-for="PpeMechanicalGloves" /> Mechanical Gloves</label>
+                    <label class="risk-chip ppe-chip"><input type="checkbox" asp-for="PpeSafetyEarPlugsOrMuff" /> Ear Plugs / Muff</label>
+                    <label class="risk-chip ppe-chip"><input type="checkbox" asp-for="PpeSafetyGoggles" /> Safety Goggles</label>
+                    <label class="risk-chip ppe-chip"><input type="checkbox" asp-for="PpeReflectiveVest" /> Reflective Vest</label>
+                    <label class="risk-chip ppe-chip"><input type="checkbox" asp-for="PpeGasMask" /> Gas Mask</label>
+                    <label class="risk-chip ppe-chip"><input type="checkbox" asp-for="PpeSafetyHarness" /> Safety Harness</label>
+                    <label class="risk-chip ppe-chip"><input type="checkbox" asp-for="PpeGumboot" /> Gumboot</label>
+                    <label class="risk-chip ppe-chip"><input type="checkbox" asp-for="PpeDustMask" /> Dust Mask</label>
+                </div>
+                <div class="csp-label">Other (specify)</div>
+                <input asp-for="OtherPpeSpecify" class="form-control" />
+            </div>
+
+            <!-- ===================== 7. Sign-off ===================== -->
+            <div class="csp-section">
+                <div class="csp-section-tab tab-signoff"></div>
+                <div class="csp-section-heading"><span class="num">07</span> Issue &amp; Acceptance Before Work</div>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <div class="signoff-card">
+                            <div class="role">Permit Receiver</div>
+                            <p>I certify that I have read and verified this work permit and checklist, and am aware of the risks I may be exposed to. I commit to comply with all safety rules stated and will not deflect from any of them.</p>
+                            <div class="csp-label">Name</div>
+                            <input asp-for="PermitReceiverName" class="form-control mb-2" />
+                            <div class="csp-label">Signature</div>
+                            <div class="sig-line"></div>
+                            <div class="csp-label mt-1">Date</div>
+                            <input asp-for="PermitReceiverSignedDate" type="date" class="form-control mono-input" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="signoff-card">
+                            <div class="role">Permit Issuer</div>
+                            <p>I have reviewed the work permission checklist and the working conditions, including the risk assessment, and certify that the activity above is authorized to proceed.</p>
+                            <div class="csp-label">Name</div>
+                            <input asp-for="PermitIssuerName" class="form-control mb-2" />
+                            <div class="csp-label">Signature</div>
+                            <div class="sig-line"></div>
+                            <div class="csp-label mt-1">Date</div>
+                            <input asp-for="PermitIssuerSignedDate" type="date" class="form-control mono-input" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-3" style="border:1.5px dashed var(--csp-red); border-radius:10px; background:var(--csp-red-bg);">
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <input class="form-check-input mt-0" type="checkbox" asp-for="IsSuspended" id="isSuspended" style="accent-color:var(--csp-red);" />
+                        <label class="fw-semibold" style="color:var(--csp-red);" for="isSuspended">
+                            Suspension &mdash; this permit is suspended; the area / equipment is not safe to use
+                        </label>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <div class="csp-label">Name</div>
+                            <input asp-for="SuspendedByName" class="form-control" />
+                        </div>
+                        <div class="col-md-4">
+                            <div class="csp-label">Signature</div>
+                            <div class="sig-line"></div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="csp-label">Date</div>
+                            <input asp-for="SuspensionDate" type="date" class="form-control mono-input" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="csp-footer-actions">
+                <button type="button" class="btn btn-csp-outline">Save as Draft</button>
+                <button type="submit" class="btn btn-csp-primary">Issue Permit</button>
+            </div>
+        </div>
+    </form>
+</div>

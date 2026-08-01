@@ -91,10 +91,10 @@ namespace Permit_to_work.Models
         public bool LifeLine { get; set; }
         public bool RetractableHarness { get; set; }
         public bool HarnessShockAbsorber { get; set; }
-        public bool AccessProvided { get; set; }
-        public bool WindGreater32 { get; set; }
-        public bool FloorOpeningsCovered { get; set; }
-        public bool ScaffoldCertified { get; set; }
+        public string? AccessProvided { get; set; }
+        public string? WindGreater32 { get; set; }
+        public string? FloorOpeningsCovered { get; set; }
+        public string? ScaffoldCertified { get; set; }
         public string? OtherRiskControl { get; set; }
 
         //Inspection
@@ -170,6 +170,7 @@ namespace Permit_to_work.Models
 
         public bool IsActive { get; set; }
         public DateTime CreatedOn { get; set; } = DateTime.Now;
+        public string? Status { get; set; }
 
     }
 }

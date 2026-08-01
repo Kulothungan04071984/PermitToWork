@@ -34,6 +34,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Home\ConfinedSpaceEntryPermit.cshtml" />
     <Content Remove="Views\Home\PermitDashboardVM.cshtml" />
   </ItemGroup>
 

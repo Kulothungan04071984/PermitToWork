@@ -277,7 +277,7 @@
     }
 
     .border-section {
-        border: 1px solid #1D6FA5;
+        border: 1px solid #DAA464;
         padding: 10px;
         border-radius: 5px;
         margin-bottom: 15px;
@@ -521,8 +521,8 @@
 </style>
 
 <div class="csp-shell">
-    <form asp-action="ConfinedSpacePermit" method="post" asp-controller="Home">
-
+    <form asp-action="ConfinedSpaceEntry" method="post" asp-controller="Home">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="card-header text-center fw-bold">
             CONFINED SPACE TO ENTRY PERMIT
         </div>
@@ -530,6 +530,7 @@
         <!-- BASIC DETAILS -->
 
         <section class="border-section">
+            @Html.ValidationMessage("BasicDetails", "", new { @class = "text-danger" })
             <div class="section-title">
                 Basic Details <span class="required-star">*</span>
             </div>
@@ -537,18 +538,22 @@
                 <div class="col-md-3">
                     <label>Unit</label>
                     @Html.TextBoxFor(m => m.Unit, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Unit, "", new { @class = "text-danger" })
                 </div>
                 <div class="col-md-3">
                     <label>Contractor/Internal Team</label>
                     @Html.TextBoxFor(m => m.Contractor, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Contractor, "", new { @class = "text-danger" })
                 </div>
                 <div class="col-md-3">
                     <label>Location</label>
                     @Html.TextBoxFor(m => m.Location, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Location, "", new { @class = "text-danger" })
                 </div>
                 <div class="col-md-3">
                     <label>Number of Workmen Involved</label>
                     @Html.TextBoxFor(m => m.NoOfWorkmen, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.NoOfWorkmen, "", new { @class = "text-danger" })
                 </div>
             </div>
         </section>
@@ -556,6 +561,7 @@
         <!-- DATE & TIME -->
 
         <section class="border-section">
+            @Html.ValidationMessage("DateTime", "", new { @class = "text-danger" })
             <div class="section-title">
                 Date & Time <span class="required-star">*</span>
             </div>
@@ -563,18 +569,22 @@
                 <div class="col-md-3">
                     <label>Starting From Date</label>
                     @Html.TextBoxFor(m => m.StartDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.StartDate, "", new { @class = "text-danger" })
                 </div>
                 <div class="col-md-3">
                     <label>Starting From Time</label>
                     @Html.TextBoxFor(m => m.StartTime, new { type = "time", @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.StartTime, "", new { @class = "text-danger" })
                 </div>
                 <div class="col-md-3">
                     <label>Expected Completion Date</label>
                     @Html.TextBoxFor(m => m.EndDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.EndDate, "", new { @class = "text-danger" })
                 </div>
                 <div class="col-md-3">
                     <label>Expected Completion Time</label>
                     @Html.TextBoxFor(m => m.EndTime, new { type = "time", @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.EndTime, "", new { @class = "text-danger" })
                 </div>
             </div>
         </section>
@@ -582,6 +592,7 @@
         <!-- WORK DESCRIPTION -->
 
         <section class="border-section">
+            @Html.ValidationMessage("WorkDescription", "", new { @class = "text-danger" })
             <div class="section-title mt-3">
                 Work Description <span class="required-star">*</span>
                 @Html.TextAreaFor(m => m.WorkDescription, 2, 100, new { @class = "form-control" })
@@ -607,15 +618,15 @@
             <div class="row">
                 <div class="col-md-3">
                     @Html.CheckBoxFor(m => m.RiskOxygen, new { @class = "form-check-input" })
-                    <label>Electrocution</label>
+                    <label>Lack of Oxygen</label>
                 </div>
                 <div class="col-md-3">
                     @Html.CheckBoxFor(m => m.RiskExplosion, new { @class = "form-check-input" })
-                    <label>Arc Flash</label>
+                    <label>Explosion</label>
                 </div>
                 <div class="col-md-3">
-                    @Html.CheckBoxFor(m => m.RiskFumeVapor, new { @class = "form-check-input" })
-                    <label>Flying Particles</label>
+                    @Html.CheckBoxFor(m => m.RiskFume, new { @class = "form-check-input" })
+                    <label>Fume/Vapor</label>
                 </div>
                 <div class="col-md-3">
                     @Html.CheckBoxFor(m => m.RiskNoise, new { @class = "form-check-input" })
@@ -623,19 +634,19 @@
                 </div>
                 <div class="col-md-3">
                     @Html.CheckBoxFor(m => m.RiskHot, new { @class = "form-check-input" })
-                    <label>Falling Objects</label>
+                    <label>Hot</label>
                 </div>
                 <div class="col-md-3">
                     @Html.CheckBoxFor(m => m.RiskFire, new { @class = "form-check-input" })
-                    <label>Protruding Objects/Parts</label>
+                    <label>Fire</label>
                 </div>
                 <div class="col-md-3">
                     @Html.CheckBoxFor(m => m.RiskDust, new { @class = "form-check-input" })
-                    <label>Tripping / Slipping</label>
+                    <label>Dust</label>
                 </div>
                 <div class="col-md-3">
                     @Html.CheckBoxFor(m => m.RiskVibration, new { @class = "form-check-input" })
-                    <label>Electric Shock</label>
+                    <label>Vibration</label>
                 </div>
 
                 <div class="col-md-6">
@@ -679,32 +690,48 @@
             </div>
 
             <div class="col-md-6">
-                <lable>  @Html.CheckBoxFor(m => m.OxygenLevel) Oxygen : @Html.TextBoxFor(m => m.OxygenLevel) % (19.5 - 23.5 %) </lable>
+                @Html.CheckBoxFor(m => m.IsOxygenLevelchecked)
+                <label>
+                    Oxygen : 
+                </label>
+                @Html.TextBoxFor(m => m.OxygenLevel, new { @class = "form-control" }) % (19.5 - 23.5 %)
             </div>
 
             <div class="row mt-2">
 
-                <div class="row">
-                    <lable>  @Html.CheckBoxFor(m => m.ExplosiveLevel) Explosive : @Html.TextBoxFor(m => m.ExplosiveLevel) % LEL (Less than 10%) </lable>
+                <div class="col-md-6">
+                    @Html.CheckBoxFor(m => m.IsExplosiveLevelChecked)
+                    <label>
+                        Explosive :
+                    </label>
+                    @Html.TextBoxFor(m => m.ExplosiveLevel, new { @class = "form-control" }) % LEL (Less than 10%)
                 </div>
             </div>
 
             <div class="row mt-2">
 
                 <div class="col-md-6">
-                    <lable>  @Html.CheckBoxFor(m => m.COLevel) CO : @Html.TextBoxFor(m => m.COLevel) PPM (less than 35 PPM -8hr) </lable>
+                    @Html.CheckBoxFor(m => m.IsCOLevelChecked)
+                    <label>
+                        CO :
+                    </label>
+                    @Html.TextBoxFor(m => m.COLevel, new { @class = "form-control" }) PPM (less than 35 PPM -8hr)
                 </div>
             </div>
 
             <div class="row mt-2">
                 <div class="col-md-6">
-                    <lable>  @Html.CheckBoxFor(m => m.H2SLevel) H2S : @Html.TextBoxFor(m => m.H2SLevel) PPM (less than 10PPM - 8hr) </lable>
+                    @Html.CheckBoxFor(m => m.IsH2SLevelChecked)
+                    <lable>
+                        H2S : 
+                    </lable>
+                    @Html.TextBoxFor(m => m.H2SLevel, new { @class = "form-control" }) PPM (less than 10PPM - 8hr)
                 </div>
             </div>
 
             <!-- Precaution: Atmospheric Inspection -->
 
-            <div class="border-section">
+            <div>
                 Has appropriate ventilation provided after atmospheric inspection made?
             </div>
             <div class="row mb-2">
@@ -822,7 +849,7 @@
 
         <section class="border-section">
             <div class="section-title">
-                Emergency Team <span class="required-star">*</span>
+                Emergency Team
             </div>
             <div class="form-group mt-2">
                 <label>Contact Numbers:</label>
@@ -841,6 +868,7 @@
         <!-- INSURANCE -->
 
         <section class="border-section">
+            @Html.ValidationMessage("Insurance", "", new { @class = "text-danger" })
             <div class="section-title">
                 Insurance / WC / ESI Copy available for Workmen <span class="required-star">*</span>
             </div>
@@ -873,8 +901,9 @@
         <!-- INSPECTION -->
 
         <section class="border-section">
+            @Html.ValidationMessage("Inspection", "", new { @class = "text-danger" })
             <div class="section-title">
-                Inspection by Issuer / Receiver
+                The following areas / items have been inspected by issuer and receiver  <span class="required-star">*</span>
             </div>
 
             <div class="row">
@@ -931,14 +960,15 @@
         <!-- PPE -->
 
         <section class="border-section">
+            @Html.ValidationMessage("PPE", "", new { @class = "text-danger" })
             <div class="section-title">
                 PPE Required for Activity <span class="required-star">*</span>
             </div>
             <div class="row">
-                <div class="col-md-3">@Html.CheckBoxFor(m => m.Helmet)<label>Helmet</label></div>
+                <div class="col-md-3">@Html.CheckBoxFor(m => m.Helmet) <label>Helmet</label></div>
                 <div class="col-md-3">@Html.CheckBoxFor(m => m.SafetyShoes) <label>Safety Shoes</label></div>
                 <div class="col-md-3">@Html.CheckBoxFor(m => m.Gloves) <label>Mechanical Gloves</label></div>
-                <div class="col-md-3">@Html.CheckBoxFor(m => m.EarPlug) <label>Safety Ear Plugs/muff</label></div>
+                <div class="col-md-3">@Html.CheckBoxFor(m => m.EarPlugs) <label>Safety Ear Plugs/muff</label></div>
                 <div class="col-md-3">@Html.CheckBoxFor(m => m.Goggles) <label>Safety Goggles</label></div>
                 <div class="col-md-3">@Html.CheckBoxFor(m => m.Vest) <label>Reflective Vest</label></div>
                 <div class="col-md-3">@Html.CheckBoxFor(m => m.GasMask) <label>Gas Mask</label></div>
@@ -957,7 +987,7 @@
 
         <section class="border-section">
             <div class="section-title">
-                Issue & Acceptance 
+                Issue & Acceptance
             </div>
             <div class="row">
                 <div class="col-md-6">
@@ -966,7 +996,7 @@
                 </div>
                 <div class="col-md-6">
                     <label>Department Incharge</label>
-                    @Html.TextBoxFor(m => m.Incharge, new { @class = "form-control" })
+                    @Html.TextBoxFor(m => m.DepartmentIncharge, new { @class = "form-control" })
                 </div>
             </div>
             <div class="row mt-2">
@@ -984,6 +1014,7 @@
         <!-- SUSPENSION -->
 
         <section class="border-section">
+            @Html.ValidationMessage("Suspension", "", new { @class = "text-danger" })
             <div class="section-title">
                 Suspension <span class="required-star">*</span>
             </div> 
@@ -992,10 +1023,12 @@
                 <div class="col-md-6">
                     <label>Name</label>
                     @Html.TextBoxFor(m => m.SuspensionName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.SuspensionName, "", new { @class = "text-danger" })
                 </div>
                 <div class="col-md-6">
                     <label>Signature / Date</label>
                     @Html.TextBoxFor(m => m.SuspensionDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.SuspensionDate, "", new { @class = "text-danger" })
                 </div>
             </div>
         </section>
@@ -1003,6 +1036,7 @@
         <!-- APPROVER DETAILS -->
 
         <section class="border-section">
+            @Html.ValidationMessage("ApproverDetails", "", new { @class = "text-danger" })
             <div class="section-title">
                 Approver Details <span class="required-star">*</span>
             </div>
@@ -1013,6 +1047,7 @@
                             Approver One Email
                         </label>
                         @Html.TextBoxFor(m => m.ApproverOne, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.ApproverOne, "", new { @class = "text-danger" })
                     </div>
                     <div class="col-lg-3">
                         <label>Approver Two Email</label>
@@ -1029,6 +1064,13 @@
                 </div>
             </section>
         </section>
+
+        <!-- BUTTON -->
+
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-success px-5">Save</button>
+            <button type="button" onclick="window.print()" class="btn btn-secondary px-4 ms-2">Print</button>
+        </div>
 
     </form>
 </div>

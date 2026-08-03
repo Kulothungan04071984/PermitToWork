@@ -1,28 +1,52 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Permit_to_work.Models
 {
     public class ConfinedSpacePermit
     {
         public int Id { get; set; }
-        public string? Unit { get; set; }
-        public string? Contractor { get; set; }
-        public string? Location { get; set; }
-        public int NoOfWorkmen { get; set; }
 
-        public DateTime StartDate { get; set; }
+        // BASIC DETAILS
+
+        [Required(ErrorMessage = "Please fill the Unit.")]
+        public string? Unit { get; set; }
+
+        [Required(ErrorMessage = "Please fill the Contractor.")]
+        public string? Contractor { get; set; }
+
+        [Required(ErrorMessage = "Please fill the Location.")]
+        public string? Location { get; set; }
+
+        [Required(ErrorMessage = "Please fill the Number of Workmen.")]
+        public int? NoOfWorkmen { get; set; }
+
+        // DATE & TIME
+
+        [Required(ErrorMessage = "Please fill the Start Date.")]
+        public DateTime? StartDate { get; set; }
+
+        [Required(ErrorMessage = "Please fill the Start Time.")]
         public string? StartTime { get; set; }
-        public DateTime EndDate { get; set; }
+
+        [Required(ErrorMessage = "Please fill the End Date.")]
+        public DateTime? EndDate { get; set; }
+
+        [Required(ErrorMessage = "Please fill the End Time.")]
         public string? EndTime { get; set; }
 
         // WORK DETAILS
+
+        [Required(ErrorMessage = "Please fill the Work Description.")]
         public string? WorkDescription { get; set; }
         public string? ToolsEquipment { get; set; }
 
         // RISKS
+
+        [Required(ErrorMessage = "Please fill the Risk field.")]
         public bool RiskOxygen { get; set; }
         public bool RiskExplosion { get; set; }
-        public bool RiskFumeVapor { get; set; }
+        public bool RiskFume { get; set; }
         public bool RiskNoise { get; set; }
         public bool RiskHot { get; set; }
         public bool RiskFire { get; set; }
@@ -36,32 +60,40 @@ namespace Permit_to_work.Models
         public string? DocumentOther { get; set; }
 
         // PRECAUTION
+
         public string? Precaution { get; set; }
 
-        public bool OxygenLevel { get; set; }
-        public bool ExplosiveLevel { get; set; }
-        public bool COLevel { get; set; }
-        public bool H2SLevel { get; set; }
+        public bool IsOxygenLevelchecked { get; set; }
+        public decimal? OxygenLevel { get; set; }
+        public bool IsExplosiveLevelChecked { get; set; }
+        public decimal? ExplosiveLevel { get; set; }
+        public bool  IsCOLevelChecked { get; set; }
+        public decimal? COLevel { get; set; }
+        public bool IsH2SLevelChecked { get; set; }
+        public decimal? H2SLevel { get; set; }
 
-        public string? AtmosphereDone { get; set; }
+        //public string? AtmosphereDone { get; set; }
         public bool Natural {  get; set; }
         public bool Mechanical { get; set; }
         public string? StateDetails { get; set; }
-        public string? Ventilation { get; set; }
+
+        //public string? Ventilation { get; set; }
         public string? Communication { get; set; }
         public string? EmergencyProcedure { get; set; }
         public string? HotWorkRequired { get; set; }
         public string? Lockout { get; set; }
 
         // EMERGENCY CONTACT
+
         public string? EmergencyTeam { get; set; }
         public string? Contact1 { get; set; }
         public string? Contact2 { get; set; }
         public string? Contact3 { get; set; }
-
         public string? Other { get; set; }
 
         // INSPECTION
+
+        [Required(ErrorMessage = "Please fill the Inspection.")]
         public bool FireExtinguisher { get; set; }
         public string? FireExtinguisherType { get; set; }
         public string? FireExtinguisherQty { get; set; }
@@ -75,10 +107,12 @@ namespace Permit_to_work.Models
         public string? InspectionOther { get; set; }
 
         // PPE
+
+        [Required(ErrorMessage = "Please fill the PPE.")]
         public bool Helmet { get; set; }
         public bool SafetyShoes { get; set; }
         public bool Gloves { get; set; }
-        public bool EarPlug { get; set; }
+        public bool EarPlugs { get; set; }
         public bool Goggles { get; set; }
         public bool Vest { get; set; }
         public bool GasMask { get; set; }
@@ -87,38 +121,37 @@ namespace Permit_to_work.Models
         public bool DustMask { get; set; }
         public string? PPEOther { get; set; }
 
-        // BASIC
-        public int? Workmen { get; set; }
-        public string? Tools { get; set; }  
-        public string? DocOther { get; set; }
-        public string? VentilationDetails { get; set; }
-        public string? CommunicationDetails { get; set; }
-        public string? EmergencyAware { get; set; }
-        public string? LOTOFollowed { get; set; }
-
-        // PPE
-        public bool Shoes { get; set; }
-
         // INSURANCE
+
+        [Required(ErrorMessage = "Please fill the Insurance.")]
         public bool WC { get; set; }
         public bool ESI { get; set; }
         public string? OtherInsurance { get; set; }
 
         // ISSUES & ACCEPTANCE
         public string? RaisedBy { get; set; }
-        public string? Incharge { get; set; }
+        public string? DepartmentIncharge { get; set; }
         public string? Facility { get; set; }
         public string? Safety { get; set; }
 
         // SUSPENSION
+
+        [Required(ErrorMessage = "Please fill the Suspension Name.")]
         public string? SuspensionName { get; set; }
+
+        [Required(ErrorMessage = "Please fill the Suspension Date.")]
         public DateTime? SuspensionDate { get; set; }
 
         // APPROVER DETAILS
 
+        [Required(ErrorMessage = "Please fill the Approver One.")]
         public string? ApproverOne { get; set; }
         public string? ApproverTwo { get; set; }
         public string? ApproverThree { get; set; }
         public string? ApproverFour { get; set; }
+
+
+        public bool IsActive { get; set; }
+        public string? Status { get; set; }
     }
 }

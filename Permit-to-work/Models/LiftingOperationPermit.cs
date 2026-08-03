@@ -126,7 +126,7 @@ namespace Permit_to_work.Models
 
         [Required(ErrorMessage = "Insurance copy is required")]
         public bool WC { get; set; }
-        public bool ESI { get; set; }
+        public bool ESI { get; set; } 
         public string? WCFilePath { get; set; }
         public string? ESIFilePath { get; set; }
 

@@ -88,10 +88,9 @@ namespace Permit_to_work.Models
         public bool HarnessShockAbsorber { get; set; }
         public bool DoubleHook { get; set; }
         public string? AccessProvided { get; set; }
-        public string? WindGreater32 { get; set; }
+        //public string? WindGreater32 { get; set; }
         public string? FloorOpeningsCovered { get; set; }
-        public string? ScaffoldCertified { get; set; }
-        
+        //public string? ScaffoldCertified { get; set; }
 
         //Inspection
 

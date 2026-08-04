@@ -138,7 +138,9 @@ namespace Permit_to_work.Controllers
                 FirstMail = permit.FirstApproverStatus == "Approved" ? permit.FirstApproverStatus : "",
                 SecondMail = permit.SecondApproverStatus == "Approved" ? permit.SecondApproverStatus : "",
                 ThirdMail = permit.ThirdApproverStatus == "Approved" ? permit.ThirdApproverStatus : "",
-                FourthMail = permit.FourthApproverStatus == "Approved" ? permit.FourthApproverStatus : "",
+                FourthMail = permit.FourthApproverStatus == "Approved" ? permit.FourthApproverStatus : ""
+            });
+        }
 
         //public IActionResult GetApprovalStatus(int permitDashBoardId)
         //{
@@ -1937,21 +1939,21 @@ REJECT
                 return View(objpermit);
             }
 
-            //public JsonResult CreatePermit(PermitDetails modelvalues)
-            //{
-            //    string result = string.Empty;
-            //    try
-            //    {
-            //        _context.Add(modelvalues);
-            //        _context.SaveChanges();
-            //        result = "Success";
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        result= ex.Message;
-            //    }
-            //    return Json(result);
-            //}
+        //public JsonResult CreatePermit(PermitDetails modelvalues)
+        //{
+        //    string result = string.Empty;
+        //    try
+        //    {
+        //        _context.Add(modelvalues);
+        //        _context.SaveChanges();
+        //        result = "Success";
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        result= ex.Message;
+        //    }
+        //    return Json(result);
+        //}
 
         public JsonResult getPermitdetails(string Permitid, string PermitType, string Status)
         {
@@ -2887,6 +2889,13 @@ REJECT
                 else
                     return Json("Rejected Successfully");
             }
+            catch (Exception ex)
+            {
+                _logger.LogError("Error", ex.Message.ToString());
+                return Json(ex.Message);
+            }
+        }
+            
 
             [HttpPost]
             public JsonResult Delete(string type, int id)

@@ -129,17 +129,11 @@ namespace Permit_to_work.Models
 
         // ===== ISSUES & ACCEPTANCE =====
 
-        [Required(ErrorMessage = "Please fill the Receiver Name field")]
-        public string? ReceiverName { get; set; }
 
-        [Required(ErrorMessage = "Please fill the Receiver Date field")]
-        public DateTime? ReceiverDate { get; set; }
-
-        [Required(ErrorMessage = "Please fill the Issuer Name field")]
-        public string? IssuerName { get; set; }
-
-        [Required(ErrorMessage = "Please fill the Issuer Date field")]
-        public DateTime? IssuerDate { get; set; }
+        public string? RaisedBy { get; set; }
+        public string? DeptIncharge { get; set; }
+        public string? Facility { get; set; }
+        public string? Safety { get; set; }
 
         // ===== SUSPENSION =====
 

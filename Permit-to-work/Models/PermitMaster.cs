@@ -35,6 +35,14 @@
         public string? CreatedByUserId { get; set; }
         public AppUser CreatedBy { get; set; }
 
+        public string? FirstApproverToken { get; set; } = string.Empty;
+
+        public string? SecondApproverToken { get; set; } = string.Empty;
+
+        public string? ThirdApproverToken { get; set; } = string.Empty;
+
+        public string? FourthApproverToken { get; set; } = string.Empty;
+
         //public int PermitDashBoardId { get; set; }
 
     }

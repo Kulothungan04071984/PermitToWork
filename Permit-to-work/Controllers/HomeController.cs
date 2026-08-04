@@ -1,4 +1,4 @@
-﻿using Azure;
+﻿using Registration.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
@@ -7,9 +7,11 @@ using Permit_to_work.Data;
 using Permit_to_work.Models;
 using Permit_to_work.ViewModel;
 using Registration.Models;
+using RTools_NTS.Util;
 using System.Diagnostics;
 using System.Net;
 using System.Net.Mail;
+using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -22,6 +24,7 @@ namespace Permit_to_work.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _context;
         private readonly IConfiguration _configuration;
+      
         public HomeController(ILogger<HomeController> logger, ApplicationDbContext context, IConfiguration configuration)
         {
             _logger = logger;
@@ -435,32 +438,248 @@ namespace Permit_to_work.Controllers
                 _context.ColdWorkPermits.Add(entity);
             }
 
-            var x = entity.ApproverFour;
-            _context.SaveChanges();
+                var x = entity.ApproverFour;
+                _context.SaveChanges();
+                insertPermitMaster("Cold Work",entity.Id.ToString(),entity.Unit,Convert.ToString(entity.StartDate),Convert.ToString(entity.EndDate), entity.Location);
+               await sendmail("Cold Work", entity.Id);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while saving the Cold permit.");
+                ModelState.AddModelError(ex.Message.ToString(), "An error occurred while saving the Cold permit. Please try again.");
+                return View(vm);
+            }
 
-            //try
-            //{
-            //    MailMessage mail = new MailMessage();
-            //    mail.From = new MailAddress(_configuration["SmtpSettings:User"]);
-            //    mail.To.Add("kulothungan.k@syrmasgs.com");
-            //    mail.Subject = "Request to Reschedule";
-            //    mail.Body = "Test Mail";
 
-            //    using (SmtpClient smtp = new SmtpClient(
-            //        _configuration["SmtpSettings:Host"],
-            //        int.Parse(_configuration["SmtpSettings:Port"])))
-            //    {
-            //        smtp.EnableSsl = true;
-            //        smtp.UseDefaultCredentials = false;
-            //        smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-            //        smtp.Credentials = new NetworkCredential(
-            //            _configuration["SmtpSettings:User"],
-            //            _configuration["SmtpSettings:Password"]);
-            //        // smtp.Send(mail); Testing purpose, comment out to avoid actual email sending
-            //    }
-            //}
-            //catch (Exception ex)
+            return RedirectToAction("Dashboard");
+        }
+        
+        [HttpPost("sendmail")]
+        public async Task sendmail(string Type, int id)
+        {
+            string token = Guid.NewGuid().ToString();
+            string startdate = string.Empty;
+            string enddate = string.Empty;
+            string Tomail = string.Empty;
+            //string baseUrl = "http://192.168.1.146:808";
+            string baseUrl = _configuration["AppSettings"];
+            //string baseUrl = "https://localhost:7174";
+            // string baseUrl = "https://10.10.121.43:7174";
 
+            string approveUrl = $"{baseUrl}/api/WebServices/Approve?token={token}&type={Uri.EscapeDataString(Type)}&id={id}";
+            _logger.LogInformation($"Approval URL: {approveUrl}");
+            string rejectUrl = $"{baseUrl}/api/WebServices/Reject?token={token}&type={Uri.EscapeDataString(Type)}&id={id}";
+            _logger.LogInformation($"Reject URL: {rejectUrl}");
+            try
+            {
+                var permit = _context.PermitMasters.FirstOrDefault(x => x.PermitNumber == id.ToString() && x.PermitType == Type);
+                if( permit != null )
+                {
+                 
+
+                    if (permit.FirstApproverStatus == "Pending")
+                    {
+                        permit.FirstApproverToken = token;
+                    }
+                    else if (permit.SecondApproverStatus == "Pending")
+                    {
+                        permit.SecondApproverToken = token;
+                    }
+                    else if (permit.ThirdApproverStatus == "Pending")
+                    {
+                        permit.ThirdApproverToken = token;
+                    }
+                    else if (permit.FourthApproverStatus == "Pending")
+                    {
+                        permit.FourthApproverToken = token;
+                    }
+
+                    _context.SaveChanges();
+
+                    if (Type == "Cold Work")
+                    {
+                        var coldWorkPermit = _context.ColdWorkPermits.FirstOrDefault(x => x.Id == id);
+                        if (coldWorkPermit != null)
+                        {
+                            if (permit.FirstApproverStatus == "Pending")
+                            {
+                                Tomail = coldWorkPermit.ApproverOne;
+                            }
+                            else if (permit.SecondApproverStatus == "Pending")
+                            {
+                                Tomail = coldWorkPermit.ApproverTwo;
+                            }
+                            else if (permit.ThirdApproverStatus == "Pending")
+                            {
+                                Tomail = coldWorkPermit.ApproverThree;
+                            }
+                            else if (permit.FourthApproverStatus == "Pending")
+                            {
+                                Tomail = coldWorkPermit.ApproverFour;
+                            }
+                        }
+                        startdate = coldWorkPermit.StartDate.ToString();
+                        enddate = coldWorkPermit.EndDate.ToString();
+                    }
+                    else if (Type == "Hot Work")
+                    {
+                        var hotWorkPermit = _context.HotWorkPermits.FirstOrDefault(x => x.PermitId == id);
+                        if (hotWorkPermit != null)
+                        {
+                            if (permit.FirstApproverStatus == "Pending")
+                            {
+                                Tomail = hotWorkPermit.ApproverOne;
+                            }
+                            else if (permit.SecondApproverStatus == "Pending")
+                            {
+                                Tomail = hotWorkPermit.ApproverTwo;
+                            }
+                            else if (permit.ThirdApproverStatus == "Pending")
+                            {
+                                Tomail = hotWorkPermit.ApproverThree;
+                            }
+                            else if (permit.FourthApproverStatus == "Pending")
+                            {
+                                Tomail = hotWorkPermit.ApproverFour;
+                            }
+                        }
+                        startdate = hotWorkPermit.StartDate.ToString();
+                        enddate = hotWorkPermit.EndDate.ToString();
+                    }
+                    //else if (Type == "Height")
+                    //{
+                    //    var heightPermit = _context.WorkAtHeightPermits.FirstOrDefault(x => x.PermitId == id);
+                    //    //if (heightPermit != null)
+                    //    //{
+                    //    //    Tomail = heightPermit.ApproverOne ?? heightPermit.ApproverTwo ?? heightPermit.ApproverThree ?? heightPermit.ApproverFour ?? string.Empty;
+                    //    //}
+                    //    startdate = heightPermit.StartDate.ToString();
+                    //    enddate = heightPermit.EndDate.ToString();
+                    //}
+                    if (string.IsNullOrEmpty(Tomail))
+                    {
+                        // No pending approvers, exit the method
+                        return;
+                    }
+                }
+                string body = $@"
+<html>
+
+<body style='font-family:Arial'>
+
+<h2>Permit Approval Request</h2>
+
+<p>Please review the permit details below.</p>
+
+<table border='1' cellpadding='8' cellspacing='0'
+style='border-collapse:collapse;width:700px;'>
+
+<tr style='background-color:#007ACC;color:white'>
+<th>Field</th>
+<th>Value</th>
+</tr>
+
+<tr>
+<td>Permit Number</td>
+<td>{permit.PermitNumber}</td>
+</tr>
+
+<tr>
+<td>Permit Type</td>
+<td>{Type}</td>
+</tr>
+
+<tr>
+<td>Start Date</td>
+<td>{startdate}</td>
+</tr>
+
+<tr>
+<td>End Date</td>
+<td>{enddate}</td>
+</tr>
+
+<tr>
+<td>First Approver</td>
+<td>{permit.FirstApproverStatus}</td>
+</tr>
+
+<tr>
+<td>Second Approver</td>
+<td>{permit.SecondApproverStatus}</td>
+</tr>
+
+<tr>
+<td>Third Approver</td>
+<td>{permit.ThirdApproverStatus}</td>
+</tr>
+
+<tr>
+<td>Fourth Approver</td>
+<td>{permit.FourthApproverStatus}</td>
+</tr>
+
+</table>
+
+<br/><br/>
+
+<a href='{approveUrl}'
+style='background:green;
+color:white;
+padding:12px 25px;
+text-decoration:none;
+font-size:16px;
+border-radius:5px;'>
+APPROVE
+</a>
+
+&nbsp;&nbsp;&nbsp;
+
+<a href='{rejectUrl}'
+style='background:red;
+color:white;
+padding:12px 25px;
+text-decoration:none;
+font-size:16px;
+border-radius:5px;'>
+REJECT
+</a>
+
+<br/><br/>
+
+<b>Permit Management System</b>
+
+</body>
+
+</html>";
+
+
+                MailMessage mail = new MailMessage();
+                mail.From = new MailAddress(_configuration["SmtpSettings:User"]);
+                mail.To.Add(Tomail);
+              // mail.To.Add("kulothungan.k@syrmasgs.com"); // For testing purposes, replace with actual recipient email
+                mail.Subject = "Permit To Work Approval Request";
+                mail.Body = body;
+                mail.IsBodyHtml = true;
+
+                using (SmtpClient smtp = new SmtpClient(
+                    _configuration["SmtpSettings:Host"],
+                    int.Parse(_configuration["SmtpSettings:Port"])))
+                {
+                    smtp.EnableSsl = true;
+                    smtp.UseDefaultCredentials = false;
+                    smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+                    smtp.Credentials = new NetworkCredential(
+                        _configuration["SmtpSettings:User"],
+                        _configuration["SmtpSettings:Password"]);
+                    smtp.Send(mail); //Testing purpose, comment out to avoid actual email sending
+                    _logger.LogInformation($"Email sent to {Tomail} for permit type {Type} with ID {id}");
+                }
+            }
+            catch (Exception ex)
+            { 
+                _logger.LogError(ex, $"Failed to send email for permit type {Type} with ID {id}");
+            }
 
             return RedirectToAction("Dashboard");
         }
@@ -662,6 +881,7 @@ namespace Permit_to_work.Controllers
 
             _context.HotWorkPermits.Add(entity);
             await _context.SaveChangesAsync();
+           await sendmail("Hot Work", entity.PermitId);
 
             return RedirectToAction("Dashboard");
         }
@@ -866,7 +1086,36 @@ namespace Permit_to_work.Controllers
             return View();
         }
 
+       public void insertPermitMaster(string PermitType,string Permitid, string unit, string startdate, string enddate, string location)
+        {
+            try
+            {
+                var permitMaster = new PermitMaster
+                {
+                    Unit = unit,
+                    StartDate = Convert.ToDateTime(startdate),
+                    EndDate = Convert.ToDateTime(enddate),
+                    PermitType = PermitType,
+                    PermitNumber = Permitid,
+                    Location = location,
+                    Status = "Pending",
+                    FirstApproverStatus = "Pending",
+                    SecondApproverStatus = "Pending",
+                    ThirdApproverStatus = "Pending",
+                    FourthApproverStatus = "Pending",
+                    CreatedByUserId = HttpContext.Session.GetString("UserId"),
+                    CreatedOn = DateTime.Now,
+                };
 
+                _context.Add(permitMaster);
+                _context.SaveChanges();
+                _logger.LogInformation("PermitMaster record inserted successfully for PermitType: {PermitType}, PermitId: {Permitid}", PermitType, Permitid);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while inserting into PermitMaster.");
+            }
+        }
 
         // LIFTING OPERATION PERMIT
 
@@ -1240,10 +1489,9 @@ namespace Permit_to_work.Controllers
                 IsActive = true,
             };
 
-            entity.Status = "Pending";
-
             _context.WorkAtHeightPermits.Add(entity);
             await _context.SaveChangesAsync();
+           await sendmail("WorkAtHeight", entity.PermitId);
 
             //return Content("Saved Successfully");
 
@@ -1654,15 +1902,16 @@ namespace Permit_to_work.Controllers
 
         public JsonResult getPermitdetails(string Permitid, string PermitType, string Status)
         {
-
-            if (PermitType == "Cold Work")
+            try
             {
-                int count = 0;
-                var permitdetails = _context.ColdWorkPermits.Where(a => a.Id == Convert.ToInt32(Permitid)).FirstOrDefault();
-                var PermitApproveDetails =
-                    _context.ColdWorkPermits
-                    .Where(b => b.Id == Convert.ToInt32(Permitid))
-                    .Select(a => (new ColdWorkPermit { Id = a.Id, ApproverOne = a.ApproverOne, ApproverTwo = a.ApproverTwo, ApproverThree = a.ApproverThree, ApproverFour = a.ApproverFour })).FirstOrDefault();
+                if (PermitType == "Cold Work")
+                {
+                    int count = 0;
+                    var permitdetails = _context.ColdWorkPermits.Where(a => a.Id == Convert.ToInt32(Permitid)).FirstOrDefault();
+                    var PermitApproveDetails =
+                        _context.ColdWorkPermits
+                        .Where(b => b.Id == Convert.ToInt32(Permitid))
+                        .Select(a => (new ColdWorkPermit { Id = a.Id, ApproverOne = a.ApproverOne, ApproverTwo = a.ApproverTwo, ApproverThree = a.ApproverThree, ApproverFour = a.ApproverFour })).FirstOrDefault();
 
                 if (PermitApproveDetails.ApproverOne == null)
                     count = 0;
@@ -1931,8 +2180,9 @@ namespace Permit_to_work.Controllers
                         }
                     }
 
-                    _context.PermitMasters.Update(permitcheck);
-                }
+                        _context.PermitMasters.Update(permitcheck);
+                        sendmail(PermitType, Convert.ToInt32(Permitid));
+                    }
 
                 else
                 {
@@ -1958,8 +2208,9 @@ namespace Permit_to_work.Controllers
                     _context.Add(permitMaster);
                 }
 
-                _context.SaveChanges();
-            }
+                    _context.SaveChanges();
+                    sendmail(PermitType, Convert.ToInt32(Permitid));
+                }
 
             else if (PermitType == "Work At Height")
             {
@@ -2237,8 +2488,9 @@ namespace Permit_to_work.Controllers
                         }
                     }
 
-                    _context.PermitMasters.Update(permitcheck);
-                }
+                        _context.PermitMasters.Update(permitcheck);
+                        sendmail(PermitType, Convert.ToInt32(Permitid));
+                    }
 
                 else
                 {
@@ -2264,8 +2516,9 @@ namespace Permit_to_work.Controllers
                     _context.Add(permitMaster);
                 }
 
-                _context.SaveChanges();
-            }
+                    _context.SaveChanges();
+                    sendmail(PermitType, Convert.ToInt32(Permitid));
+                }
 
             else if (PermitType == "Electrical Isolation")
             {

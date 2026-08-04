@@ -49,6 +49,8 @@ namespace Permit_to_work.Models
         public string? ToolsEquipment { get; set; }
 
         // ===== RISK =====
+
+        [Required(ErrorMessage = "Identify Risk is required")]
         public bool Electrocution { get; set; }
         public bool ArcFlash { get; set; }
         public bool FlyingParticles { get; set; }

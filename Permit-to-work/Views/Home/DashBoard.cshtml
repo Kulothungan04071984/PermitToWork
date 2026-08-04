@@ -135,25 +135,8 @@
         margin: 0 10px;
         }
 
-        .approval-line.active {
+       .approval-line.active {
         background: #28a745;
-        }
-
-        @@keyframes pulse {
-            0%
-
-        {
-        transform: scale(1);
-        }
-
-        50% {
-        transform: scale(1.2);
-        }
-
-        100% {
-        transform: scale(1);
-        }
-
         }
 
         #StatusModal .approval-container {
@@ -193,6 +176,11 @@
         color: #854f0b;
         }
 
+        #StatusModal .approval-step.rejected i {
+            background-color: #fdeaea;
+            color: #dc3545;
+        }
+
         #StatusModal .approval-step span {
         font-size: 13px;
         font-weight: 600;
@@ -227,6 +215,7 @@
         #StatusModal .approval-line.active {
         background-color: #5dcaa5;
         }
+
     </style>
 </head>
 
@@ -317,14 +306,14 @@
 
                                     <td>@item.Status</td>
 
-                                <td class="text-center">
-                                    <div class="row">
-                                        <div class="col-lg-3">
+                                    <td class="text-center">
+                                        <div class="row">
+                                            <div class="col-lg-3">
                                                 <button class="btn btn-sm btn-info btnapproval" data-id="@item.PermitDashBoardId" onclick="ApprovalStatus(@item.PermitDashBoardId)">
                                                     <i class="bi bi-plus-circle"></i>
                                                 </button>
-                                        </div>
-                                        <div class="col-lg-3">
+                                            </div>
+                                            <div class="col-lg-3">
                                                 @{
                                                     bool disableButton = item.Status == "Approved" || item.Status == "Rejected" || item.Status == "Partially Approved";
                                                 }
@@ -334,23 +323,24 @@
                                                    style="@(disableButton ? "pointer-events:none; opacity:0.5;" : "")">
                                                     <i class="bi bi-pencil"></i>
                                                 </a>
-                                        </div>
-                                        <div class="col-lg-3">
+                                            </div>
+                                            <div class="col-lg-3">
                                                 <button class="btn btn-sm btn-warning openModal">
                                                     <i class="bi bi-clock-history"></i>
                                                 </button>
-                                        </div>
-                                        <div class="col-lg-3">
+                                            </div>
+                                            <div class="col-lg-3">
                                                 <button class="btn btn-danger btnDelete" data-id="@item.PermitDashBoardId" data-type="@item.PermitType">
                                                     <i class="bi bi-trash"></i>
                                                 </button>
+                                            </div>
                                         </div>
-                                    </div>
+
                                   @*   <a class="btn btn-sm btn-primary" id="btnStatus">
                                         <i class="bi bi-plus-circle"></i>
-                                    </a> *@
+                                    </a>
 
-                       @*                  <table id="permitTable" class="table">
+                                  <table id="permitTable" class="table">
                                             <thead>
                                                 <tr>
                                                     <th>Type</th><th>Unit</th><th>Location</th><th>Start</th>
@@ -358,7 +348,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                        @foreach (var item in model)
+                                  @foreach (var item in model)
                             {
                                 <tr>
                                     <td>@item.PermitType</td>
@@ -377,8 +367,7 @@
                                 <span id="pageInfo"></span>
                                 <button id="nextBtn" class="btn btn-outline-secondary btn-sm">Next &raquo;</button>
 
-                            </div>
- *@
+                            </div>*@
             
                                         
                                     </td>
@@ -406,7 +395,7 @@
                             <i class="bi bi-check-circle-fill"></i>
                             <span id="snFirstApproval" class="approver-email"></span>
                             @* <span id="snFirstApproval"></span> *@
-                            <small>First Approved</small>
+                            <small>First Approver</small>
                         </div>
 
                         <div class="approval-line"></div>
@@ -415,16 +404,16 @@
                             <i class="bi bi-check-circle-fill"></i>
                             <span id="snSecondApproval" class="approver-email"></span>
                            @*  <span id="snSecondApproval"></span> *@
-                            <small>Second Approved</small>
+                            <small>Second Approver</small>
                         </div>
 
                         <div class="approval-line"></div>
 
                         <div class="approval-step">
                             <i class="bi bi-check-circle-fill"></i>
-                            <span id="snThiredApproval" class="approver-email"></span>
-                            @* <span id="snThiredApproval"></span> *@
-                            <small>Third Approved</small>
+                            <span id="snThirdApproval" class="approver-email"></span>
+                            @* <span id="snThirdApproval"></span> *@
+                            <small>Third Approver</small>
                         </div>
 
                         <div class="approval-line"></div>
@@ -433,7 +422,7 @@
                             <i class="bi bi-check-circle-fill"></i>
                             <span id="snFourthApproval" class="approver-email"></span>
                             @* <span id="snFourthApproval"></span> *@
-                            <small>Fourth Approval</small>
+                            <small>Fourth Approver</small>
                         </div>
 
 
@@ -536,6 +525,8 @@
         </script>
     } *@
 
+   
+
     <script>
 
         $(document).ready(function () {
@@ -552,19 +543,22 @@
                 }
             });
         });
+
         // $('#btnApprovalStatus').on('click', function(){
         //     debugger;
         //     alert('hai');
         // });
+
         function ApprovalStatus(id) {
         debugger;
         $.ajax({   
         url: '/Home/GetApprovalStatus',
         type: 'GET',
         data: { permitDashBoardId: id },
+
         success: function (result) {
 
-
+            // alert(JSON.stringify(result));
 
             $(".approval-step").removeClass("approved pending").addClass("pending");
 
@@ -572,26 +566,91 @@
 
             $(".approval-line").removeClass("active");
 
-            for (let i = 0; i<result; i++)
-            {
-                $(".approval-step").eq(i).removeClass("pending").addClass("approved");
-                $(".approval-step").eq(i).find("i").removeClass("bi-hourglass-split").addClass("bi-check-class-fill");
+            var statusList = [
+                result.FirstStatus,
+                result.SecondStatus,
+                result.ThirdStatus,
+                result.FourthStatus
+            ]
 
-                if(i<3)
-                {
-                    $(".approval-line").eq(i).addClass("active");
+            // for (let i = 0; i < result; i++)
+            // {
+            //     $(".approval-step").eq(i).removeClass("pending").addClass("approved");
+            //     $(".approval-step").eq(i).find("i").removeClass("bi-hourglass-split").addClass("bi-check-class-fill");
+
+            //     if(i<3)
+            //     {
+            //         $(".approval-line").eq(i).addClass("active");
+            //     }
+            // }
+
+            statusList.forEach(function (status, index) {
+
+                status = (status || "").trim();
+
+                var step = $(".approval-step").eq(index);
+                var icon = step.find("i");
+
+                step.removeClass("approved pending rejected");
+                icon.removeClass("bi-check-circle-fill bi-hourglass-split bi-x-circle-fill");
+
+                if (status == "Approved") {
+                    step.addClass("approved");
+                    icon.addClass("bi-check-circle-fill");
+
+                    if (index < 3)
+                        $(".approval-line").eq(index).addClass("active");
                 }
-            }
+
+                else if (status == "Rejected") {
+                    step.addClass("rejected");
+                    icon.addClass("bi-x-circle-fill");
+                }
+
+                else {
+                    step.addClass("pending");
+                    icon.addClass("bi-hourglass-split");
+                }
+            });
+
             alert("Approved Count : " + result.count);
             $("#StatusModal").modal("show");
-       
-
-        // alert("Approved Count : " + result);
-        // $("#StatusModal").modal("show");
         }
         });
+        
+    }
+        // success: function (result) {
 
-        }
+            // $(".approval-step").removeClass("approved pending").addClass("pending");
+            // $(".approval-line").removeClass("active");
+
+            // // Display the approver emails
+            // $("#snFirstApproval").text(result.ApproverOne);
+            // $("#snSecondApproval").text(result.ApproverTwo);
+            // $("#snThiredApproval").text(result.ApproverThree);
+            // $("#snFourthApproval").text(result.ApproverFour);
+
+            // // Highlight approved steps
+            // for (let i = 0; i < result.ApprovedCount; i++) {
+
+            // $(".approval-step").eq(i).removeClass("pending")
+            // .addClass("approved");
+
+            // $(".approval-step").eq(i).find("i")
+            // .removeClass("bi-hourglass-split")
+            // .addClass("bi-check-circle-fill");
+
+            // if (i < 3) {
+            // $(".approval-line").eq(i).addClass("active");
+            // }
+            // }
+
+            // $("#StatusModal").modal("show");
+            // }
+
+
+
+
         // $('.btnApproval').on('click', function () {
         // debugger;
         // alert('hai');
@@ -690,7 +749,7 @@
         else if (formData.SelectedPermitTypeId == 5)
         location.href = '@Url.Action("Liftingoperation", "Home")';
         else if (formData.SelectedPermitTypeId == 6)
-        location.href = '@Url.Action("Liftingoperation", "Home")';
+        location.href = '@Url.Action("ConfinedSpaceEntry", "Home")';
         else
         alert("Please select a permit type");
 

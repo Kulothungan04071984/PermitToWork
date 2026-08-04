@@ -14,31 +14,55 @@
     <style>
         body {
             background-color: #f5f8fa;
-            padding: 20px;
+            padding: 10px;
         }
+
 
         .card {
             border: 2px solid #add8e6;
             border-radius: 10px;
+            margin-bottom: 20px;
+            padding: 20px;
+            margin-left: 3%;
+            margin-right: 3%;
             background-color: #d4e6f1;
-            padding: 15px;
-        }
 
-        .section-title {
-            background-color: #add8e6;
-            font-weight: bold;
-            padding: 6px;
-            margin-bottom: 10px;
-            border-radius: 4px;
-            border: 1px solid #000;
+        .others-input {
+        margin-top: 5px;
         }
-
+       
         .border-section {
             border: 1px solid #add8e6;
             padding: 10px;
+            border-radius: 5px;
             margin-bottom: 15px;
             background: #eef7fb;
         }
+
+        .section-title {
+        background: #B8EAF2;
+        font-weight: bold;
+        padding: 6px 10px;
+        margin-bottom: 10px;
+        border: 1px solid #7FD7E3;
+        color: #3e2723; 
+        border-radius: 4px;
+
+        .btn-success {
+        background-color: #add8e6; /* bright yellow button */
+        border-color: #d4e6f1;
+        color: #ffffff;
+        }
+
+        .btn-success:hover {
+        background-color: #d4e6f1;
+        border-color: #add8e6;
+        }
+
+        .required-star {
+        color: darkred;
+        }
+
 
         .form-check {
             display: flex;
@@ -59,94 +83,335 @@
                 LIFTING OPERATION PERMIT
             </div>
 
-            <!-- BASIC DETAILS -->
-            <section class="border-section">
-                <div class="section-title">Basic Details</div>
+            <!-- ════════════════════════════════════════════════════
+               SECTION: BASIC DETAILS
+            ════════════════════════════════════════════════════ -->
+            <section class="card permit-card">
+                @Html.ValidationMessage("Basic Details", "", new { @class = "text-danger" })
+                <div class="section-title">
+                    Basic Details <span class="required-star">*</span>
+                </div>
+               @*  <div class="row"> *@
+
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <label>
+                            Unit <span class="required-star">*</span>
+                        </label>
+                        @Html.TextBoxFor(m => m.Unit, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Unit, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="col-md-3">
+                        <label>
+                            Contractor <span class="required-star">*</span>
+                        </label>
+                        @Html.TextBoxFor(m => m.ContractorName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.ContractorName, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="col-md-3">
+                        <label>
+                            Location <span class="required-star">*</span>
+                        </label>
+                        @Html.TextBoxFor(m => m.Location, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Location, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="col-md-3">
+                        <label>
+                            No. of Workmen involved <span class="required-star">*</span>
+                        </label>
+                        @Html.TextBoxFor(m => m.NoOfWorkmen, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.NoOfWorkmen, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </section>
+
+            <!-- ════════════════════════════════════════════════════
+               SECTION: DATE & TIME
+            ════════════════════════════════════════════════════ -->
+            <section class="card permit-card">
+                @Html.ValidationMessage("Dates", "", new { @class = "text-danger" })
+                <div class="section-title">
+                    Date and Time <span class="required-star">*</span>
+                </div>
                 <div class="row">
-                    <div class="col-md-3"><label>Unit</label><input name="Unit" class="form-control"></div>
-                    <div class="col-md-3"><label>Contractor Name</label><input name="ContractorName" class="form-control"></div>
-                    <div class="col-md-3"><label>Location</label><input name="Location" class="form-control"></div>
-                    <div class="col-md-3"><label>No. of Workmen</label><input type="number" name="NoOfWorkmen" class="form-control"></div>
+
+                @* <div class="row g-3"> *@
+
+                    <div class="col-md-3">
+                        <label>
+                            Starting From Date <span class="required-star">*</span>
+                        </label>
+                        @Html.TextBoxFor(m => m.StartDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.StartDate, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="col-md-3">
+                        <label>
+                            Starting From Time<span class="required-star">*</span>
+                        </label>
+                        @Html.TextBoxFor(m => m.StartTime, new { type = "time", @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.StartTime, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="col-md-3">
+                        <label>
+                            Expected Completion Date <span class="required-star">*</span>
+                        </label>
+                        @Html.TextBoxFor(m => m.EndDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.EndDate, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="col-md-3">
+                        <label>
+                            Expected Completion Time<span class="required-star">*</span>
+                        </label>
+                        @Html.TextBoxFor(m => m.EndTime, new { type = "time", @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.EndTime, "", new { @class = "text-danger" })
+                    </div>
                 </div>
-
-                <div class="row mt-2">
-                    <div class="col-md-3"><label>Start Date</label><input type="date" name="StartDate" class="form-control"></div>
-                    <div class="col-md-3"><label>Start Time</label><input type="time" name="StartTime" class="form-control"></div>
-                    <div class="col-md-3"><label>EndDate</label><input type="date" name="EndDate" class="form-control"></div>
-                    <div class="col-md-3"><label>Expected Completion Time</label><input type="time" name="ExpectedCompletionTime" class="form-control"></div>
-                </div>
-            </section>
-
-            <!-- LIFTING EQUIPMENT -->
-            <section class="border-section">
-                <div class="section-title">Lifting Equipment</div>
-                <input type="checkbox" name="TruckMounted"> Truck Mounted
-                <input type="checkbox" name="HydraCrane"> Hydra Crane
-                <input type="checkbox" name="OverheadCrane"> Overhead Crane
-                <input type="checkbox" name="TowerCrane"> Tower Crane
-            </section>
-
-            <!-- LOAD DETAILS -->
-            <section class="border-section">
-                <div class="section-title">Details of Load</div>
-                <div class="row">
-                    <div class="col-md-3"><label>Weight</label><input name="LoadWeight" class="form-control"></div>
-                    <div class="col-md-3"><label>Dimension</label><input name="LoadDimension" class="form-control"></div>
-                    <div class="col-md-3"><label>Quantity</label><input name="LoadQuantity" class="form-control"></div>
-                </div>
-            </section>
-
-            <!-- RIGGER -->
-            <section class="border-section">
-                <div class="section-title">Rigger Level</div>
-                <input type="radio" name="RiggerLevel" value="LessThan10Ton"> Less than 10 ton (Level 3)
-                <input type="radio" name="RiggerLevel" value="Between10And40Ton"> 10–40 ton (Level 2)
-                <input type="radio" name="RiggerLevel" value="Morethan40"> More than 40 (rigger level1)
-            </section>
+                </section>
             
+               
+                <!-- ════════════════════════════════════════════════════
+               SECTION: LIFTING EQUIPMENT
+                ════════════════════════════════════════════════════ -->
+                <section class="card permit-card">
+                    @Html.ValidationMessage("Lifting Equipment", "", new { @class = "text-danger" })
+                    <div class="section-title">
+                        Lifting Equipment <span class="required-star">*</span>
+                    </div>
+                    <div class="row">
 
-            <!-- EQUIPMENT -->
-            <section class="border-section">
-                <div class="section-title">Equipment & Work Details</div>
+                        <div class="col-md-3 form-check">
+                            @Html.CheckBoxFor(m => m.TruckMounted, new { @class = "form-check-input" })
+                            <label class="form-check-label">Truck Mounted</label>
+                        </div>
+
+                        <div class="col-md-3 form-check">
+                            @Html.CheckBoxFor(m => m.HydraCrane, new { @class = "form-check-input" })
+                            <label class="form-check-label">Hydra Crane</label>
+                        </div>
+
+                        <div class="col-md-3 form-check">
+                            @Html.CheckBoxFor(m => m.OverheadCrane, new { @class = "form-check-input" })
+                            <label class="form-check-label">Overhead Crane</label>
+                        </div>
+
+                        <div class="col-md-3 form-check">
+                            @Html.CheckBoxFor(m => m.TowerCrane, new { @class = "form-check-input" })
+                            <label class="form-check-label">Tower Crane</label>
+                        </div>
+                    </div>
+                    </section>
+
+           
+            <!-- ════════════════════════════════════════════════════
+               SECTION: LOAD DETAILS
+            ════════════════════════════════════════════════════ -->
+            <section class="card permit-card">
+                @Html.ValidationMessage("Details of Load", "", new { @class = "text-danger" })
+                <div class="section-title">
+                    Details of Load <span class="required-star">*</span>
+                </div>
                 <div class="row">
-                    <div class="col-md-3"><label>Serial No</label><input name="SerialNo" class="form-control"></div>
-                    <div class="col-md-3"><label>Inspection Date</label><input type="date" name="InspectionDate" class="form-control"></div>
-                    <div class="col-md-3"><label>Capacity</label><input name="CapacitySWL" class="form-control"></div>
+
+                    <div class="col-md-4 form-check">
+                        @Html.CheckBoxFor(m => m.WeightApprox, new { @class = "form-check-input" })
+                        <label class="form-check-label">Weight</label>
+                    </div>
+
+                    <div class="col-md-4 form-check">
+                        @Html.CheckBoxFor(m => m.DimensionMax, new { @class = "form-check-input" })
+                        <label class="form-check-label">Dimension</label>
+                    </div>
+
+                    <div class="col-md-4 form-check">
+                        @Html.CheckBoxFor(m => m.Quantity, new { @class = "form-check-input" })
+                        <label class="form-check-label">Quantity</label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ════════════════════════════════════════════════════
+               SECTION: RIGGER
+          ════════════════════════════════════════════════════ -->
+            <section class="card permit-card">
+                @Html.ValidationMessage("Rigger", "", new { @class = "text-danger" })
+                <div class="section-title">
+                    Rigger
+                </div>
+                <div class="form-check">
+                    @Html.RadioButtonFor(m => m.RiggerLevel, "LessThan10Ton", new { @class = "form-check-input", id = "Level3" })
+                    <label class="form-check-label" for="Level3">
+                        Less than 10 Ton (Level 3)
+                    </label>
                 </div>
 
-                <label class="mt-2">Work Description</label>
-<textarea name="WorkDescription" class="form-control"></textarea>
+                <div class="form-check">
+                    @Html.RadioButtonFor(m => m.RiggerLevel, "Between10And40Ton", new { @class = "form-check-input", id = "Level2" })
+                    <label class="form-check-label" for="Level2">
+                        10–40 Ton (Level 2)
+                    </label>
+                </div>
 
-                <label class="mt-2">Tools</label>
-<textarea name="ToolsEquipment" class="form-control"></textarea>
+                <div class="form-check">
+                    @Html.RadioButtonFor(m => m.RiggerLevel, "MoreThan40Ton", new { @class = "form-check-input", id = "Level1" })
+                    <label class="form-check-label" for="Level1">
+                        More than 40 Ton (Level 1)
+                    </label>
+                </div>
+
+                @Html.ValidationMessageFor(m => m.RiggerLevel, "", new { @class = "text-danger" })
+           
+        </section>
+        
+
+            <!-- ════════════════════════════════════════════════════
+               SECTION: Equipment & Work Details
+          ════════════════════════════════════════════════════ -->
+            <section class="card permit-card">
+                @Html.ValidationMessage("Equipment & Work Details", "", new { @class = "text-danger" })
+                <div class="section-title">
+                    Equipment & Work Details 
+                </div>
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <label>
+                            Serial No
+                        </label>
+                        @Html.TextBoxFor(m => m.SerialNo, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.SerialNo, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="col-md-3">
+                        <label>
+                            Inspection Date
+                        </label>
+                        @Html.TextBoxFor(m => m.InspectionDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.InspectionDate, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-3">
+                        <label>
+                            Capacity 
+                        </label>
+                        @Html.TextBoxFor(m => m.CapacitySWL, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.CapacitySWL, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="col-md-4">
+                        <label>
+                            Work Description 
+                        </label>
+                        @Html.TextBoxFor(m => m.WorkDescription, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.WorkDescription, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="col-md-3">
+                        <label>
+                            Tools
+                        </label>
+                        @Html.TextBoxFor(m => m.ToolsEquipment, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.ToolsEquipment, "", new { @class = "text-danger" })
+                    </div>
+                </div>
             </section>
 
-            <!-- RISKS -->
-            <section class="border-section">
-                <div class="section-title">Identify Risks</div>
 
-                <input type="checkbox" name="Toppling"> Toppling/Tip Over/Turn Over
-                <input type="checkbox" name="SuspendedLoad"> Suspended Load
-                <input type="checkbox" name="HighWind"> High Wind
-                <input type="checkbox" name="MovingVehicle/Equipment"> Moving Vehicle/ Equipment
-                <input type="checkbox" name="FallingObjects"> Falling Objects
-                <input type="checkbox" name="Overload"> Over Load
-                <input type="checkbox" name="Tripping"> Tripping / Slipping
-                <input type="checkbox" name="Noise"> Noise
-                <input type="checkbox" name="Crushing"> Crushing
-                <input type="checkbox" name="Collapse"> Collapse
-                <input type="checkbox" name="OverheadLines"> Near Overhead Lines
-                <input type="checkbox" name="Traffic"> Traffic
-                <input type="checkbox" name="Weather"> Adverse Weather
-
-                <input name="OtherRisk" placeholder="Other Risk" class="form-control mt-2">
-            </section>
-
-            <!-- DOCUMENTS -->
-            <section class="border-section">
-                <div class="section-title">Documents</div>
-
+          <!-- ════════════════════════════════════════════════════
+           SECTION: RISK
+          ════════════════════════════════════════════════════ -->
+            <section class="card permit-card">
+                @Html.ValidationMessage("Risk", "", new { @class = "text-danger" })
+                <div class="section-title">
+                    Identify Risks associated with this Hot Work <span class="required-star">*</span>
+                </div>
                 <div class="row">
+
+                    <div class="col-md-4 form-check">
+                        @Html.CheckBoxFor(m => m.RiskToppling, new { @class = "form-check-input" })
+                        <label class="form-check-label">Toppling/Tip Over/Turn Over</label>
+                    </div>
+
+                    <div class="col-md-4 form-check">
+                        @Html.CheckBoxFor(m => m.RiskSuspendedLoad, new { @class = "form-check-input" })
+                        <label class="form-check-label">Suspended Load</label>
+                    </div>
+
+                    <div class="col-md-4 form-check">
+                        @Html.CheckBoxFor(m => m.RiskHighWind, new { @class = "form-check-input" })
+                        <label class="form-check-label">High Wind</label>
+                    </div>
+
+                    <div class="col-md-4 form-check">
+                        @Html.CheckBoxFor(m => m.RiskMovingVehicle, new { @class = "form-check-input" })
+                        <label class="form-check-label">Moving Vehicle/Equipment</label>
+                    </div>
+
+                    <div class="col-md-4 form-check">
+                        @Html.CheckBoxFor(m => m.RiskFallingObjects, new { @class = "form-check-input" })
+                        <label class="form-check-label">Falling Objects</label>
+                    </div>
+
+                    <div class="col-md-4 form-check">
+                        @Html.CheckBoxFor(m => m.RiskOverLoad, new { @class = "form-check-input" })
+                        <label class="form-check-label">Over load</label>
+                    </div>
+
+                    <div class="col-md-4 form-check">
+                        @Html.CheckBoxFor(m => m.RiskTripping, new { @class = "form-check-input" })
+                        <label class="form-check-label">Tripping / Slipping</label>
+                    </div>
+
+                    <div class="col-md-4 form-check">
+                        @Html.CheckBoxFor(m => m.RiskNoise, new { @class = "form-check-input" })
+                        <label class="form-check-label">Noise</label>
+                    </div>
+
+                    <div class="col-md-4 form-check">
+                        @Html.CheckBoxFor(m => m.RiskCrushing, new { @class = "form-check-input" })
+                        <label class="form-check-label">Crushing</label>
+                    </div>
+
+                    <div class="col-md-4 form-check">
+                        @Html.CheckBoxFor(m => m.RiskCollapse, new { @class = "form-check-input" })
+                        <label class="form-check-label">Collapse</label>
+                    </div>
+
+                    <div class="col-md-4 form-check">
+                        @Html.CheckBoxFor(m => m.RiskNearOverheadLines, new { @class = "form-check-input" })
+                        <label class="form-check-label">Near Overhead Lines</label>
+                    </div>
+
+                    <div class="col-md-4 form-check">
+                        @Html.CheckBoxFor(m => m.RiskTraffic, new { @class = "form-check-input" })
+                        <label class="form-check-label">Traffic</label>
+                    </div>
+
+                    <div class="col-md-4 form-check">
+                        @Html.CheckBoxFor(m => m.RiskAdverseWeather, new { @class = "form-check-input" })
+                        <label class="form-check-label">Adverse Weather</label>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label>Other (specify):</label>
+                        @Html.TextBoxFor(m => m.OtherRisk, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.OtherRisk, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </section>
+
+              
+            <!-- ════════════════════════════════════════════════════
+               SECTION: DOCUMENTS
+          ════════════════════════════════════════════════════ -->
+            <section class="card permit-card">
+                <div class="section-title">Documents to attach</div>
+
+                <div class="row g-3 align-items-end">
+
                     <div class="col-md-4">
                         <div class="form-check">
                             @Html.CheckBoxFor(m => m.AttachJSA, new { @class = "form-check-input", id = "jsa" })
@@ -154,253 +419,340 @@
                         </div>
 
                         <div id="jsaList" style="display:none; max-height:150px; overflow-y:auto; border:1px solid #ccc; padding:8px;">
+
                             <div><input type="checkbox" id="jsa_cutting"> Cutting machine</div>
                             <div><input type="checkbox" id="jsa_excavation"> Excavation</div>
                             <div><input type="checkbox" id="jsa_welding"> Welding</div>
                             <div><input type="checkbox" id="jsa_electrical"> Electrical Work</div>
                             <div><input type="checkbox" id="jsa_Height"> Height Work</div>
-                            <div><input type="checkbox" id="jsa_plumbing"> Plumbing</div>
-                            <div><input type="checkbox" id="jsa_cable"> Cable Routing</div>
+                            <div><input type="checkbox" id="jsa_plumbing"> plumbing</div>
+                            <div><input type="checkbox" id="jsa_cable"> cable Routing</div>
                             <div><input type="checkbox" id="jsa_Lifting"> Lifting</div>
                             <div><input type="checkbox" id="jsa_Machine"> Machine maintenance</div>
                         </div>
                     </div>
-                </div>
-
-                <div class="mt-2">
-                    <label>Precautions Required</label><br>
-                    <input type="radio" name="PrecautionRequired" value="Yes"> Yes
-                    <input type="radio" name="PrecautionRequired" value="No"> No
-                    <input type="radio" name="PrecautionRequired" value="NA"> N/A
-                </div>
-
-                <div class="mt-2">
-                    <label>Equipment Certified</label><br>
-                    <input type="radio" name="EquipmentCertified" value="Yes"> Yes
-                    <input type="radio" name="EquipmentCertified" value="No"> No
-                </div>
-            </section>
-
-            <!-- RIGGING -->
-            <section class="border-section">
-                <div class="section-title">Rigging Accessories</div>
-
-                <input type="checkbox" name="WireRopeSling"> Wire Rope
-                <input type="checkbox" name="WebSling"> Web Sling
-                <input type="checkbox" name="ChainSling"> Chain Sling
-                <input type="checkbox" name="Shackles"> Shackles
-                <input type="checkbox" name="EyeBolt"> Eye Bolt
-
-                <input name="OtherRisk" placeholder="Other Risk" class="form-control mt-2">
-            </section>
-
-            <!-- LOAD CHECK -->
-            <section class="border-section">
-                <div class="section-title">Load & Wind Check</div>
-
-                <div class="form-check">
-                    <input type="checkbox" name="LoadChartChecked" class="form-check-input">
-                    <label class="form-check-label">
-                        Is Load Charts Checked? Is the Load within Crane capability at the given radius of operation?
-                    </label>
-                </div>
-
-                <div class="form-check mt-2">
-                    <input type="checkbox" name="WindAcceptable" class="form-check-input">
-                    <label class="form-check-label">
-                        Is wind speed acceptable to proceed the activity? (Stop if dusty wind or > 32 km/h)
-                    </label>
-                </div>
-            </section>
-
-            <!--Inspected Area-->
-          
-            <section class="border-section">
-                <div class="section-title">
-                    The following areas / items have been inspected by issuer and receiver
-                </div>
-
-                <div class="d-flex flex-wrap gap-3">
-
-                    <div class="form-check">
-                        <input type="checkbox" name="GroundCondition" class="form-check-input">
-                        <label class="form-check-label">Ground Condition</label>
                     </div>
 
-                    <div class="form-check">
-                        <input type="checkbox" name="DangerSign" class="form-check-input">
-                        <label class="form-check-label">Danger / Warning Sign</label>
+             
+              
+                    <div class="mb-2">
+                        <label class="form-label">Are all combustible materials removed or shielded from sparks?</label>
+                        <div class="d-flex gap-3">
+                            <div class="form-check form-check-inline">
+                                @Html.RadioButtonFor(m => m.CombustibleMaterialsRemoved, "Y", new { @class = "form-check-input", id = "comb_yes" })
+                                <label class="form-check-label" for="comb_yes">Yes</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                @Html.RadioButtonFor(m => m.CombustibleMaterialsRemoved, "N", new { @class = "form-check-input", id = "comb_no" })
+                                <label class="form-check-label" for="comb_no">No</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                @Html.RadioButtonFor(m => m.CombustibleMaterialsRemoved, "NA", new { @class = "form-check-input", id = "comb_na" })
+                                <label class="form-check-label" for="comb_na">N/A</label>
+                            </div>
+                        </div>
+                        </div>
+
+                        <div class="mb-2">
+                            <label class="form-label">Are all combustible materials removed or shielded from sparks EquipmentCertified?</label>
+                            <div class="d-flex gap-3">
+                                <div class="form-check form-check-inline">
+                                    @Html.RadioButtonFor(m => m.EquipmentCertified, "Y", new { @class = "form-check-input", id = "comb_yes" })
+                                    <label class="form-check-label" for="comb_yes">Yes</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    @Html.RadioButtonFor(m => m.EquipmentCertified, "N", new { @class = "form-check-input", id = "comb_no" })
+                                    <label class="form-check-label" for="comb_no">No</label>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                     
+
+                <!-- ════════════════════════════════════════════════════
+               SECTION: RIGGING
+          ════════════════════════════════════════════════════ -->
+                <section class="card permit-card">
+                    @Html.ValidationMessage("RIGGING", "", new { @class = "text-danger" })
+                    <div class="section-title">
+                        Rigging Accessories
                     </div>
+                    <div class="row">
 
-                    <div class="form-check">
-                        <input type="checkbox" name="SignalMan" class="form-check-input">
-                        <label class="form-check-label">Signal Man</label>
+                        <div class="col-md-4 form-check">
+                            @Html.CheckBoxFor(m => m.WireRope, new { @class = "form-check-input" })
+                            <label class="form-check-label">Wire Rope</label>
+                        </div>
+
+                        <div class="col-md-4 form-check">
+                            @Html.CheckBoxFor(m => m.WebSling, new { @class = "form-check-input" })
+                            <label class="form-check-label">Web Sling</label>
+                        </div>
+
+                        <div class="col-md-4 form-check">
+                            @Html.CheckBoxFor(m => m.ChainSling, new { @class = "form-check-input" })
+                            <label class="form-check-label">Chain Sling</label>
+                        </div>
+
+                        <div class="col-md-4 form-check">
+                            @Html.CheckBoxFor(m => m.Shackles, new { @class = "form-check-input" })
+                            <label class="form-check-label">Shackles</label>
+                        </div>
+
+                        <div class="col-md-4 form-check">
+                            @Html.CheckBoxFor(m => m.EyeBolt, new { @class = "form-check-input" })
+                            <label class="form-check-label">Eye Bolt</label>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label>Other (specify):</label>
+                            @Html.TextBoxFor(m => m.OtherRigging, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.OtherRigging, "", new { @class = "text-danger" })
+                        </div>
                     </div>
+                </section>
 
-                    <div class="form-check">
-                        <input type="checkbox" name="SafetyBarriers" class="form-check-input">
-                        <label class="form-check-label">Safety Barriers</label>
+                <!-- ════════════════════════════════════════════════════
+               SECTION:  LOAD CHECK
+               ════════════════════════════════════════════════════ -->
+                <section class="card permit-card">
+                    @Html.ValidationMessage("Load & Wind Check", "", new { @class = "text-danger" })
+                    <div class="section-title">
+                        Load & Wind Check
                     </div>
+                    <div class="row">
 
-                    <div class="form-check">
-                        <input type="checkbox" name="TagLine" class="form-check-input">
-                        <label class="form-check-label">Tag Line</label>
+                        <div class="col-md-4 form-check">
+                            @Html.CheckBoxFor(m => m.LoadChartChecked, new { @class = "form-check-input" })
+                            <label class="form-check-label">Load Chart Checked</label>
+                        </div>
+
+                        <div class="col-md-4 form-check">
+                            @Html.CheckBoxFor(m => m.WindAcceptable, new { @class = "form-check-input" })
+                            <label class="form-check-label">Wind Acceptable</label>
+                        </div>
                     </div>
+                    </section>
 
-                    <div class="form-check">
-                        <input type="checkbox" name="Rigger" class="form-check-input">
-                        <label class="form-check-label">Rigger</label>
+                <!-- ════════════════════════════════════════════════════
+               SECTION: Inspected Area
+               ════════════════════════════════════════════════════ -->
+                <section class="card permit-card">
+                    @Html.ValidationMessage("Inspected Area", "", new { @class = "text-danger" })
+                    <div class="section-title">
+                        The following areas / items have been inspected by issuer and receiver
                     </div>
+                    <div class="row">
 
-                    <div class="form-check">
-                        <input type="checkbox" name="OutriggerExtended" class="form-check-input">
-                        <label class="form-check-label">Outrigger (Extended)</label>
+                        <div class="col-md-4 form-check">
+                            @Html.CheckBoxFor(m => m.GroundCondition, new { @class = "form-check-input" })
+                            <label class="form-check-label">Ground Condition</label>
+                        </div>
+
+                        <div class="col-md-4 form-check">
+                            @Html.CheckBoxFor(m => m.DangerWarningSign, new { @class = "form-check-input" })
+                            <label class="form-check-label">Danger/Warning Sign</label>
+                        </div>
+
+                        <div class="col-md-4 form-check">
+                            @Html.CheckBoxFor(m => m.SignalMan, new { @class = "form-check-input" })
+                            <label class="form-check-label">Signal Man</label>
+                        </div>
+
+                        <div class="col-md-4 form-check">
+                            @Html.CheckBoxFor(m => m.SafetyBarriers, new { @class = "form-check-input" })
+                            <label class="form-check-label">Safety Barriers</label>
+                        </div>
+
+                        <div class="col-md-4 form-check">
+                            @Html.CheckBoxFor(m => m.TagLine, new { @class = "form-check-input" })
+                            <label class="form-check-label">Tag Line</label>
+                        </div>
+
+                        <div class="col-md-4 form-check">
+                            @Html.CheckBoxFor(m => m.Rigger, new { @class = "form-check-input" })
+                            <label class="form-check-label">Rigger</label>
+                        </div>
+
+                        <div class="col-md-4 form-check">
+                            @Html.CheckBoxFor(m => m.OutriggerExtended, new { @class = "form-check-input" })
+                            <label class="form-check-label">Outrigger (Extended)</label>
+                        </div>
+
+                        <div class="col-md-4 form-check">
+                            @Html.CheckBoxFor(m => m.Lighting, new { @class = "form-check-input" })
+                            <label class="form-check-label">Lighting</label>
+                        </div>
+
+                        <div class="col-md-4 form-check">
+                            @Html.CheckBoxFor(m => m.OutriggerPad, new { @class = "form-check-input" })
+                            <label class="form-check-label">Outrigger Pad</label>
+                        </div>
+
+                        <div class="col-md-4 form-check">
+                            @Html.CheckBoxFor(m => m.SpreaderBeam, new { @class = "form-check-input" })
+                            <label class="form-check-label">Spreader Beam</label>
+                        </div>
+
+                        <div class="col-md-4 form-check">
+                                @Html.CheckBoxFor(m => m.ManMaterialBasketCertified, new { @class = "form-check-input" })
+                            <label class="form-check-label">Man Material Basket (Certified)</label>
+                        </div>
                     </div>
+                </section>
 
-                    <div class="form-check">
-                        <input type="checkbox" name="Lighting" class="form-check-input">
-                        <label class="form-check-label">Lighting</label>
+                <!-- ═══════════════════════════════════════════════════
+                 SECTION: PPE
+              ════════════════════════════════════════════════════ -->
+                <section class="card permit-card">
+                    @Html.ValidationMessage("PPE", "", new { @class = "text-danger" })
+                    <div class="section-title">
+                        PPE <span class="required-star">*</span>
                     </div>
-
-                    <div class="form-check">
-                        <input type="checkbox" name="OutriggerPad" class="form-check-input">
-                        <label class="form-check-label">Outrigger Pad</label>
+                    <div class="row">
+                            <div class="col-md-3">@Html.CheckBoxFor(m => m.PPEHelmet) <label>Helmet</label></div>
+                            <div class="col-md-3">@Html.CheckBoxFor(m => m.PPEShoes) <label>Safety Shoes</label></div>
+                            <div class="col-md-3">@Html.CheckBoxFor(m => m.PPEGloves) <label>Mechanical Gloves</label></div>
+                            <div class="col-md-3">@Html.CheckBoxFor(m => m.PPEEarPlug) <label>EarPlugs/muff</label></div>
+                        <div class="col-md-3">@Html.CheckBoxFor(m => m.PPESafetygoggles) <label>Safety goggles</label></div>
+                            <div class="col-md-3">@Html.CheckBoxFor(m => m.PPEReflectiveVest) <label>Reflective Vest</label></div>
+                            <div class="col-md-3">@Html.CheckBoxFor(m => m.PPEDustMask) <label>DustMask</label></div>
+                        <div class="col-md-3">@Html.TextBoxFor(m => m.OtherPPE, new { @class = "form-control", placeholder = "Other (specify)" })</div>
                     </div>
+                </section>
 
-                    <div class="form-check">
-                        <input type="checkbox" name="SpreaderBeam" class="form-check-input">
-                        <label class="form-check-label">Spreader Beam</label>
+              <!-- ═══════════════════════════════════════════════════
+                 SECTION: INSURANCE COPY
+              ════════════════════════════════════════════════════ -->
+                <section class="card permit-card">
+                    @Html.ValidationMessage("Insurence Copy", "", new { @class = "text-danger" })
+                    <div class="section-title">
+                        Insurance copy available for workmen <span class="required-star">*</span>
                     </div>
-
-                    <div class="form-check">
-                        <input type="checkbox" name="ManMaterialBasket" class="form-check-input">
-                        <label class="form-check-label">Man/Material Basket (Certified)</label>
-                    </div>
-
-                </div>
-            </section>
-
-            <!-- PPE -->
-            <section class="border-section">
-                <div class="section-title">PPE</div>
-
-                <input type="checkbox" name="Helmet"> Helmet
-                <input type="checkbox" name="SafetyShoes"> Safety Shoes
-                <input type="checkbox" name="Gloves"> Mechanical Gloves
-                <input type="checkbox" name="EarPlugs"> Ear Plugs/muff
-                <input type="checkbox" name="Goggles"> Safety goggles
-                <input type="checkbox" name="Vest"> Reflective Vest
-                <input type="checkbox" name="Dust"> Dust Mask
-
-                <input name="OtherRisk" placeholder="Other Risk" class="form-control mt-2">
-            </section>
-            <!-- INSURANCE COPY -->
-            <section class="border-section">
-                <div class="section-title">Insurance copy available for workmen:</div>
 
                 <div class="d-flex gap-3 align-items-center">
                     <div class="form-check">
                         @Html.CheckBoxFor(m => m.WC, new { @class = "form-check-input", id = "wc" })
                         <label class="form-check-label" for="wc">WC</label>
                     </div>
-                        <div id="wcUpload" style="display:none;">
-                            <input type="file" name="WCFile" id="wcFile"
-                                   class="form-control form-control-sm"
-                                   style="background: #f4f7fb; border:1px solid #000;" />
-                        </div>
-
+                            <div id="wcUpload" style="display:none; margin-top:5px;">
+                                <input type="file" name="WCFile" id="wcFile" class="form-control form-control-sm" style="background:#f4f7fb; border:1px solid #000;" />
+                            </div>
+                     
 
                     <div class="form-check">
                         @Html.CheckBoxFor(m => m.ESI, new { @class = "form-check-input", id = "esi" })
                         <label class="form-check-label" for="esi">ESI</label>
                     </div>
-                    <div id="esiUpload" style="display:none;">
-                        <input type="file" name="ESIFile" id="esiFile"
-                               class="form-control form-control-sm"
-                               style="background: #f4f7fb; border:1px solid #000;" />
-                </div>
+                        <div id="esiUpload" style="display:none; margin-top:5px;">
+                            <input type="file" name="ESIFile" id="esiFile" class="form-control form-control-sm" style="background:#f4f7fb; border:1px solid #000;" />
+                        </div>               
                 </div>
             </section>
 
-            <!-- AUTH -->
+            <!-- ════════════════════════════════════════════════════
+              SECTION: AUTHORIZATION
+            ════════════════════════════════════════════════════ -->
+                <section class="card permit-card">
+                    @Html.ValidationMessage("Authorization", "", new { @class = "text-danger" })
+                    <div class="section-title">
+                        Issue and Acceptance 
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                        <label>Raised By</label>
+                        @Html.TextBoxFor(m => m.RaisedBy, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.RaisedBy, "", new { @class = "text-danger" })
+                        </div>
 
-            <section class="border-section">
-            <div class="section-title mt-4">Authorization</div>
-            <div class="row g-3">
-                <div class="col-md-6"> <label>Permit Receiver name</label>@Html.TextBoxFor(m => m.ReceiverName, new { @class = "form-control" })</div>
-                <div class="col-md-3"> <label>Receiver Date</label>@Html.TextBoxFor(m => m.ReceiverDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })</div>
-
-            </div>
-            <div class="row g-3">
-                <div class="col-md-6">
-                    <label>Permit Issuer name</label>@Html.TextBoxFor(m => m.IssuerName, new { @class = "form-control" })
-                </div>
-                <div class="col-md-3">
-                    <label>Issuer Date</label>@Html.TextBoxFor(m => m.IssuerDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
-                </div>
-                </div>
-                </section>
-
-            <!-- SUSPENSION -->
-
-                <section class="border-section">
-                <div class="section-title">Suspension</div>
-                <label>This permit is suspended, area/equipment is not safe to use.</label>
-                <div class="row g-3 mt-2">
-                    <div class="col-md-6">
-                        <label>Name</label>
-                        @Html.TextBoxFor(m => m.SuspensionName, new { @class = "form-control" })
+                    <div class="col-md-3">
+                        <label>Department Incharge</label>
+                        @Html.TextBoxFor(m => m.DepartmentIncharge, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.DepartmentIncharge, "", new { @class = "text-danger" })
+                    </div>
                     </div>
 
-                    <div class="col-md-6">
-                        <label>Date</label>
-                        <div class="col-md-6">@Html.TextBoxFor(m => m.SuspensionSignatureDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })</div>
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                        <label>Facility</label>
+                        @Html.TextBoxFor(m => m.Facility, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Facility, "", new { @class = "text-danger" })
+                        </div>
 
+                    <div class="col-md-3">
+                        <label>Safety</label>
+                        @Html.TextBoxFor(m => m.Safety, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Safety, "", new { @class = "text-danger" })
                     </div>
-                </div>
+                    </div>
+
                 </section>
 
-                <!-- Approver Details -->
+             <!-- ════════════════════════════════════════════════════
+              SECTION: SUSPENSION
+             ════════════════════════════════════════════════════ -->
+                <section class="card permit-card">
+                    @Html.ValidationMessage("Suspension", "", new { @class = "text-danger" })
+                    <div class="section-title">
+                        Suspension 
+                    </div>
 
-                <section class="border-section">
-                <div class="section-title">Approver Details</div>
-                <div class="row g-3 mt-2">
-                    <div class="col-md-6">
-                <section class="permit-section">
-                    
-                    <div class="row">
-                        <div class="col-lg-3">
-                            <label>
-                                Approver One Email <span style="color: red">*</span>
-                            </label>
-                            @Html.TextBoxFor(m => m.ApproverOne, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.ApproverOne, "", new { @class = "text-danger" })
+                    <p class="mb-2">This permit is suspended, area/equipment is not safe to use</p>
 
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <label>Name</label>
+                            @Html.TextBoxFor(m => m.SuspensionName, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.SuspensionName, "", new { @class = "text-danger" })
                         </div>
-                        <div class="col-lg-3">
-                            <label>Approver Two Email</label>
-                            @Html.TextBoxFor(m => m.ApproverTwo, new { @class = "form-control" })
-                        </div>
-                        <div class="col-lg-3">
-                            <label>Approver Three Email</label>
-                            @Html.TextBoxFor(m => m.ApproverThree, new { @class = "form-control" })
-                        </div>
-                        <div class="col-lg-3">
-                            <label>Approver Four Email</label>
-                            @Html.TextBoxFor(m => m.ApproverFour, new { @class = "form-control" })
+
+                        <div class="col-md-3">
+                            <label>Date</label>
+                            @Html.TextBoxFor(m => m.SuspensionSignatureDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.SuspensionSignatureDate, "", new { @class = "text-danger" })
                         </div>
                     </div>
                 </section>
+
+             <!-- ════════════════════════════════════════════════════
+              SECTION: Approver details
+             ════════════════════════════════════════════════════ -->
+            <section class="card permit-card">
+                @Html.ValidationMessage("ApproverDetails", "", new { @class = "text-danger" })
+                <div class="section-title">
+                    Approver Details<span class="required-star">*</span>
                 </div>
+
+                <div class="row">
+                    <div class="col-lg-3">
+                        <label>Approver One Email</label>
+                        @Html.TextBoxFor(m => m.ApproverOne, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.ApproverOne, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="col-lg-3">
+                        <label>Approver Two Email</label>
+                        @Html.TextBoxFor(m => m.ApproverTwo, new { @class = "form-control" })
+                    </div>
+
+                    <div class="col-lg-3">
+                        <label>Approver Three Email</label>
+                        @Html.TextBoxFor(m => m.ApproverThree, new { @class = "form-control" })
+                    </div>
+
+                    <div class="col-lg-3">
+                        <label>Approver Four Email</label>
+                        @Html.TextBoxFor(m => m.ApproverFour, new { @class = "form-control" })
+                    </div>
                 </div>
-                </section>
+            </section>
+       
+                <!-- BUTTONS -->
+                <div class="text-center no-print mb-5">
+                    <button type="submit" class="btn btn-success px-4">Save</button>
+                    <button type="button" onclick="window.print()" class="btn btn-secondary px-4 ms-2">Print</button>
+                </div>
 
-
-            <div class="text-center mt-4">
-                <button type="submit" class="btn btn-primary px-5">Submit Permit</button>
-            </div> 
-
-        </div>
 
     </form>
     <script>

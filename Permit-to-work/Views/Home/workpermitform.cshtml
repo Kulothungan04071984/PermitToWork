@@ -535,41 +535,36 @@
                  SECTION: AUTHORIZATION
             ════════════════════════════════════════════════════ -->
             <section class="permit-section">
-                @Html.ValidationMessage("Authorization", "", new { @class = "text-danger" })
                 <h5>Authorization</h5>
                 <div class="row g-2">
                     <div class="col-md-4">
                         <label class="form-label">
-                            Permit Receiver <span class="required-star">*</span>
+                            Raised By
                         </label>
-                        @Html.TextBoxFor(m => m.ReceiverName, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.ReceiverName, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(m => m.RaisedBy, new { @class = "form-control" })
                     </div>
 
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <label class="form-label">
-                            Receiver Date <span class="required-star">*</span>
+                            Department Incharge 
                         </label>
-                        @Html.TextBoxFor(m => m.ReceiverDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.ReceiverDate, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(m => m.DeptIncharge, new { @class = "form-control" })
                     </div>
                 </div>
 
                 <div class="row g-2 mt-2">
                     <div class="col-md-4">
                         <label class="form-label">
-                            Permit Issuer <span class="required-star">*</span>
+                            Facility
                         </label>
-                        @Html.TextBoxFor(m => m.IssuerName, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.IssuerName, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(m => m.Facility, new { @class = "form-control" })
                     </div>
 
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <label class="form-label">
-                            Issuer Date <span class="required-star">*</span>
+                            Safety
                         </label>
-                        @Html.TextBoxFor(m => m.IssuerDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.IssuerDate, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(m => m.Safety, new { @class = "form-control" })
                     </div>
                 </div>
             </section>

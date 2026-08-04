@@ -294,7 +294,7 @@
 
                                     <td>
                                         @{
-                                            bool cmddisable = item.Status == "Approved" || item.Status == "Rejected" || item.Status == "Partially Approved";
+                                            bool cmddisable = item.Status == "Approved" || item.Status == "Rejected" || item.Status == "Partial Approved";
                                         }
                                         <select class="form-select form-select-sm approvalDropdown @(cmddisable ? "disabled" : "")" id="ddlApprovalStatus"
                                                 style="@(cmddisable ? "pointer-events:none; opacity:0.5;" : "")">
@@ -315,7 +315,7 @@
                                             </div>
                                             <div class="col-lg-3">
                                                 @{
-                                                    bool disableButton = item.Status == "Approved" || item.Status == "Rejected" || item.Status == "Partially Approved";
+                                                    bool disableButton = item.Status == "Approved" || item.Status == "Rejected" || item.Status == "Partial Approved";
                                                 }
 
                                                 <a class="btn btn-sm  @(disableButton ? "btn-info disabled" : "btn-info")"
@@ -543,11 +543,6 @@
                 }
             });
         });
-
-        // $('#btnApprovalStatus').on('click', function(){
-        //     debugger;
-        //     alert('hai');
-        // });
 
         function ApprovalStatus(id) {
         debugger;

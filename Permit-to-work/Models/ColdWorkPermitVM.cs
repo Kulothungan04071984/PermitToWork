@@ -122,17 +122,14 @@ namespace Permit_to_work.Models
 
         // Authorization
 
-        [Required(ErrorMessage = "Receiver Name is required")]
-        public string? ReceiverName { get; set; }
 
-        [Required(ErrorMessage = " Receiver Date is required")]
-        public string? ReceiverDate { get; set; }
+        public string? RaisedBy { get; set; }
 
-        [Required(ErrorMessage = "Permit Issuer is required")]
-        public string? IssuerName { get; set; }
+        public string? DeptIncharge { get; set; }
 
-        [Required(ErrorMessage = "Issuer Date is required")]
-        public string? IssuerDate { get; set; }
+        public string? Facility { get; set; }
+
+        public string? Safety { get; set; }
 
         // Suspension
 

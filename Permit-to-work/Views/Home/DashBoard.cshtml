@@ -216,6 +216,10 @@
         background-color: #5dcaa5;
         }
 
+        .approval-line.rejected {
+            background-color: red;
+        }
+
     </style>
 </head>
 
@@ -294,7 +298,7 @@
 
                                     <td>
                                         @{
-                                            bool cmddisable = item.Status == "Approved" || item.Status == "Rejected" || item.Status == "Partial Approved";
+                                            bool cmddisable = item.Status == "Approved" || item.Status == "Rejected" || item.Status == "Partially Approved";
                                         }
                                         <select class="form-select form-select-sm approvalDropdown @(cmddisable ? "disabled" : "")" id="ddlApprovalStatus"
                                                 style="@(cmddisable ? "pointer-events:none; opacity:0.5;" : "")">
@@ -315,7 +319,7 @@
                                             </div>
                                             <div class="col-lg-3">
                                                 @{
-                                                    bool disableButton = item.Status == "Approved" || item.Status == "Rejected" || item.Status == "Partial Approved";
+                                                    bool disableButton = item.Status == "Approved" || item.Status == "Rejected" || item.Status == "Partially Approved";
                                                 }
 
                                                 <a class="btn btn-sm  @(disableButton ? "btn-info disabled" : "btn-info")"
@@ -551,21 +555,26 @@
         type: 'GET',
         data: { permitDashBoardId: id },
 
-        success: function (result) {
+            success: function (result) {
 
-            // alert(JSON.stringify(result));
+                // alert(JSON.stringify(result));
 
-            $(".approval-step").removeClass("approved pending").addClass("pending");
+                $(".approval-step").removeClass("approved pending rejected").addClass("pending");
 
-            $(".approval-step i").removeClass("bi-check-fill bi-hourglass-split").addClass("bi-hourglass-split");
+                $(".approval-step i").removeClass("bi-check-circle-fill bi-hourglass-split bi-x-circle-fill").addClass("bi-hourglass-split");
 
-            $(".approval-line").removeClass("active");
+                $(".approval-line").removeClass("active rejected");
+
+                var modal = new bootstrap.Modal(document.getElementById("StatusModal"));
+                modal.show();
+                return;
+            }
 
             var statusList = [
-                result.FirstStatus,
-                result.SecondStatus,
-                result.ThirdStatus,
-                result.FourthStatus
+                result.firstStatus,
+                result.secondStatus,
+                result.thirdStatus,
+                result.fourthStatus
             ]
 
             // for (let i = 0; i < result; i++)
@@ -600,6 +609,10 @@
                 else if (status == "Rejected") {
                     step.addClass("rejected");
                     icon.addClass("bi-x-circle-fill");
+
+                    if (index < 3) {
+                        $(".approval-line").eq(index).addClass("rejected");
+                    }
                 }
 
                 else {

@@ -24,7 +24,7 @@ namespace Permit_to_work.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _context;
         private readonly IConfiguration _configuration;
-      
+
         public HomeController(ILogger<HomeController> logger, ApplicationDbContext context, IConfiguration configuration)
         {
             _logger = logger;
@@ -194,256 +194,258 @@ namespace Permit_to_work.Controllers
         }
 
         [HttpPost]
-        public IActionResult workpermitform(ColdWorkPermit vm)
+        public async Task<IActionResult> workpermitform(ColdWorkPermit vm)
         {
-            if (!vm.RiskFallHeight &&
-                !vm.RiskWeather &&
-                !vm.RiskFlying &&
-                !vm.RiskEquipment &&
-                !vm.RiskFalling &&
-                !vm.RiskProtruding &&
-                !vm.RiskTripping &&
-                !vm.RiskFaulty &&
-                !vm.RiskNoise &&
-                !vm.RiskHeat &&
-                !vm.RiskVibration &&
-                !vm.RiskIllumination &&
-                !vm.RiskFire &&
-               string.IsNullOrWhiteSpace(vm.RiskOther))
+            try
             {
-                ModelState.AddModelError("RiskIdentification", "Please select at least one Risk Identification or enter Other Risk.");
-            }
+                if (!vm.RiskFallHeight &&
+                    !vm.RiskWeather &&
+                    !vm.RiskFlying &&
+                    !vm.RiskEquipment &&
+                    !vm.RiskFalling &&
+                    !vm.RiskProtruding &&
+                    !vm.RiskTripping &&
+                    !vm.RiskFaulty &&
+                    !vm.RiskNoise &&
+                    !vm.RiskHeat &&
+                    !vm.RiskVibration &&
+                    !vm.RiskIllumination &&
+                    !vm.RiskFire &&
+                   string.IsNullOrWhiteSpace(vm.RiskOther))
+                {
+                    ModelState.AddModelError("RiskIdentification", "Please select at least one Risk Identification or enter Other Risk.");
+                }
 
-            //else if (!vm.DocJSA &&
-            //         !vm.DocRiskAssessment &&
-            //         string.IsNullOrWhiteSpace(vm.DocOther))
-            //{
-            //    ModelState.AddModelError("Documents", "Please select at least one of the document or enter Other Risk.");
-            //}
+                //else if (!vm.DocJSA &&
+                //         !vm.DocRiskAssessment &&
+                //         string.IsNullOrWhiteSpace(vm.DocOther))
+                //{
+                //    ModelState.AddModelError("Documents", "Please select at least one of the document or enter Other Risk.");
+                //}
 
-            //else if (string.IsNullOrWhiteSpace(vm.Precaution))
-            //{
-            //    ModelState.AddModelError("Precaution&Tools", "Please select at least one of the Precaution.");
-            //}
+                //else if (string.IsNullOrWhiteSpace(vm.Precaution))
+                //{
+                //    ModelState.AddModelError("Precaution&Tools", "Please select at least one of the Precaution.");
+                //}
 
-            else if (string.IsNullOrWhiteSpace(vm.ToolsTested))
-            {
-                ModelState.AddModelError("ToolsTested", "Please select at least one of the Tools.");
-            }
+                else if (string.IsNullOrWhiteSpace(vm.ToolsTested))
+                {
+                    ModelState.AddModelError("ToolsTested", "Please select at least one of the Tools.");
+                }
 
-            //else if (!vm.HazardWorkAtHeight &&
-            //         !vm.HazardScaffolding &&
-            //         !vm.HazardToolEquipment &&
-            //         !vm.HazardChemical &&
-            //         !vm.HazardElectrical &&
-            //         !vm.HazardLifting &&
-            //         !vm.HazardHotSurface &&
-            //         !vm.HazardDust &&                   
-            //         string.IsNullOrWhiteSpace(vm.HazardNA))  
-            //{
-            //    ModelState.AddModelError("Hazards", "Please select at least one of the Hazards.");
-            //}
+                //else if (!vm.HazardWorkAtHeight &&
+                //         !vm.HazardScaffolding &&
+                //         !vm.HazardToolEquipment &&
+                //         !vm.HazardChemical &&
+                //         !vm.HazardElectrical &&
+                //         !vm.HazardLifting &&
+                //         !vm.HazardHotSurface &&
+                //         !vm.HazardDust &&                   
+                //         string.IsNullOrWhiteSpace(vm.HazardNA))  
+                //{
+                //    ModelState.AddModelError("Hazards", "Please select at least one of the Hazards.");
+                //}
 
-            //else if (!vm.PermitHotWork &&
-            //         !vm.PermitWorkAtHeight &&
-            //         !vm.PermitExcavation &&
-            //         !vm.PermitElectrical &&
-            //         !vm.PermitConfinedSpace &&
-            //         string.IsNullOrWhiteSpace(vm.PermitOther) &&
-            //         string.IsNullOrWhiteSpace(vm.PermitAssociated))
-            //{
-            //    ModelState.AddModelError("AssociatedPermits", "Please select at least one of the Associated Permits or enter other permit.");
-            //}
+                //else if (!vm.PermitHotWork &&
+                //         !vm.PermitWorkAtHeight &&
+                //         !vm.PermitExcavation &&
+                //         !vm.PermitElectrical &&
+                //         !vm.PermitConfinedSpace &&
+                //         string.IsNullOrWhiteSpace(vm.PermitOther) &&
+                //         string.IsNullOrWhiteSpace(vm.PermitAssociated))
+                //{
+                //    ModelState.AddModelError("AssociatedPermits", "Please select at least one of the Associated Permits or enter other permit.");
+                //}
 
-            else if (!vm.WC &&
-                     !vm.ESI)
-            {
-                ModelState.AddModelError("Insurance", "Please select at least one of the Insurance Copy.");
-            }
+                else if (!vm.WC &&
+                         !vm.ESI)
+                {
+                    ModelState.AddModelError("Insurance", "Please select at least one of the Insurance Copy.");
+                }
 
-            else if (!vm.InspectAccess &&
-                     !vm.InspectDangerSign &&
-                     !vm.InspectLighting &&
-                     !vm.InspectSafetyBarriers &&
-                     !vm.InspectHandTools &&
-                     string.IsNullOrWhiteSpace(vm.InspectOther) &&
-                     string.IsNullOrWhiteSpace(vm.InspectedNA))
-            {
-                ModelState.AddModelError("InspectedAreas", "Please select at least one of the Inspected Areas or fill other.");
-            }
+                else if (!vm.InspectAccess &&
+                         !vm.InspectDangerSign &&
+                         !vm.InspectLighting &&
+                         !vm.InspectSafetyBarriers &&
+                         !vm.InspectHandTools &&
+                         string.IsNullOrWhiteSpace(vm.InspectOther) &&
+                         string.IsNullOrWhiteSpace(vm.InspectedNA))
+                {
+                    ModelState.AddModelError("InspectedAreas", "Please select at least one of the Inspected Areas or fill other.");
+                }
 
-            else if (!vm.PPEHelmet &&
-                     !vm.PPEShoes &&
-                     !vm.PPEGloves &&
-                     !vm.PPEGoggles &&
-                     !vm.PPEDustMask &&
-                     !vm.PPEEarPlugs &&
-                     !vm.PPEReflectiveVest &&
-                     !vm.PPEHarness &&
-                     string.IsNullOrWhiteSpace(vm.PPEOther) &&
-                     string.IsNullOrWhiteSpace(vm.PPENA))
-            {
-                ModelState.AddModelError("PPE", "Please select at least one of the PPE or fill other.");
-            }
+                else if (!vm.PPEHelmet &&
+                         !vm.PPEShoes &&
+                         !vm.PPEGloves &&
+                         !vm.PPEGoggles &&
+                         !vm.PPEDustMask &&
+                         !vm.PPEEarPlugs &&
+                         !vm.PPEReflectiveVest &&
+                         !vm.PPEHarness &&
+                         string.IsNullOrWhiteSpace(vm.PPEOther) &&
+                         string.IsNullOrWhiteSpace(vm.PPENA))
+                {
+                    ModelState.AddModelError("PPE", "Please select at least one of the PPE or fill other.");
+                }
 
-            else if (string.IsNullOrWhiteSpace(vm.ApproverOne) &&
-                     string.IsNullOrWhiteSpace(vm.ApproverTwo) &&
-                     string.IsNullOrWhiteSpace(vm.ApproverThree) &&
-                     string.IsNullOrWhiteSpace(vm.ApproverFour))
-            {
-                ModelState.AddModelError("ApproverDetails", "Please fill at least one field in Approver Details.");
-            }
+                else if (string.IsNullOrWhiteSpace(vm.ApproverOne) &&
+                         string.IsNullOrWhiteSpace(vm.ApproverTwo) &&
+                         string.IsNullOrWhiteSpace(vm.ApproverThree) &&
+                         string.IsNullOrWhiteSpace(vm.ApproverFour))
+                {
+                    ModelState.AddModelError("ApproverDetails", "Please fill at least one field in Approver Details.");
+                }
 
-            //if (!ModelState.IsValid)
-            //    return View(vm);
+                //if (!ModelState.IsValid)
+                //    return View(vm);
 
-            ModelState.Remove("CreatedOn");
-            ModelState.Remove("IsActive");
+                ModelState.Remove("CreatedOn");
+                ModelState.Remove("IsActive");
 
-            if (!ModelState.IsValid)
-            {
-                // Log errors to Output window
-                foreach (var key in ModelState.Keys)
-                    foreach (var error in ModelState[key].Errors)
-                        Console.WriteLine($"Field: {key} => {error.ErrorMessage}");
+                if (!ModelState.IsValid)
+                {
+                    // Log errors to Output window
+                    foreach (var key in ModelState.Keys)
+                        foreach (var error in ModelState[key].Errors)
+                            Console.WriteLine($"Field: {key} => {error.ErrorMessage}");
 
-                return View(vm);
-            }
+                    return View(vm);
+                }
 
-            var entity = new ColdWorkPermit
-            {
-                // ── Basic Details ──────────────────────────────────────
-                Unit = vm.Unit,
-                ContractorTeam = vm.ContractorTeam,
-                Location = vm.Location,
-                NoOfWorkmen = vm.NoOfWorkmen,
+                var entity = new ColdWorkPermit
+                {
+                    // ── Basic Details ──────────────────────────────────────
+                    Unit = vm.Unit,
+                    ContractorTeam = vm.ContractorTeam,
+                    Location = vm.Location,
+                    NoOfWorkmen = vm.NoOfWorkmen,
 
-                // ── Dates & Times ──────────────────────────────────────
-                StartDate = vm.StartDate,
-                StartTime = vm.StartTime,
-                EndDate = vm.EndDate,
-                EndTime = vm.EndTime,
+                    // ── Dates & Times ──────────────────────────────────────
+                    StartDate = vm.StartDate,
+                    StartTime = vm.StartTime,
+                    EndDate = vm.EndDate,
+                    EndTime = vm.EndTime,
 
-                // ── Work & Tools ───────────────────────────────────────
-                WorkDescription = vm.WorkDescription,
-                ToolsEquipment = vm.ToolsEquipment,
+                    // ── Work & Tools ───────────────────────────────────────
+                    WorkDescription = vm.WorkDescription,
+                    ToolsEquipment = vm.ToolsEquipment,
 
-                // ── Risk Identification ────────────────────────────────
-                RiskFallHeight = vm.RiskFallHeight,
-                RiskWeather = vm.RiskWeather,
-                RiskFlying = vm.RiskFlying,
-                RiskEquipment = vm.RiskEquipment,
-                RiskFalling = vm.RiskFalling,
-                RiskProtruding = vm.RiskProtruding,
-                RiskTripping = vm.RiskTripping,
-                RiskFaulty = vm.RiskFaulty,
-                RiskNoise = vm.RiskNoise,
-                RiskHeat = vm.RiskHeat,
-                RiskVibration = vm.RiskVibration,
-                RiskIllumination = vm.RiskIllumination,
-                RiskFire = vm.RiskFire,
-                RiskOther = vm.RiskOther,
+                    // ── Risk Identification ────────────────────────────────
+                    RiskFallHeight = vm.RiskFallHeight,
+                    RiskWeather = vm.RiskWeather,
+                    RiskFlying = vm.RiskFlying,
+                    RiskEquipment = vm.RiskEquipment,
+                    RiskFalling = vm.RiskFalling,
+                    RiskProtruding = vm.RiskProtruding,
+                    RiskTripping = vm.RiskTripping,
+                    RiskFaulty = vm.RiskFaulty,
+                    RiskNoise = vm.RiskNoise,
+                    RiskHeat = vm.RiskHeat,
+                    RiskVibration = vm.RiskVibration,
+                    RiskIllumination = vm.RiskIllumination,
+                    RiskFire = vm.RiskFire,
+                    RiskOther = vm.RiskOther,
 
-                // ── Documents ─────────────────────────────────────────
-                DocJSA = vm.DocJSA,
-                DocRiskAssessment = vm.DocRiskAssessment,
-                DocOther = vm.DocOther,
+                    // ── Documents ─────────────────────────────────────────
+                    DocJSA = vm.DocJSA,
+                    DocRiskAssessment = vm.DocRiskAssessment,
+                    DocOther = vm.DocOther,
 
-                //// ── Precaution ────────────────────────────
-                //Precaution = vm.Precaution,
-                // ── Precaution & Tools Tested ────────────────────────────
+                    //// ── Precaution ────────────────────────────
+                    //Precaution = vm.Precaution,
+                    // ── Precaution & Tools Tested ────────────────────────────
 
-                //── Tools Tested ──────────────────────────
-                ToolsTested = vm.ToolsTested,
+                    //── Tools Tested ──────────────────────────
+                    ToolsTested = vm.ToolsTested,
 
-                // ── Hazards Identified ────────────────────────────────
-                //HazardWorkAtHeight = vm.HazardWorkAtHeight,
-                //HazardScaffolding = vm.HazardScaffolding,
-                //HazardToolEquipment = vm.HazardToolEquipment,
-                //HazardChemical = vm.HazardChemical,
-                //HazardElectrical = vm.HazardElectrical,
-                //HazardLifting = vm.HazardLifting,
-                //HazardHotSurface = vm.HazardHotSurface,
-                //HazardDust = vm.HazardDust,
-                //HazardNA = vm.HazardNA,
+                    // ── Hazards Identified ────────────────────────────────
+                    //HazardWorkAtHeight = vm.HazardWorkAtHeight,
+                    //HazardScaffolding = vm.HazardScaffolding,
+                    //HazardToolEquipment = vm.HazardToolEquipment,
+                    //HazardChemical = vm.HazardChemical,
+                    //HazardElectrical = vm.HazardElectrical,
+                    //HazardLifting = vm.HazardLifting,
+                    //HazardHotSurface = vm.HazardHotSurface,
+                    //HazardDust = vm.HazardDust,
+                    //HazardNA = vm.HazardNA,
 
-                // ── Associated Permits ───────────────────────────────────
-                PermitHotWork = vm.PermitHotWork,
-                PermitWorkAtHeight = vm.PermitWorkAtHeight,
-                PermitExcavation = vm.PermitExcavation,
-                PermitElectrical = vm.PermitElectrical,
-                PermitConfinedSpace = vm.PermitConfinedSpace,
-                PermitOther = vm.PermitOther,
-                PermitAssociated = vm.PermitAssociated,
+                    // ── Associated Permits ───────────────────────────────────
+                    PermitHotWork = vm.PermitHotWork,
+                    PermitWorkAtHeight = vm.PermitWorkAtHeight,
+                    PermitExcavation = vm.PermitExcavation,
+                    PermitElectrical = vm.PermitElectrical,
+                    PermitConfinedSpace = vm.PermitConfinedSpace,
+                    PermitOther = vm.PermitOther,
+                    PermitAssociated = vm.PermitAssociated,
 
-                // ── Insurance ─────────────────────────────────────────
-                WC = vm.WC,
-                ESI = vm.ESI,
+                    // ── Insurance ─────────────────────────────────────────
+                    WC = vm.WC,
+                    ESI = vm.ESI,
 
-                // ── Inspected Areas ───────────────────────────────────
-                InspectAccess = vm.InspectAccess,
-                InspectDangerSign = vm.InspectDangerSign,
-                InspectLighting = vm.InspectLighting,
-                InspectSafetyBarriers = vm.InspectSafetyBarriers,
-                InspectHandTools = vm.InspectHandTools,
-                InspectOther = vm.InspectOther,
-                InspectedNA = vm.InspectedNA,
+                    // ── Inspected Areas ───────────────────────────────────
+                    InspectAccess = vm.InspectAccess,
+                    InspectDangerSign = vm.InspectDangerSign,
+                    InspectLighting = vm.InspectLighting,
+                    InspectSafetyBarriers = vm.InspectSafetyBarriers,
+                    InspectHandTools = vm.InspectHandTools,
+                    InspectOther = vm.InspectOther,
+                    InspectedNA = vm.InspectedNA,
 
-                // ── PPE Required ──────────────────────────────────────
-                PPEHelmet = vm.PPEHelmet,
-                PPEShoes = vm.PPEShoes,
-                PPEGloves = vm.PPEGloves,
-                PPEGoggles = vm.PPEGoggles,
-                PPEDustMask = vm.PPEDustMask,
-                PPEEarPlugs = vm.PPEEarPlugs,
-                PPEReflectiveVest = vm.PPEReflectiveVest,
-                PPEHarness = vm.PPEHarness,
-                PPEOther = vm.PPEOther,
-                PPENA = vm.PPENA,
+                    // ── PPE Required ──────────────────────────────────────
+                    PPEHelmet = vm.PPEHelmet,
+                    PPEShoes = vm.PPEShoes,
+                    PPEGloves = vm.PPEGloves,
+                    PPEGoggles = vm.PPEGoggles,
+                    PPEDustMask = vm.PPEDustMask,
+                    PPEEarPlugs = vm.PPEEarPlugs,
+                    PPEReflectiveVest = vm.PPEReflectiveVest,
+                    PPEHarness = vm.PPEHarness,
+                    PPEOther = vm.PPEOther,
+                    PPENA = vm.PPENA,
 
-                // ── Authorization ─────────────────────────────────────
-                RaisedBy = vm.RaisedBy,
-                DeptIncharge = vm.DeptIncharge,
-                Facility = vm.Facility,
-                Safety = vm.Safety,
+                    // ── Authorization ─────────────────────────────────────
+                    RaisedBy = vm.RaisedBy,
+                    DeptIncharge = vm.DeptIncharge,
+                    Facility = vm.Facility,
+                    Safety = vm.Safety,
 
-                // ── Suspension / Clearance ────────────────────────────
-                Name = vm.Name,
-                SuspensionDate = vm.SuspensionDate,
+                    // ── Suspension / Clearance ────────────────────────────
+                    Name = vm.Name,
+                    SuspensionDate = vm.SuspensionDate,
 
-                //── Approver Details ───────────────────────────────────
+                    //── Approver Details ───────────────────────────────────
 
-                ApproverOne = vm.ApproverOne,
-                ApproverTwo = vm.ApproverTwo,
-                ApproverThree = vm.ApproverThree,
-                ApproverFour = vm.ApproverFour,
+                    ApproverOne = vm.ApproverOne,
+                    ApproverTwo = vm.ApproverTwo,
+                    ApproverThree = vm.ApproverThree,
+                    ApproverFour = vm.ApproverFour,
 
-                // ── Meta ──────────────────────────────────────────────
-                CreatedOn = DateTime.Now,
-                IsActive = true,
-            };
+                    // ── Meta ──────────────────────────────────────────────
+                    CreatedOn = DateTime.Now,
+                    IsActive = true,
+                };
 
-            if (vm.Id > 0)
-            {
-                entity.Id = vm.Id;
-                entity.CreatedOn = _context.ColdWorkPermits
-                                    .Where(x => x.Id == vm.Id)
-                                    .Select(x => x.CreatedOn)
-                                    .FirstOrDefault();   // preserve original CreatedOn
-                _context.ColdWorkPermits.Update(entity);
-            }
+                if (vm.Id > 0)
+                {
+                    entity.Id = vm.Id;
+                    entity.CreatedOn = _context.ColdWorkPermits
+                                        .Where(x => x.Id == vm.Id)
+                                        .Select(x => x.CreatedOn)
+                                        .FirstOrDefault();   // preserve original CreatedOn
+                    _context.ColdWorkPermits.Update(entity);
+                }
 
-            else
-            {
-                _context.ColdWorkPermits.Add(entity);
-            }
+                else
+                {
+                    _context.ColdWorkPermits.Add(entity);
+                }
 
                 var x = entity.ApproverFour;
                 _context.SaveChanges();
-                insertPermitMaster("Cold Work",entity.Id.ToString(),entity.Unit,Convert.ToString(entity.StartDate),Convert.ToString(entity.EndDate), entity.Location);
-               await sendmail("Cold Work", entity.Id);
+                insertPermitMaster("Cold Work", entity.Id.ToString(), entity.Unit, Convert.ToString(entity.StartDate), Convert.ToString(entity.EndDate), entity.Location);
+                await sendmail("Cold Work", entity.Id);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occurred while saving the Cold permit.");
                 ModelState.AddModelError(ex.Message.ToString(), "An error occurred while saving the Cold permit. Please try again.");
@@ -453,9 +455,9 @@ namespace Permit_to_work.Controllers
 
             return RedirectToAction("Dashboard");
         }
-        
+
         [HttpPost("sendmail")]
-        public async Task sendmail(string Type, int id)
+        public async Task<JsonResult> sendmail(string Type, int id)
         {
             string token = Guid.NewGuid().ToString();
             string startdate = string.Empty;
@@ -473,9 +475,9 @@ namespace Permit_to_work.Controllers
             try
             {
                 var permit = _context.PermitMasters.FirstOrDefault(x => x.PermitNumber == id.ToString() && x.PermitType == Type);
-                if( permit != null )
+                if (permit != null)
                 {
-                 
+
 
                     if (permit.FirstApproverStatus == "Pending")
                     {
@@ -559,7 +561,7 @@ namespace Permit_to_work.Controllers
                     if (string.IsNullOrEmpty(Tomail))
                     {
                         // No pending approvers, exit the method
-                        return;
+                        return Json("No Pending Emails");
                     }
                 }
                 string body = $@"
@@ -657,7 +659,7 @@ REJECT
                 MailMessage mail = new MailMessage();
                 mail.From = new MailAddress(_configuration["SmtpSettings:User"]);
                 mail.To.Add(Tomail);
-              // mail.To.Add("kulothungan.k@syrmasgs.com"); // For testing purposes, replace with actual recipient email
+                // mail.To.Add("kulothungan.k@syrmasgs.com"); // For testing purposes, replace with actual recipient email
                 mail.Subject = "Permit To Work Approval Request";
                 mail.Body = body;
                 mail.IsBodyHtml = true;
@@ -677,11 +679,11 @@ REJECT
                 }
             }
             catch (Exception ex)
-            { 
+            {
                 _logger.LogError(ex, $"Failed to send email for permit type {Type} with ID {id}");
             }
 
-            return RedirectToAction("Dashboard");
+            return Json("Mail Sent Successfully");
         }
 
         // HOT WORK PERMIT
@@ -881,7 +883,7 @@ REJECT
 
             _context.HotWorkPermits.Add(entity);
             await _context.SaveChangesAsync();
-           await sendmail("Hot Work", entity.PermitId);
+            await sendmail("Hot Work", entity.PermitId);
 
             return RedirectToAction("Dashboard");
         }
@@ -1086,7 +1088,7 @@ REJECT
             return View();
         }
 
-       public void insertPermitMaster(string PermitType,string Permitid, string unit, string startdate, string enddate, string location)
+        public void insertPermitMaster(string PermitType, string Permitid, string unit, string startdate, string enddate, string location)
         {
             try
             {
@@ -1111,7 +1113,7 @@ REJECT
                 _context.SaveChanges();
                 _logger.LogInformation("PermitMaster record inserted successfully for PermitType: {PermitType}, PermitId: {Permitid}", PermitType, Permitid);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occurred while inserting into PermitMaster.");
             }
@@ -1469,10 +1471,10 @@ REJECT
                 OtherInsurance = model.OtherInsurance,
 
                 // ── Authorization ───────────────────────────────────────────
-                ReceiverName = model.ReceiverName,
-                IssuerName = model.IssuerName,
-                ReceiverDate = model.ReceiverDate,
-                IssuerDate = model.IssuerDate,
+                RaisedBy = model.RaisedBy,
+                DepartmentIncharge = model.DepartmentIncharge,
+                Facility = model.Facility,
+                Safety = model.Safety,
 
                 // ── SUSPENSION ───────────────────────────────────────────
                 SuspensionName = model.SuspensionName,
@@ -1491,7 +1493,7 @@ REJECT
 
             _context.WorkAtHeightPermits.Add(entity);
             await _context.SaveChangesAsync();
-           await sendmail("WorkAtHeight", entity.PermitId);
+            await sendmail("WorkAtHeight", entity.PermitId);
 
             //return Content("Saved Successfully");
 
@@ -1913,1010 +1915,1023 @@ REJECT
                         .Where(b => b.Id == Convert.ToInt32(Permitid))
                         .Select(a => (new ColdWorkPermit { Id = a.Id, ApproverOne = a.ApproverOne, ApproverTwo = a.ApproverTwo, ApproverThree = a.ApproverThree, ApproverFour = a.ApproverFour })).FirstOrDefault();
 
-                if (PermitApproveDetails.ApproverOne == null)
-                    count = 0;
-                else if (PermitApproveDetails.ApproverTwo == null)
-                    count = 1;
-                else if (PermitApproveDetails.ApproverThree == null)
-                    count = 2;
-                else if (PermitApproveDetails.ApproverFour == null)
-                    count = 3;
-                else
-                    count = 4;
+                    if (PermitApproveDetails.ApproverOne == null)
+                        count = 0;
+                    else if (PermitApproveDetails.ApproverTwo == null)
+                        count = 1;
+                    else if (PermitApproveDetails.ApproverThree == null)
+                        count = 2;
+                    else if (PermitApproveDetails.ApproverFour == null)
+                        count = 3;
+                    else
+                        count = 4;
 
-                var permitcheck = _context.PermitMasters.Where(a => a.PermitNumber == Permitid && a.PermitType == PermitType).FirstOrDefault();
+                    var permitcheck = _context.PermitMasters.Where(a => a.PermitNumber == Permitid && a.PermitType == PermitType).FirstOrDefault();
 
-                if (permitcheck != null)
-                {
-                    var first = permitcheck.FirstApproverStatus;
-                    var second = permitcheck.SecondApproverStatus;
-                    var third = permitcheck.ThirdApproverStatus;
-                    var fourth = permitcheck.FourthApproverStatus;
-
-                    // Second Approver
-                    if (count >= 2 && second == "Pending")
+                    if (permitcheck != null)
                     {
-                        permitcheck.SecondApproverStatus = Status;
-                    }
+                        var first = permitcheck.FirstApproverStatus;
+                        var second = permitcheck.SecondApproverStatus;
+                        var third = permitcheck.ThirdApproverStatus;
+                        var fourth = permitcheck.FourthApproverStatus;
 
-                    // Third Approver
-                    else if (count >= 3 && third == "Pending")
-                    {
-                        permitcheck.ThirdApproverStatus = Status;
-                    }
-
-                    // Fourth Approver
-                    else if (count == 4 && fourth == "Pending")
-                    {
-                        permitcheck.FourthApproverStatus = Status;
-                    }
-
-                    if (count == 1)
-                    {
-
-                        if (permitcheck.FirstApproverStatus == "Rejected")
+                        // Second Approver
+                        if (count >= 2 && second == "Pending")
                         {
-                            permitcheck.Status = "Rejected";
-                        }
-                        else
-                        {
-                            permitcheck.Status = "Approved";
-                        }
-                    }
-
-                    else if (count == 2)
-                    {
-
-                        if (permitcheck.FirstApproverStatus == "Rejected" && permitcheck.SecondApproverStatus == "Rejected")
-                        {
-                            permitcheck.Status = "Rejected";
+                            permitcheck.SecondApproverStatus = Status;
                         }
 
-                        else if (permitcheck.FirstApproverStatus != "Pending" && permitcheck.SecondApproverStatus != "Pending")
+                        // Third Approver
+                        else if (count >= 3 && third == "Pending")
+                        {
+                            permitcheck.ThirdApproverStatus = Status;
+                        }
+
+                        // Fourth Approver
+                        else if (count == 4 && fourth == "Pending")
+                        {
+                            permitcheck.FourthApproverStatus = Status;
+                        }
+
+                        if (count == 1)
                         {
 
-                            if (permitcheck.FirstApproverStatus == "Approved" && permitcheck.SecondApproverStatus == "Approved")
+                            if (permitcheck.FirstApproverStatus == "Rejected")
+                            {
+                                permitcheck.Status = "Rejected";
+                            }
+                            else
                             {
                                 permitcheck.Status = "Approved";
                             }
-
-                            else
-                                permitcheck.Status = "Partial Approved";
-                        }
-                    }
-
-                    else if (count == 3)
-                    {
-
-                        if (permitcheck.FirstApproverStatus == "Rejected" && permitcheck.SecondApproverStatus == "Rejected" && permitcheck.ThirdApproverStatus == "Rejected")
-                        {
-                            permitcheck.Status = "Rejected";
                         }
 
-                        else if (permitcheck.FirstApproverStatus != "Pending" && permitcheck.SecondApproverStatus != "Pending" && permitcheck.ThirdApproverStatus != "Pending")
+                        else if (count == 2)
                         {
 
-                            if (permitcheck.FirstApproverStatus == "Approved" && permitcheck.SecondApproverStatus == "Approved" && permitcheck.ThirdApproverStatus == "Approved")
+                            if (permitcheck.FirstApproverStatus == "Rejected" && permitcheck.SecondApproverStatus == "Rejected")
                             {
-                                permitcheck.Status = "Approved";
+                                permitcheck.Status = "Rejected";
                             }
 
-                            else
-                                permitcheck.Status = "Partial Approved";
-                        }
-                    }
-
-                    else if (count == 4)
-                    {
-
-                        if (permitcheck.FirstApproverStatus == "Rejected" && permitcheck.SecondApproverStatus == "Rejected" && permitcheck.ThirdApproverStatus == "Rejected" && permitcheck.FourthApproverStatus == "Rejected")
-                        {
-                            permitcheck.Status = "Rejected";
-                        }
-
-                        else if (permitcheck.FirstApproverStatus != "Pending" && permitcheck.SecondApproverStatus != "Pending" && permitcheck.ThirdApproverStatus != "Pending" && permitcheck.FourthApproverStatus != "Pending")
-                        {
-
-                            if (permitcheck.FirstApproverStatus == "Approved" && permitcheck.SecondApproverStatus == "Approved" && permitcheck.ThirdApproverStatus == "Approved" && permitcheck.FourthApproverStatus == "Approved")
+                            else if (permitcheck.FirstApproverStatus != "Pending" && permitcheck.SecondApproverStatus != "Pending")
                             {
-                                permitcheck.Status = "Approved";
+
+                                if (permitcheck.FirstApproverStatus == "Approved" && permitcheck.SecondApproverStatus == "Approved")
+                                {
+                                    permitcheck.Status = "Approved";
+                                }
+
+                                else
+                                    permitcheck.Status = "Partial Approved";
+                            }
+                        }
+
+                        else if (count == 3)
+                        {
+
+                            if (permitcheck.FirstApproverStatus == "Rejected" && permitcheck.SecondApproverStatus == "Rejected" && permitcheck.ThirdApproverStatus == "Rejected")
+                            {
+                                permitcheck.Status = "Rejected";
                             }
 
-                            else
-                                permitcheck.Status = "Partial Approved";
+                            else if (permitcheck.FirstApproverStatus != "Pending" && permitcheck.SecondApproverStatus != "Pending" && permitcheck.ThirdApproverStatus != "Pending")
+                            {
+
+                                if (permitcheck.FirstApproverStatus == "Approved" && permitcheck.SecondApproverStatus == "Approved" && permitcheck.ThirdApproverStatus == "Approved")
+                                {
+                                    permitcheck.Status = "Approved";
+                                }
+
+                                else
+                                    permitcheck.Status = "Partial Approved";
+                            }
                         }
+
+                        else if (count == 4)
+                        {
+
+                            if (permitcheck.FirstApproverStatus == "Rejected" && permitcheck.SecondApproverStatus == "Rejected" && permitcheck.ThirdApproverStatus == "Rejected" && permitcheck.FourthApproverStatus == "Rejected")
+                            {
+                                permitcheck.Status = "Rejected";
+                            }
+
+                            else if (permitcheck.FirstApproverStatus != "Pending" && permitcheck.SecondApproverStatus != "Pending" && permitcheck.ThirdApproverStatus != "Pending" && permitcheck.FourthApproverStatus != "Pending")
+                            {
+
+                                if (permitcheck.FirstApproverStatus == "Approved" && permitcheck.SecondApproverStatus == "Approved" && permitcheck.ThirdApproverStatus == "Approved" && permitcheck.FourthApproverStatus == "Approved")
+                                {
+                                    permitcheck.Status = "Approved";
+                                }
+
+                                else
+                                    permitcheck.Status = "Partial Approved";
+                            }
+                        }
+
+                        _context.PermitMasters.Update(permitcheck);
                     }
 
-                    _context.PermitMasters.Update(permitcheck);
+                    else
+
+                    {
+                        var permitMaster = new PermitMaster
+                        {
+                            Unit = permitdetails.Unit,
+                            StartDate = permitdetails.StartDate,
+                            EndDate = permitdetails.EndDate,
+                            PermitType = PermitType,
+                            PermitNumber = Permitid,
+                            Location = permitdetails.Location,
+                            Status = count > 1 ? "Partial Approved" : count == 1 && Status != "Rejected" ? "Approved" : "Rejected",
+                            //Status = "Partial Approved",
+                            FirstApproverStatus = Status,
+                            SecondApproverStatus = "Pending",
+                            ThirdApproverStatus = "Pending",
+                            FourthApproverStatus = "Pending",
+                            CreatedByUserId = HttpContext.Session.GetString("UserId"),
+                            CreatedOn = DateTime.Now,
+                        };
+
+                        _context.Add(permitMaster);
+                    }
+
+                    _context.SaveChanges();
                 }
 
-                else
-
+                else if (PermitType == "Hot Work")
                 {
-                    var permitMaster = new PermitMaster
+                    int count = 0;
+                    var permitdetails = _context.HotWorkPermits.Where(a => a.PermitId == Convert.ToInt32(Permitid)).FirstOrDefault();
+                    var PermitApproveDetails =
+                        _context.HotWorkPermits
+                        .Where(b => b.PermitId == Convert.ToInt32(Permitid))
+                        .Select(a => (new HotWorkPermit { PermitId = a.PermitId, ApproverOne = a.ApproverOne, ApproverTwo = a.ApproverTwo, ApproverThree = a.ApproverThree, ApproverFour = a.ApproverFour })).FirstOrDefault();
+
+                    if (PermitApproveDetails.ApproverOne == null)
+                        count = 0;
+                    else if (PermitApproveDetails.ApproverTwo == null)
+                        count = 1;
+                    else if (PermitApproveDetails.ApproverThree == null)
+                        count = 2;
+                    else if (PermitApproveDetails.ApproverFour == null)
+                        count = 3;
+                    else
+                        count = 4;
+
+                    var permitcheck = _context.PermitMasters.Where(a => a.PermitNumber == Permitid && a.PermitType == PermitType).FirstOrDefault();
+
+                    if (permitcheck != null)
                     {
-                        Unit = permitdetails.Unit,
-                        StartDate = permitdetails.StartDate,
-                        EndDate = permitdetails.EndDate,
-                        PermitType = PermitType,
-                        PermitNumber = Permitid,
-                        Location = permitdetails.Location,
-                        Status = count > 1 ? "Partial Approved" : count == 1 && Status != "Rejected" ? "Approved" : "Rejected",
-                        //Status = "Partial Approved",
-                        FirstApproverStatus = Status,
-                        SecondApproverStatus = "Pending",
-                        ThirdApproverStatus = "Pending",
-                        FourthApproverStatus = "Pending",
-                        CreatedByUserId = HttpContext.Session.GetString("UserId"),
-                        CreatedOn = DateTime.Now,
-                    };
+                        var first = permitcheck.FirstApproverStatus;
+                        var second = permitcheck.SecondApproverStatus;
+                        var third = permitcheck.ThirdApproverStatus;
+                        var fourth = permitcheck.FourthApproverStatus;
 
-                    _context.Add(permitMaster);
-                }
-
-                _context.SaveChanges();
-            }
-
-            else if (PermitType == "Hot Work")
-            {
-                int count = 0;
-                var permitdetails = _context.HotWorkPermits.Where(a => a.PermitId == Convert.ToInt32(Permitid)).FirstOrDefault();
-                var PermitApproveDetails =
-                    _context.HotWorkPermits
-                    .Where(b => b.PermitId == Convert.ToInt32(Permitid))
-                    .Select(a => (new HotWorkPermit { PermitId = a.PermitId, ApproverOne = a.ApproverOne, ApproverTwo = a.ApproverTwo, ApproverThree = a.ApproverThree, ApproverFour = a.ApproverFour })).FirstOrDefault();
-
-                if (PermitApproveDetails.ApproverOne == null)
-                    count = 0;
-                else if (PermitApproveDetails.ApproverTwo == null)
-                    count = 1;
-                else if (PermitApproveDetails.ApproverThree == null)
-                    count = 2;
-                else if (PermitApproveDetails.ApproverFour == null)
-                    count = 3;
-                else
-                    count = 4;
-
-                var permitcheck = _context.PermitMasters.Where(a => a.PermitNumber == Permitid && a.PermitType == PermitType).FirstOrDefault();
-
-                if (permitcheck != null)
-                {
-                    var first = permitcheck.FirstApproverStatus;
-                    var second = permitcheck.SecondApproverStatus;
-                    var third = permitcheck.ThirdApproverStatus;
-                    var fourth = permitcheck.FourthApproverStatus;
-
-                    // Second Approver
-                    if (count >= 2 && second == "Pending")
-                    {
-                        permitcheck.SecondApproverStatus = Status;
-                    }
-
-                    // Third Approver
-                    else if (count >= 3 && third == "Pending")
-                    {
-                        permitcheck.ThirdApproverStatus = Status;
-                    }
-
-                    // Fourth Approver
-                    else if (count == 4 && fourth == "Pending")
-                    {
-                        permitcheck.FourthApproverStatus = Status;
-                    }
-
-                    if (count == 1)
-                    {
-
-                        if (permitcheck.FirstApproverStatus == "Rejected")
+                        // Second Approver
+                        if (count >= 2 && second == "Pending")
                         {
-                            permitcheck.Status = "Rejected";
-                        }
-                        else
-                        {
-                            permitcheck.Status = "Approved";
-                        }
-                    }
-
-                    else if (count == 2)
-                    {
-
-                        if (permitcheck.FirstApproverStatus == "Rejected" && permitcheck.SecondApproverStatus == "Rejected")
-                        {
-                            permitcheck.Status = "Rejected";
+                            permitcheck.SecondApproverStatus = Status;
                         }
 
-                        else if (permitcheck.FirstApproverStatus != "Pending" && permitcheck.SecondApproverStatus != "Pending")
+                        // Third Approver
+                        else if (count >= 3 && third == "Pending")
+                        {
+                            permitcheck.ThirdApproverStatus = Status;
+                        }
+
+                        // Fourth Approver
+                        else if (count == 4 && fourth == "Pending")
+                        {
+                            permitcheck.FourthApproverStatus = Status;
+                        }
+
+                        if (count == 1)
                         {
 
-                            if (permitcheck.FirstApproverStatus == "Approved" && permitcheck.SecondApproverStatus == "Approved")
+                            if (permitcheck.FirstApproverStatus == "Rejected")
+                            {
+                                permitcheck.Status = "Rejected";
+                            }
+                            else
                             {
                                 permitcheck.Status = "Approved";
                             }
-
-                            else
-                                permitcheck.Status = "Partial Approved";
-                        }
-                    }
-
-                    else if (count == 3)
-                    {
-
-                        if (permitcheck.FirstApproverStatus == "Rejected" && permitcheck.SecondApproverStatus == "Rejected" && permitcheck.ThirdApproverStatus == "Rejected")
-                        {
-                            permitcheck.Status = "Rejected";
                         }
 
-                        else if (permitcheck.FirstApproverStatus != "Pending" && permitcheck.SecondApproverStatus != "Pending" && permitcheck.ThirdApproverStatus != "Pending")
+                        else if (count == 2)
                         {
 
-                            if (permitcheck.FirstApproverStatus == "Approved" && permitcheck.SecondApproverStatus == "Approved" && permitcheck.ThirdApproverStatus == "Approved")
+                            if (permitcheck.FirstApproverStatus == "Rejected" && permitcheck.SecondApproverStatus == "Rejected")
                             {
-                                permitcheck.Status = "Approved";
+                                permitcheck.Status = "Rejected";
                             }
 
-                            else
-                                permitcheck.Status = "Partial Approved";
-                        }
-                    }
-
-                    else if (count == 4)
-                    {
-
-                        if (permitcheck.FirstApproverStatus == "Rejected" && permitcheck.SecondApproverStatus == "Rejected" && permitcheck.ThirdApproverStatus == "Rejected" && permitcheck.FourthApproverStatus == "Rejected")
-                        {
-                            permitcheck.Status = "Rejected";
-                        }
-
-                        else if (permitcheck.FirstApproverStatus != "Pending" && permitcheck.SecondApproverStatus != "Pending" && permitcheck.ThirdApproverStatus != "Pending" && permitcheck.FourthApproverStatus != "Pending")
-                        {
-
-                            if (permitcheck.FirstApproverStatus == "Approved" && permitcheck.SecondApproverStatus == "Approved" && permitcheck.ThirdApproverStatus == "Approved" && permitcheck.FourthApproverStatus == "Approved")
+                            else if (permitcheck.FirstApproverStatus != "Pending" && permitcheck.SecondApproverStatus != "Pending")
                             {
-                                permitcheck.Status = "Approved";
+
+                                if (permitcheck.FirstApproverStatus == "Approved" && permitcheck.SecondApproverStatus == "Approved")
+                                {
+                                    permitcheck.Status = "Approved";
+                                }
+
+                                else
+                                    permitcheck.Status = "Partial Approved";
+                            }
+                        }
+
+                        else if (count == 3)
+                        {
+
+                            if (permitcheck.FirstApproverStatus == "Rejected" && permitcheck.SecondApproverStatus == "Rejected" && permitcheck.ThirdApproverStatus == "Rejected")
+                            {
+                                permitcheck.Status = "Rejected";
                             }
 
-                            else
-                                permitcheck.Status = "Partial Approved";
+                            else if (permitcheck.FirstApproverStatus != "Pending" && permitcheck.SecondApproverStatus != "Pending" && permitcheck.ThirdApproverStatus != "Pending")
+                            {
+
+                                if (permitcheck.FirstApproverStatus == "Approved" && permitcheck.SecondApproverStatus == "Approved" && permitcheck.ThirdApproverStatus == "Approved")
+                                {
+                                    permitcheck.Status = "Approved";
+                                }
+
+                                else
+                                    permitcheck.Status = "Partial Approved";
+                            }
                         }
-                    }
+
+                        else if (count == 4)
+                        {
+
+                            if (permitcheck.FirstApproverStatus == "Rejected" && permitcheck.SecondApproverStatus == "Rejected" && permitcheck.ThirdApproverStatus == "Rejected" && permitcheck.FourthApproverStatus == "Rejected")
+                            {
+                                permitcheck.Status = "Rejected";
+                            }
+
+                            else if (permitcheck.FirstApproverStatus != "Pending" && permitcheck.SecondApproverStatus != "Pending" && permitcheck.ThirdApproverStatus != "Pending" && permitcheck.FourthApproverStatus != "Pending")
+                            {
+
+                                if (permitcheck.FirstApproverStatus == "Approved" && permitcheck.SecondApproverStatus == "Approved" && permitcheck.ThirdApproverStatus == "Approved" && permitcheck.FourthApproverStatus == "Approved")
+                                {
+                                    permitcheck.Status = "Approved";
+                                }
+
+                                else
+                                    permitcheck.Status = "Partial Approved";
+                            }
+                        }
 
                         _context.PermitMasters.Update(permitcheck);
                         sendmail(PermitType, Convert.ToInt32(Permitid));
                     }
 
-                else
-                {
-
-                    var permitMaster = new PermitMaster
+                    else
                     {
-                        Unit = permitdetails.Unit,
-                        StartDate = permitdetails.StartDate,
-                        EndDate = permitdetails.EndDate,
-                        PermitType = PermitType,
-                        PermitNumber = Permitid,
-                        Location = permitdetails.Location,
-                        Status = count > 1 ? "Partial Approved" : count == 1 && Status != "Rejected" ? "Approved" : "Rejected",
-                        //Status = "Partial Approved",
-                        FirstApproverStatus = Status,
-                        SecondApproverStatus = "Pending",
-                        ThirdApproverStatus = "Pending",
-                        FourthApproverStatus = "Pending",
-                        CreatedByUserId = HttpContext.Session.GetString("UserId"),
-                        CreatedOn = DateTime.Now,
-                    };
 
-                    _context.Add(permitMaster);
-                }
+                        var permitMaster = new PermitMaster
+                        {
+                            Unit = permitdetails.Unit,
+                            StartDate = permitdetails.StartDate,
+                            EndDate = permitdetails.EndDate,
+                            PermitType = PermitType,
+                            PermitNumber = Permitid,
+                            Location = permitdetails.Location,
+                            Status = count > 1 ? "Partial Approved" : count == 1 && Status != "Rejected" ? "Approved" : "Rejected",
+                            //Status = "Partial Approved",
+                            FirstApproverStatus = Status,
+                            SecondApproverStatus = "Pending",
+                            ThirdApproverStatus = "Pending",
+                            FourthApproverStatus = "Pending",
+                            CreatedByUserId = HttpContext.Session.GetString("UserId"),
+                            CreatedOn = DateTime.Now,
+                        };
+
+                        _context.Add(permitMaster);
+                    }
 
                     _context.SaveChanges();
                     sendmail(PermitType, Convert.ToInt32(Permitid));
                 }
 
-            else if (PermitType == "Work At Height")
-            {
-                int count = 0;
-                var permitdetails = _context.WorkAtHeightPermits.Where(a => a.PermitId == Convert.ToInt32(Permitid)).FirstOrDefault();
-                var PermitApproveDetails =
-                    _context.WorkAtHeightPermits
-                    .Where(b => b.PermitId == Convert.ToInt32(Permitid))
-                    .Select(a => (new WorkAtHeightPermit { PermitId = a.PermitId, ApproverOne = a.ApproverOne, ApproverTwo = a.ApproverTwo, ApproverThree = a.ApproverThree, ApproverFour = a.ApproverFour })).FirstOrDefault();
-
-                if (PermitApproveDetails.ApproverOne == null)
-                    count = 0;
-                else if (PermitApproveDetails.ApproverTwo == null)
-                    count = 1;
-                else if (PermitApproveDetails.ApproverThree == null)
-                    count = 2;
-                else if (PermitApproveDetails.ApproverFour == null)
-                    count = 3;
-                else
-                    count = 4;
-
-                var permitcheck = _context.PermitMasters.Where(a => a.PermitNumber == Permitid && a.PermitType == PermitType).FirstOrDefault();
-
-                if (permitcheck != null)
+                else if (PermitType == "Work At Height")
                 {
-                    var first = permitcheck.FirstApproverStatus;
-                    var second = permitcheck.SecondApproverStatus;
-                    var third = permitcheck.ThirdApproverStatus;
-                    var fourth = permitcheck.FourthApproverStatus;
+                    int count = 0;
+                    var permitdetails = _context.WorkAtHeightPermits.Where(a => a.PermitId == Convert.ToInt32(Permitid)).FirstOrDefault();
+                    var PermitApproveDetails =
+                        _context.WorkAtHeightPermits
+                        .Where(b => b.PermitId == Convert.ToInt32(Permitid))
+                        .Select(a => (new WorkAtHeightPermit { PermitId = a.PermitId, ApproverOne = a.ApproverOne, ApproverTwo = a.ApproverTwo, ApproverThree = a.ApproverThree, ApproverFour = a.ApproverFour })).FirstOrDefault();
 
-                    // Second Approver
-                    if (count >= 2 && second == "Pending")
+                    if (PermitApproveDetails.ApproverOne == null)
+                        count = 0;
+                    else if (PermitApproveDetails.ApproverTwo == null)
+                        count = 1;
+                    else if (PermitApproveDetails.ApproverThree == null)
+                        count = 2;
+                    else if (PermitApproveDetails.ApproverFour == null)
+                        count = 3;
+                    else
+                        count = 4;
+
+                    var permitcheck = _context.PermitMasters.Where(a => a.PermitNumber == Permitid && a.PermitType == PermitType).FirstOrDefault();
+
+                    if (permitcheck != null)
                     {
-                        permitcheck.SecondApproverStatus = Status;
-                    }
+                        var first = permitcheck.FirstApproverStatus;
+                        var second = permitcheck.SecondApproverStatus;
+                        var third = permitcheck.ThirdApproverStatus;
+                        var fourth = permitcheck.FourthApproverStatus;
 
-                    // Third Approver
-                    else if (count >= 3 && third == "Pending")
-                    {
-                        permitcheck.ThirdApproverStatus = Status;
-                    }
-
-                    // Fourth Approver
-                    else if (count == 4 && fourth == "Pending")
-                    {
-                        permitcheck.FourthApproverStatus = Status;
-                    }
-
-                    if (count == 1)
-                    {
-
-                        if (permitcheck.FirstApproverStatus == "Rejected")
+                        // Second Approver
+                        if (count >= 2 && second == "Pending")
                         {
-                            permitcheck.Status = "Rejected";
-                        }
-                        else
-                        {
-                            permitcheck.Status = "Approved";
-                        }
-                    }
-
-                    else if (count == 2)
-                    {
-
-                        if (permitcheck.FirstApproverStatus == "Rejected" && permitcheck.SecondApproverStatus == "Rejected")
-                        {
-                            permitcheck.Status = "Rejected";
+                            permitcheck.SecondApproverStatus = Status;
                         }
 
-                        else if (permitcheck.FirstApproverStatus != "Pending" && permitcheck.SecondApproverStatus != "Pending")
+                        // Third Approver
+                        else if (count >= 3 && third == "Pending")
+                        {
+                            permitcheck.ThirdApproverStatus = Status;
+                        }
+
+                        // Fourth Approver
+                        else if (count == 4 && fourth == "Pending")
+                        {
+                            permitcheck.FourthApproverStatus = Status;
+                        }
+
+                        if (count == 1)
                         {
 
-                            if (permitcheck.FirstApproverStatus == "Approved" && permitcheck.SecondApproverStatus == "Approved")
+                            if (permitcheck.FirstApproverStatus == "Rejected")
+                            {
+                                permitcheck.Status = "Rejected";
+                            }
+                            else
                             {
                                 permitcheck.Status = "Approved";
                             }
-
-                            else
-                                permitcheck.Status = "Partial Approved";
-                        }
-                    }
-
-                    else if (count == 3)
-                    {
-
-                        if (permitcheck.FirstApproverStatus == "Rejected" && permitcheck.SecondApproverStatus == "Rejected" && permitcheck.ThirdApproverStatus == "Rejected")
-                        {
-                            permitcheck.Status = "Rejected";
                         }
 
-                        else if (permitcheck.FirstApproverStatus != "Pending" && permitcheck.SecondApproverStatus != "Pending" && permitcheck.ThirdApproverStatus != "Pending")
+                        else if (count == 2)
                         {
 
-                            if (permitcheck.FirstApproverStatus == "Approved" && permitcheck.SecondApproverStatus == "Approved" && permitcheck.ThirdApproverStatus == "Approved")
+                            if (permitcheck.FirstApproverStatus == "Rejected" && permitcheck.SecondApproverStatus == "Rejected")
                             {
-                                permitcheck.Status = "Approved";
+                                permitcheck.Status = "Rejected";
                             }
 
-                            else
-                                permitcheck.Status = "Partial Approved";
-                        }
-                    }
-
-                    else if (count == 4)
-                    {
-
-                        if (permitcheck.FirstApproverStatus == "Rejected" && permitcheck.SecondApproverStatus == "Rejected" && permitcheck.ThirdApproverStatus == "Rejected" && permitcheck.FourthApproverStatus == "Rejected")
-                        {
-                            permitcheck.Status = "Rejected";
-                        }
-
-                        else if (permitcheck.FirstApproverStatus != "Pending" && permitcheck.SecondApproverStatus != "Pending" && permitcheck.ThirdApproverStatus != "Pending" && permitcheck.FourthApproverStatus != "Pending")
-                        {
-
-                            if (permitcheck.FirstApproverStatus == "Approved" && permitcheck.SecondApproverStatus == "Approved" && permitcheck.ThirdApproverStatus == "Approved" && permitcheck.FourthApproverStatus == "Approved")
+                            else if (permitcheck.FirstApproverStatus != "Pending" && permitcheck.SecondApproverStatus != "Pending")
                             {
-                                permitcheck.Status = "Approved";
+
+                                if (permitcheck.FirstApproverStatus == "Approved" && permitcheck.SecondApproverStatus == "Approved")
+                                {
+                                    permitcheck.Status = "Approved";
+                                }
+
+                                else
+                                    permitcheck.Status = "Partial Approved";
+                            }
+                        }
+
+                        else if (count == 3)
+                        {
+
+                            if (permitcheck.FirstApproverStatus == "Rejected" && permitcheck.SecondApproverStatus == "Rejected" && permitcheck.ThirdApproverStatus == "Rejected")
+                            {
+                                permitcheck.Status = "Rejected";
                             }
 
-                            else
-                                permitcheck.Status = "Partial Approved";
+                            else if (permitcheck.FirstApproverStatus != "Pending" && permitcheck.SecondApproverStatus != "Pending" && permitcheck.ThirdApproverStatus != "Pending")
+                            {
+
+                                if (permitcheck.FirstApproverStatus == "Approved" && permitcheck.SecondApproverStatus == "Approved" && permitcheck.ThirdApproverStatus == "Approved")
+                                {
+                                    permitcheck.Status = "Approved";
+                                }
+
+                                else
+                                    permitcheck.Status = "Partial Approved";
+                            }
                         }
+
+                        else if (count == 4)
+                        {
+
+                            if (permitcheck.FirstApproverStatus == "Rejected" && permitcheck.SecondApproverStatus == "Rejected" && permitcheck.ThirdApproverStatus == "Rejected" && permitcheck.FourthApproverStatus == "Rejected")
+                            {
+                                permitcheck.Status = "Rejected";
+                            }
+
+                            else if (permitcheck.FirstApproverStatus != "Pending" && permitcheck.SecondApproverStatus != "Pending" && permitcheck.ThirdApproverStatus != "Pending" && permitcheck.FourthApproverStatus != "Pending")
+                            {
+
+                                if (permitcheck.FirstApproverStatus == "Approved" && permitcheck.SecondApproverStatus == "Approved" && permitcheck.ThirdApproverStatus == "Approved" && permitcheck.FourthApproverStatus == "Approved")
+                                {
+                                    permitcheck.Status = "Approved";
+                                }
+
+                                else
+                                    permitcheck.Status = "Partial Approved";
+                            }
+                        }
+
+                        _context.PermitMasters.Update(permitcheck);
                     }
 
-                    _context.PermitMasters.Update(permitcheck);
+                    else
+                    {
+
+                        var permitMaster = new PermitMaster
+                        {
+                            Unit = permitdetails.Unit,
+                            StartDate = permitdetails.StartDate,
+                            EndDate = permitdetails.EndDate,
+                            PermitType = PermitType,
+                            PermitNumber = Permitid,
+                            Location = permitdetails.Location,
+                            Status = count > 1 ? "Partial Approved" : count == 1 && Status != "Rejected" ? "Approved" : "Rejected",
+                            //Status = "Partial Approved",
+                            FirstApproverStatus = Status,
+                            SecondApproverStatus = "Pending",
+                            ThirdApproverStatus = "Pending",
+                            FourthApproverStatus = "Pending",
+                            CreatedByUserId = HttpContext.Session.GetString("UserId"),
+                            CreatedOn = DateTime.Now,
+                        };
+
+                        _context.Add(permitMaster);
+                    }
+
+                    _context.SaveChanges();
                 }
 
-                else
+                else if (PermitType == "Lifting Operation")
                 {
+                    int count = 0;
+                    var permitdetails = _context.LiftingOperationPermits.Where(a => a.PermitId == Convert.ToInt32(Permitid)).FirstOrDefault();
+                    var PermitApproveDetails =
+                        _context.LiftingOperationPermits
+                        .Where(b => b.PermitId == Convert.ToInt32(Permitid))
+                        .Select(a => new LiftingOperationPermit { PermitId = a.PermitId, ApproverOne = a.ApproverOne, ApproverTwo = a.ApproverTwo, ApproverThree = a.ApproverThree, ApproverFour = a.ApproverFour }).FirstOrDefault();
 
-                    var permitMaster = new PermitMaster
+                    if (PermitApproveDetails.ApproverOne == null)
+                        count = 0;
+                    else if (PermitApproveDetails.ApproverTwo == null)
+                        count = 1;
+                    else if (PermitApproveDetails.ApproverThree == null)
+                        count = 2;
+                    else if (PermitApproveDetails.ApproverFour == null)
+                        count = 3;
+                    else
+                        count = 4;
+
+                    var permitcheck = _context.PermitMasters.Where(a => a.PermitNumber == Permitid && a.PermitType == PermitType).FirstOrDefault();
+
+                    if (permitcheck != null)
                     {
-                        Unit = permitdetails.Unit,
-                        StartDate = permitdetails.StartDate,
-                        EndDate = permitdetails.EndDate,
-                        PermitType = PermitType,
-                        PermitNumber = Permitid,
-                        Location = permitdetails.Location,
-                        Status = count > 1 ? "Partial Approved" : count == 1 && Status != "Rejected" ? "Approved" : "Rejected",
-                        //Status = "Partial Approved",
-                        FirstApproverStatus = Status,
-                        SecondApproverStatus = "Pending",
-                        ThirdApproverStatus = "Pending",
-                        FourthApproverStatus = "Pending",
-                        CreatedByUserId = HttpContext.Session.GetString("UserId"),
-                        CreatedOn = DateTime.Now,
-                    };
+                        var first = permitcheck.FirstApproverStatus;
+                        var second = permitcheck.SecondApproverStatus;
+                        var third = permitcheck.ThirdApproverStatus;
+                        var fourth = permitcheck.FourthApproverStatus;
 
-                    _context.Add(permitMaster);
-                }
-
-                _context.SaveChanges();
-            }
-
-            else if (PermitType == "Lifting Operation")
-            {
-                int count = 0;
-                var permitdetails = _context.LiftingOperationPermits.Where(a => a.PermitId == Convert.ToInt32(Permitid)).FirstOrDefault();
-                var PermitApproveDetails =
-                    _context.LiftingOperationPermits
-                    .Where(b => b.PermitId == Convert.ToInt32(Permitid))
-                    .Select(a => new LiftingOperationPermit { PermitId = a.PermitId, ApproverOne = a.ApproverOne, ApproverTwo = a.ApproverTwo, ApproverThree = a.ApproverThree, ApproverFour = a.ApproverFour }).FirstOrDefault();
-
-                if (PermitApproveDetails.ApproverOne == null)
-                    count = 0;
-                else if (PermitApproveDetails.ApproverTwo == null)
-                    count = 1;
-                else if (PermitApproveDetails.ApproverThree == null)
-                    count = 2;
-                else if (PermitApproveDetails.ApproverFour == null)
-                    count = 3;
-                else
-                    count = 4;
-
-                var permitcheck = _context.PermitMasters.Where(a => a.PermitNumber == Permitid && a.PermitType == PermitType).FirstOrDefault();
-
-                if (permitcheck != null)
-                {
-                    var first = permitcheck.FirstApproverStatus;
-                    var second = permitcheck.SecondApproverStatus;
-                    var third = permitcheck.ThirdApproverStatus;
-                    var fourth = permitcheck.FourthApproverStatus;
-
-                    // Second Approver
-                    if (count >= 2 && second == "Pending")
-                    {
-                        permitcheck.SecondApproverStatus = Status;
-                    }
-
-                    // Third Approver
-                    else if (count >= 3 && third == "Pending")
-                    {
-                        permitcheck.ThirdApproverStatus = Status;
-                    }
-
-                    // Fourth Approver
-                    else if (count == 4 && fourth == "Pending")
-                    {
-                        permitcheck.FourthApproverStatus = Status;
-                    }
-
-                    if (count == 1)
-                    {
-
-                        if (permitcheck.FirstApproverStatus == "Rejected")
+                        // Second Approver
+                        if (count >= 2 && second == "Pending")
                         {
-                            permitcheck.Status = "Rejected";
-                        }
-                        else
-                        {
-                            permitcheck.Status = "Approved";
-                        }
-                    }
-
-                    else if (count == 2)
-                    {
-
-                        if (permitcheck.FirstApproverStatus == "Rejected" && permitcheck.SecondApproverStatus == "Rejected")
-                        {
-                            permitcheck.Status = "Rejected";
+                            permitcheck.SecondApproverStatus = Status;
                         }
 
-                        else if (permitcheck.FirstApproverStatus != "Pending" && permitcheck.SecondApproverStatus != "Pending")
+                        // Third Approver
+                        else if (count >= 3 && third == "Pending")
+                        {
+                            permitcheck.ThirdApproverStatus = Status;
+                        }
+
+                        // Fourth Approver
+                        else if (count == 4 && fourth == "Pending")
+                        {
+                            permitcheck.FourthApproverStatus = Status;
+                        }
+
+                        if (count == 1)
                         {
 
-                            if (permitcheck.FirstApproverStatus == "Approved" && permitcheck.SecondApproverStatus == "Approved")
+                            if (permitcheck.FirstApproverStatus == "Rejected")
+                            {
+                                permitcheck.Status = "Rejected";
+                            }
+                            else
                             {
                                 permitcheck.Status = "Approved";
                             }
-
-                            else
-                                permitcheck.Status = "Partial Approved";
-                        }
-                    }
-
-                    else if (count == 3)
-                    {
-
-                        if (permitcheck.FirstApproverStatus == "Rejected" && permitcheck.SecondApproverStatus == "Rejected" && permitcheck.ThirdApproverStatus == "Rejected")
-                        {
-                            permitcheck.Status = "Rejected";
                         }
 
-                        else if (permitcheck.FirstApproverStatus != "Pending" && permitcheck.SecondApproverStatus != "Pending" && permitcheck.ThirdApproverStatus != "Pending")
+                        else if (count == 2)
                         {
 
-                            if (permitcheck.FirstApproverStatus == "Approved" && permitcheck.SecondApproverStatus == "Approved" && permitcheck.ThirdApproverStatus == "Approved")
+                            if (permitcheck.FirstApproverStatus == "Rejected" && permitcheck.SecondApproverStatus == "Rejected")
                             {
-                                permitcheck.Status = "Approved";
+                                permitcheck.Status = "Rejected";
                             }
 
-                            else
-                                permitcheck.Status = "Partial Approved";
-                        }
-                    }
-
-                    else if (count == 4)
-                    {
-
-                        if (permitcheck.FirstApproverStatus == "Rejected" && permitcheck.SecondApproverStatus == "Rejected" && permitcheck.ThirdApproverStatus == "Rejected" && permitcheck.FourthApproverStatus == "Rejected")
-                        {
-                            permitcheck.Status = "Rejected";
-                        }
-
-                        else if (permitcheck.FirstApproverStatus != "Pending" && permitcheck.SecondApproverStatus != "Pending" && permitcheck.ThirdApproverStatus != "Pending" && permitcheck.FourthApproverStatus != "Pending")
-                        {
-
-                            if (permitcheck.FirstApproverStatus == "Approved" && permitcheck.SecondApproverStatus == "Approved" && permitcheck.ThirdApproverStatus == "Approved" && permitcheck.FourthApproverStatus == "Approved")
+                            else if (permitcheck.FirstApproverStatus != "Pending" && permitcheck.SecondApproverStatus != "Pending")
                             {
-                                permitcheck.Status = "Approved";
+
+                                if (permitcheck.FirstApproverStatus == "Approved" && permitcheck.SecondApproverStatus == "Approved")
+                                {
+                                    permitcheck.Status = "Approved";
+                                }
+
+                                else
+                                    permitcheck.Status = "Partial Approved";
+                            }
+                        }
+
+                        else if (count == 3)
+                        {
+
+                            if (permitcheck.FirstApproverStatus == "Rejected" && permitcheck.SecondApproverStatus == "Rejected" && permitcheck.ThirdApproverStatus == "Rejected")
+                            {
+                                permitcheck.Status = "Rejected";
                             }
 
-                            else
-                                permitcheck.Status = "Partial Approved";
+                            else if (permitcheck.FirstApproverStatus != "Pending" && permitcheck.SecondApproverStatus != "Pending" && permitcheck.ThirdApproverStatus != "Pending")
+                            {
+
+                                if (permitcheck.FirstApproverStatus == "Approved" && permitcheck.SecondApproverStatus == "Approved" && permitcheck.ThirdApproverStatus == "Approved")
+                                {
+                                    permitcheck.Status = "Approved";
+                                }
+
+                                else
+                                    permitcheck.Status = "Partial Approved";
+                            }
                         }
-                    }
+
+                        else if (count == 4)
+                        {
+
+                            if (permitcheck.FirstApproverStatus == "Rejected" && permitcheck.SecondApproverStatus == "Rejected" && permitcheck.ThirdApproverStatus == "Rejected" && permitcheck.FourthApproverStatus == "Rejected")
+                            {
+                                permitcheck.Status = "Rejected";
+                            }
+
+                            else if (permitcheck.FirstApproverStatus != "Pending" && permitcheck.SecondApproverStatus != "Pending" && permitcheck.ThirdApproverStatus != "Pending" && permitcheck.FourthApproverStatus != "Pending")
+                            {
+
+                                if (permitcheck.FirstApproverStatus == "Approved" && permitcheck.SecondApproverStatus == "Approved" && permitcheck.ThirdApproverStatus == "Approved" && permitcheck.FourthApproverStatus == "Approved")
+                                {
+                                    permitcheck.Status = "Approved";
+                                }
+
+                                else
+                                    permitcheck.Status = "Partial Approved";
+                            }
+                        }
 
                         _context.PermitMasters.Update(permitcheck);
                         sendmail(PermitType, Convert.ToInt32(Permitid));
                     }
 
-                else
-                {
-
-                    var permitMaster = new PermitMaster
+                    else
                     {
-                        Unit = permitdetails.Unit,
-                        StartDate = permitdetails.StartDate,
-                        EndDate = permitdetails.EndDate,
-                        PermitType = PermitType,
-                        PermitNumber = Permitid,
-                        Location = permitdetails.Location,
-                        Status = count > 1 ? "Partial Approved" : count == 1 && Status != "Rejected" ? "Approved" : "Rejected",
-                        //Status = "Partial Approved",
-                        FirstApproverStatus = Status,
-                        SecondApproverStatus = "Pending",
-                        ThirdApproverStatus = "Pending",
-                        FourthApproverStatus = "Pending",
-                        CreatedByUserId = HttpContext.Session.GetString("UserId"),
-                        CreatedOn = DateTime.Now,
-                    };
 
-                    _context.Add(permitMaster);
-                }
+                        var permitMaster = new PermitMaster
+                        {
+                            Unit = permitdetails.Unit,
+                            StartDate = permitdetails.StartDate,
+                            EndDate = permitdetails.EndDate,
+                            PermitType = PermitType,
+                            PermitNumber = Permitid,
+                            Location = permitdetails.Location,
+                            Status = count > 1 ? "Partial Approved" : count == 1 && Status != "Rejected" ? "Approved" : "Rejected",
+                            //Status = "Partial Approved",
+                            FirstApproverStatus = Status,
+                            SecondApproverStatus = "Pending",
+                            ThirdApproverStatus = "Pending",
+                            FourthApproverStatus = "Pending",
+                            CreatedByUserId = HttpContext.Session.GetString("UserId"),
+                            CreatedOn = DateTime.Now,
+                        };
+
+                        _context.Add(permitMaster);
+                    }
 
                     _context.SaveChanges();
                     sendmail(PermitType, Convert.ToInt32(Permitid));
                 }
 
-            else if (PermitType == "Electrical Isolation")
-            {
-                int count = 0;
-                var permitdetails = _context.ElectricalIsolationPermits.Where(a => a.PermitId == Convert.ToInt32(Permitid)).FirstOrDefault();
-                var PermitApproveDetails =
-                    _context.ElectricalIsolationPermits
-                    .Where(b => b.PermitId == Convert.ToInt32(Permitid))
-                    .Select(a => (new ElectricalIsolationPermit { PermitId = a.PermitId, ApproverOne = a.ApproverOne, ApproverTwo = a.ApproverTwo, ApproverThree = a.ApproverThree, ApproverFour = a.ApproverFour })).FirstOrDefault();
-
-                if (PermitApproveDetails.ApproverOne == null)
-                    count = 0;
-                else if (PermitApproveDetails.ApproverTwo == null)
-                    count = 1;
-                else if (PermitApproveDetails.ApproverThree == null)
-                    count = 2;
-                else if (PermitApproveDetails.ApproverFour == null)
-                    count = 3;
-                else
-                    count = 4;
-
-                var permitcheck = _context.PermitMasters.Where(a => a.PermitNumber == Permitid && a.PermitType == PermitType).FirstOrDefault();
-
-                if (permitcheck != null)
+                else if (PermitType == "Electrical Isolation")
                 {
-                    var first = permitcheck.FirstApproverStatus;
-                    var second = permitcheck.SecondApproverStatus;
-                    var third = permitcheck.ThirdApproverStatus;
-                    var fourth = permitcheck.FourthApproverStatus;
+                    int count = 0;
+                    var permitdetails = _context.ElectricalIsolationPermits.Where(a => a.PermitId == Convert.ToInt32(Permitid)).FirstOrDefault();
+                    var PermitApproveDetails =
+                        _context.ElectricalIsolationPermits
+                        .Where(b => b.PermitId == Convert.ToInt32(Permitid))
+                        .Select(a => (new ElectricalIsolationPermit { PermitId = a.PermitId, ApproverOne = a.ApproverOne, ApproverTwo = a.ApproverTwo, ApproverThree = a.ApproverThree, ApproverFour = a.ApproverFour })).FirstOrDefault();
 
-                    // Second Approver
-                    if (count >= 2 && second == "Pending")
+                    if (PermitApproveDetails.ApproverOne == null)
+                        count = 0;
+                    else if (PermitApproveDetails.ApproverTwo == null)
+                        count = 1;
+                    else if (PermitApproveDetails.ApproverThree == null)
+                        count = 2;
+                    else if (PermitApproveDetails.ApproverFour == null)
+                        count = 3;
+                    else
+                        count = 4;
+
+                    var permitcheck = _context.PermitMasters.Where(a => a.PermitNumber == Permitid && a.PermitType == PermitType).FirstOrDefault();
+
+                    if (permitcheck != null)
                     {
-                        permitcheck.SecondApproverStatus = Status;
-                    }
+                        var first = permitcheck.FirstApproverStatus;
+                        var second = permitcheck.SecondApproverStatus;
+                        var third = permitcheck.ThirdApproverStatus;
+                        var fourth = permitcheck.FourthApproverStatus;
 
-                    // Third Approver
-                    else if (count >= 3 && third == "Pending")
-                    {
-                        permitcheck.ThirdApproverStatus = Status;
-                    }
-
-                    // Fourth Approver
-                    else if (count == 4 && fourth == "Pending")
-                    {
-                        permitcheck.FourthApproverStatus = Status;
-                    }
-
-                    if (count == 1)
-                    {
-
-                        if (permitcheck.FirstApproverStatus == "Rejected")
+                        // Second Approver
+                        if (count >= 2 && second == "Pending")
                         {
-                            permitcheck.Status = "Rejected";
-                        }
-                        else
-                        {
-                            permitcheck.Status = "Approved";
-                        }
-                    }
-
-                    else if (count == 2)
-                    {
-
-                        if (permitcheck.FirstApproverStatus == "Rejected" && permitcheck.SecondApproverStatus == "Rejected")
-                        {
-                            permitcheck.Status = "Rejected";
+                            permitcheck.SecondApproverStatus = Status;
                         }
 
-                        else if (permitcheck.FirstApproverStatus != "Pending" && permitcheck.SecondApproverStatus != "Pending")
+                        // Third Approver
+                        else if (count >= 3 && third == "Pending")
+                        {
+                            permitcheck.ThirdApproverStatus = Status;
+                        }
+
+                        // Fourth Approver
+                        else if (count == 4 && fourth == "Pending")
+                        {
+                            permitcheck.FourthApproverStatus = Status;
+                        }
+
+                        if (count == 1)
                         {
 
-                            if (permitcheck.FirstApproverStatus == "Approved" && permitcheck.SecondApproverStatus == "Approved")
+                            if (permitcheck.FirstApproverStatus == "Rejected")
+                            {
+                                permitcheck.Status = "Rejected";
+                            }
+                            else
                             {
                                 permitcheck.Status = "Approved";
                             }
-
-                            else
-                                permitcheck.Status = "Partial Approved";
-                        }
-                    }
-
-                    else if (count == 3)
-                    {
-
-                        if (permitcheck.FirstApproverStatus == "Rejected" && permitcheck.SecondApproverStatus == "Rejected" && permitcheck.ThirdApproverStatus == "Rejected")
-                        {
-                            permitcheck.Status = "Rejected";
                         }
 
-                        else if (permitcheck.FirstApproverStatus != "Pending" && permitcheck.SecondApproverStatus != "Pending" && permitcheck.ThirdApproverStatus != "Pending")
+                        else if (count == 2)
                         {
 
-                            if (permitcheck.FirstApproverStatus == "Approved" && permitcheck.SecondApproverStatus == "Approved" && permitcheck.ThirdApproverStatus == "Approved")
+                            if (permitcheck.FirstApproverStatus == "Rejected" && permitcheck.SecondApproverStatus == "Rejected")
                             {
-                                permitcheck.Status = "Approved";
+                                permitcheck.Status = "Rejected";
                             }
 
-                            else
-                                permitcheck.Status = "Partial Approved";
-                        }
-                    }
-
-                    else if (count == 4)
-                    {
-
-                        if (permitcheck.FirstApproverStatus == "Rejected" && permitcheck.SecondApproverStatus == "Rejected" && permitcheck.ThirdApproverStatus == "Rejected" && permitcheck.FourthApproverStatus == "Rejected")
-                        {
-                            permitcheck.Status = "Rejected";
-                        }
-
-                        else if (permitcheck.FirstApproverStatus != "Pending" && permitcheck.SecondApproverStatus != "Pending" && permitcheck.ThirdApproverStatus != "Pending" && permitcheck.FourthApproverStatus != "Pending")
-                        {
-
-                            if (permitcheck.FirstApproverStatus == "Approved" && permitcheck.SecondApproverStatus == "Approved" && permitcheck.ThirdApproverStatus == "Approved" && permitcheck.FourthApproverStatus == "Approved")
+                            else if (permitcheck.FirstApproverStatus != "Pending" && permitcheck.SecondApproverStatus != "Pending")
                             {
-                                permitcheck.Status = "Approved";
+
+                                if (permitcheck.FirstApproverStatus == "Approved" && permitcheck.SecondApproverStatus == "Approved")
+                                {
+                                    permitcheck.Status = "Approved";
+                                }
+
+                                else
+                                    permitcheck.Status = "Partial Approved";
+                            }
+                        }
+
+                        else if (count == 3)
+                        {
+
+                            if (permitcheck.FirstApproverStatus == "Rejected" && permitcheck.SecondApproverStatus == "Rejected" && permitcheck.ThirdApproverStatus == "Rejected")
+                            {
+                                permitcheck.Status = "Rejected";
                             }
 
-                            else
-                                permitcheck.Status = "Partial Approved";
+                            else if (permitcheck.FirstApproverStatus != "Pending" && permitcheck.SecondApproverStatus != "Pending" && permitcheck.ThirdApproverStatus != "Pending")
+                            {
+
+                                if (permitcheck.FirstApproverStatus == "Approved" && permitcheck.SecondApproverStatus == "Approved" && permitcheck.ThirdApproverStatus == "Approved")
+                                {
+                                    permitcheck.Status = "Approved";
+                                }
+
+                                else
+                                    permitcheck.Status = "Partial Approved";
+                            }
                         }
+
+                        else if (count == 4)
+                        {
+
+                            if (permitcheck.FirstApproverStatus == "Rejected" && permitcheck.SecondApproverStatus == "Rejected" && permitcheck.ThirdApproverStatus == "Rejected" && permitcheck.FourthApproverStatus == "Rejected")
+                            {
+                                permitcheck.Status = "Rejected";
+                            }
+
+                            else if (permitcheck.FirstApproverStatus != "Pending" && permitcheck.SecondApproverStatus != "Pending" && permitcheck.ThirdApproverStatus != "Pending" && permitcheck.FourthApproverStatus != "Pending")
+                            {
+
+                                if (permitcheck.FirstApproverStatus == "Approved" && permitcheck.SecondApproverStatus == "Approved" && permitcheck.ThirdApproverStatus == "Approved" && permitcheck.FourthApproverStatus == "Approved")
+                                {
+                                    permitcheck.Status = "Approved";
+                                }
+
+                                else
+                                    permitcheck.Status = "Partial Approved";
+                            }
+                        }
+
+                        _context.PermitMasters.Update(permitcheck);
                     }
 
-                    _context.PermitMasters.Update(permitcheck);
+                    else
+                    {
+
+                        var permitMaster = new PermitMaster
+                        {
+                            Unit = permitdetails.Unit,
+                            StartDate = permitdetails.StartDate,
+                            EndDate = permitdetails.EndDate,
+                            PermitType = PermitType,
+                            PermitNumber = Permitid,
+                            Location = permitdetails.Location,
+                            Status = count > 1 ? "Partial Approved" : count == 1 && Status != "Rejected" ? "Approved" : "Rejected",
+                            //Status = "Partial Approved",
+                            FirstApproverStatus = Status,
+                            SecondApproverStatus = "Pending",
+                            ThirdApproverStatus = "Pending",
+                            FourthApproverStatus = "Pending",
+                            CreatedByUserId = HttpContext.Session.GetString("UserId"),
+                            CreatedOn = DateTime.Now,
+                        };
+
+                        _context.Add(permitMaster);
+                    }
+
+                    _context.SaveChanges();
                 }
 
-                else
+                else if (PermitType == "Confined Space")
                 {
+                    int count = 0;
+                    var permitdetails = _context.ConfinedSpacePermits.Where(a => a.Id == Convert.ToInt32(Permitid)).FirstOrDefault();
+                    var PermitApproveDetails = _context.ConfinedSpacePermits.Where(b => b.Id == Convert.ToInt32(Permitid))
+                       .Select(a => (new ConfinedSpacePermit { Id = a.Id, ApproverOne = a.ApproverOne, ApproverTwo = a.ApproverTwo, ApproverThree = a.ApproverThree, ApproverFour = a.ApproverFour })).FirstOrDefault();
 
-                    var permitMaster = new PermitMaster
+                    if (PermitApproveDetails.ApproverOne == null)
+                        count = 0;
+                    else if (PermitApproveDetails.ApproverTwo == null)
+                        count = 1;
+                    else if (PermitApproveDetails.ApproverThree == null)
+                        count = 2;
+                    else if (PermitApproveDetails.ApproverFour == null)
+                        count = 3;
+                    else
+                        count = 4;
+
+                    var permitcheck = _context.PermitMasters.Where(a => a.PermitNumber == Permitid && a.PermitType == PermitType).FirstOrDefault();
+
+                    if (permitcheck != null)
                     {
-                        Unit = permitdetails.Unit,
-                        StartDate = permitdetails.StartDate,
-                        EndDate = permitdetails.EndDate,
-                        PermitType = PermitType,
-                        PermitNumber = Permitid,
-                        Location = permitdetails.Location,
-                        Status = count > 1 ? "Partial Approved" : count == 1 && Status != "Rejected" ? "Approved" : "Rejected",
-                        //Status = "Partial Approved",
-                        FirstApproverStatus = Status,
-                        SecondApproverStatus = "Pending",
-                        ThirdApproverStatus = "Pending",
-                        FourthApproverStatus = "Pending",
-                        CreatedByUserId = HttpContext.Session.GetString("UserId"),
-                        CreatedOn = DateTime.Now,
-                    };
+                        var first = permitcheck.FirstApproverStatus;
+                        var second = permitcheck.SecondApproverStatus;
+                        var third = permitcheck.ThirdApproverStatus;
+                        var fourth = permitcheck.FourthApproverStatus;
 
-                    _context.Add(permitMaster);
+                        // Second Approver
+                        if (count >= 2 && second == "Pending")
+                        {
+                            permitcheck.SecondApproverStatus = Status;
+                        }
+
+                        // Third Approver
+                        else if (count >= 3 && third == "Pending")
+                        {
+                            permitcheck.ThirdApproverStatus = Status;
+                        }
+
+                        // Fourth Approver
+                        else if (count == 4 && fourth == "Pending")
+                        {
+                            permitcheck.FourthApproverStatus = Status;
+                        }
+
+                        if (count == 1)
+                        {
+
+                            if (permitcheck.FirstApproverStatus == "Rejected")
+                            {
+                                permitcheck.Status = "Rejected";
+                            }
+                            else
+                            {
+                                permitcheck.Status = "Approved";
+                            }
+                        }
+
+                        else if (count == 2)
+                        {
+
+                            if (permitcheck.FirstApproverStatus == "Rejected" && permitcheck.SecondApproverStatus == "Rejected")
+                            {
+                                permitcheck.Status = "Rejected";
+                            }
+
+                            else if (permitcheck.FirstApproverStatus != "Pending" && permitcheck.SecondApproverStatus != "Pending")
+                            {
+
+                                if (permitcheck.FirstApproverStatus == "Approved" && permitcheck.SecondApproverStatus == "Approved")
+                                {
+                                    permitcheck.Status = "Approved";
+                                }
+
+                                else
+                                    permitcheck.Status = "Partial Approved";
+                            }
+                        }
+
+                        else if (count == 3)
+                        {
+
+                            if (permitcheck.FirstApproverStatus == "Rejected" && permitcheck.SecondApproverStatus == "Rejected" && permitcheck.ThirdApproverStatus == "Rejected")
+                            {
+                                permitcheck.Status = "Rejected";
+                            }
+
+                            else if (permitcheck.FirstApproverStatus != "Pending" && permitcheck.SecondApproverStatus != "Pending" && permitcheck.ThirdApproverStatus != "Pending")
+                            {
+
+                                if (permitcheck.FirstApproverStatus == "Approved" && permitcheck.SecondApproverStatus == "Approved" && permitcheck.ThirdApproverStatus == "Approved")
+                                {
+                                    permitcheck.Status = "Approved";
+                                }
+
+                                else
+                                    permitcheck.Status = "Partial Approved";
+                            }
+                        }
+
+                        else if (count == 4)
+                        {
+
+                            if (permitcheck.FirstApproverStatus == "Rejected" && permitcheck.SecondApproverStatus == "Rejected" && permitcheck.ThirdApproverStatus == "Rejected" && permitcheck.FourthApproverStatus == "Rejected")
+                            {
+                                permitcheck.Status = "Rejected";
+                            }
+
+                            else if (permitcheck.FirstApproverStatus != "Pending" && permitcheck.SecondApproverStatus != "Pending" && permitcheck.ThirdApproverStatus != "Pending" && permitcheck.FourthApproverStatus != "Pending")
+                            {
+
+                                if (permitcheck.FirstApproverStatus == "Approved" && permitcheck.SecondApproverStatus == "Approved" && permitcheck.ThirdApproverStatus == "Approved" && permitcheck.FourthApproverStatus == "Approved")
+                                {
+                                    permitcheck.Status = "Approved";
+                                }
+
+                                else
+                                    permitcheck.Status = "Partial Approved";
+                            }
+                        }
+
+                        _context.PermitMasters.Update(permitcheck);
+                    }
+
+                    else
+                    {
+
+                        var permitMaster = new PermitMaster
+                        {
+                            Unit = permitdetails.Unit,
+                            StartDate = permitdetails.StartDate,
+                            EndDate = permitdetails.EndDate,
+                            PermitType = PermitType,
+                            PermitNumber = Permitid,
+                            Location = permitdetails.Location,
+                            Status = count > 1 ? "Partial Approved" : count == 1 && Status != "Rejected" ? "Approved" : "Rejected",
+                            //Status = "Partial Approved",
+                            FirstApproverStatus = Status,
+                            SecondApproverStatus = "Pending",
+                            ThirdApproverStatus = "Pending",
+                            FourthApproverStatus = "Pending",
+                            CreatedByUserId = HttpContext.Session.GetString("UserId"),
+                            CreatedOn = DateTime.Now,
+                        };
+
+                        _context.Add(permitMaster);
+                    }
+
+                    _context.SaveChanges();
                 }
 
-                _context.SaveChanges();
+                if (Status == "Approved")
+                    return Json("Approved Successfully");
+                else
+                    return Json("Rejected Successfully");
             }
-
-            else if (PermitType == "Confined Space")
+            catch (Exception ex)
             {
-                int count = 0;
-                var permitdetails = _context.ConfinedSpacePermits.Where(a => a.Id == Convert.ToInt32(Permitid)).FirstOrDefault();
-                var PermitApproveDetails = _context.ConfinedSpacePermits.Where(b => b.Id == Convert.ToInt32(Permitid))
-                   .Select(a => (new ConfinedSpacePermit { Id = a.Id, ApproverOne = a.ApproverOne, ApproverTwo = a.ApproverTwo, ApproverThree = a.ApproverThree, ApproverFour = a.ApproverFour })).FirstOrDefault();
-
-                if (PermitApproveDetails.ApproverOne == null)
-                    count = 0;
-                else if (PermitApproveDetails.ApproverTwo == null)
-                    count = 1;
-                else if (PermitApproveDetails.ApproverThree == null)
-                    count = 2;
-                else if (PermitApproveDetails.ApproverFour == null)
-                    count = 3;
-                else
-                    count = 4;
-
-                var permitcheck = _context.PermitMasters.Where(a => a.PermitNumber == Permitid && a.PermitType == PermitType).FirstOrDefault();
-
-                if (permitcheck != null)
-                {
-                    var first = permitcheck.FirstApproverStatus;
-                    var second = permitcheck.SecondApproverStatus;
-                    var third = permitcheck.ThirdApproverStatus;
-                    var fourth = permitcheck.FourthApproverStatus;
-
-                    // Second Approver
-                    if (count >= 2 && second == "Pending")
-                    {
-                        permitcheck.SecondApproverStatus = Status;
-                    }
-
-                    // Third Approver
-                    else if (count >= 3 && third == "Pending")
-                    {
-                        permitcheck.ThirdApproverStatus = Status;
-                    }
-
-                    // Fourth Approver
-                    else if (count == 4 && fourth == "Pending")
-                    {
-                        permitcheck.FourthApproverStatus = Status;
-                    }
-
-                    if (count == 1)
-                    {
-
-                        if (permitcheck.FirstApproverStatus == "Rejected")
-                        {
-                            permitcheck.Status = "Rejected";
-                        }
-                        else
-                        {
-                            permitcheck.Status = "Approved";
-                        }
-                    }
-
-                    else if (count == 2)
-                    {
-
-                        if (permitcheck.FirstApproverStatus == "Rejected" && permitcheck.SecondApproverStatus == "Rejected")
-                        {
-                            permitcheck.Status = "Rejected";
-                        }
-
-                        else if (permitcheck.FirstApproverStatus != "Pending" && permitcheck.SecondApproverStatus != "Pending")
-                        {
-
-                            if (permitcheck.FirstApproverStatus == "Approved" && permitcheck.SecondApproverStatus == "Approved")
-                            {
-                                permitcheck.Status = "Approved";
-                            }
-
-                            else
-                                permitcheck.Status = "Partial Approved";
-                        }
-                    }
-
-                    else if (count == 3)
-                    {
-
-                        if (permitcheck.FirstApproverStatus == "Rejected" && permitcheck.SecondApproverStatus == "Rejected" && permitcheck.ThirdApproverStatus == "Rejected")
-                        {
-                            permitcheck.Status = "Rejected";
-                        }
-
-                        else if (permitcheck.FirstApproverStatus != "Pending" && permitcheck.SecondApproverStatus != "Pending" && permitcheck.ThirdApproverStatus != "Pending")
-                        {
-
-                            if (permitcheck.FirstApproverStatus == "Approved" && permitcheck.SecondApproverStatus == "Approved" && permitcheck.ThirdApproverStatus == "Approved")
-                            {
-                                permitcheck.Status = "Approved";
-                            }
-
-                            else
-                                permitcheck.Status = "Partial Approved";
-                        }
-                    }
-
-                    else if (count == 4)
-                    {
-
-                        if (permitcheck.FirstApproverStatus == "Rejected" && permitcheck.SecondApproverStatus == "Rejected" && permitcheck.ThirdApproverStatus == "Rejected" && permitcheck.FourthApproverStatus == "Rejected")
-                        {
-                            permitcheck.Status = "Rejected";
-                        }
-
-                        else if (permitcheck.FirstApproverStatus != "Pending" && permitcheck.SecondApproverStatus != "Pending" && permitcheck.ThirdApproverStatus != "Pending" && permitcheck.FourthApproverStatus != "Pending")
-                        {
-
-                            if (permitcheck.FirstApproverStatus == "Approved" && permitcheck.SecondApproverStatus == "Approved" && permitcheck.ThirdApproverStatus == "Approved" && permitcheck.FourthApproverStatus == "Approved")
-                            {
-                                permitcheck.Status = "Approved";
-                            }
-
-                            else
-                                permitcheck.Status = "Partial Approved";
-                        }
-                    }
-
-                    _context.PermitMasters.Update(permitcheck);
-                }
-
-                else
-                {
-
-                    var permitMaster = new PermitMaster
-                    {
-                        Unit = permitdetails.Unit,
-                        StartDate = permitdetails.StartDate,
-                        EndDate = permitdetails.EndDate,
-                        PermitType = PermitType,
-                        PermitNumber = Permitid,
-                        Location = permitdetails.Location,
-                        Status = count > 1 ? "Partial Approved" : count == 1 && Status != "Rejected" ? "Approved" : "Rejected",
-                        //Status = "Partial Approved",
-                        FirstApproverStatus = Status,
-                        SecondApproverStatus = "Pending",
-                        ThirdApproverStatus = "Pending",
-                        FourthApproverStatus = "Pending",
-                        CreatedByUserId = HttpContext.Session.GetString("UserId"),
-                        CreatedOn = DateTime.Now,
-                    };
-
-                    _context.Add(permitMaster);
-                }
-
-                _context.SaveChanges();
+                _logger.LogError("Error", ex.Message.ToString());
+                return Json("Error", ex.Message.ToString());
             }
-
-            if (Status == "Approved")
-                return Json("Approved Successfully");
-            else
-                return Json("Rejected Successfully");
         }
 
         [HttpPost]
         public JsonResult Delete(string type, int id)
         {
-
-            if (type == "Cold Work")
+            try
             {
-                var permit = _context.ColdWorkPermits.FirstOrDefault(x => x.Id == id && x.IsActive == true);
-
-                if (permit != null)
+                if (type == "Cold Work")
                 {
-                    permit.IsActive = false;
-                    _context.SaveChanges();
+                    var permit = _context.ColdWorkPermits.FirstOrDefault(x => x.Id == id && x.IsActive == true);
 
-                    return Json(new { success = true });
+                    if (permit != null)
+                    {
+                        permit.IsActive = false;
+                        _context.SaveChanges();
+
+                        return Json(new { success = true });
+                    }
                 }
-            }
 
-            else if (type == "Hot Work")
-            {
-                var permit = _context.HotWorkPermits.FirstOrDefault(x => x.PermitId == id && x.IsActive == true);
-
-                if (permit != null)
+                else if (type == "Hot Work")
                 {
-                    permit.IsActive = false;
-                    _context.SaveChanges();
+                    var permit = _context.HotWorkPermits.FirstOrDefault(x => x.PermitId == id && x.IsActive == true);
 
-                    return Json(new { success = true });
+                    if (permit != null)
+                    {
+                        permit.IsActive = false;
+                        _context.SaveChanges();
+
+                        return Json(new { success = true });
+                    }
                 }
-            }
 
-            else if (type == "Work At Height")
-            {
-                var permit = _context.WorkAtHeightPermits.FirstOrDefault(x => x.PermitId == id && x.IsActive == true);
-
-                if (permit != null)
+                else if (type == "Work At Height")
                 {
-                    permit.IsActive = false;
-                    _context.SaveChanges();
+                    var permit = _context.WorkAtHeightPermits.FirstOrDefault(x => x.PermitId == id && x.IsActive == true);
 
-                    return Json(new { success = true });
+                    if (permit != null)
+                    {
+                        permit.IsActive = false;
+                        _context.SaveChanges();
+
+                        return Json(new { success = true });
+                    }
                 }
-            }
 
-            else if (type == "Lifting Operation")
-            {
-                var permit = _context.LiftingOperationPermits.FirstOrDefault(x => x.PermitId == id && x.IsActive == true);
-
-                if (permit != null)
+                else if (type == "Lifting Operation")
                 {
-                    permit.IsActive = false;
-                    _context.SaveChanges();
+                    var permit = _context.LiftingOperationPermits.FirstOrDefault(x => x.PermitId == id && x.IsActive == true);
 
-                    return Json(new { success = true });
+                    if (permit != null)
+                    {
+                        permit.IsActive = false;
+                        _context.SaveChanges();
+
+                        return Json(new { success = true });
+                    }
                 }
-            }
 
-            else if (type == "Electrical Isolation")
-            {
-                var permit = _context.ElectricalIsolationPermits.FirstOrDefault(x => x.PermitId == id && x.IsActive == true);
-
-                if (permit != null)
+                else if (type == "Electrical Isolation")
                 {
-                    permit.IsActive = false;
-                    _context.SaveChanges();
+                    var permit = _context.ElectricalIsolationPermits.FirstOrDefault(x => x.PermitId == id && x.IsActive == true);
 
-                    return Json(new { success = true });
+                    if (permit != null)
+                    {
+                        permit.IsActive = false;
+                        _context.SaveChanges();
+
+                        return Json(new { success = true });
+                    }
                 }
-            }
 
-            else if (type == "Confined Space")
-            {
-                var permit = _context.ConfinedSpacePermits.FirstOrDefault(x => x.Id == id && x.IsActive == true);
-
-                if (permit != null)
+                else if (type == "Confined Space")
                 {
-                    permit.IsActive = false;
-                    _context.SaveChanges();
+                    var permit = _context.ConfinedSpacePermits.FirstOrDefault(x => x.Id == id && x.IsActive == true);
 
-                    return Json(new { success = true });
+                    if (permit != null)
+                    {
+                        permit.IsActive = false;
+                        _context.SaveChanges();
+
+                        return Json(new { success = true });
+                    }
                 }
-            }
 
-            return Json(new
+                return Json(new
+                {
+                    success = false,
+                    message = "Permit not Found."
+                });
+            }
+            catch (Exception ex)
             {
-                success = false,
-                message = "Permit not Found."
-            });
+                _logger.LogError("Error", ex.Message.ToString());
+                return Json(ex.Message.ToString());
+            }
         }
 
         //public IActionResult Delete(string type, int id)

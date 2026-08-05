@@ -131,10 +131,10 @@ namespace Permit_to_work.Models
 
         // Authorization
 
-        public string? ReceiverName { get; set; }
-        public string? IssuerName { get; set; }
-        public DateTime ReceiverDate { get; set; }
-        public DateTime IssuerDate { get; set; }
+        public string? RaisedBy { get; set; }
+        public string? DepartmentIncharge { get; set; }
+        public string? Facility { get; set; }
+        public string? Safety { get; set; }
 
 
         // ===== SUSPENSION =====

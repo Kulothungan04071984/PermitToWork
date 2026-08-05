@@ -1,21 +1,22 @@
-﻿using Registration.Models;
+﻿using Azure;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using NetTopologySuite.Noding;
 using Permit_to_work.Data;
 using Permit_to_work.Models;
 using Permit_to_work.ViewModel;
 using Registration.Models;
+using Registration.Models;
 using RTools_NTS.Util;
 using System.Diagnostics;
+using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
-using System.Linq;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using NetTopologySuite.Noding;
 
 namespace Permit_to_work.Controllers
 {
@@ -463,6 +464,10 @@ namespace Permit_to_work.Controllers
             string startdate = string.Empty;
             string enddate = string.Empty;
             string Tomail = string.Empty;
+            string firstApprover= string.Empty;
+            string scondApprover= string.Empty;
+            string thiredApprover= string.Empty;
+            string fourthApprover= string.Empty;
             //string baseUrl = "http://192.168.1.146:808";
             string baseUrl = _configuration["AppSettings"];
             //string baseUrl = "https://localhost:7174";
@@ -522,6 +527,11 @@ namespace Permit_to_work.Controllers
                         }
                         startdate = coldWorkPermit.StartDate.ToString();
                         enddate = coldWorkPermit.EndDate.ToString();
+
+                        firstApprover = string.IsNullOrEmpty(coldWorkPermit.ApproverOne) ? string.Empty : coldWorkPermit.ApproverOne.Split('@')[0].ToString();
+                        scondApprover = string.IsNullOrEmpty(coldWorkPermit.ApproverTwo) ? string.Empty : coldWorkPermit.ApproverTwo.Split('@')[0].ToString();
+                        thiredApprover = string.IsNullOrEmpty(coldWorkPermit.ApproverThree) ? string.Empty : coldWorkPermit.ApproverThree.Split('@')[0].ToString();
+                        fourthApprover = string.IsNullOrEmpty(coldWorkPermit.ApproverFour) ? string.Empty : coldWorkPermit.ApproverFour.Split('@')[0].ToString();
                     }
                     else if (Type == "Hot Work")
                     {
@@ -547,21 +557,136 @@ namespace Permit_to_work.Controllers
                         }
                         startdate = hotWorkPermit.StartDate.ToString();
                         enddate = hotWorkPermit.EndDate.ToString();
+
+                        firstApprover = string.IsNullOrEmpty(hotWorkPermit.ApproverOne) ? string.Empty : hotWorkPermit.ApproverOne.Split('@')[0].ToString();
+                        scondApprover = string.IsNullOrEmpty(hotWorkPermit.ApproverTwo) ? string.Empty : hotWorkPermit.ApproverTwo.Split('@')[0].ToString();
+                        thiredApprover = string.IsNullOrEmpty(hotWorkPermit.ApproverThree) ? string.Empty : hotWorkPermit.ApproverThree.Split('@')[0].ToString();
+                        fourthApprover = string.IsNullOrEmpty(hotWorkPermit.ApproverFour) ? string.Empty : hotWorkPermit.ApproverFour.Split('@')[0].ToString();
                     }
-                    //else if (Type == "Height")
-                    //{
-                    //    var heightPermit = _context.WorkAtHeightPermits.FirstOrDefault(x => x.PermitId == id);
-                    //    //if (heightPermit != null)
-                    //    //{
-                    //    //    Tomail = heightPermit.ApproverOne ?? heightPermit.ApproverTwo ?? heightPermit.ApproverThree ?? heightPermit.ApproverFour ?? string.Empty;
-                    //    //}
-                    //    startdate = heightPermit.StartDate.ToString();
-                    //    enddate = heightPermit.EndDate.ToString();
-                    //}
+                    else if (Type == "Work At Height")
+                    {
+                        var workAtHeight = _context.WorkAtHeightPermits.FirstOrDefault(x => x.PermitId == id);
+                        if (workAtHeight != null)
+                        {
+                            if (permit.FirstApproverStatus == "Pending")
+                            {
+                                Tomail = workAtHeight.ApproverOne;
+                            }
+                            else if (permit.SecondApproverStatus == "Pending")
+                            {
+                                Tomail = workAtHeight.ApproverTwo;
+                            }
+                            else if (permit.ThirdApproverStatus == "Pending")
+                            {
+                                Tomail = workAtHeight.ApproverThree;
+                            }
+                            else if (permit.FourthApproverStatus == "Pending")
+                            {
+                                Tomail = workAtHeight.ApproverFour;
+                            }
+                        }
+                        startdate = workAtHeight.StartDate.ToString();
+                        enddate = workAtHeight.EndDate.ToString();
+
+                        firstApprover = string.IsNullOrEmpty(workAtHeight.ApproverOne) ? string.Empty : workAtHeight.ApproverOne.Split('@')[0].ToString();
+                        scondApprover = string.IsNullOrEmpty(workAtHeight.ApproverTwo) ? string.Empty : workAtHeight.ApproverTwo.Split('@')[0].ToString();
+                        thiredApprover = string.IsNullOrEmpty(workAtHeight.ApproverThree) ? string.Empty : workAtHeight.ApproverThree.Split('@')[0].ToString();
+                        fourthApprover = string.IsNullOrEmpty(workAtHeight.ApproverFour) ? string.Empty : workAtHeight.ApproverFour.Split('@')[0].ToString();
+                    }
+                    else if (Type == "Lifting Operation")
+                    {
+                        var liftingOperation = _context.LiftingOperationPermits.FirstOrDefault(x => x.PermitId == id);
+                        if (liftingOperation != null)
+                        {
+                            if (permit.FirstApproverStatus == "Pending")
+                            {
+                                Tomail = liftingOperation.ApproverOne;
+                            }
+                            else if (permit.SecondApproverStatus == "Pending")
+                            {
+                                Tomail = liftingOperation.ApproverTwo;
+                            }
+                            else if (permit.ThirdApproverStatus == "Pending")
+                            {
+                                Tomail = liftingOperation.ApproverThree;
+                            }
+                            else if (permit.FourthApproverStatus == "Pending")
+                            {
+                                Tomail = liftingOperation.ApproverFour;
+                            }
+                        }
+                        startdate = liftingOperation.StartDate.ToString();
+                        enddate = liftingOperation.EndDate.ToString();
+
+                        firstApprover = string.IsNullOrEmpty(liftingOperation.ApproverOne) ? string.Empty : liftingOperation.ApproverOne.Split('@')[0].ToString();
+                        scondApprover = string.IsNullOrEmpty(liftingOperation.ApproverTwo) ? string.Empty : liftingOperation.ApproverTwo.Split('@')[0].ToString();
+                        thiredApprover = string.IsNullOrEmpty(liftingOperation.ApproverThree) ? string.Empty : liftingOperation.ApproverThree.Split('@')[0].ToString();
+                        fourthApprover = string.IsNullOrEmpty(liftingOperation.ApproverFour) ? string.Empty : liftingOperation.ApproverFour.Split('@')[0].ToString();
+                    }
+                    else if (Type == "Electrical Isolation")
+                    {
+                        var electricalIsolation = _context.ElectricalIsolationPermits.FirstOrDefault(x => x.PermitId == id);
+                        if (electricalIsolation != null)
+                        {
+                            if (permit.FirstApproverStatus == "Pending")
+                            {
+                                Tomail = electricalIsolation.ApproverOne;
+                            }
+                            else if (permit.SecondApproverStatus == "Pending")
+                            {
+                                Tomail = electricalIsolation.ApproverTwo;
+                            }
+                            else if (permit.ThirdApproverStatus == "Pending")
+                            {
+                                Tomail = electricalIsolation.ApproverThree;
+                            }
+                            else if (permit.FourthApproverStatus == "Pending")
+                            {
+                                Tomail = electricalIsolation.ApproverFour;
+                            }
+                        }
+                        startdate = electricalIsolation.StartDate.ToString();
+                        enddate = electricalIsolation.EndDate.ToString();
+
+                        firstApprover = string.IsNullOrEmpty(electricalIsolation.ApproverOne) ? string.Empty : electricalIsolation.ApproverOne.Split('@')[0].ToString();
+                        scondApprover = string.IsNullOrEmpty(electricalIsolation.ApproverTwo) ? string.Empty : electricalIsolation.ApproverTwo.Split('@')[0].ToString();
+                        thiredApprover = string.IsNullOrEmpty(electricalIsolation.ApproverThree) ? string.Empty : electricalIsolation.ApproverThree.Split('@')[0].ToString();
+                        fourthApprover = string.IsNullOrEmpty(electricalIsolation.ApproverFour) ? string.Empty : electricalIsolation.ApproverFour.Split('@')[0].ToString();
+                    }
+                    else if (Type == "Confined Space")
+                    {
+                        var confinedSpace = _context.ConfinedSpacePermits.FirstOrDefault(x => x.Id == id);
+                        if (confinedSpace != null)
+                        {
+                            if (permit.FirstApproverStatus == "Pending")
+                            {
+                                Tomail = confinedSpace.ApproverOne;
+                            }
+                            else if (permit.SecondApproverStatus == "Pending")
+                            {
+                                Tomail = confinedSpace.ApproverTwo;
+                            }
+                            else if (permit.ThirdApproverStatus == "Pending")
+                            {
+                                Tomail = confinedSpace.ApproverThree;
+                            }
+                            else if (permit.FourthApproverStatus == "Pending")
+                            {
+                                Tomail = confinedSpace.ApproverFour;
+                            }
+                        }
+                        startdate = confinedSpace.StartDate.ToString();
+                        enddate = confinedSpace.EndDate.ToString();
+
+                        firstApprover = string.IsNullOrEmpty(confinedSpace.ApproverOne) ? string.Empty : confinedSpace.ApproverOne.Split('@')[0].ToString();
+                        scondApprover = string.IsNullOrEmpty(confinedSpace.ApproverTwo) ? string.Empty : confinedSpace.ApproverTwo.Split('@')[0].ToString();
+                        thiredApprover = string.IsNullOrEmpty(confinedSpace.ApproverThree) ? string.Empty : confinedSpace.ApproverThree.Split('@')[0].ToString();
+                        fourthApprover = string.IsNullOrEmpty(confinedSpace.ApproverFour) ? string.Empty : confinedSpace.ApproverFour.Split('@')[0].ToString();
+                    }
                     if (string.IsNullOrEmpty(Tomail))
                     {
                         // No pending approvers, exit the method
-                        return Json("No Pending Emails");
+                        return Json("No More Mails Pending");
                     }
                 }
                 string body = $@"
@@ -602,22 +727,22 @@ style='border-collapse:collapse;width:700px;'>
 </tr>
 
 <tr>
-<td>First Approver</td>
+<td>First Approver - {(string.IsNullOrEmpty(firstApprover) ? string.Empty : firstApprover)}</td>
 <td>{permit.FirstApproverStatus}</td>
 </tr>
 
 <tr>
-<td>Second Approver</td>
+<td>Second Approver - {(string.IsNullOrEmpty(scondApprover) ? string.Empty : scondApprover)}</td>
 <td>{permit.SecondApproverStatus}</td>
 </tr>
 
 <tr>
-<td>Third Approver</td>
+<td>Third Approver - {(string.IsNullOrEmpty(thiredApprover) ? string.Empty : thiredApprover)}</td>
 <td>{permit.ThirdApproverStatus}</td>
 </tr>
 
 <tr>
-<td>Fourth Approver</td>
+<td>Fourth Approver - {(string.IsNullOrEmpty(fourthApprover) ? string.Empty : fourthApprover)}</td>
 <td>{permit.FourthApproverStatus}</td>
 </tr>
 
@@ -677,13 +802,15 @@ REJECT
                     smtp.Send(mail); //Testing purpose, comment out to avoid actual email sending
                     _logger.LogInformation($"Email sent to {Tomail} for permit type {Type} with ID {id}");
                 }
+                return Json($"Email sent to {Tomail} for permit type {Type} with ID {id}");
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Failed to send email for permit type {Type} with ID {id}");
+                return Json("Error", ex.Message.ToString());
             }
 
-            return Json("Mail Sent Successfully");
+         
         }
 
         // HOT WORK PERMIT
@@ -883,6 +1010,7 @@ REJECT
 
             _context.HotWorkPermits.Add(entity);
             await _context.SaveChangesAsync();
+            insertPermitMaster("Hot Work", entity.PermitId.ToString(), entity.Unit, Convert.ToString(entity.StartDate), Convert.ToString(entity.EndDate), entity.Location);
             await sendmail("Hot Work", entity.PermitId);
 
             return RedirectToAction("Dashboard");
@@ -1079,7 +1207,8 @@ REJECT
 
             _context.ElectricalIsolationPermits.Add(entity);
             await _context.SaveChangesAsync();
-
+            insertPermitMaster("Electrical Isolation", entity.PermitId.ToString(), entity.Unit, Convert.ToString(entity.StartDate), Convert.ToString(entity.EndDate), entity.Location);
+            await sendmail("Electrical Isolation", entity.PermitId);
             return RedirectToAction("Dashboard");
         }
 
@@ -1297,7 +1426,8 @@ REJECT
 
             _context.LiftingOperationPermits.Add(entity);
             await _context.SaveChangesAsync();
-
+            insertPermitMaster("Lifting Operation", entity.PermitId.ToString(), entity.Unit, Convert.ToString(entity.StartDate), Convert.ToString(entity.EndDate), entity.Location);
+            await sendmail("Lifting Operation", entity.PermitId);
             return RedirectToAction("Dashboard");
         }
 
@@ -1493,7 +1623,8 @@ REJECT
 
             _context.WorkAtHeightPermits.Add(entity);
             await _context.SaveChangesAsync();
-            await sendmail("WorkAtHeight", entity.PermitId);
+            insertPermitMaster("Work At Height", entity.PermitId.ToString(), entity.Unit, Convert.ToString(entity.StartDate), Convert.ToString(entity.EndDate), entity.Location);
+            await sendmail("Work At Height", entity.PermitId);
 
             //return Content("Saved Successfully");
 
@@ -1688,7 +1819,8 @@ REJECT
             _context.ConfinedSpacePermits.Add(entity);
 
             await _context.SaveChangesAsync();
-
+            insertPermitMaster("Confined Space", entity.Id.ToString(), entity.Unit, Convert.ToString(entity.StartDate), Convert.ToString(entity.EndDate), entity.Location);
+            await sendmail("Confined Space", entity.Id);
             return RedirectToAction("Dashboard");
         }
 

@@ -1,21 +1,22 @@
-﻿using Registration.Models;
+﻿using Azure;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using NetTopologySuite.Noding;
 using Permit_to_work.Data;
 using Permit_to_work.Models;
 using Permit_to_work.ViewModel;
 using Registration.Models;
+using Registration.Models;
 using RTools_NTS.Util;
 using System.Diagnostics;
+using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
-using System.Linq;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using NetTopologySuite.Noding;
 
 namespace Permit_to_work.Controllers
 {
@@ -194,256 +195,258 @@ namespace Permit_to_work.Controllers
         }
 
         [HttpPost]
-        public IActionResult workpermitform(ColdWorkPermit vm)
+        public async Task<IActionResult> workpermitform(ColdWorkPermit vm)
         {
-            if (!vm.RiskFallHeight &&
-                !vm.RiskWeather &&
-                !vm.RiskFlying &&
-                !vm.RiskEquipment &&
-                !vm.RiskFalling &&
-                !vm.RiskProtruding &&
-                !vm.RiskTripping &&
-                !vm.RiskFaulty &&
-                !vm.RiskNoise &&
-                !vm.RiskHeat &&
-                !vm.RiskVibration &&
-                !vm.RiskIllumination &&
-                !vm.RiskFire &&
-               string.IsNullOrWhiteSpace(vm.RiskOther))
+            try
             {
-                ModelState.AddModelError("RiskIdentification", "Please select at least one Risk Identification or enter Other Risk.");
-            }
+                if (!vm.RiskFallHeight &&
+                    !vm.RiskWeather &&
+                    !vm.RiskFlying &&
+                    !vm.RiskEquipment &&
+                    !vm.RiskFalling &&
+                    !vm.RiskProtruding &&
+                    !vm.RiskTripping &&
+                    !vm.RiskFaulty &&
+                    !vm.RiskNoise &&
+                    !vm.RiskHeat &&
+                    !vm.RiskVibration &&
+                    !vm.RiskIllumination &&
+                    !vm.RiskFire &&
+                   string.IsNullOrWhiteSpace(vm.RiskOther))
+                {
+                    ModelState.AddModelError("RiskIdentification", "Please select at least one Risk Identification or enter Other Risk.");
+                }
 
-            //else if (!vm.DocJSA &&
-            //         !vm.DocRiskAssessment &&
-            //         string.IsNullOrWhiteSpace(vm.DocOther))
-            //{
-            //    ModelState.AddModelError("Documents", "Please select at least one of the document or enter Other Risk.");
-            //}
+                //else if (!vm.DocJSA &&
+                //         !vm.DocRiskAssessment &&
+                //         string.IsNullOrWhiteSpace(vm.DocOther))
+                //{
+                //    ModelState.AddModelError("Documents", "Please select at least one of the document or enter Other Risk.");
+                //}
 
-            //else if (string.IsNullOrWhiteSpace(vm.Precaution))
-            //{
-            //    ModelState.AddModelError("Precaution&Tools", "Please select at least one of the Precaution.");
-            //}
+                //else if (string.IsNullOrWhiteSpace(vm.Precaution))
+                //{
+                //    ModelState.AddModelError("Precaution&Tools", "Please select at least one of the Precaution.");
+                //}
 
-            else if (string.IsNullOrWhiteSpace(vm.ToolsTested))
-            {
-                ModelState.AddModelError("ToolsTested", "Please select at least one of the Tools.");
-            }
+                else if (string.IsNullOrWhiteSpace(vm.ToolsTested))
+                {
+                    ModelState.AddModelError("ToolsTested", "Please select at least one of the Tools.");
+                }
 
-            //else if (!vm.HazardWorkAtHeight &&
-            //         !vm.HazardScaffolding &&
-            //         !vm.HazardToolEquipment &&
-            //         !vm.HazardChemical &&
-            //         !vm.HazardElectrical &&
-            //         !vm.HazardLifting &&
-            //         !vm.HazardHotSurface &&
-            //         !vm.HazardDust &&                   
-            //         string.IsNullOrWhiteSpace(vm.HazardNA))  
-            //{
-            //    ModelState.AddModelError("Hazards", "Please select at least one of the Hazards.");
-            //}
+                //else if (!vm.HazardWorkAtHeight &&
+                //         !vm.HazardScaffolding &&
+                //         !vm.HazardToolEquipment &&
+                //         !vm.HazardChemical &&
+                //         !vm.HazardElectrical &&
+                //         !vm.HazardLifting &&
+                //         !vm.HazardHotSurface &&
+                //         !vm.HazardDust &&                   
+                //         string.IsNullOrWhiteSpace(vm.HazardNA))  
+                //{
+                //    ModelState.AddModelError("Hazards", "Please select at least one of the Hazards.");
+                //}
 
-            //else if (!vm.PermitHotWork &&
-            //         !vm.PermitWorkAtHeight &&
-            //         !vm.PermitExcavation &&
-            //         !vm.PermitElectrical &&
-            //         !vm.PermitConfinedSpace &&
-            //         string.IsNullOrWhiteSpace(vm.PermitOther) &&
-            //         string.IsNullOrWhiteSpace(vm.PermitAssociated))
-            //{
-            //    ModelState.AddModelError("AssociatedPermits", "Please select at least one of the Associated Permits or enter other permit.");
-            //}
+                //else if (!vm.PermitHotWork &&
+                //         !vm.PermitWorkAtHeight &&
+                //         !vm.PermitExcavation &&
+                //         !vm.PermitElectrical &&
+                //         !vm.PermitConfinedSpace &&
+                //         string.IsNullOrWhiteSpace(vm.PermitOther) &&
+                //         string.IsNullOrWhiteSpace(vm.PermitAssociated))
+                //{
+                //    ModelState.AddModelError("AssociatedPermits", "Please select at least one of the Associated Permits or enter other permit.");
+                //}
 
-            else if (!vm.WC &&
-                     !vm.ESI)
-            {
-                ModelState.AddModelError("Insurance", "Please select at least one of the Insurance Copy.");
-            }
+                else if (!vm.WC &&
+                         !vm.ESI)
+                {
+                    ModelState.AddModelError("Insurance", "Please select at least one of the Insurance Copy.");
+                }
 
-            else if (!vm.InspectAccess &&
-                     !vm.InspectDangerSign &&
-                     !vm.InspectLighting &&
-                     !vm.InspectSafetyBarriers &&
-                     !vm.InspectHandTools &&
-                     string.IsNullOrWhiteSpace(vm.InspectOther) &&
-                     string.IsNullOrWhiteSpace(vm.InspectedNA))
-            {
-                ModelState.AddModelError("InspectedAreas", "Please select at least one of the Inspected Areas or fill other.");
-            }
+                else if (!vm.InspectAccess &&
+                         !vm.InspectDangerSign &&
+                         !vm.InspectLighting &&
+                         !vm.InspectSafetyBarriers &&
+                         !vm.InspectHandTools &&
+                         string.IsNullOrWhiteSpace(vm.InspectOther) &&
+                         string.IsNullOrWhiteSpace(vm.InspectedNA))
+                {
+                    ModelState.AddModelError("InspectedAreas", "Please select at least one of the Inspected Areas or fill other.");
+                }
 
-            else if (!vm.PPEHelmet &&
-                     !vm.PPEShoes &&
-                     !vm.PPEGloves &&
-                     !vm.PPEGoggles &&
-                     !vm.PPEDustMask &&
-                     !vm.PPEEarPlugs &&
-                     !vm.PPEReflectiveVest &&
-                     !vm.PPEHarness &&
-                     string.IsNullOrWhiteSpace(vm.PPEOther) &&
-                     string.IsNullOrWhiteSpace(vm.PPENA))
-            {
-                ModelState.AddModelError("PPE", "Please select at least one of the PPE or fill other.");
-            }
+                else if (!vm.PPEHelmet &&
+                         !vm.PPEShoes &&
+                         !vm.PPEGloves &&
+                         !vm.PPEGoggles &&
+                         !vm.PPEDustMask &&
+                         !vm.PPEEarPlugs &&
+                         !vm.PPEReflectiveVest &&
+                         !vm.PPEHarness &&
+                         string.IsNullOrWhiteSpace(vm.PPEOther) &&
+                         string.IsNullOrWhiteSpace(vm.PPENA))
+                {
+                    ModelState.AddModelError("PPE", "Please select at least one of the PPE or fill other.");
+                }
 
-            else if (string.IsNullOrWhiteSpace(vm.ApproverOne) &&
-                     string.IsNullOrWhiteSpace(vm.ApproverTwo) &&
-                     string.IsNullOrWhiteSpace(vm.ApproverThree) &&
-                     string.IsNullOrWhiteSpace(vm.ApproverFour))
-            {
-                ModelState.AddModelError("ApproverDetails", "Please fill at least one field in Approver Details.");
-            }
+                else if (string.IsNullOrWhiteSpace(vm.ApproverOne) &&
+                         string.IsNullOrWhiteSpace(vm.ApproverTwo) &&
+                         string.IsNullOrWhiteSpace(vm.ApproverThree) &&
+                         string.IsNullOrWhiteSpace(vm.ApproverFour))
+                {
+                    ModelState.AddModelError("ApproverDetails", "Please fill at least one field in Approver Details.");
+                }
 
-            //if (!ModelState.IsValid)
-            //    return View(vm);
+                //if (!ModelState.IsValid)
+                //    return View(vm);
 
-            ModelState.Remove("CreatedOn");
-            ModelState.Remove("IsActive");
+                ModelState.Remove("CreatedOn");
+                ModelState.Remove("IsActive");
 
-            if (!ModelState.IsValid)
-            {
-                // Log errors to Output window
-                foreach (var key in ModelState.Keys)
-                    foreach (var error in ModelState[key].Errors)
-                        Console.WriteLine($"Field: {key} => {error.ErrorMessage}");
+                if (!ModelState.IsValid)
+                {
+                    // Log errors to Output window
+                    foreach (var key in ModelState.Keys)
+                        foreach (var error in ModelState[key].Errors)
+                            Console.WriteLine($"Field: {key} => {error.ErrorMessage}");
 
-                return View(vm);
-            }
+                    return View(vm);
+                }
 
-            var entity = new ColdWorkPermit
-            {
-                // ── Basic Details ──────────────────────────────────────
-                Unit = vm.Unit,
-                ContractorTeam = vm.ContractorTeam,
-                Location = vm.Location,
-                NoOfWorkmen = vm.NoOfWorkmen,
+                var entity = new ColdWorkPermit
+                {
+                    // ── Basic Details ──────────────────────────────────────
+                    Unit = vm.Unit,
+                    ContractorTeam = vm.ContractorTeam,
+                    Location = vm.Location,
+                    NoOfWorkmen = vm.NoOfWorkmen,
 
-                // ── Dates & Times ──────────────────────────────────────
-                StartDate = vm.StartDate,
-                StartTime = vm.StartTime,
-                EndDate = vm.EndDate,
-                EndTime = vm.EndTime,
+                    // ── Dates & Times ──────────────────────────────────────
+                    StartDate = vm.StartDate,
+                    StartTime = vm.StartTime,
+                    EndDate = vm.EndDate,
+                    EndTime = vm.EndTime,
 
-                // ── Work & Tools ───────────────────────────────────────
-                WorkDescription = vm.WorkDescription,
-                ToolsEquipment = vm.ToolsEquipment,
+                    // ── Work & Tools ───────────────────────────────────────
+                    WorkDescription = vm.WorkDescription,
+                    ToolsEquipment = vm.ToolsEquipment,
 
-                // ── Risk Identification ────────────────────────────────
-                RiskFallHeight = vm.RiskFallHeight,
-                RiskWeather = vm.RiskWeather,
-                RiskFlying = vm.RiskFlying,
-                RiskEquipment = vm.RiskEquipment,
-                RiskFalling = vm.RiskFalling,
-                RiskProtruding = vm.RiskProtruding,
-                RiskTripping = vm.RiskTripping,
-                RiskFaulty = vm.RiskFaulty,
-                RiskNoise = vm.RiskNoise,
-                RiskHeat = vm.RiskHeat,
-                RiskVibration = vm.RiskVibration,
-                RiskIllumination = vm.RiskIllumination,
-                RiskFire = vm.RiskFire,
-                RiskOther = vm.RiskOther,
+                    // ── Risk Identification ────────────────────────────────
+                    RiskFallHeight = vm.RiskFallHeight,
+                    RiskWeather = vm.RiskWeather,
+                    RiskFlying = vm.RiskFlying,
+                    RiskEquipment = vm.RiskEquipment,
+                    RiskFalling = vm.RiskFalling,
+                    RiskProtruding = vm.RiskProtruding,
+                    RiskTripping = vm.RiskTripping,
+                    RiskFaulty = vm.RiskFaulty,
+                    RiskNoise = vm.RiskNoise,
+                    RiskHeat = vm.RiskHeat,
+                    RiskVibration = vm.RiskVibration,
+                    RiskIllumination = vm.RiskIllumination,
+                    RiskFire = vm.RiskFire,
+                    RiskOther = vm.RiskOther,
 
-                // ── Documents ─────────────────────────────────────────
-                DocJSA = vm.DocJSA,
-                DocRiskAssessment = vm.DocRiskAssessment,
-                DocOther = vm.DocOther,
+                    // ── Documents ─────────────────────────────────────────
+                    DocJSA = vm.DocJSA,
+                    DocRiskAssessment = vm.DocRiskAssessment,
+                    DocOther = vm.DocOther,
 
-                //// ── Precaution ────────────────────────────
-                //Precaution = vm.Precaution,
-                // ── Precaution & Tools Tested ────────────────────────────
+                    //// ── Precaution ────────────────────────────
+                    //Precaution = vm.Precaution,
+                    // ── Precaution & Tools Tested ────────────────────────────
 
-                //── Tools Tested ──────────────────────────
-                ToolsTested = vm.ToolsTested,
+                    //── Tools Tested ──────────────────────────
+                    ToolsTested = vm.ToolsTested,
 
-                // ── Hazards Identified ────────────────────────────────
-                //HazardWorkAtHeight = vm.HazardWorkAtHeight,
-                //HazardScaffolding = vm.HazardScaffolding,
-                //HazardToolEquipment = vm.HazardToolEquipment,
-                //HazardChemical = vm.HazardChemical,
-                //HazardElectrical = vm.HazardElectrical,
-                //HazardLifting = vm.HazardLifting,
-                //HazardHotSurface = vm.HazardHotSurface,
-                //HazardDust = vm.HazardDust,
-                //HazardNA = vm.HazardNA,
+                    // ── Hazards Identified ────────────────────────────────
+                    //HazardWorkAtHeight = vm.HazardWorkAtHeight,
+                    //HazardScaffolding = vm.HazardScaffolding,
+                    //HazardToolEquipment = vm.HazardToolEquipment,
+                    //HazardChemical = vm.HazardChemical,
+                    //HazardElectrical = vm.HazardElectrical,
+                    //HazardLifting = vm.HazardLifting,
+                    //HazardHotSurface = vm.HazardHotSurface,
+                    //HazardDust = vm.HazardDust,
+                    //HazardNA = vm.HazardNA,
 
-                // ── Associated Permits ───────────────────────────────────
-                PermitHotWork = vm.PermitHotWork,
-                PermitWorkAtHeight = vm.PermitWorkAtHeight,
-                PermitExcavation = vm.PermitExcavation,
-                PermitElectrical = vm.PermitElectrical,
-                PermitConfinedSpace = vm.PermitConfinedSpace,
-                PermitOther = vm.PermitOther,
-                PermitAssociated = vm.PermitAssociated,
+                    // ── Associated Permits ───────────────────────────────────
+                    PermitHotWork = vm.PermitHotWork,
+                    PermitWorkAtHeight = vm.PermitWorkAtHeight,
+                    PermitExcavation = vm.PermitExcavation,
+                    PermitElectrical = vm.PermitElectrical,
+                    PermitConfinedSpace = vm.PermitConfinedSpace,
+                    PermitOther = vm.PermitOther,
+                    PermitAssociated = vm.PermitAssociated,
 
-                // ── Insurance ─────────────────────────────────────────
-                WC = vm.WC,
-                ESI = vm.ESI,
+                    // ── Insurance ─────────────────────────────────────────
+                    WC = vm.WC,
+                    ESI = vm.ESI,
 
-                // ── Inspected Areas ───────────────────────────────────
-                InspectAccess = vm.InspectAccess,
-                InspectDangerSign = vm.InspectDangerSign,
-                InspectLighting = vm.InspectLighting,
-                InspectSafetyBarriers = vm.InspectSafetyBarriers,
-                InspectHandTools = vm.InspectHandTools,
-                InspectOther = vm.InspectOther,
-                InspectedNA = vm.InspectedNA,
+                    // ── Inspected Areas ───────────────────────────────────
+                    InspectAccess = vm.InspectAccess,
+                    InspectDangerSign = vm.InspectDangerSign,
+                    InspectLighting = vm.InspectLighting,
+                    InspectSafetyBarriers = vm.InspectSafetyBarriers,
+                    InspectHandTools = vm.InspectHandTools,
+                    InspectOther = vm.InspectOther,
+                    InspectedNA = vm.InspectedNA,
 
-                // ── PPE Required ──────────────────────────────────────
-                PPEHelmet = vm.PPEHelmet,
-                PPEShoes = vm.PPEShoes,
-                PPEGloves = vm.PPEGloves,
-                PPEGoggles = vm.PPEGoggles,
-                PPEDustMask = vm.PPEDustMask,
-                PPEEarPlugs = vm.PPEEarPlugs,
-                PPEReflectiveVest = vm.PPEReflectiveVest,
-                PPEHarness = vm.PPEHarness,
-                PPEOther = vm.PPEOther,
-                PPENA = vm.PPENA,
+                    // ── PPE Required ──────────────────────────────────────
+                    PPEHelmet = vm.PPEHelmet,
+                    PPEShoes = vm.PPEShoes,
+                    PPEGloves = vm.PPEGloves,
+                    PPEGoggles = vm.PPEGoggles,
+                    PPEDustMask = vm.PPEDustMask,
+                    PPEEarPlugs = vm.PPEEarPlugs,
+                    PPEReflectiveVest = vm.PPEReflectiveVest,
+                    PPEHarness = vm.PPEHarness,
+                    PPEOther = vm.PPEOther,
+                    PPENA = vm.PPENA,
 
-                // ── Authorization ─────────────────────────────────────
-                RaisedBy = vm.RaisedBy,
-                DeptIncharge = vm.DeptIncharge,
-                Facility = vm.Facility,
-                Safety = vm.Safety,
+                    // ── Authorization ─────────────────────────────────────
+                    RaisedBy = vm.RaisedBy,
+                    DeptIncharge = vm.DeptIncharge,
+                    Facility = vm.Facility,
+                    Safety = vm.Safety,
 
-                // ── Suspension / Clearance ────────────────────────────
-                Name = vm.Name,
-                SuspensionDate = vm.SuspensionDate,
+                    // ── Suspension / Clearance ────────────────────────────
+                    Name = vm.Name,
+                    SuspensionDate = vm.SuspensionDate,
 
-                //── Approver Details ───────────────────────────────────
+                    //── Approver Details ───────────────────────────────────
 
-                ApproverOne = vm.ApproverOne,
-                ApproverTwo = vm.ApproverTwo,
-                ApproverThree = vm.ApproverThree,
-                ApproverFour = vm.ApproverFour,
+                    ApproverOne = vm.ApproverOne,
+                    ApproverTwo = vm.ApproverTwo,
+                    ApproverThree = vm.ApproverThree,
+                    ApproverFour = vm.ApproverFour,
 
-                // ── Meta ──────────────────────────────────────────────
-                CreatedOn = DateTime.Now,
-                IsActive = true,
-            };
+                    // ── Meta ──────────────────────────────────────────────
+                    CreatedOn = DateTime.Now,
+                    IsActive = true,
+                };
 
-            if (vm.Id > 0)
-            {
-                entity.Id = vm.Id;
-                entity.CreatedOn = _context.ColdWorkPermits
-                                    .Where(x => x.Id == vm.Id)
-                                    .Select(x => x.CreatedOn)
-                                    .FirstOrDefault();   // preserve original CreatedOn
-                _context.ColdWorkPermits.Update(entity);
-            }
+                if (vm.Id > 0)
+                {
+                    entity.Id = vm.Id;
+                    entity.CreatedOn = _context.ColdWorkPermits
+                                        .Where(x => x.Id == vm.Id)
+                                        .Select(x => x.CreatedOn)
+                                        .FirstOrDefault();   // preserve original CreatedOn
+                    _context.ColdWorkPermits.Update(entity);
+                }
 
-            else
-            {
-                _context.ColdWorkPermits.Add(entity);
-            }
+                else
+                {
+                    _context.ColdWorkPermits.Add(entity);
+                }
 
                 var x = entity.ApproverFour;
                 _context.SaveChanges();
-                insertPermitMaster("Cold Work",entity.Id.ToString(),entity.Unit,Convert.ToString(entity.StartDate),Convert.ToString(entity.EndDate), entity.Location);
-               await sendmail("Cold Work", entity.Id);
+                insertPermitMaster("Cold Work", entity.Id.ToString(), entity.Unit, Convert.ToString(entity.StartDate), Convert.ToString(entity.EndDate), entity.Location);
+                await sendmail("Cold Work", entity.Id);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occurred while saving the Cold permit.");
                 ModelState.AddModelError(ex.Message.ToString(), "An error occurred while saving the Cold permit. Please try again.");
@@ -455,12 +458,16 @@ namespace Permit_to_work.Controllers
         }
         
         [HttpPost("sendmail")]
-        public async Task sendmail(string Type, int id)
+        public async Task<JsonResult> sendmail(string Type, int id)
         {
             string token = Guid.NewGuid().ToString();
             string startdate = string.Empty;
             string enddate = string.Empty;
             string Tomail = string.Empty;
+            string firstApprover= string.Empty;
+            string scondApprover= string.Empty;
+            string thiredApprover= string.Empty;
+            string fourthApprover= string.Empty;
             //string baseUrl = "http://192.168.1.146:808";
             string baseUrl = _configuration["AppSettings"];
             //string baseUrl = "https://localhost:7174";
@@ -520,6 +527,11 @@ namespace Permit_to_work.Controllers
                         }
                         startdate = coldWorkPermit.StartDate.ToString();
                         enddate = coldWorkPermit.EndDate.ToString();
+
+                        firstApprover = string.IsNullOrEmpty(coldWorkPermit.ApproverOne) ? string.Empty : coldWorkPermit.ApproverOne.Split('@')[0].ToString();
+                        scondApprover = string.IsNullOrEmpty(coldWorkPermit.ApproverTwo) ? string.Empty : coldWorkPermit.ApproverTwo.Split('@')[0].ToString();
+                        thiredApprover = string.IsNullOrEmpty(coldWorkPermit.ApproverThree) ? string.Empty : coldWorkPermit.ApproverThree.Split('@')[0].ToString();
+                        fourthApprover = string.IsNullOrEmpty(coldWorkPermit.ApproverFour) ? string.Empty : coldWorkPermit.ApproverFour.Split('@')[0].ToString();
                     }
                     else if (Type == "Hot Work")
                     {
@@ -545,21 +557,136 @@ namespace Permit_to_work.Controllers
                         }
                         startdate = hotWorkPermit.StartDate.ToString();
                         enddate = hotWorkPermit.EndDate.ToString();
+
+                        firstApprover = string.IsNullOrEmpty(hotWorkPermit.ApproverOne) ? string.Empty : hotWorkPermit.ApproverOne.Split('@')[0].ToString();
+                        scondApprover = string.IsNullOrEmpty(hotWorkPermit.ApproverTwo) ? string.Empty : hotWorkPermit.ApproverTwo.Split('@')[0].ToString();
+                        thiredApprover = string.IsNullOrEmpty(hotWorkPermit.ApproverThree) ? string.Empty : hotWorkPermit.ApproverThree.Split('@')[0].ToString();
+                        fourthApprover = string.IsNullOrEmpty(hotWorkPermit.ApproverFour) ? string.Empty : hotWorkPermit.ApproverFour.Split('@')[0].ToString();
                     }
-                    //else if (Type == "Height")
-                    //{
-                    //    var heightPermit = _context.WorkAtHeightPermits.FirstOrDefault(x => x.PermitId == id);
-                    //    //if (heightPermit != null)
-                    //    //{
-                    //    //    Tomail = heightPermit.ApproverOne ?? heightPermit.ApproverTwo ?? heightPermit.ApproverThree ?? heightPermit.ApproverFour ?? string.Empty;
-                    //    //}
-                    //    startdate = heightPermit.StartDate.ToString();
-                    //    enddate = heightPermit.EndDate.ToString();
-                    //}
+                    else if (Type == "Work At Height")
+                    {
+                        var workAtHeight = _context.WorkAtHeightPermits.FirstOrDefault(x => x.PermitId == id);
+                        if (workAtHeight != null)
+                        {
+                            if (permit.FirstApproverStatus == "Pending")
+                            {
+                                Tomail = workAtHeight.ApproverOne;
+                            }
+                            else if (permit.SecondApproverStatus == "Pending")
+                            {
+                                Tomail = workAtHeight.ApproverTwo;
+                            }
+                            else if (permit.ThirdApproverStatus == "Pending")
+                            {
+                                Tomail = workAtHeight.ApproverThree;
+                            }
+                            else if (permit.FourthApproverStatus == "Pending")
+                            {
+                                Tomail = workAtHeight.ApproverFour;
+                            }
+                        }
+                        startdate = workAtHeight.StartDate.ToString();
+                        enddate = workAtHeight.EndDate.ToString();
+
+                        firstApprover = string.IsNullOrEmpty(workAtHeight.ApproverOne) ? string.Empty : workAtHeight.ApproverOne.Split('@')[0].ToString();
+                        scondApprover = string.IsNullOrEmpty(workAtHeight.ApproverTwo) ? string.Empty : workAtHeight.ApproverTwo.Split('@')[0].ToString();
+                        thiredApprover = string.IsNullOrEmpty(workAtHeight.ApproverThree) ? string.Empty : workAtHeight.ApproverThree.Split('@')[0].ToString();
+                        fourthApprover = string.IsNullOrEmpty(workAtHeight.ApproverFour) ? string.Empty : workAtHeight.ApproverFour.Split('@')[0].ToString();
+                    }
+                    else if (Type == "Lifting Operation")
+                    {
+                        var liftingOperation = _context.LiftingOperationPermits.FirstOrDefault(x => x.PermitId == id);
+                        if (liftingOperation != null)
+                        {
+                            if (permit.FirstApproverStatus == "Pending")
+                            {
+                                Tomail = liftingOperation.ApproverOne;
+                            }
+                            else if (permit.SecondApproverStatus == "Pending")
+                            {
+                                Tomail = liftingOperation.ApproverTwo;
+                            }
+                            else if (permit.ThirdApproverStatus == "Pending")
+                            {
+                                Tomail = liftingOperation.ApproverThree;
+                            }
+                            else if (permit.FourthApproverStatus == "Pending")
+                            {
+                                Tomail = liftingOperation.ApproverFour;
+                            }
+                        }
+                        startdate = liftingOperation.StartDate.ToString();
+                        enddate = liftingOperation.EndDate.ToString();
+
+                        firstApprover = string.IsNullOrEmpty(liftingOperation.ApproverOne) ? string.Empty : liftingOperation.ApproverOne.Split('@')[0].ToString();
+                        scondApprover = string.IsNullOrEmpty(liftingOperation.ApproverTwo) ? string.Empty : liftingOperation.ApproverTwo.Split('@')[0].ToString();
+                        thiredApprover = string.IsNullOrEmpty(liftingOperation.ApproverThree) ? string.Empty : liftingOperation.ApproverThree.Split('@')[0].ToString();
+                        fourthApprover = string.IsNullOrEmpty(liftingOperation.ApproverFour) ? string.Empty : liftingOperation.ApproverFour.Split('@')[0].ToString();
+                    }
+                    else if (Type == "Electrical Isolation")
+                    {
+                        var electricalIsolation = _context.ElectricalIsolationPermits.FirstOrDefault(x => x.PermitId == id);
+                        if (electricalIsolation != null)
+                        {
+                            if (permit.FirstApproverStatus == "Pending")
+                            {
+                                Tomail = electricalIsolation.ApproverOne;
+                            }
+                            else if (permit.SecondApproverStatus == "Pending")
+                            {
+                                Tomail = electricalIsolation.ApproverTwo;
+                            }
+                            else if (permit.ThirdApproverStatus == "Pending")
+                            {
+                                Tomail = electricalIsolation.ApproverThree;
+                            }
+                            else if (permit.FourthApproverStatus == "Pending")
+                            {
+                                Tomail = electricalIsolation.ApproverFour;
+                            }
+                        }
+                        startdate = electricalIsolation.StartDate.ToString();
+                        enddate = electricalIsolation.EndDate.ToString();
+
+                        firstApprover = string.IsNullOrEmpty(electricalIsolation.ApproverOne) ? string.Empty : electricalIsolation.ApproverOne.Split('@')[0].ToString();
+                        scondApprover = string.IsNullOrEmpty(electricalIsolation.ApproverTwo) ? string.Empty : electricalIsolation.ApproverTwo.Split('@')[0].ToString();
+                        thiredApprover = string.IsNullOrEmpty(electricalIsolation.ApproverThree) ? string.Empty : electricalIsolation.ApproverThree.Split('@')[0].ToString();
+                        fourthApprover = string.IsNullOrEmpty(electricalIsolation.ApproverFour) ? string.Empty : electricalIsolation.ApproverFour.Split('@')[0].ToString();
+                    }
+                    else if (Type == "Confined Space")
+                    {
+                        var confinedSpace = _context.ConfinedSpacePermits.FirstOrDefault(x => x.Id == id);
+                        if (confinedSpace != null)
+                        {
+                            if (permit.FirstApproverStatus == "Pending")
+                            {
+                                Tomail = confinedSpace.ApproverOne;
+                            }
+                            else if (permit.SecondApproverStatus == "Pending")
+                            {
+                                Tomail = confinedSpace.ApproverTwo;
+                            }
+                            else if (permit.ThirdApproverStatus == "Pending")
+                            {
+                                Tomail = confinedSpace.ApproverThree;
+                            }
+                            else if (permit.FourthApproverStatus == "Pending")
+                            {
+                                Tomail = confinedSpace.ApproverFour;
+                            }
+                        }
+                        startdate = confinedSpace.StartDate.ToString();
+                        enddate = confinedSpace.EndDate.ToString();
+
+                        firstApprover = string.IsNullOrEmpty(confinedSpace.ApproverOne) ? string.Empty : confinedSpace.ApproverOne.Split('@')[0].ToString();
+                        scondApprover = string.IsNullOrEmpty(confinedSpace.ApproverTwo) ? string.Empty : confinedSpace.ApproverTwo.Split('@')[0].ToString();
+                        thiredApprover = string.IsNullOrEmpty(confinedSpace.ApproverThree) ? string.Empty : confinedSpace.ApproverThree.Split('@')[0].ToString();
+                        fourthApprover = string.IsNullOrEmpty(confinedSpace.ApproverFour) ? string.Empty : confinedSpace.ApproverFour.Split('@')[0].ToString();
+                    }
                     if (string.IsNullOrEmpty(Tomail))
                     {
                         // No pending approvers, exit the method
-                        return;
+                        return Json("No More Mails Pending");
                     }
                 }
                 string body = $@"
@@ -600,22 +727,22 @@ style='border-collapse:collapse;width:700px;'>
 </tr>
 
 <tr>
-<td>First Approver</td>
+<td>First Approver - {(string.IsNullOrEmpty(firstApprover) ? string.Empty : firstApprover)}</td>
 <td>{permit.FirstApproverStatus}</td>
 </tr>
 
 <tr>
-<td>Second Approver</td>
+<td>Second Approver - {(string.IsNullOrEmpty(scondApprover) ? string.Empty : scondApprover)}</td>
 <td>{permit.SecondApproverStatus}</td>
 </tr>
 
 <tr>
-<td>Third Approver</td>
+<td>Third Approver - {(string.IsNullOrEmpty(thiredApprover) ? string.Empty : thiredApprover)}</td>
 <td>{permit.ThirdApproverStatus}</td>
 </tr>
 
 <tr>
-<td>Fourth Approver</td>
+<td>Fourth Approver - {(string.IsNullOrEmpty(fourthApprover) ? string.Empty : fourthApprover)}</td>
 <td>{permit.FourthApproverStatus}</td>
 </tr>
 
@@ -675,13 +802,15 @@ REJECT
                     smtp.Send(mail); //Testing purpose, comment out to avoid actual email sending
                     _logger.LogInformation($"Email sent to {Tomail} for permit type {Type} with ID {id}");
                 }
+                return Json($"Email sent to {Tomail} for permit type {Type} with ID {id}");
             }
             catch (Exception ex)
             { 
                 _logger.LogError(ex, $"Failed to send email for permit type {Type} with ID {id}");
+                return Json("Error", ex.Message.ToString());
             }
 
-            return RedirectToAction("Dashboard");
+         
         }
 
         // HOT WORK PERMIT
@@ -881,7 +1010,8 @@ REJECT
 
             _context.HotWorkPermits.Add(entity);
             await _context.SaveChangesAsync();
-           await sendmail("Hot Work", entity.PermitId);
+            insertPermitMaster("Hot Work", entity.PermitId.ToString(), entity.Unit, Convert.ToString(entity.StartDate), Convert.ToString(entity.EndDate), entity.Location);
+            await sendmail("Hot Work", entity.PermitId);
 
             return RedirectToAction("Dashboard");
         }
@@ -1077,7 +1207,8 @@ REJECT
 
             _context.ElectricalIsolationPermits.Add(entity);
             await _context.SaveChangesAsync();
-
+            insertPermitMaster("Electrical Isolation", entity.PermitId.ToString(), entity.Unit, Convert.ToString(entity.StartDate), Convert.ToString(entity.EndDate), entity.Location);
+            await sendmail("Electrical Isolation", entity.PermitId);
             return RedirectToAction("Dashboard");
         }
 
@@ -1295,7 +1426,8 @@ REJECT
 
             _context.LiftingOperationPermits.Add(entity);
             await _context.SaveChangesAsync();
-
+            insertPermitMaster("Lifting Operation", entity.PermitId.ToString(), entity.Unit, Convert.ToString(entity.StartDate), Convert.ToString(entity.EndDate), entity.Location);
+            await sendmail("Lifting Operation", entity.PermitId);
             return RedirectToAction("Dashboard");
         }
 
@@ -1491,7 +1623,8 @@ REJECT
 
             _context.WorkAtHeightPermits.Add(entity);
             await _context.SaveChangesAsync();
-           await sendmail("WorkAtHeight", entity.PermitId);
+            insertPermitMaster("Work At Height", entity.PermitId.ToString(), entity.Unit, Convert.ToString(entity.StartDate), Convert.ToString(entity.EndDate), entity.Location);
+            await sendmail("Work At Height", entity.PermitId);
 
             //return Content("Saved Successfully");
 
@@ -1686,7 +1819,8 @@ REJECT
             _context.ConfinedSpacePermits.Add(entity);
 
             await _context.SaveChangesAsync();
-
+            insertPermitMaster("Confined Space", entity.Id.ToString(), entity.Unit, Convert.ToString(entity.StartDate), Convert.ToString(entity.EndDate), entity.Location);
+            await sendmail("Confined Space", entity.Id);
             return RedirectToAction("Dashboard");
         }
 

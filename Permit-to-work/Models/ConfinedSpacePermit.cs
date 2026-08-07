@@ -150,7 +150,7 @@ namespace Permit_to_work.Models
         public string? ApproverThree { get; set; }
         public string? ApproverFour { get; set; }
 
-        public DateTime CreatedOn { get; set; } = DateTime.Now;
+        public DateTime? CreatedOn { get; set; } = DateTime.Now;
         public bool IsActive { get; set; }
         public string? Status { get; set; }
     }

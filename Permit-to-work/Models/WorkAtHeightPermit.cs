@@ -156,7 +156,7 @@ namespace Permit_to_work.Models
 
         public string? Status { get; set; }
         public bool IsActive { get; set; }
-        public DateTime CreatedOn { get; set; } = DateTime.Now;
+        public DateTime? CreatedOn { get; set; } = DateTime.Now;
        
 
     }

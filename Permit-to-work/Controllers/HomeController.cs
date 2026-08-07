@@ -1893,6 +1893,7 @@ REJECT
                     Location = x.Location,
                     StartDate = x.StartDate,
                     EndDate = x.EndDate,
+                    CreatedOn = x.CreatedOn,
                     Status = _context.PermitMasters.Where(p => Convert.ToInt32(p.PermitNumber) == x.Id && p.PermitType == "Cold Work").Select(p => p.Status).FirstOrDefault(),
 
                     Count = (x.ApproverOne != null ? 4 : x.ApproverTwo != null ? 3 : x.ApproverThree != null ? 2 : x.ApproverFour != null ? 1 : 0),
@@ -1912,7 +1913,7 @@ REJECT
                     Location = x.Location,
                     StartDate = x.StartDate,
                     EndDate = x.EndDate,
-                    //Status = "Active",
+                    CreatedOn = x.CreatedOn,
                     Status = _context.PermitMasters.Where(p => Convert.ToInt32(p.PermitNumber) == x.PermitId && p.PermitType == "Hot Work").Select(p => p.Status).FirstOrDefault(),
 
                     Count = (x.ApproverOne != null ? 4 : x.ApproverTwo != null ? 3 : x.ApproverThree != null ? 2 : x.ApproverFour != null ? 1 : 0),
@@ -1933,7 +1934,7 @@ REJECT
                     Location = x.Location,
                     StartDate = x.StartDate,
                     EndDate = x.EndDate,
-                    //Status = "Active"
+                    CreatedOn = x.CreatedOn,
                     Status = _context.PermitMasters.Where(p => Convert.ToInt32(p.PermitNumber) == x.PermitId && p.PermitType == "Electrical Isolation").Select(p => p.Status).FirstOrDefault(),
 
                     Count = (x.ApproverOne != null ? 4 : x.ApproverTwo != null ? 3 : x.ApproverThree != null ? 2 : x.ApproverFour != null ? 1 : 0),
@@ -1954,6 +1955,7 @@ REJECT
                     Location = x.Location,
                     StartDate = x.StartDate,
                     EndDate = x.EndDate,
+                    CreatedOn = x.CreatedOn,
                     Status = _context.PermitMasters.Where(p => Convert.ToInt32(p.PermitNumber) == x.PermitId && p.PermitType == "Work At Height").Select(p => p.Status).FirstOrDefault(),
 
                     Count = (x.ApproverOne != null ? 4 : x.ApproverTwo != null ? 3 : x.ApproverThree != null ? 2 : x.ApproverFour != null ? 1 : 0),
@@ -1974,8 +1976,7 @@ REJECT
                     Location = x.Location,
                     StartDate = x.StartDate,
                     EndDate = x.EndDate,
-
-                    //Status = "Active"
+                    CreatedOn = x.CreatedOn,
                     Status = _context.PermitMasters.Where(p => Convert.ToInt32(p.PermitNumber) == x.PermitId && p.PermitType == "Lifting Operation").Select(p => p.Status).FirstOrDefault(),
 
                     Count = (x.ApproverOne != null ? 4 : x.ApproverTwo != null ? 3 : x.ApproverThree != null ? 2 : x.ApproverFour != null ? 1 : 0),
@@ -1996,7 +1997,7 @@ REJECT
                     Location = x.Location,
                     StartDate = x.StartDate,
                     EndDate = x.EndDate,
-                    //Status = "Active"
+                    CreatedOn = x.CreatedOn,
                     Status = _context.PermitMasters.Where(p => Convert.ToInt32(p.PermitNumber) == x.Id && p.PermitType == "Confined Space").Select(p => p.Status).FirstOrDefault(),
 
                     Count = (x.ApproverOne != null ? 4 : x.ApproverTwo != null ? 3 : x.ApproverThree != null ? 2 : x.ApproverFour != null ? 1 : 0),
@@ -2008,7 +2009,7 @@ REJECT
                 })
             );
 
-            objpermit.PermitDetailsList = dashboard.OrderByDescending(x => x.StartDate).ToList();
+            objpermit.PermitDetailsList = dashboard.OrderByDescending(x => x.CreatedOn).ToList();
 
             objpermit.FirstApproval = _context.ApproverMasters.Where(x => x.ApproverId == 1).Select(x => x.ApproverName).FirstOrDefault();
             objpermit.SecondApproval = _context.ApproverMasters.Where(x => x.ApproverId == 2).Select(x => x.ApproverName).FirstOrDefault();
@@ -2067,8 +2068,14 @@ REJECT
                         var third = permitcheck.ThirdApproverStatus;
                         var fourth = permitcheck.FourthApproverStatus;
 
+                        // First Approver
+                        if (count >= 1 && first == "Pending")
+                        {
+                            permitcheck.FirstApproverStatus = Status;
+                        }
+
                         // Second Approver
-                        if (count >= 2 && second == "Pending")
+                        else if (count >= 2 && second == "Pending")
                         {
                             permitcheck.SecondApproverStatus = Status;
                         }
@@ -2164,29 +2171,29 @@ REJECT
                         _context.PermitMasters.Update(permitcheck);
                     }
 
-                    else
+                    //else
 
-                    {
-                        var permitMaster = new PermitMaster
-                        {
-                            Unit = permitdetails.Unit,
-                            StartDate = permitdetails.StartDate,
-                            EndDate = permitdetails.EndDate,
-                            PermitType = PermitType,
-                            PermitNumber = Permitid,
-                            Location = permitdetails.Location,
-                            Status = count > 1 ? "Partial Approved" : count == 1 && Status != "Rejected" ? "Approved" : "Rejected",
-                            //Status = "Partial Approved",
-                            FirstApproverStatus = Status,
-                            SecondApproverStatus = "Pending",
-                            ThirdApproverStatus = "Pending",
-                            FourthApproverStatus = "Pending",
-                            CreatedByUserId = HttpContext.Session.GetString("UserId"),
-                            CreatedOn = DateTime.Now,
-                        };
+                    //{
+                    //    var permitMaster = new PermitMaster
+                    //    {
+                    //        Unit = permitdetails.Unit,
+                    //        StartDate = permitdetails.StartDate,
+                    //        EndDate = permitdetails.EndDate,
+                    //        PermitType = PermitType,
+                    //        PermitNumber = Permitid,
+                    //        Location = permitdetails.Location,
+                    //        Status = count > 1 ? "Partial Approved" : count == 1 && Status != "Rejected" ? "Approved" : "Rejected",
+                    //        //Status = "Partial Approved",
+                    //        FirstApproverStatus = Status,
+                    //        SecondApproverStatus = "Pending",
+                    //        ThirdApproverStatus = "Pending",
+                    //        FourthApproverStatus = "Pending",
+                    //        CreatedByUserId = HttpContext.Session.GetString("UserId"),
+                    //        CreatedOn = DateTime.Now,
+                    //    };
 
-                        _context.Add(permitMaster);
-                    }
+                    //    _context.Add(permitMaster);
+                    //}
 
                     _context.SaveChanges();
                 }
@@ -2213,15 +2220,23 @@ REJECT
 
                     var permitcheck = _context.PermitMasters.Where(a => a.PermitNumber == Permitid && a.PermitType == PermitType).FirstOrDefault();
 
-                    if (permitcheck != null)
+
+                    if (permitcheck != null)      
                     {
+                
                         var first = permitcheck.FirstApproverStatus;
                         var second = permitcheck.SecondApproverStatus;
                         var third = permitcheck.ThirdApproverStatus;
                         var fourth = permitcheck.FourthApproverStatus;
 
+                        // First Approver
+                        if (count >= 1 && first == "Pending")
+                        {
+                            permitcheck.FirstApproverStatus = Status;
+                        }
+
                         // Second Approver
-                        if (count >= 2 && second == "Pending")
+                        else if (count >= 2 && second == "Pending")
                         {
                             permitcheck.SecondApproverStatus = Status;
                         }
@@ -2318,29 +2333,29 @@ REJECT
                         sendmail(PermitType, Convert.ToInt32(Permitid));
                     }
 
-                    else
-                    {
+                    //else
+                    //{
 
-                        var permitMaster = new PermitMaster
-                        {
-                            Unit = permitdetails.Unit,
-                            StartDate = permitdetails.StartDate,
-                            EndDate = permitdetails.EndDate,
-                            PermitType = PermitType,
-                            PermitNumber = Permitid,
-                            Location = permitdetails.Location,
-                            Status = count > 1 ? "Partial Approved" : count == 1 && Status != "Rejected" ? "Approved" : "Rejected",
-                            //Status = "Partial Approved",
-                            FirstApproverStatus = Status,
-                            SecondApproverStatus = "Pending",
-                            ThirdApproverStatus = "Pending",
-                            FourthApproverStatus = "Pending",
-                            CreatedByUserId = HttpContext.Session.GetString("UserId"),
-                            CreatedOn = DateTime.Now,
-                        };
+                    //    var permitMaster = new PermitMaster
+                    //    {
+                    //        Unit = permitdetails.Unit,
+                    //        StartDate = permitdetails.StartDate,
+                    //        EndDate = permitdetails.EndDate,
+                    //        PermitType = PermitType,
+                    //        PermitNumber = Permitid,
+                    //        Location = permitdetails.Location,
+                    //        Status = count > 1 ? "Partial Approved" : count == 1 && Status != "Rejected" ? "Approved" : "Rejected",
+                    //        //Status = "Partial Approved",
+                    //        FirstApproverStatus = Status,
+                    //        SecondApproverStatus = "Pending",
+                    //        ThirdApproverStatus = "Pending",
+                    //        FourthApproverStatus = "Pending",
+                    //        CreatedByUserId = HttpContext.Session.GetString("UserId"),
+                    //        CreatedOn = DateTime.Now,
+                    //    };
 
-                        _context.Add(permitMaster);
-                    }
+                    //    _context.Add(permitMaster);
+                    //}
 
                     _context.SaveChanges();
                     sendmail(PermitType, Convert.ToInt32(Permitid));
@@ -2375,8 +2390,14 @@ REJECT
                         var third = permitcheck.ThirdApproverStatus;
                         var fourth = permitcheck.FourthApproverStatus;
 
+                        // First Approver
+                        if (count >= 1 && first == "Pending")
+                        {
+                            permitcheck.FirstApproverStatus = Status;
+                        }
+
                         // Second Approver
-                        if (count >= 2 && second == "Pending")
+                        else if (count >= 2 && second == "Pending")
                         {
                             permitcheck.SecondApproverStatus = Status;
                         }
@@ -2472,29 +2493,29 @@ REJECT
                         _context.PermitMasters.Update(permitcheck);
                     }
 
-                    else
-                    {
+                    //else
+                    //{
 
-                        var permitMaster = new PermitMaster
-                        {
-                            Unit = permitdetails.Unit,
-                            StartDate = permitdetails.StartDate,
-                            EndDate = permitdetails.EndDate,
-                            PermitType = PermitType,
-                            PermitNumber = Permitid,
-                            Location = permitdetails.Location,
-                            Status = count > 1 ? "Partial Approved" : count == 1 && Status != "Rejected" ? "Approved" : "Rejected",
-                            //Status = "Partial Approved",
-                            FirstApproverStatus = Status,
-                            SecondApproverStatus = "Pending",
-                            ThirdApproverStatus = "Pending",
-                            FourthApproverStatus = "Pending",
-                            CreatedByUserId = HttpContext.Session.GetString("UserId"),
-                            CreatedOn = DateTime.Now,
-                        };
+                    //    var permitMaster = new PermitMaster
+                    //    {
+                    //        Unit = permitdetails.Unit,
+                    //        StartDate = permitdetails.StartDate,
+                    //        EndDate = permitdetails.EndDate,
+                    //        PermitType = PermitType,
+                    //        PermitNumber = Permitid,
+                    //        Location = permitdetails.Location,
+                    //        Status = count > 1 ? "Partial Approved" : count == 1 && Status != "Rejected" ? "Approved" : "Rejected",
+                    //        //Status = "Partial Approved",
+                    //        FirstApproverStatus = Status,
+                    //        SecondApproverStatus = "Pending",
+                    //        ThirdApproverStatus = "Pending",
+                    //        FourthApproverStatus = "Pending",
+                    //        CreatedByUserId = HttpContext.Session.GetString("UserId"),
+                    //        CreatedOn = DateTime.Now,
+                    //    };
 
-                        _context.Add(permitMaster);
-                    }
+                    //    _context.Add(permitMaster);
+                    //}
 
                     _context.SaveChanges();
                 }
@@ -2528,8 +2549,14 @@ REJECT
                         var third = permitcheck.ThirdApproverStatus;
                         var fourth = permitcheck.FourthApproverStatus;
 
+                        // First Approver
+                        if (count >=1 && first == "Pending")
+                        {
+                            permitcheck.FirstApproverStatus = Status;
+                        }
+
                         // Second Approver
-                        if (count >= 2 && second == "Pending")
+                        else if (count >= 2 && second == "Pending")
                         {
                             permitcheck.SecondApproverStatus = Status;
                         }
@@ -2626,29 +2653,29 @@ REJECT
                         sendmail(PermitType, Convert.ToInt32(Permitid));
                     }
 
-                    else
-                    {
+                    //else
+                    //{
 
-                        var permitMaster = new PermitMaster
-                        {
-                            Unit = permitdetails.Unit,
-                            StartDate = permitdetails.StartDate,
-                            EndDate = permitdetails.EndDate,
-                            PermitType = PermitType,
-                            PermitNumber = Permitid,
-                            Location = permitdetails.Location,
-                            Status = count > 1 ? "Partial Approved" : count == 1 && Status != "Rejected" ? "Approved" : "Rejected",
-                            //Status = "Partial Approved",
-                            FirstApproverStatus = Status,
-                            SecondApproverStatus = "Pending",
-                            ThirdApproverStatus = "Pending",
-                            FourthApproverStatus = "Pending",
-                            CreatedByUserId = HttpContext.Session.GetString("UserId"),
-                            CreatedOn = DateTime.Now,
-                        };
+                    //    var permitMaster = new PermitMaster
+                    //    {
+                    //        Unit = permitdetails.Unit,
+                    //        StartDate = permitdetails.StartDate,
+                    //        EndDate = permitdetails.EndDate,
+                    //        PermitType = PermitType,
+                    //        PermitNumber = Permitid,
+                    //        Location = permitdetails.Location,
+                    //        Status = count > 1 ? "Partial Approved" : count == 1 && Status != "Rejected" ? "Approved" : "Rejected",
+                    //        //Status = "Partial Approved",
+                    //        FirstApproverStatus = Status,
+                    //        SecondApproverStatus = "Pending",
+                    //        ThirdApproverStatus = "Pending",
+                    //        FourthApproverStatus = "Pending",
+                    //        CreatedByUserId = HttpContext.Session.GetString("UserId"),
+                    //        CreatedOn = DateTime.Now,
+                    //    };
 
-                        _context.Add(permitMaster);
-                    }
+                    //    _context.Add(permitMaster);
+                    //}
 
                     _context.SaveChanges();
                     sendmail(PermitType, Convert.ToInt32(Permitid));
@@ -2683,8 +2710,14 @@ REJECT
                         var third = permitcheck.ThirdApproverStatus;
                         var fourth = permitcheck.FourthApproverStatus;
 
+                        // First Approver
+                        if (count >= 1 && first == "Pending")
+                        {
+                            permitcheck.FirstApproverStatus = Status;
+                        }
+
                         // Second Approver
-                        if (count >= 2 && second == "Pending")
+                        else if (count >= 2 && second == "Pending")
                         {
                             permitcheck.SecondApproverStatus = Status;
                         }
@@ -2780,29 +2813,29 @@ REJECT
                         _context.PermitMasters.Update(permitcheck);
                     }
 
-                    else
-                    {
+                    //else
+                    //{
 
-                        var permitMaster = new PermitMaster
-                        {
-                            Unit = permitdetails.Unit,
-                            StartDate = permitdetails.StartDate,
-                            EndDate = permitdetails.EndDate,
-                            PermitType = PermitType,
-                            PermitNumber = Permitid,
-                            Location = permitdetails.Location,
-                            Status = count > 1 ? "Partial Approved" : count == 1 && Status != "Rejected" ? "Approved" : "Rejected",
-                            //Status = "Partial Approved",
-                            FirstApproverStatus = Status,
-                            SecondApproverStatus = "Pending",
-                            ThirdApproverStatus = "Pending",
-                            FourthApproverStatus = "Pending",
-                            CreatedByUserId = HttpContext.Session.GetString("UserId"),
-                            CreatedOn = DateTime.Now,
-                        };
+                    //    var permitMaster = new PermitMaster
+                    //    {
+                    //        Unit = permitdetails.Unit,
+                    //        StartDate = permitdetails.StartDate,
+                    //        EndDate = permitdetails.EndDate,
+                    //        PermitType = PermitType,
+                    //        PermitNumber = Permitid,
+                    //        Location = permitdetails.Location,
+                    //        Status = count > 1 ? "Partial Approved" : count == 1 && Status != "Rejected" ? "Approved" : "Rejected",
+                    //        //Status = "Partial Approved",
+                    //        FirstApproverStatus = Status,
+                    //        SecondApproverStatus = "Pending",
+                    //        ThirdApproverStatus = "Pending",
+                    //        FourthApproverStatus = "Pending",
+                    //        CreatedByUserId = HttpContext.Session.GetString("UserId"),
+                    //        CreatedOn = DateTime.Now,
+                    //    };
 
-                        _context.Add(permitMaster);
-                    }
+                    //    _context.Add(permitMaster);
+                    //}
 
                     _context.SaveChanges();
                 }
@@ -2834,8 +2867,14 @@ REJECT
                         var third = permitcheck.ThirdApproverStatus;
                         var fourth = permitcheck.FourthApproverStatus;
 
+                        // First Approver
+                        if (count >= 1 && first == "Pending")
+                        {
+                            permitcheck.FirstApproverStatus = Status;
+                        }
+
                         // Second Approver
-                        if (count >= 2 && second == "Pending")
+                        else if (count >= 2 && second == "Pending")
                         {
                             permitcheck.SecondApproverStatus = Status;
                         }
@@ -2931,29 +2970,29 @@ REJECT
                         _context.PermitMasters.Update(permitcheck);
                     }
 
-                    else
-                    {
+                    //else
+                    //{
 
-                        var permitMaster = new PermitMaster
-                        {
-                            Unit = permitdetails.Unit,
-                            StartDate = permitdetails.StartDate,
-                            EndDate = permitdetails.EndDate,
-                            PermitType = PermitType,
-                            PermitNumber = Permitid,
-                            Location = permitdetails.Location,
-                            Status = count > 1 ? "Partial Approved" : count == 1 && Status != "Rejected" ? "Approved" : "Rejected",
-                            //Status = "Partial Approved",
-                            FirstApproverStatus = Status,
-                            SecondApproverStatus = "Pending",
-                            ThirdApproverStatus = "Pending",
-                            FourthApproverStatus = "Pending",
-                            CreatedByUserId = HttpContext.Session.GetString("UserId"),
-                            CreatedOn = DateTime.Now,
-                        };
+                    //    var permitMaster = new PermitMaster
+                    //    {
+                    //        Unit = permitdetails.Unit,
+                    //        StartDate = permitdetails.StartDate,
+                    //        EndDate = permitdetails.EndDate,
+                    //        PermitType = PermitType,
+                    //        PermitNumber = Permitid,
+                    //        Location = permitdetails.Location,
+                    //        Status = count > 1 ? "Partial Approved" : count == 1 && Status != "Rejected" ? "Approved" : "Rejected",
+                    //        //Status = "Partial Approved",
+                    //        FirstApproverStatus = Status,
+                    //        SecondApproverStatus = "Pending",
+                    //        ThirdApproverStatus = "Pending",
+                    //        FourthApproverStatus = "Pending",
+                    //        CreatedByUserId = HttpContext.Session.GetString("UserId"),
+                    //        CreatedOn = DateTime.Now,
+                    //    };
 
-                        _context.Add(permitMaster);
-                    }
+                    //    _context.Add(permitMaster);
+                    //}
 
                     _context.SaveChanges();
                 }

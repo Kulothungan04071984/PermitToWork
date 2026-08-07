@@ -19,5 +19,6 @@ namespace Permit_to_work.ViewModel
 
         public int Count { get; set; }
         public bool IsActive { get; set; }
+        public DateTime? CreatedOn { get; set; }
     }
 }

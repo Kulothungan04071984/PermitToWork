@@ -145,7 +145,7 @@ namespace Permit_to_work.Models
         public string? ApproverFour { get; set; }    // ← nullable
 
         // Meta — set by server, not form
-        public DateTime CreatedOn { get; set; } = DateTime.Now;
+        public DateTime? CreatedOn { get; set; } = DateTime.Now;
         public bool IsActive { get; set; }
 
     }

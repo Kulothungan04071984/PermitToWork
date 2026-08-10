@@ -37,7 +37,7 @@
         .card {
         border: none;
         border-radius: 12px;
-        margin-top: 60px;
+        margin-top: 20px;
            
         }
 
@@ -253,11 +253,11 @@
             </div>
         </div>
 
-        <!-- Search + Add -->
+       @*  <!-- Search + Add -->
         <div class="d-flex justify-content-between">
             <input type="text" id="searchInput" class="form-control w-25"
                    placeholder="🔍 Search...">
-        </div>
+        </div> *@
 
         <!-- Table -->
         <div class="card shadow-lg" style="margin-top:0% !important">
@@ -268,13 +268,13 @@
                 <table class="table table-hover align-middle text-center " id="permitTable" style="width:100% !important">
                     <thead class="table-light">
                         <tr>
-                            <th>Type</th>
-                            <th>Unit</th>
-                            <th>Location</th>
-                            <th>Start</th>
-                            <th>End</th>
-                            <th>Approval</th>
-                            <th>Status</th>
+                            <th class="text-center">Type</th>
+                            <th class="text-center">Unit</th>
+                            <th class="text-center">Location</th>
+                            <th class="text-center">Start</th>
+                            <th class="text-center">End</th>
+                            <th class="text-center">Approval</th>
+                            <th class="text-center">Status</th>
                             <th class="text-center">Actions</th>
                         </tr>
                     </thead>
@@ -536,7 +536,7 @@
         $(document).ready(function () {
         $('#sidebar').hide();
             $('#permitTable').DataTable({
-                pageLength: 5,
+                pageLength: 10,
                 lengthchange: false,
                 searching: true,
                 ordering: true,
@@ -557,64 +557,54 @@
 
             success: function (result) {
 
-                // alert(JSON.stringify(result));
+                // $(".approval-step").removeClass("approved pending rejected").addClass("pending");
 
-                $(".approval-step").removeClass("approved pending rejected").addClass("pending");
+                // $(".approval-step i").removeClass("bi-check-circle-fill bi-hourglass-split bi-x-circle-fill").addClass("bi-hourglass-split");
 
-                $(".approval-step i").removeClass("bi-check-circle-fill bi-hourglass-split bi-x-circle-fill").addClass("bi-hourglass-split");
-
-                $(".approval-line").removeClass("active rejected");
+                // $(".approval-line").removeClass("active rejected");
 
 
 
             var statusList = [
-                result.firstStatus,
+                result.firstStatus,  
                 result.secondStatus,
                 result.thirdStatus,
                 result.fourthStatus
             ]
 
-            // for (let i = 0; i < result; i++)
+            // for (let i = 0; i < statusList.length; i++)
             // {
-            //     $(".approval-step").eq(i).removeClass("pending").addClass("approved");
-            //     $(".approval-step").eq(i).find("i").removeClass("bi-hourglass-split").addClass("bi-check-class-fill");
-
-            //     if(i<3)
+            //     if(statusList[i] == "Approved")
             //     {
-            //         $(".approval-line").eq(i).addClass("active");
+            //         $(".approval-step").eq(i).removeClass("pending rejected").addClass("approved");
+            //     }
+            //     else if(statusList[i] == "Rejected")
+            //     {
+            //         $(".approval-step").eq(i).removeClass("pending approved").addClass("rejected");
             //     }
             // }
 
             statusList.forEach(function (status, index) {
 
-                status = (status || "").trim();
+                if (!status) {
+                    return;
+                }
 
                 var step = $(".approval-step").eq(index);
-                var icon = step.find("i");
+                step.removeClass("approved rejected pending").addClass(status.toLowerCase());
 
-                step.removeClass("approved pending rejected");
-                icon.removeClass("bi-check-circle-fill bi-hourglass-split bi-x-circle-fill");
+                step.find("i").removeClass("bi-check-circle-fill bi-hourglass-split bi-x-circle-fill");
 
                 if (status == "Approved") {
-                    step.addClass("approved");
-                    icon.addClass("bi-check-circle-fill");
-
-                    if (index < 3)
-                        $(".approval-line").eq(index).addClass("active");
+                    step.find("i").addClass("bi-check-circle-fill");
                 }
 
                 else if (status == "Rejected") {
-                    step.addClass("rejected");
-                    icon.addClass("bi-x-circle-fill");
-
-                    if (index < 3) {
-                        $(".approval-line").eq(index).addClass("rejected");
-                    }
+                    step.find("i").addClass("bi-x-circle-fill")
                 }
 
                 else {
-                    step.addClass("pending");
-                    icon.addClass("bi-hourglass-split");
+                    step.find("i").addClass("bi-hourglass-split");
                 }
             });
 

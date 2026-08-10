@@ -1854,14 +1854,8 @@ REJECT
                     x.SecondApproverStatus,
                     x.ThirdApproverStatus,
                     x.FourthApproverStatus
-
-                    //x.ApproverOne ,
-                    //ApproverTwo = x.ApproverTwo ?? "EMPTY",
-                    //ApproverThree = x.ApproverThree ?? "EMPTY",
-                    //ApproverFour = x.ApproverFour ?? "EMPTY"
                 })
                 .FirstOrDefault();
-
 
             return Json(new
             {
@@ -1917,6 +1911,7 @@ REJECT
                     Status = _context.PermitMasters.Where(p => Convert.ToInt32(p.PermitNumber) == x.PermitId && p.PermitType == "Hot Work").Select(p => p.Status).FirstOrDefault(),
 
                     Count = (x.ApproverOne != null ? 4 : x.ApproverTwo != null ? 3 : x.ApproverThree != null ? 2 : x.ApproverFour != null ? 1 : 0),
+                    //Count = (x.ApproverOne != null ? 1 : 0) + (x.ApproverTwo != null ? 1 : 0) + (x.ApproverThree != null ? 1 : 0) + (x.ApproverFour != null ? 1 : 0),
 
                     FirstApprovalStatus = _context.PermitMasters.Where(p => Convert.ToInt32(p.PermitNumber) == x.PermitId && p.PermitType == "Hot Work").Select(p => p.FirstApproverStatus).FirstOrDefault(),
                     SecondApprovalStatus = _context.PermitMasters.Where(p => Convert.ToInt32(p.PermitNumber) == x.PermitId && p.PermitType == "Hot Work").Select(p => p.SecondApproverStatus).FirstOrDefault(),

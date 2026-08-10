@@ -248,98 +248,6 @@
                     </div>
                 </div>
             </section>
-@* 
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="FallFromHeight" />
-                            <label class="form-check-label">Fall from Height</label>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="AdverseWeather" />
-                            <label class="form-check-label">Adverse Weather</label>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="FlyingParticles" />
-                            <label class="form-check-label">Flying Particles</label>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="MovingVehicle/Equipment" />
-                            <label class="form-check-label">Moving Vehicle/Equipment</label>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="FallingDebris/Objects" />
-                            <label class="form-check-label">Falling Debris/Objects</label>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="ProtrudingObjects/parts" />
-                            <label class="form-check-label">Protruding Objects/parts</label>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="Tripping/Slipping" />
-                            <label class="form-check-label">Tripping / Slipping</label>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="FaultyEquipment/Material" />
-                            <label class="form-check-label">Faulty Equipment/Material</label>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="FragileSurface/Roof" />
-                            <label class="form-check-label"> Fragile Surface/Roof</label>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="WorkUnderBelow" />
-                            <label class="form-check-label">Work Under Below</label>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="NearOverheadLines" />
-                            <label class="form-check-label">Near Overhead Lines</label>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="NearEnergizedEquipment" />
-                            <label class="form-check-label">Near Energized Equipment</label>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <label>Others</label>
-                        <input type="text" name="OtherRiskIdentification" class="form-control" />
-                    </div>
-                </div>
-            </section> *@
 
             <!-- ════════════════════════════════════════════════════
                SECTION: DOCUMENTS
@@ -361,25 +269,7 @@
                         <label class="form-check-label">Risk Assessment</label>
                     </div>
 
-                @* <div class="row">
-                    <div class="col-md-4">
-                        <div class="col-md-2">
-                            @Html.CheckBoxFor(m => m.AttachJSA)
-                            <label>JSA</label>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="col-md-2">
-                            @Html.CheckBoxFor(m => m.RiskAssessment)
-                            <label>Risk Assessment</label>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <label>Others</label>
-                        <input type="text" name="OtherDocuments" class="form-control" />
-                    </div> *@
+               
                     <div class="col-md-3">
                         <label>Other (specify):</label>
                         @Html.TextBoxFor(m => m.AttachOther, new { @class = "form-control" })
@@ -559,70 +449,7 @@
                 </div>
             </section>
  
-        @* <section class="card permit-card">
-            @Html.ValidationMessage("Inspection", "", new { @class = "text-danger" })
-            <fieldset>
-                <div class="section-title">
-                    Inspection by Issuer / Receiver <span class="required-star">*</span>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="DangerWarningSign" />
-                            <label class="form-check-label">Danger/Warning Sign</label>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="ScaffoldTagSystem" />
-                            <label class="form-check-label">Scaffold Tag System</label>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="Lighting" />
-                            <label class="form-check-label">Lighting</label>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="SafetyBarriers" />
-                            <label class="form-check-label">Safety Barriers</label>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="BuddySystem" />
-                            <label class="form-check-label">Buddy System</label>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="Rescue" />
-                            <label class="form-check-label">Rescue</label>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="MaterialBasket" />
-                            <label class="form-check-label">Material Basket</label>
-                        </div>
-                    </div>
-
-
-                    <div class="col-md-4">
-                        <label>Others</label>
-                        <input type="text" name="OtherInspection" class="form-control" />
-                    </div>
-                </div>
-            </fieldset> *@
+       
 
             <!-- ═══════════════════════════════════════════════════
                  SECTION: PPE
@@ -645,77 +472,7 @@
                 </div>
             </section>
 
-           @*  <section class="card permit-card">
-                @Html.ValidationMessage("PPE", "", new { @class = "text-danger" })
-                <fieldset>
-                    <div class="section-title mt-4">
-                        PPE Required <span class="required-star">*</span>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" name="HelmetwithChinstrap" />
-                                <label class="form-check-label"> Helmet with Chin strap</label>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" name="Safetygoggles" />
-                                <label class="form-check-label">Safety goggles</label>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" name="SafetyShoes" />
-                                <label class="form-check-label">Safety Shoes</label>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" name="SafetyGloves" />
-                                <label class="form-check-label">Safety Gloves</label>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" name="SafetyEarPlugs/muff" />
-                                <label class="form-check-label">Safety Ear Plugs/muff</label>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" name="ReflectiveVest" />
-                                <label class="form-check-label">Reflective Vest</label>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" name="DustMask" />
-                                <label class="form-check-label">Dust Mask</label>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" name="Safetyclothes" />
-                                <label class="form-check-label">Safety clothes</label>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <label>Others</label>
-                            <input type="text" name="OtherPPE" class="form-control" />
-                        </div>
-                    </div>
-                </fieldset>
-            </section> *@
+          
 
             <!-- ════════════════════════════════════════════════════
               SECTION: INSURANCE COPY
@@ -773,20 +530,23 @@
                     </div>
 
                     <div class="col-md-3">
-                        <label>Receiver Date</label>
+                        <label>Department Incharge</label>
                         @Html.TextBoxFor(m => m.DepartmentIncharge, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.DepartmentIncharge, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
                 <div class="row g-3">
-                    <div class="col-md-4">
-                        <label>Permit Issuer name</label>
+                    <div class="col-md-3">
+                        <label>Facility</label>
                         @Html.TextBoxFor(m => m.Facility, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Facility, "", new { @class = "text-danger" })
                     </div>
 
                     <div class="col-md-3">
-                        <label>Issuer Date</label>
-                        @Html.TextBoxFor(m => m.Safety, new { @class = "form-control"})
+                        <label>Safety</label>
+                        @Html.TextBoxFor(m => m.Safety, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Safety, "", new { @class = "text-danger" })
                     </div>
                 </div>
 

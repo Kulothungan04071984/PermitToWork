@@ -6,6 +6,7 @@ namespace Permit_to_work.ViewModel
     public class PermitDashboardVM
     {   
         public int PermitDashBoardId { get; set; }
+        public int PermitMasterId { get; set; }
         public string? PermitType { get; set; }   
         public string? Unit { get; set; }
         public string? Location { get; set; }
@@ -16,6 +17,11 @@ namespace Permit_to_work.ViewModel
         public string? SecondApprovalStatus { get; set; }
         public string? ThirdApprovalStatus { get; set; }
         public string? FourthApprovalStatus { get; set; }
+        public string? ApproverOne { get; set; }
+        public string? ApproverTwo { get; set; }
+        public string? ApproverThree { get; set; }
+        public string? ApproverFour { get; set; }
+
 
         public int Count { get; set; }
         public bool IsActive { get; set; }

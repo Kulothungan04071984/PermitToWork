@@ -216,8 +216,8 @@
         background-color: #5dcaa5;
         }
 
-        .approval-line.rejected {
-            background-color: red;
+        #StatusModal .approval-line.rejected {
+            background-color: #dc3545;
         }
 
     </style>
@@ -313,7 +313,7 @@
                                     <td class="text-center">
                                         <div class="row">
                                             <div class="col-lg-3">
-                                                <button class="btn btn-sm btn-info btnapproval" data-id="@item.PermitDashBoardId" onclick="ApprovalStatus(@item.PermitDashBoardId)">
+                                                <button class="btn btn-sm btn-info btnapproval" data-id="@item.PermitDashBoardId" onclick="ApprovalStatus(@item.PermitMasterId)">
                                                     <i class="bi bi-plus-circle"></i>
                                                 </button>
                                             </div>
@@ -399,7 +399,7 @@
                             <i class="bi bi-check-circle-fill"></i>
                             <span id="snFirstApproval" class="approver-email"></span>
                             @* <span id="snFirstApproval"></span> *@
-                            <small>First Approver</small>
+                           
                         </div>
 
                         <div class="approval-line"></div>
@@ -408,7 +408,7 @@
                             <i class="bi bi-check-circle-fill"></i>
                             <span id="snSecondApproval" class="approver-email"></span>
                            @*  <span id="snSecondApproval"></span> *@
-                            <small>Second Approver</small>
+                            
                         </div>
 
                         <div class="approval-line"></div>
@@ -417,7 +417,7 @@
                             <i class="bi bi-check-circle-fill"></i>
                             <span id="snThirdApproval" class="approver-email"></span>
                             @* <span id="snThirdApproval"></span> *@
-                            <small>Third Approver</small>
+                            
                         </div>
 
                         <div class="approval-line"></div>
@@ -426,7 +426,7 @@
                             <i class="bi bi-check-circle-fill"></i>
                             <span id="snFourthApproval" class="approver-email"></span>
                             @* <span id="snFourthApproval"></span> *@
-                            <small>Fourth Approver</small>
+                            
                         </div>
 
 
@@ -548,72 +548,77 @@
             });
         });
 
-        function ApprovalStatus(id) {
-        debugger;
-        $.ajax({   
-        url: '/Home/GetApprovalStatus',
-        type: 'GET',
-        data: { permitDashBoardId: id },
+        function ApprovalStatus(Id) {
+            // function ApprovalStatus(PermitMasterId) {
+            debugger;
+            $.ajax({
+                url: '/Home/GetApprovalStatus',
+                type: 'GET',
+                data: { id: Id },
 
-            success: function (result) {
+                success: function (result) {
 
-                // $(".approval-step").removeClass("approved pending rejected").addClass("pending");
+                    $(".approval-step").removeClass("approved pending rejected").addClass("pending");
 
-                // $(".approval-step i").removeClass("bi-check-circle-fill bi-hourglass-split bi-x-circle-fill").addClass("bi-hourglass-split");
+                    $(".approval-step i").removeClass("bi-check-circle-fill bi-hourglass-split bi-x-circle-fill").addClass("bi-hourglass-split");
 
-                // $(".approval-line").removeClass("active rejected");
+                    $(".approval-line").removeClass("active rejected");
 
 
 
-            var statusList = [
-                result.firstStatus,  
-                result.secondStatus,
-                result.thirdStatus,
-                result.fourthStatus
-            ]
+                    var statusList = [
+                        result.firstStatus,
+                        result.secondStatus,
+                        result.thirdStatus,
+                        result.fourthStatus
+                    ]
 
-            // for (let i = 0; i < statusList.length; i++)
-            // {
-            //     if(statusList[i] == "Approved")
-            //     {
-            //         $(".approval-step").eq(i).removeClass("pending rejected").addClass("approved");
-            //     }
-            //     else if(statusList[i] == "Rejected")
-            //     {
-            //         $(".approval-step").eq(i).removeClass("pending approved").addClass("rejected");
-            //     }
-            // }
+                    var nameList = [
+                        result.firstName,
+                        result.secondName,
+                        result.thirdName,
+                        result.fourthName,
+                    ]
 
-            statusList.forEach(function (status, index) {
+                    $("#snFirstApproval").text(result.firstName || "");
+                    $("#snSecondApproval").text(result.secondName || "");
+                    $("#snThirdApproval").text(result.thirdName || "");
+                    $("#snFourthApproval").text(result.fourthName || "");
 
-                if (!status) {
-                    return;
-                }
+                    statusList.forEach(function (permit, index) {
 
-                var step = $(".approval-step").eq(index);
-                step.removeClass("approved rejected pending").addClass(status.toLowerCase());
+                        if (!permit) {
+                            return;
+                        }
 
-                step.find("i").removeClass("bi-check-circle-fill bi-hourglass-split bi-x-circle-fill");
+                        var step = $(".approval-step").eq(index);
+                        step.removeClass("approved rejected pending").addClass(permit.toLowerCase());
 
-                if (status == "Approved") {
-                    step.find("i").addClass("bi-check-circle-fill");
-                }
+                        step.find("i").removeClass("bi-check-circle-fill bi-hourglass-split bi-x-circle-fill");
 
-                else if (status == "Rejected") {
-                    step.find("i").addClass("bi-x-circle-fill")
-                }
+                        if (permit == "Approved") {
+                            step.find("i").addClass("bi-check-circle-fill");
+                            if (index < 3)
+                                $(".approval-line").eq(index).addClass("active");
+                        }
 
-                else {
-                    step.find("i").addClass("bi-hourglass-split");
+                        else if (permit == "Rejected") {
+                            step.find("i").addClass("bi-x-circle-fill");
+                            if (index < 3)
+                                $(".approval-line").eq(index).addClass("rejected");
+                        }
+
+                        else {
+                            step.find("i").addClass("bi-hourglass-split");
+                        }
+                    });
+
+                    alert("Count : " + result.count);
+                    $("#StatusModal").modal("show");
                 }
             });
-
-            alert("Approved Count : " + result.count);
-            $("#StatusModal").modal("show");
         }
-        });
-        
-    }
+    
         // success: function (result) {
 
             // $(".approval-step").removeClass("approved pending").addClass("pending");

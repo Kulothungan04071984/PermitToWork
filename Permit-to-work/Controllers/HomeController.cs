@@ -102,28 +102,94 @@ namespace Permit_to_work.Controllers
 
 
 
-        public IActionResult GetApprovalStatus(int permitDashBoardId)
+        public JsonResult GetApprovalStatus(int id)
         {
-            var permit = _context.PermitMasters.FirstOrDefault(x => Convert.ToInt32(x.PermitNumber) == permitDashBoardId);
+            var permit = _context.PermitMasters.FirstOrDefault(x => x.Id == id);
+
+            //var hotwork = _context.HotWorkPermits.FirstOrDefault(x => x.PermitId == Convert.ToInt32(permit.PermitNumber));
+            string? approverOne = null;
+            string? approverTwo = null;
+            string? approverThree = null;
+            string? approverFour = null;
+
+            if (permit.PermitType == "Hot Work")
+            {
+                var hotwork = _context.HotWorkPermits.FirstOrDefault(x => x.PermitId == Convert.ToInt32(permit.PermitNumber));
+
+                approverOne = hotwork?.ApproverOne?.Split('@')[0];
+                approverTwo = hotwork?.ApproverTwo?.Split('@')[0];
+                approverThree = hotwork?.ApproverThree?.Split('@')[0];
+                approverFour = hotwork?.ApproverFour?.Split('@')[0];
+            }
+
+            if (permit.PermitType == "Cold Work")
+            {
+                var coldwork = _context.ColdWorkPermits.FirstOrDefault(x => x.Id == Convert.ToInt32(permit.PermitNumber));
+
+                approverOne = coldwork?.ApproverOne?.Split('@')[0];
+                approverTwo = coldwork?.ApproverTwo?.Split('@')[0];
+                approverThree = coldwork?.ApproverThree?.Split('@')[0];
+                approverFour = coldwork?.ApproverFour?.Split('@')[0];
+            }
+
+            if (permit.PermitType == "Work At Height")
+            {
+                var workatheight = _context.WorkAtHeightPermits.FirstOrDefault(x => x.PermitId == Convert.ToInt32(permit.PermitNumber));
+
+                approverOne = workatheight?.ApproverOne?.Split('@')[0];
+                approverTwo = workatheight?.ApproverTwo?.Split('@')[0];
+                approverThree = workatheight?.ApproverThree?.Split('@')[0];
+                approverFour = workatheight?.ApproverFour?.Split('@')[0];
+            }
+
+            if (permit.PermitType == "Lifting Operation")
+            {
+                var liftingoperation = _context.LiftingOperationPermits.FirstOrDefault(x => x.PermitId == Convert.ToInt32(permit.PermitNumber));
+
+                approverOne = liftingoperation?.ApproverOne?.Split('@')[0];
+                approverTwo = liftingoperation?.ApproverTwo?.Split('@')[0];
+                approverThree = liftingoperation?.ApproverThree?.Split('@')[0];
+                approverFour = liftingoperation?.ApproverFour?.Split('@')[0];
+            }
+
+            if (permit.PermitType == "Electrical Isolation")
+            {
+                var electricalisolation = _context.ElectricalIsolationPermits.FirstOrDefault(x => x.PermitId == Convert.ToInt32(permit.PermitNumber));
+
+                approverOne = electricalisolation?.ApproverOne?.Split('@')[0];
+                approverTwo = electricalisolation?.ApproverTwo?.Split('@')[0];
+                approverThree = electricalisolation?.ApproverThree?.Split('@')[0];
+                approverFour = electricalisolation?.ApproverFour?.Split('@')[0];
+            }
+
+            if (permit.PermitType == "Confined Space")
+            {
+                var confinedspace = _context.ConfinedSpacePermits.FirstOrDefault(x => x.Id == Convert.ToInt32(permit.PermitNumber));
+
+                approverOne = confinedspace?.ApproverOne?.Split('@')[0];
+                approverTwo = confinedspace?.ApproverTwo?.Split('@')[0];
+                approverThree = confinedspace?.ApproverThree?.Split('@')[0];
+                approverFour = confinedspace?.ApproverFour?.Split('@')[0];
+            }
 
             if (permit == null)
 
             {
-                return Json(0);
+                return Json(new {count = 0});
             }
 
             int approvedCount = 0;
 
-            if (permit.FirstApproverStatus == "Approved")
+            if (permit.FirstApproverStatus == "Approved" || permit.FirstApproverStatus == "Rejected")
                 approvedCount++;
 
-            if (permit.SecondApproverStatus == "Approved")
+            if (permit.SecondApproverStatus == "Approved" || permit.SecondApproverStatus == "Rejected")
                 approvedCount++;
 
-            if (permit.ThirdApproverStatus == "Approved")
+            if (permit.ThirdApproverStatus == "Approved" || permit.ThirdApproverStatus == "Rejected")
                 approvedCount++;
 
-            if (permit.FourthApproverStatus == "Approved")
+            if (permit.FourthApproverStatus == "Approved" || permit.FourthApproverStatus == "Rejected")
                 approvedCount++;
 
             return Json(new
@@ -134,6 +200,11 @@ namespace Permit_to_work.Controllers
                 SecondStatus = permit.SecondApproverStatus,
                 ThirdStatus = permit.ThirdApproverStatus,
                 FourthStatus = permit.FourthApproverStatus,
+
+                FirstName = approverOne,
+                SecondName = approverTwo,
+                ThirdName = approverThree,
+                FourthName = approverFour,
 
                 FirstMail = permit.FirstApproverStatus == "Approved" ? permit.FirstApproverStatus : "",
                 SecondMail = permit.SecondApproverStatus == "Approved" ? permit.SecondApproverStatus : "",
@@ -464,10 +535,10 @@ namespace Permit_to_work.Controllers
             string startdate = string.Empty;
             string enddate = string.Empty;
             string Tomail = string.Empty;
-            string firstApprover= string.Empty;
-            string scondApprover= string.Empty;
-            string thiredApprover= string.Empty;
-            string fourthApprover= string.Empty;
+            string firstApprover = string.Empty;
+            string scondApprover = string.Empty;
+            string thiredApprover = string.Empty;
+            string fourthApprover = string.Empty;
             //string baseUrl = "http://192.168.1.146:808";
             string baseUrl = _configuration["AppSettings"];
             //string baseUrl = "https://localhost:7174";
@@ -1842,29 +1913,30 @@ REJECT
             return View();
         }
 
-        public JsonResult GetApprovalStatus(int id, string type)
-        {
-            var status = _context.PermitMasters;
+        //[HttpGet]
+        //public JsonResult GetApprovalStatus(int id)
+        //{
+        //    var status = _context.PermitMasters;
 
-            var result = status
-                .Where(x => x.Id == id)
-                .Select(x => new
-                {
-                    x.FirstApproverStatus,
-                    x.SecondApproverStatus,
-                    x.ThirdApproverStatus,
-                    x.FourthApproverStatus
-                })
-                .FirstOrDefault();
+        //    var result = status
+        //        .Where(x => x.Id == id)
+        //        .Select(x => new
+        //        {
+        //            x.FirstApproverStatus,
+        //            x.SecondApproverStatus,
+        //            x.ThirdApproverStatus,
+        //            x.FourthApproverStatus
+        //        })
+        //        .FirstOrDefault();
 
-            return Json(new
-            {
-                FirstStatus = result.FirstApproverStatus,
-                SecondStatus = result.SecondApproverStatus,
-                ThirdStatus = result.ThirdApproverStatus,
-                FourthStatus = result.FourthApproverStatus,
-            });
-        }
+        //    return Json(new
+        //    {
+        //        FirstStatus = result.FirstApproverStatus,
+        //        SecondStatus = result.SecondApproverStatus,
+        //        ThirdStatus = result.ThirdApproverStatus,
+        //        FourthStatus = result.FourthApproverStatus,
+        //    });
+        //}
 
         public IActionResult Dashboard()
         {
@@ -1882,6 +1954,7 @@ REJECT
                 _context.ColdWorkPermits.Where(a => a.IsActive == true).Select(x => new PermitDashboardVM
                 {
                     PermitDashBoardId = x.Id,
+                    PermitMasterId = _context.PermitMasters.Where(p => Convert.ToInt32(p.PermitNumber) == x.Id && p.PermitType == "Cold Work").Select(p => p.Id).FirstOrDefault(),
                     PermitType = "Cold Work",
                     Unit = x.Unit,
                     Location = x.Location,
@@ -1902,6 +1975,7 @@ REJECT
                 _context.HotWorkPermits.Where(a => a.IsActive == true).Select(x => new PermitDashboardVM
                 {
                     PermitDashBoardId = x.PermitId,
+                    PermitMasterId = _context.PermitMasters.Where(p => Convert.ToInt32(p.PermitNumber) == x.PermitId &&  p.PermitType == "Hot Work").Select(p => p.Id).FirstOrDefault(),
                     PermitType = "Hot Work",
                     Unit = x.Unit,
                     Location = x.Location,
@@ -1911,7 +1985,6 @@ REJECT
                     Status = _context.PermitMasters.Where(p => Convert.ToInt32(p.PermitNumber) == x.PermitId && p.PermitType == "Hot Work").Select(p => p.Status).FirstOrDefault(),
 
                     Count = (x.ApproverOne != null ? 4 : x.ApproverTwo != null ? 3 : x.ApproverThree != null ? 2 : x.ApproverFour != null ? 1 : 0),
-                    //Count = (x.ApproverOne != null ? 1 : 0) + (x.ApproverTwo != null ? 1 : 0) + (x.ApproverThree != null ? 1 : 0) + (x.ApproverFour != null ? 1 : 0),
 
                     FirstApprovalStatus = _context.PermitMasters.Where(p => Convert.ToInt32(p.PermitNumber) == x.PermitId && p.PermitType == "Hot Work").Select(p => p.FirstApproverStatus).FirstOrDefault(),
                     SecondApprovalStatus = _context.PermitMasters.Where(p => Convert.ToInt32(p.PermitNumber) == x.PermitId && p.PermitType == "Hot Work").Select(p => p.SecondApproverStatus).FirstOrDefault(),
@@ -1924,6 +1997,7 @@ REJECT
                 _context.ElectricalIsolationPermits.Where(a => a.IsActive == true).Select(x => new PermitDashboardVM
                 {
                     PermitDashBoardId = x.PermitId,
+                    PermitMasterId = _context.PermitMasters.Where(p => Convert.ToInt32(p.PermitNumber) == x.PermitId && p.PermitType == "Electrical Isolation").Select(p => p.Id).FirstOrDefault(),
                     PermitType = "Electrical Isolation",
                     Unit = x.Unit,
                     Location = x.Location,
@@ -1945,6 +2019,7 @@ REJECT
                 _context.WorkAtHeightPermits.Select(x => new PermitDashboardVM
                 {
                     PermitDashBoardId = x.PermitId,
+                    PermitMasterId = _context.PermitMasters.Where(p => Convert.ToInt32(p.PermitNumber) == x.PermitId && p.PermitType == "Work At Height").Select(p => p.Id).FirstOrDefault(),
                     PermitType = "Work At Height",
                     Unit = x.Unit,
                     Location = x.Location,
@@ -1966,6 +2041,7 @@ REJECT
                 _context.LiftingOperationPermits.Where(a => a.IsActive == true).Select(x => new PermitDashboardVM
                 {
                     PermitDashBoardId = x.PermitId,
+                    PermitMasterId = _context.PermitMasters.Where(p => Convert.ToInt32(p.PermitNumber) == x.PermitId && p.PermitType == "Lifting Operation").Select(p => p.Id).FirstOrDefault(),
                     PermitType = "Lifting Operation",
                     Unit = x.Unit,
                     Location = x.Location,
@@ -1987,6 +2063,7 @@ REJECT
                 _context.ConfinedSpacePermits.Select(x => new PermitDashboardVM
                 {
                     PermitDashBoardId = x.Id,
+                    PermitMasterId = _context.PermitMasters.Where(p => Convert.ToInt32(p.PermitNumber) == x.Id && p.PermitType == "Confined Space").Select(p => p.Id).FirstOrDefault(),
                     PermitType = "Confined Space",
                     Unit = x.Unit,
                     Location = x.Location,

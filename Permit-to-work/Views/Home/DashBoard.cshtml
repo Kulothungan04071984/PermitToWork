@@ -302,9 +302,14 @@
                                         }
                                         <select class="form-select form-select-sm approvalDropdown @(cmddisable ? "disabled" : "")" id="ddlApprovalStatus"
                                                 style="@(cmddisable ? "pointer-events:none; opacity:0.5;" : "")">
-                                            <option value="Pending" selected>Pending</option>
+
+                                                <option value="Pending" selected="@(item.Status == "Pending")">Pending</option>
+                                                <option value="Approved" selected="@(item.Status == "Approved")">Approve</option>
+                                                <option value="Rejected" selected="@(item.Status == "Rejected")">Reject</option>
+
+                                           @*  <option value="Pending" selected>Pending</option>
                                             <option value="Approved">Approve</option>
-                                            <option value="Rejected">Reject</option>
+                                            <option value="Rejected">Reject</option> *@
                                         </select>
                                     </td>
 
@@ -339,6 +344,8 @@
                                                 </button>
                                             </div>
                                         </div>
+
+
 
                                   @*   <a class="btn btn-sm btn-primary" id="btnStatus">
                                         <i class="bi bi-plus-circle"></i>
@@ -543,13 +550,13 @@
                 info: true,
                 paging: true,
                 language: {
-               lengthMenu: "Show _MENU_ Records"
+                lengthMenu: "Show _MENU_ Records"
                 }
             });
         });
 
         function ApprovalStatus(Id) {
-            // function ApprovalStatus(PermitMasterId) {
+
             debugger;
             $.ajax({
                 url: '/Home/GetApprovalStatus',
@@ -613,7 +620,7 @@
                         }
                     });
 
-                    alert("Count : " + result.count);
+                    // alert("Count : " + result.count);
                     $("#StatusModal").modal("show");
                 }
             });

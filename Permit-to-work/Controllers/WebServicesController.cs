@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Permit_to_work.Data;
+using Permit_to_work.Models;
 using System.Net;
 using System.Net.Mail;
 
@@ -27,6 +28,37 @@ namespace Permit_to_work.Controllers
             _configuration = configuration;
         }
 
+        private void UpdatePermitStatus(PermitMaster permit, int totalApprovers)
+        {
+            int approved = 0;
+            int rejected = 0;
+
+            if (permit.FirstApproverStatus == "Approved") approved++;
+            if (permit.SecondApproverStatus == "Approved") approved++;
+            if (permit.ThirdApproverStatus == "Approved") approved++;
+            if (permit.FourthApproverStatus == "Approved") approved++;
+
+            if (permit.FirstApproverStatus == "Rejected") rejected++;
+            if (permit.SecondApproverStatus == "Rejected") rejected++;
+            if (permit.ThirdApproverStatus == "Rejected") rejected++;
+            if (permit.FourthApproverStatus == "Rejected") rejected++;
+
+            if (approved == totalApprovers)
+            {
+                permit.Status = "Approved";
+            }
+            else if (rejected == totalApprovers)
+            {
+                permit.Status = "Rejected";
+            }
+            else if (approved > 0 || rejected > 0)
+            {
+                permit.Status = "Partial Approved";
+            }
+            else
+                permit.Status = "Pending";
+        }
+
         [HttpGet("Approve")]
         public async Task<IActionResult> Approve(string token, string type, int id)
         {
@@ -43,8 +75,13 @@ namespace Permit_to_work.Controllers
             {
                 permit.FirstApproverStatus = "Approved";
                 permit.FirstApproverToken = null;
-              await _context.SaveChangesAsync();
-               await sendmail(type, id);
+
+                int totalApprovers = 1;
+                UpdatePermitStatus(permit, 1);
+                permit.Status = "Approved";
+
+                await _context.SaveChangesAsync();
+                await sendmail(type, id);
             }
             else if (permit.SecondApproverToken == token)
             {
@@ -160,6 +197,10 @@ namespace Permit_to_work.Controllers
             {
                 permit.FirstApproverStatus = "Rejected";
                 permit.FirstApproverToken = null;
+
+                int totalApprovers = 1;
+                UpdatePermitStatus(permit, 1);
+                _context.SaveChanges();
             }
             else if (permit.SecondApproverToken == token)
             {

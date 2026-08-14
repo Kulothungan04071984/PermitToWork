@@ -60,7 +60,7 @@
         }
 
         .required-star {
-        color: darkred;
+             color: darkred;
         }
 
 
@@ -93,7 +93,7 @@
             <section class="card permit-card">
                 @Html.ValidationMessage("Basic Details", "", new { @class = "text-danger" })
                 <div class="section-title">
-                    Basic Details <span class="required-star">*</span>
+                    Basic Details
                 </div>
                @*  <div class="row"> *@
 
@@ -138,7 +138,7 @@
             <section class="card permit-card">
                 @Html.ValidationMessage("Dates", "", new { @class = "text-danger" })
                 <div class="section-title">
-                    Date and Time <span class="required-star">*</span>
+                    Date and Time
                 </div>
                 <div class="row">
 
@@ -629,7 +629,7 @@
                  SECTION: INSURANCE COPY
               ════════════════════════════════════════════════════ -->
                 <section class="card permit-card">
-                    @Html.ValidationMessage("Insurence Copy", "", new { @class = "text-danger" })
+                    @Html.ValidationMessage("Insurance Copy", "", new { @class = "text-danger" })
                     <div class="section-title">
                         Insurance copy available for workmen <span class="required-star">*</span>
                     </div>

@@ -57,7 +57,7 @@ namespace Permit_to_work.Models
 
         //Work Details
         public string? SerialNo { get; set; }
-        public DateTime InspectionDate { get; set; }
+        public DateTime? InspectionDate { get; set; }
         public string? CapacitySWL { get; set; }
         public string? WorkDescription { get; set; }
         public string? ToolsEquipment { get; set; }
@@ -138,7 +138,7 @@ namespace Permit_to_work.Models
 
         //Suspension
         public string? SuspensionName { get; set; }
-        public DateTime SuspensionSignatureDate { get; set; }
+        public DateTime? SuspensionSignatureDate { get; set; }
 
         //Approver Details
         public string? ApproverOne { get; set; }

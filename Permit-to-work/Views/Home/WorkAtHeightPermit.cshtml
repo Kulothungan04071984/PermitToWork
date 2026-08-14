@@ -158,7 +158,10 @@
             ════════════════════════════════════════════════════ -->
 
             <section class="card permit-card">
-                <label>Work Description</label>
+                @Html.ValidationMessage("WorkDescription", "", new { @class = "text-danger" })
+                <label>
+                    Work Description <span class="required-star">*</span>
+                </label>
                 @Html.TextAreaFor(m => m.WorkDescription, 3, 100, new { @class = "form-control" })
             </section>
 
@@ -560,8 +563,6 @@
                 <div class="section-title">
                     Suspension <span class="required-star">*</span>
                 </div>
-
-                <p class="mb-2">This permit is suspended, area/equipment is not safe to use</p>
 
                 <div class="row g-3">
                     <div class="col-md-4">

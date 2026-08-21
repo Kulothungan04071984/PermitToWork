@@ -8,8 +8,8 @@ body {
 .card {
     background: #f5e6d3; /* inner soft brown */
     border: none;
-    margin-left: 5%;
-    margin-right: 5%;
+    margin-left: 3%;
+    margin-right: 3%;
     border-radius: 10px;
     /*width: 1664px;*/
 }

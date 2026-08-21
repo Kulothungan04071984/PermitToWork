@@ -67,11 +67,12 @@
                 </div>
             </section>
 
-            <!-- ════════════════════════════════════════════════════
+            <!-- ══════════════════════════════════════════════════
                  SECTION: DATES & TIMES
             ════════════════════════════════════════════════════ -->
             <section class="permit-section">
             @Html.ValidationMessage("Dates", "", new { @class = "text-danger" })
+            @Html.ValidationMessage("Date", "", new { @class = "text-danger" })
                 <div class="row g-3">
 
                     <div class="col-md-3">
@@ -108,7 +109,7 @@
                 </div>
             </section>
 
-            <!-- ════════════════════════════════════════════════════
+            <!-- ══════════════════════════════════════════════════
                  SECTION: WORK DESCRIPTION
             ════════════════════════════════════════════════════ -->
             <section class="permit-section">

@@ -16,7 +16,7 @@
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
 
-       public string FirstApproverStatus { get; set; } = string.Empty;
+        public string FirstApproverStatus { get; set; } = string.Empty;
 
         public string? SecondApproverStatus { get; set; } = string.Empty;
 

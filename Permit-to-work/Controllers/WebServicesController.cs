@@ -353,8 +353,8 @@ namespace Permit_to_work.Controllers
 <body>
 
 <div class='card'>
-    <div class='success'></div>
-
+    <div class='logo-icon'>
+         <img src=""/img/logo/Syrma Logo.png"" alt=""Logo"">
     <h2>Permit Approved Successfully</h2>
 
     <p>
@@ -369,6 +369,7 @@ namespace Permit_to_work.Controllers
     <div class='footer'>
         Permit To Work System
     </div>
+</div>
 </div>
 
 </body>
@@ -594,10 +595,9 @@ namespace Permit_to_work.Controllers
 
 <body>
 
-<div class=""card"">
-
-    <div class=""icon""></div>
-
+<div class='card'>
+    <div class='logo-icon'>
+        <img src=""/img/logo/Syrma Logo.png"" alt=""Logo"">
     <h1>Permit Rejected</h1>
 
     <p>
@@ -612,7 +612,8 @@ namespace Permit_to_work.Controllers
     <div class=""footer"">
         You may now close this browser window.
     </div>
-
+ </div>
+ </div>
 </div>
 
 </body>

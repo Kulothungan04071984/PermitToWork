@@ -99,7 +99,7 @@
                 <div class="row g-3">
                     <div class="col-md-3">
                         <label>
-                            Unit <span class="required-star">*</span>
+                            Unit <span class="required-star" style="color: #8B0000;">*</span>
                         </label>
                         @Html.TextBoxFor(m => m.Unit, new { @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.Unit, "", new { @class = "text-danger" })
@@ -107,7 +107,7 @@
 
                     <div class="col-md-3">
                         <label>
-                            Contractor <span class="required-star">*</span>
+                            Contractor <span class="required-star" style="color: #8B0000;">*</span>
                         </label>
                         @Html.TextBoxFor(m => m.ContractorName, new { @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.ContractorName, "", new { @class = "text-danger" })
@@ -115,7 +115,7 @@
 
                     <div class="col-md-3">
                         <label>
-                            Location <span class="required-star">*</span>
+                            Location <span class="required-star" style="color: #8B0000;">*</span>
                         </label>
                         @Html.TextBoxFor(m => m.Location, new { @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.Location, "", new { @class = "text-danger" })
@@ -123,7 +123,7 @@
 
                     <div class="col-md-3">
                         <label>
-                            No. of Workmen involved <span class="required-star">*</span>
+                            No. of Workmen involved <span class="required-star" style="color: #8B0000;">*</span>
                         </label>
                         @Html.TextBoxFor(m => m.NoOfWorkmen, new { @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.NoOfWorkmen, "", new { @class = "text-danger" })
@@ -145,7 +145,7 @@
 
                     <div class="col-md-3">
                         <label>
-                            Starting From Date <span class="required-star">*</span>
+                            Starting From Date <span class="required-star" style="color: #8B0000;">*</span>
                         </label>
                         @Html.TextBoxFor(m => m.StartDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.StartDate, "", new { @class = "text-danger" })
@@ -153,7 +153,7 @@
 
                     <div class="col-md-3">
                         <label>
-                            Starting From Time<span class="required-star">*</span>
+                            Starting From Time<span class="required-star" style="color: #8B0000;">*</span>
                         </label>
                         @Html.TextBoxFor(m => m.StartTime, new { type = "time", @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.StartTime, "", new { @class = "text-danger" })
@@ -161,7 +161,7 @@
 
                     <div class="col-md-3">
                         <label>
-                            Expected Completion Date <span class="required-star">*</span>
+                            Expected Completion Date <span class="required-star" style="color: #8B0000;">*</span>
                         </label>
                         @Html.TextBoxFor(m => m.EndDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.EndDate, "", new { @class = "text-danger" })
@@ -169,7 +169,7 @@
 
                     <div class="col-md-3">
                         <label>
-                            Expected Completion Time<span class="required-star">*</span>
+                            Expected Completion Time<span class="required-star" style="color: #8B0000;">*</span>
                         </label>
                         @Html.TextBoxFor(m => m.EndTime, new { type = "time", @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.EndTime, "", new { @class = "text-danger" })
@@ -179,7 +179,7 @@
             
                
                 <!-- ════════════════════════════════════════════════════
-               SECTION: LIFTING EQUIPMENT
+                SECTION: LIFTING EQUIPMENT
                 ════════════════════════════════════════════════════ -->
                 <section class="card permit-card">
                     @Html.ValidationMessage("Lifting Equipment", "", new { @class = "text-danger" })
@@ -240,7 +240,7 @@
 
             <!-- ════════════════════════════════════════════════════
                SECTION: RIGGER
-          ════════════════════════════════════════════════════ -->
+            ════════════════════════════════════════════════════ -->
             <section class="card permit-card">
                 @Html.ValidationMessage("Rigger", "", new { @class = "text-danger" })
                 <div class="section-title">
@@ -268,13 +268,13 @@
                 </div>
 
                 @Html.ValidationMessageFor(m => m.RiggerLevel, "", new { @class = "text-danger" })
-           
+            
         </section>
         
 
-            <!-- ════════════════════════════════════════════════════
+             <!-- ════════════════════════════════════════════════════
                SECTION: Equipment & Work Details
-          ════════════════════════════════════════════════════ -->
+             ════════════════════════════════════════════════════ -->
             <section class="card permit-card">
                 @Html.ValidationMessage("Equipment & Work Details", "", new { @class = "text-danger" })
                 <div class="section-title">
@@ -323,9 +323,9 @@
             </section>
 
 
-          <!-- ════════════════════════════════════════════════════
-           SECTION: RISK
-          ════════════════════════════════════════════════════ -->
+             <!-- ════════════════════════════════════════════════════
+              SECTION: RISK
+             ════════════════════════════════════════════════════ -->
             <section class="card permit-card">
                 @Html.ValidationMessage("Risk", "", new { @class = "text-danger" })
                 <div class="section-title">
@@ -407,9 +407,9 @@
             </section>
 
               
-            <!-- ════════════════════════════════════════════════════
+             <!-- ════════════════════════════════════════════════════
                SECTION: DOCUMENTS
-          ════════════════════════════════════════════════════ -->
+             ════════════════════════════════════════════════════ -->
             <section class="card permit-card">
                 <div class="section-title">Documents to attach</div>
 
@@ -473,8 +473,8 @@
                      
 
                 <!-- ════════════════════════════════════════════════════
-               SECTION: RIGGING
-          ════════════════════════════════════════════════════ -->
+                 SECTION: RIGGING
+                ════════════════════════════════════════════════════ -->
                 <section class="card permit-card">
                     @Html.ValidationMessage("RIGGING", "", new { @class = "text-danger" })
                     <div class="section-title">
@@ -515,7 +515,7 @@
                     </div>
                 </section>
 
-                <!-- ════════════════════════════════════════════════════
+               <!-- ════════════════════════════════════════════════════
                SECTION:  LOAD CHECK
                ════════════════════════════════════════════════════ -->
                 <section class="card permit-card">
@@ -537,7 +537,7 @@
                     </div>
                     </section>
 
-                <!-- ════════════════════════════════════════════════════
+               <!-- ════════════════════════════════════════════════════
                SECTION: Inspected Area
                ════════════════════════════════════════════════════ -->
                 <section class="card permit-card">
@@ -606,7 +606,7 @@
 
                 <!-- ═══════════════════════════════════════════════════
                  SECTION: PPE
-              ════════════════════════════════════════════════════ -->
+                ════════════════════════════════════════════════════ -->
                 <section class="card permit-card">
                     @Html.ValidationMessage("PPE", "", new { @class = "text-danger" })
                     <div class="section-title">

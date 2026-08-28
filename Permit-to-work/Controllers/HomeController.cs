@@ -250,7 +250,7 @@ namespace Permit_to_work.Controllers
         [HttpPost("sendmail")]
         public async Task sendmail(string Type, int id)
         {
-
+            
             string startdate = string.Empty;
             string enddate = string.Empty;
             string Tomail = string.Empty;
@@ -266,7 +266,6 @@ namespace Permit_to_work.Controllers
             try
             {
                 var permit = _context.PermitMasters.FirstOrDefault(x => x.PermitNumber == id.ToString() && x.PermitType == Type);
-                _logger.LogInformation($"Mail Approval request received for permit type {Type} with ID {id} and Permit id {permit?.Id}");
 
                 if (permit == null)
                 {
@@ -365,29 +364,45 @@ namespace Permit_to_work.Controllers
 
                 if (!string.IsNullOrWhiteSpace(approverOneEmail))
                 {
-                    permit.FirstApproverToken = Guid.NewGuid().ToString();
-                    permit.FirstApproverStatus = "Pending";
+                    if (string.IsNullOrWhiteSpace(permit.FirstApproverToken))
+                        permit.FirstApproverToken = Guid.NewGuid().ToString();
+
+                    if (string.IsNullOrWhiteSpace(permit.FirstApproverStatus))
+                        permit.FirstApproverStatus = "Pending";
                 }
 
                 if (!string.IsNullOrWhiteSpace(approverTwoEmail))
                 {
-                    permit.SecondApproverToken = Guid.NewGuid().ToString();
-                    permit.SecondApproverStatus = "Pending";
+                    if (string.IsNullOrWhiteSpace(permit.SecondApproverToken))
+                        permit.SecondApproverToken = Guid.NewGuid().ToString();
+
+                    if (string.IsNullOrWhiteSpace(permit.SecondApproverStatus))
+                        permit.SecondApproverStatus = "Pending";
                 }
 
                 if (!string.IsNullOrWhiteSpace(approverThreeEmail))
                 {
-                    permit.ThirdApproverToken = Guid.NewGuid().ToString();
-                    permit.ThirdApproverStatus = "Pending";
+                    if (string.IsNullOrWhiteSpace(permit.ThirdApproverToken))
+                        permit.ThirdApproverToken = Guid.NewGuid().ToString();
+
+                    if (string.IsNullOrWhiteSpace(permit.ThirdApproverStatus))
+                        permit.ThirdApproverStatus = "Pending";
                 }
 
                 if (!string.IsNullOrWhiteSpace(approverFourEmail))
                 {
-                    permit.FourthApproverToken = Guid.NewGuid().ToString();
-                    permit.FourthApproverStatus = "Pending";
+                    if (string.IsNullOrWhiteSpace(permit.FourthApproverToken))
+                        permit.FourthApproverToken = Guid.NewGuid().ToString();
+
+                    if (string.IsNullOrWhiteSpace(permit.FourthApproverStatus))
+                        permit.FourthApproverStatus = "Pending";
                 }
 
                 await _context.SaveChangesAsync();
+
+                _logger.LogInformation($"SECOND TOKEN SAVED: {permit.SecondApproverToken}");
+                _logger.LogInformation($"PERMIT ID: {permit.Id}");
+
 
                 string approveUrl1 = "";
                 string rejectUrl1 = "";
@@ -2437,11 +2452,11 @@ REJECT
                         UpdatePermitStatus(permitcheck, count);
 
                         _context.PermitMasters.Update(permitcheck);
-                        sendmail(PermitType, Convert.ToInt32(Permitid));
+                        //sendmail(PermitType, Convert.ToInt32(Permitid));
                     }
 
                     _context.SaveChanges();
-                    sendmail(PermitType, Convert.ToInt32(Permitid));
+                    //sendmail(PermitType, Convert.ToInt32(Permitid));
                 }
 
                 else if (PermitType == "Work At Height")
@@ -2561,11 +2576,9 @@ REJECT
                         UpdatePermitStatus(permitcheck, count);
 
                         _context.PermitMasters.Update(permitcheck);
-                        sendmail(PermitType, Convert.ToInt32(Permitid));
                     }
 
                     _context.SaveChanges();
-                    sendmail(PermitType, Convert.ToInt32(Permitid));
                 }
 
                 else if (PermitType == "Electrical Isolation")

@@ -538,7 +538,7 @@
     <script>
 
         $(document).ready(function () {
-        $('#sidebar').hide();
+            $('#sidebar').hide();
             $('#permitTable').DataTable({
                 pageLength: 10,
                 lengthchange: false,
@@ -547,7 +547,7 @@
                 info: true,
                 paging: true,
                 language: {
-                lengthMenu: "Show _MENU_ Records"
+                    lengthMenu: "Show _MENU_ Records"
                 }
             });
         });
@@ -792,7 +792,6 @@
                     else {
                         this.value = "Pending";
                     }
-                    location.reload();
                 }
 
                 else if (this.value === "Rejected") {
@@ -809,7 +808,6 @@
                         else {
                             this.value = "Pending";
                         }
-                        location.reload();
                     }
                     else {
                         this.value = "Pending";

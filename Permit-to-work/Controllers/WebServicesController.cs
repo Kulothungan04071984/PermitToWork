@@ -79,6 +79,11 @@ namespace Permit_to_work.Controllers
         {
             if (permit.FirstApproverToken == token)
             {
+                if (permit.FirstApproverStatus == "Approved" || permit.FirstApproverStatus == "Rejected")
+                {
+                    return false;
+                }
+
                 permit.FirstApproverStatus = status;
                 permit.FirstApproverToken = null;
                 return true;
@@ -86,6 +91,11 @@ namespace Permit_to_work.Controllers
 
             if (permit.SecondApproverToken == token)
             {
+                if (permit.SecondApproverStatus == "Approved" || permit.SecondApproverStatus == "Rejected")
+                {
+                    return false;
+                }
+
                 permit.SecondApproverStatus = status;
                 permit.SecondApproverToken = null;
                 return true;
@@ -93,6 +103,11 @@ namespace Permit_to_work.Controllers
 
             if (permit.ThirdApproverToken == token)
             {
+                if (permit.ThirdApproverStatus == "Approved" || permit.ThirdApproverStatus == "Rejected")
+                {
+                    return false;
+                }
+
                 permit.ThirdApproverStatus = status;
                 permit.ThirdApproverToken = null;
                 return true;
@@ -100,6 +115,11 @@ namespace Permit_to_work.Controllers
 
             if (permit.FourthApproverToken == token)
             {
+                if (permit.FourthApproverStatus == "Approved" || permit.FourthApproverStatus == "Rejected")
+                {
+                    return false;
+                }
+
                 permit.FourthApproverStatus = status;
                 permit.FourthApproverToken = null;
                 return true;
@@ -128,7 +148,7 @@ namespace Permit_to_work.Controllers
                 return true;
             }
 
-            else if (permit.FourthApproverToken == "Pending")
+            else if (permit.FourthApproverStatus == "Pending")
             {
                 permit.FourthApproverToken = token;
                 return true;
@@ -140,12 +160,16 @@ namespace Permit_to_work.Controllers
         [HttpGet("Approve")]
         public async Task<IActionResult> Approve(string token, string type, int id)
         {
-            var permit = _context.PermitMasters.FirstOrDefault(x =>
-            x.FirstApproverToken == token ||
-            x.SecondApproverToken == token ||
-            x.ThirdApproverToken == token ||
-            x.FourthApproverToken == token);
+            var permit = _context.PermitMasters.FirstOrDefault(x => x.PermitNumber == id.ToString() && x.PermitType == type &&
+            (
+                x.FirstApproverToken == token ||
+                x.SecondApproverToken == token ||
+                x.ThirdApproverToken == token ||
+                x.FourthApproverToken == token
+            ));
+
             _logger.LogInformation($"Approval request received for permit type {type} with ID {id} and token {token} and Permit id {permit?.Id}");
+
             if (permit == null)
                 return Content("Invalid approval link.");
 
@@ -329,7 +353,7 @@ namespace Permit_to_work.Controllers
 <body>
 
 <div class='card'>
-    <div class='success'>✔</div>
+    <div class='success'></div>
 
     <h2>Permit Approved Successfully</h2>
 
@@ -355,11 +379,13 @@ namespace Permit_to_work.Controllers
         [HttpGet("reject")]
         public async Task<IActionResult> Reject(string token, string type, int id)
         {
-            var permit = _context.PermitMasters.FirstOrDefault(x =>
+            var permit = _context.PermitMasters.FirstOrDefault(x => x.Id == id &&
+            (
                 x.FirstApproverToken == token ||
                 x.SecondApproverToken == token ||
                 x.ThirdApproverToken == token ||
-                x.FourthApproverToken == token);
+                x.FourthApproverToken == token
+            ));
 
             _logger.LogInformation(
                 $"Rejection request received for permit type {type} with ID {id} and token {token} and Permit id {permit?.Id}");
@@ -498,9 +524,8 @@ namespace Permit_to_work.Controllers
             UpdatePermitStatus(permit, totalApprovers);
 
             await _context.SaveChangesAsync();
-            //return Content("Permit rejection recorded successfully.");
-
             return Content(@"
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -571,7 +596,7 @@ namespace Permit_to_work.Controllers
 
 <div class=""card"">
 
-    <div class=""icon"">✕</div>
+    <div class=""icon""></div>
 
     <h1>Permit Rejected</h1>
 
@@ -595,28 +620,28 @@ namespace Permit_to_work.Controllers
 ", "text/html");
         }
 
-        //        [HttpPost("SendApprovalMail")]
-        //        public IActionResult SendApprovalMail([FromBody] SendMailRequest request)
-        //        {
-        //            try
-        //            {
-        //                sendmail(request.PermitType, request.PermitId);
+        [HttpPost("SendApprovalMail")]
+        public IActionResult SendApprovalMail([FromBody] SendMailRequest request)
+        {
+            try
+            {
+                sendmail(request.PermitType, request.PermitId);
 
-        //                return Ok(new
-        //                {
-        //                    Status = true,
-        //                    Message = "Mail sent successfully."
-        //                });
-        //            }
-        //            catch (Exception ex)
-        //            {
-        //                return BadRequest(new
-        //                {
-        //                    Status = false,
-        //                    Message = ex.Message
-        //                });
-        //            }
-        //        }
+                return Ok(new
+                {
+                    Status = true,
+                    Message = "Mail sent successfully."
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    Status = false,
+                    Message = ex.Message
+                });
+            }
+        }
         [HttpPost("sendmail")]
         public async Task sendmail(string Type, int id)
         {
@@ -1145,7 +1170,7 @@ REJECT
 </body>
 </html>";
 
-                    SendApprovalEmail( approverFourEmail, body4, Type, id);
+                    SendApprovalEmail(approverFourEmail, body4, Type, id);
                 }
                 _logger.LogInformation($"Email sent to {Tomail} for permit type {Type} with ID {id}");
 

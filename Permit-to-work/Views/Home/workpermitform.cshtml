@@ -70,6 +70,13 @@
                         @Html.TextBoxFor(m => m.Location, new { @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.Location, "", new { @class = "text-danger" })
                     </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Location Image</label>
+                        <input type="file"
+                               name="LocationImageFile"
+                               class="form-control"
+                               accept="image/*" />
+                    </div>
 
                     <div class="col-md-3">
                         <label class="form-label">Location Image</label>
@@ -1325,8 +1332,3 @@
 
 </body>
 </html>
-<script>
-     $(document).ready(function () {
-        $('#hdLiftingOperations,#hdElectricalIsolation,#hdworkPermitForm,#hdWorkAtHeight').hide();
-    });
-</script> *@

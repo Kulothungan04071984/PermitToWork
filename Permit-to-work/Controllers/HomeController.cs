@@ -436,7 +436,6 @@ namespace Permit_to_work.Controllers
                 {
                     approveUrl3 = $"{baseUrl}/api/WebServices/Approve?token={permit.ThirdApproverToken}&type={Uri.EscapeDataString(Type)}&id={id}";
                     rejectUrl3 = $"{baseUrl}/api/WebServices/Reject?token={permit.ThirdApproverToken}&type={Uri.EscapeDataString(Type)}&id={id}";
-                    ////string viewUrl3 = $"{baseUrl}/Home/ViewPermit?type={Uri.EscapeDataString(Type)}&id={id}";
                 }
 
                 if (!string.IsNullOrWhiteSpace(permit.FourthApproverToken))

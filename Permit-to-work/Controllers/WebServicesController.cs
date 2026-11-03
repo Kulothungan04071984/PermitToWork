@@ -802,24 +802,28 @@ namespace Permit_to_work.Controllers
                 {
                     approveUrl1 = $"{baseUrl}/api/WebServices/Approve?token={permit.FirstApproverToken}&type={Uri.EscapeDataString(Type)}&id={id}";
                     rejectUrl1 = $"{baseUrl}/api/WebServices/Reject?token={permit.FirstApproverToken}&type={Uri.EscapeDataString(Type)}&id={id}";
+                    string viewUrl1 = $"{baseUrl}/Home/ViewPermit?type={Uri.EscapeDataString(Type)}&id={id}";
                 }
 
                 if (!string.IsNullOrWhiteSpace(permit.SecondApproverToken))
                 {
                     approveUrl2 = $"{baseUrl}/api/WebServices/Approve?token={permit.SecondApproverToken}&type={Uri.EscapeDataString(Type)}&id={id}";
                     rejectUrl2 = $"{baseUrl}/api/WebServices/Reject?token={permit.SecondApproverToken}&type={Uri.EscapeDataString(Type)}&id={id}";
+                    string viewUrl2 = $"{baseUrl}/Home/ViewPermit?type={Uri.EscapeDataString(Type)}&id={id}";
                 }
 
                 if (!string.IsNullOrWhiteSpace(permit.ThirdApproverToken))
                 {
                     approveUrl3 = $"{baseUrl}/api/WebServices/Approve?token={permit.ThirdApproverToken}&type={Uri.EscapeDataString(Type)}&id={id}";
                     rejectUrl3 = $"{baseUrl}/api/WebServices/Reject?token={permit.ThirdApproverToken}&type={Uri.EscapeDataString(Type)}&id={id}";
+                    string viewUrl3 = $"{baseUrl}/Home/ViewPermit?type={Uri.EscapeDataString(Type)}&id={id}";
                 }
 
                 if (!string.IsNullOrWhiteSpace(permit.FourthApproverToken))
                 {
                     approveUrl4 = $"{baseUrl}/api/WebServices/Approve?token={permit.FourthApproverToken}&type={Uri.EscapeDataString(Type)}&id={id}";
                     rejectUrl4 = $"{baseUrl}/api/WebServices/Reject?token={permit.FourthApproverToken}&type={Uri.EscapeDataString(Type)}&id={id}";
+                    string viewUrl4 = $"{baseUrl}/Home/ViewPermit?type={Uri.EscapeDataString(Type)}&id={id}";
                 }
 
                 // SEND EMAIL TO APPROVER 1

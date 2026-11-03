@@ -436,6 +436,7 @@
     <form asp-action="ConfinedSpaceEntry" method="post" asp-controller="Home">
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="card">
+            @Html.ValidationMessage("Dates", "", new { @class = "text-danger" })
             <div class="card-header text-center fw-bold">
                 <h3>CONFINED SPACE TO ENTRY PERMIT</h3>
             </div>
@@ -447,12 +448,24 @@
             <div class="section-title">
                 Basic Details <span class="required-star">*</span>
             </div>
-            <div class="row">
-                <div class="col-md-3">
-                    <label>Unit</label>
-                    @Html.TextBoxFor(m => m.Unit, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.Unit, "", new { @class = "text-danger" })
-                </div>
+                <div class="row g-3">
+
+                    <div class="col-md-3">
+                        <label class="form-label">
+                            Unit <span class="required-star">*</span>
+                        </label>
+                        @Html.DropDownListFor(m => m.Unit, new SelectList(new[]
+                                 {
+                        "Unit-1",
+                        "Unit-2",
+                        "Unit-3",
+                        "Unit-4",
+                        "Bargur"
+                        }),
+                                 "-- Select Unit --",
+                                 new { @class = "form-select" })
+                        @Html.ValidationMessageFor(m => m.Unit, "", new { @class = "text-danger" })
+                    </div>
                 <div class="col-md-3">
                     <label>Contractor/Internal Team</label>
                     @Html.TextBoxFor(m => m.Contractor, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
@@ -468,6 +481,13 @@
                     @Html.TextBoxFor(m => m.NoOfWorkmen, new { @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.NoOfWorkmen, "", new { @class = "text-danger" })
                 </div>
+                    <div class="col-md-3">
+                        <label class="form-label">
+                            Workmen Name
+                        </label>
+                        @Html.TextBoxFor(m => m.WorkmenName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.WorkmenName, "", new { @class = "text-danger" })
+                    </div>
             </div>
             </section>
 
@@ -491,7 +511,7 @@
                 </div>
                 <div class="col-md-3">
                     <label>Expected Completion Date</label>
-                    @Html.TextBoxFor(m => m.EndDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
+                        @Html.TextBoxFor(m => m.EndDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.EndDate, "", new { @class = "text-danger" })
                 </div>
                 <div class="col-md-3">
@@ -907,7 +927,7 @@
                     <label>Raised By</label>
                     @Html.TextBoxFor(m => m.RaisedBy, new { @class = "form-control" })
                 </div>
-                <div class="col-md-6">
+               @*  <div class="col-md-6">
                     <label>Department Incharge</label>
                     @Html.TextBoxFor(m => m.DepartmentIncharge, new { @class = "form-control" })
                 </div>
@@ -920,13 +940,13 @@
                 <div class="col-md-6">
                     <label>Safety</label>
                     @Html.TextBoxFor(m => m.Safety, new { @class = "form-control" })
-                </div>
+                </div> *@
             </div>
         </section>
 
         <!-- SUSPENSION -->
 
-        <section class="border-section">
+        @* <section class="border-section">
             @Html.ValidationMessage("Suspension", "", new { @class = "text-danger" })
             <div class="section-title">
                 Suspension <span class="required-star">*</span>
@@ -944,11 +964,11 @@
                     @Html.ValidationMessageFor(m => m.SuspensionDate, "", new { @class = "text-danger" })
                 </div>
             </div>
-        </section>
+        </section> *@
 
         <!-- APPROVER DETAILS -->
 
-        <section class="border-section">
+        @* <section class="border-section">
             @Html.ValidationMessage("ApproverDetails", "", new { @class = "text-danger" })
             <div class="section-title">
                 Approver Details <span class="required-star">*</span>
@@ -976,7 +996,50 @@
                     </div>
                 </div>
             </section>
-        </section>
+        </section> *@
+            <section class="permit-section">
+                @Html.ValidationMessage("ApproverDetails", "", new { @class = "text-danger" })
+                <h5>Approver Details</h5>
+                <div class="row">
+                    <div class="col-lg-3">
+                        <label class="form-label">
+                            Approver One(Department Incharge)  <span class="required-star">*</span>
+                        </label>
+                        @Html.TextBoxFor(m => m.ApproverOne, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.ApproverOne, "", new { @class = "text-danger" })
+                    </div>
+
+
+                    <div class="col-lg-3">
+                        <label>Approver Two (Facility Incharge)</label>
+
+                        <select name="ApproverTwo" id="ApproverTwo" class="form-control">
+                            <option value="">-- Select Email --</option>
+                            <option value="solomon@syrmasgs.com">solomon@syrmasgs.com</option>
+                            <option value="selvakumar@syrmasgs.com">selvakumar@syrmasgs.com</option>
+                            <option value="rameswaran.n@syrmasgs.com">rameswaran.n@syrmasgs.com</option>
+                            <option value="Vadivel.k@syrmasgs.com">Vadivel.k@syrmasgs.com</option>
+                            <option value="johnrex.a@syrmasgs.com">johnrex.a@syrmasgs.com</option>
+                        </select>
+                    </div>
+
+                    <div class="col-lg-3">
+                        <label>Approver Three (Safety Incharge)</label>
+
+                        <select name="ApproverThree" id="ApproverThree" class="form-control">
+                            <option value="">-- Select Email --</option>
+                            <option value="hemachandran.v@syrmasgs.com">hemachandran.v@syrmasgs.com</option>
+                            <option value="govindarajan.n@syrmasgs.com">govindarajan.n@syrmasgs.com</option>
+                        </select>
+                    </div>
+
+
+                    <div class="col-lg-3">
+                        <label>Approver Four</label>
+                        @Html.TextBoxFor(m => m.ApproverFour, new { @class = "form-control" })
+                    </div>
+                </div>
+            </section>
 
         <!-- BUTTON -->
 

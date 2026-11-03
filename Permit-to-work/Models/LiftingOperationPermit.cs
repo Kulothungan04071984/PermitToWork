@@ -22,6 +22,7 @@ namespace Permit_to_work.Models
 
         [Required(ErrorMessage = "Please fill the No. of Workmen field")]
         public int NoOfWorkmen { get; set; }
+        public string? WorkmenName { get; set; }
 
         // Date & time
 
@@ -132,13 +133,13 @@ namespace Permit_to_work.Models
 
         //Authorization
         public string? RaisedBy { get; set; }
-        public string? DepartmentIncharge { get; set; }
-        public string? Facility { get; set; }
-        public string? Safety { get; set; }
+        //public string? DepartmentIncharge { get; set; }
+        //public string? Facility { get; set; }
+        //public string? Safety { get; set; }
 
         //Suspension
-        public string? SuspensionName { get; set; }
-        public DateTime? SuspensionSignatureDate { get; set; }
+        //public string? SuspensionName { get; set; }
+        //public DateTime? SuspensionSignatureDate { get; set; }
 
         //Approver Details
         public string? ApproverOne { get; set; }

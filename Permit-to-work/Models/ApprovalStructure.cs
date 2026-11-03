@@ -8,6 +8,7 @@ namespace Permit_to_work.Models
         public int ApprovalId { get; set; }
         public string? Unit { get; set; }
         public string? ContractorTeam { get; set; }
+        public string? WorkmenName { get; set; }
         public string? Location { get; set; }
         public int NoOfWorkmen { get; set; }
         public DateTime StartDate { get; set; }

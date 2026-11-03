@@ -312,7 +312,7 @@
 
                                     <td>@item.Status</td>
 
-                                    <td class="text-center">
+                                    @* <td class="text-center">
                                         <div class="row">
                                             <div class="col-lg-3">
                                                 <button class="btn btn-sm btn-info btnapproval" data-id="@item.PermitDashBoardId" onclick="ApprovalStatus(@item.PermitMasterId)">
@@ -330,6 +330,14 @@
                                                     <i class="bi bi-pencil"></i>
                                                 </a>
                                             </div>
+
+                                            <div class="col-lg-3">
+                                                <a class="btn btn-sm btn-primary"
+                                                   href="@Url.Action("ViewPermit", "Home",
+                                                        new { type = item.PermitType, id = item.PermitDashBoardId })">
+                                                    <i class="bi bi-eye"></i>
+                                                </a>
+                                            </div>
                                             <div class="col-lg-3">
                                                 <button class="btn btn-sm btn-warning openModal">
                                                     <i class="bi bi-clock-history"></i>
@@ -340,7 +348,57 @@
                                                     <i class="bi bi-trash"></i>
                                                 </button>
                                             </div>
+                                        </div> *@
+                                    <td class="text-center">
+                                        <div class="d-flex justify-content-center align-items-center gap-2 flex-wrap">
+
+                                            <!-- Approval Status -->
+                                            <button type="button"
+                                                    class="btn btn-sm btn-info btnapproval"
+                                                    data-id="@item.PermitDashBoardId"
+                                                    onclick="ApprovalStatus(@item.PermitMasterId)"
+                                                    title="Approval Status">
+                                                <i class="bi bi-plus-circle"></i>
+                                            </button>
+
+                                            <!-- Edit -->
+                                            @{
+                                                bool disableButton = item.Status == "Approved"
+                                                || item.Status == "Rejected"
+                                                || item.Status == "Partial Approved";
+                                            }
+
+                                            <a class="btn btn-sm btn-info @(disableButton ? "disabled" : "")"
+                                               href="@(disableButton ? "#" : "/" + item.PermitType.Replace(" ", "") + "/Edit/" + item.PermitDashBoardId)"
+                                               title="Edit Permit">
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
+
+                                           @*  <!-- VIEW BUTTON -->
+                                            <a class="btn btn-sm btn-primary"
+                                               href="@Url.Action("ViewPermit", "Home", new { type = item.PermitType, id = item.PermitDashBoardId })"
+                                               title="View Permit">
+                                                <i class="bi bi-eye"></i> VIEW
+                                            </a> *@
+
+                                            <!-- Extend Permit -->
+                                            <button type="button"
+                                                    class="btn btn-sm btn-warning openModal"
+                                                    title="Extend Permit">
+                                                <i class="bi bi-clock-history"></i>
+                                            </button>
+
+                                            <!-- Delete -->
+                                            <button type="button"
+                                                    class="btn btn-sm btn-danger btnDelete"
+                                                    data-id="@item.PermitDashBoardId"
+                                                    data-type="@item.PermitType"
+                                                    title="Delete Permit">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+
                                         </div>
+                                    </td>
 
 
 
@@ -378,7 +436,7 @@
                             </div>*@
             
                                         
-                                    </td>
+                                   
                                 </tr>
                             }
                         }

@@ -22,6 +22,8 @@ namespace Permit_to_work.Models
         [Required(ErrorMessage = "NoOfWorkmen is required")]
         public int NoOfWorkmen { get; set; }
 
+        public string? WorkmenName { get; set; }
+
         // Date & Time
 
         [Required(ErrorMessage = "StartDate is required")]
@@ -131,18 +133,18 @@ namespace Permit_to_work.Models
         // Authorization
 
         public string? RaisedBy { get; set; }
-        public string? DepartmentIncharge { get; set; }
-        public string? Facility { get; set; }
-        public string? Safety { get; set; }
+        //public string? DepartmentIncharge { get; set; }
+        //public string? Facility { get; set; }
+        //public string? Safety { get; set; }
 
 
         // ===== SUSPENSION =====
 
-        [Required(ErrorMessage = "SuspensionName is required")]
-        public string? SuspensionName { get; set; }
+        //[Required(ErrorMessage = "SuspensionName is required")]
+        //public string? SuspensionName { get; set; }
 
-        [Required(ErrorMessage = "SuspensionSignatureDate is required")]
-        public DateTime SuspensionSignatureDate { get; set; }
+        //[Required(ErrorMessage = "SuspensionSignatureDate is required")]
+        //public DateTime SuspensionSignatureDate { get; set; }
 
 
         // Approver Details

@@ -16,6 +16,9 @@ namespace Permit_to_work.Models
         [Required(ErrorMessage = "Contractor/Internal is required")]
         public string? ContractorTeam { get; set; }
 
+        [Required(ErrorMessage = "Contractor/Internal is required")]
+        public string? WorkmenName { get; set; }
+
         [Required(ErrorMessage = "Location is required")]
         public string? Location { get; set; }
 
@@ -125,19 +128,19 @@ namespace Permit_to_work.Models
 
         public string? RaisedBy { get; set; }
 
-        public string? DeptIncharge { get; set; }
+        //public string? DeptIncharge { get; set; }
 
-        public string? Facility { get; set; }
+        //public string? Facility { get; set; }
 
-        public string? Safety { get; set; }
+        //public string? Safety { get; set; }
 
         // Suspension
 
-        [Required(ErrorMessage = "Name is required")]
-        public string? Name { get; set; }
+        //[Required(ErrorMessage = "Name is required")]
+        //public string? Name { get; set; }
 
-        [Required(ErrorMessage = "Suspension Date is required")]
-        public DateTime? SuspensionDate { get; set; }// ← nullable
+        //[Required(ErrorMessage = "Suspension Date is required")]
+        //public DateTime? SuspensionDate { get; set; }// ← nullable
             
         public string? ApproverOne { get; set; }     // ← nullable
         public string? ApproverTwo { get; set; }     // ← nullable

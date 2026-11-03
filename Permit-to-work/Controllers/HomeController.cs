@@ -17,6 +17,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Permit_to_work.Controllers
 {
@@ -421,25 +422,30 @@ namespace Permit_to_work.Controllers
                 {
                     approveUrl1 = $"{baseUrl}/api/WebServices/Approve?token={permit.FirstApproverToken}&type={Uri.EscapeDataString(Type)}&id={id}";
                     rejectUrl1 = $"{baseUrl}/api/WebServices/Reject?token={permit.FirstApproverToken}&type={Uri.EscapeDataString(Type)}&id={id}";
+                    //string viewUrl1 = $"{baseUrl}/Home/ViewPermit?type={Uri.EscapeDataString(Type)}&id={id}";
                 }
 
                 if (!string.IsNullOrWhiteSpace(permit.SecondApproverToken))
                 {
                     approveUrl2 = $"{baseUrl}/api/WebServices/Approve?token={permit.SecondApproverToken}&type={Uri.EscapeDataString(Type)}&id={id}";
                     rejectUrl2 = $"{baseUrl}/api/WebServices/Reject?token={permit.SecondApproverToken}&type={Uri.EscapeDataString(Type)}&id={id}";
+                    //string viewUrl2 = $"{baseUrl}/Home/ViewPermit?type={Uri.EscapeDataString(Type)}&id={id}";
                 }
 
                 if (!string.IsNullOrWhiteSpace(permit.ThirdApproverToken))
                 {
                     approveUrl3 = $"{baseUrl}/api/WebServices/Approve?token={permit.ThirdApproverToken}&type={Uri.EscapeDataString(Type)}&id={id}";
                     rejectUrl3 = $"{baseUrl}/api/WebServices/Reject?token={permit.ThirdApproverToken}&type={Uri.EscapeDataString(Type)}&id={id}";
+                    ////string viewUrl3 = $"{baseUrl}/Home/ViewPermit?type={Uri.EscapeDataString(Type)}&id={id}";
                 }
 
                 if (!string.IsNullOrWhiteSpace(permit.FourthApproverToken))
                 {
                     approveUrl4 = $"{baseUrl}/api/WebServices/Approve?token={permit.FourthApproverToken}&type={Uri.EscapeDataString(Type)}&id={id}";
                     rejectUrl4 = $"{baseUrl}/api/WebServices/Reject?token={permit.FourthApproverToken}&type={Uri.EscapeDataString(Type)}&id={id}";
+                    string viewUrl4 = $"{baseUrl}/Home/ViewPermit?type={Uri.EscapeDataString(Type)}&id={id}";
                 }
+
 
                 // SEND EMAIL TO APPROVER 1
 
@@ -800,6 +806,12 @@ REJECT
             {
                 _logger.LogError(ex, $"Failed to send email for permit type {Type} with ID {id}");
             }
+
+            //catch (Exception ex)
+            //{
+            //    _logger.LogError(ex, "EMAIL ERROR: {Message}", ex.Message);
+            //    throw;
+            //}
         }
 
         private void SendApprovalEmail(string email, string body, string type, int id)
@@ -854,9 +866,9 @@ REJECT
         {
             try
             {
-                if (vm.EndDate <= vm.StartDate)
+                if (vm.EndDate < vm.StartDate)
                 {
-                    ModelState.AddModelError("Dates", "Please select an End Date after the Start Date.");
+                    ModelState.AddModelError("Dates", "End Date cannot be before Start Date.");
                 }
 
                 if (!vm.RiskFallHeight &&
@@ -944,6 +956,7 @@ REJECT
                     ContractorTeam = vm.ContractorTeam,
                     Location = vm.Location,
                     NoOfWorkmen = vm.NoOfWorkmen,
+                    WorkmenName = vm.WorkmenName,
 
                     // ── Dates & Times ──────────────────────────────────────
                     StartDate = vm.StartDate,
@@ -1006,6 +1019,8 @@ REJECT
                     // ── Insurance ─────────────────────────────────────────
                     WC = vm.WC,
                     ESI = vm.ESI,
+                    //WCFilePath = model.WCFilePath,
+                    //ESIFilePath = model.ESIFilePath,
 
                     // ── Inspected Areas ───────────────────────────────────
                     InspectAccess = vm.InspectAccess,
@@ -1030,13 +1045,13 @@ REJECT
 
                     // ── Authorization ─────────────────────────────────────
                     RaisedBy = vm.RaisedBy,
-                    DeptIncharge = vm.DeptIncharge,
-                    Facility = vm.Facility,
-                    Safety = vm.Safety,
+                    //DeptIncharge = vm.DeptIncharge,
+                    //Facility = vm.Facility,
+                    //Safety = vm.Safety,
 
                     // ── Suspension / Clearance ────────────────────────────
-                    Name = vm.Name,
-                    SuspensionDate = vm.SuspensionDate,
+                    //Name = vm.Name,
+                    //SuspensionDate = vm.SuspensionDate,
 
                     //── Approver Details ───────────────────────────────────
 
@@ -1065,10 +1080,14 @@ REJECT
                     _context.ColdWorkPermits.Add(entity);
                 }
 
-                var x = entity.ApproverFour;
-                _context.SaveChanges();
-                insertPermitMaster("Cold Work", entity.Id.ToString(), entity.Unit, Convert.ToString(entity.StartDate), Convert.ToString(entity.EndDate), entity.Location);
-                await sendmail("Cold Work", entity.Id);
+                insertPermitMaster(
+                    "Cold Work",
+                    entity.Id.ToString(),
+                    entity.Unit,
+                    $"{entity.StartDate:dd-MM-yyyy} {entity.StartTime}",
+                    $"{entity.EndDate:dd-MM-yyyy} {entity.EndTime}",
+                    entity.Location
+                );
             }
             catch (Exception ex)
             {
@@ -1088,10 +1107,15 @@ REJECT
         [HttpPost]
         public async Task<IActionResult> Hotwork(HotWorkPermit model)
         {
-            if (model.EndDate <= model.StartDate)
-            {
-                ModelState.AddModelError("Dates", "Please select an End Date after the Start Date.");
-            }
+            //if (model.EndDate <= model.StartDate)
+            //{
+            //    ModelState.AddModelError("Dates", "Please select an End Date after the Start Date.");
+            //}
+            //if (model.EndDate <= model.StartDate)
+            //{
+            //    ModelState.AddModelError("Dates", "End Date cannot be before Start Date.");
+            //}
+
 
             if (!model.Welding &&
                !model.ChippingCuttingGrinding)
@@ -1169,6 +1193,27 @@ REJECT
 
             if (!ModelState.IsValid)
             {
+                var errors = ModelState
+                    .Where(x => x.Value.Errors.Count > 0)
+                    .Select(x => new
+                    {
+                        Field = x.Key,
+                        Errors = x.Value.Errors.Select(e =>
+                            string.IsNullOrEmpty(e.ErrorMessage)
+                                ? e.Exception?.Message
+                                : e.ErrorMessage).ToList()
+                    })
+                    .ToList();
+
+                foreach (var item in errors)
+                {
+                    Console.WriteLine($"Field: {item.Field}");
+                    foreach (var error in item.Errors)
+                    {
+                        Console.WriteLine($"Error: {error}");
+                    }
+                }
+
                 return View(model);
             }
 
@@ -1180,6 +1225,7 @@ REJECT
                 ContractorName = model.ContractorName,
                 Location = model.Location,
                 NoOfWorkmen = model.NoOfWorkmen,
+                WorkmenName = model.WorkmenName,
 
                 // ── Date & Time ────────────────────────────────────────────
                 StartDate = model.StartDate,
@@ -1261,13 +1307,13 @@ REJECT
 
                 // ── Issues & Acceptance ────────────────────────────────────────────
                 RaisedBy = model.RaisedBy,
-                DeptIncharge = model.DeptIncharge,
-                Facility = model.Facility,
-                Safety = model.Safety,
+                //DeptIncharge = model.DeptIncharge,
+                //Facility = model.Facility,
+                //Safety = model.Safety,
 
                 // ── Suspension ────────────────────────────────────────────
-                SuspensionName = model.SuspensionName,
-                SuspensionSignatureDate = model.SuspensionSignatureDate,
+                //SuspensionName = model.SuspensionName,
+                //SuspensionSignatureDate = model.SuspensionSignatureDate,
 
                 // ── Approver Details ────────────────────────────────────────────
                 ApproverOne = model.ApproverOne,
@@ -1301,9 +1347,14 @@ REJECT
         [HttpPost]
         public async Task<IActionResult> ElectricalIsolationPermit(ElectricalIsolationPermit model)
         {
-            if (model.EndDate <= model.StartDate)
+            if (model.StartDate.HasValue &&
+     model.EndDate.HasValue &&
+     model.EndDate.Value.Date < model.StartDate.Value.Date)
             {
-                ModelState.AddModelError("Dates", "Please select an End Date after the Start Date.");
+                ModelState.AddModelError(
+                    "Dates",
+                    "End Date cannot be before Start Date."
+                );
             }
 
             if (!model.EnergizedEquipment &&
@@ -1384,6 +1435,7 @@ REJECT
                 PermitDate = model.PermitDate,
                 Location = model.Location,
                 NumberOfWorkmen = model.NumberOfWorkmen,
+                WorkmenName = model.WorkmenName,
 
                 // ── Date & Time ────────────────────────────────────────────
                 StartDate = model.StartDate,
@@ -1464,13 +1516,13 @@ REJECT
 
                 // ── Issue & Acceptance ────────────────────────────────────────────
                 RaisedBy = model.RaisedBy,
-                DeptIncharge = model.DeptIncharge,
-                Facility = model.Facility,
-                Safety = model.Safety,
+                //DeptIncharge = model.DeptIncharge,
+                //Facility = model.Facility,
+                //Safety = model.Safety,
 
                 // ── Suspension ────────────────────────────────────────────
-                SuspensionName = model.SuspensionName,
-                SuspensionSignatureDate = model.SuspensionSignatureDate,
+                //SuspensionName = model.SuspensionName,
+                //SuspensionSignatureDate = model.SuspensionSignatureDate,
 
                 // ── Approver Details ────────────────────────────────────────────
                 ApproverOne = model.ApproverOne,
@@ -1534,10 +1586,11 @@ REJECT
         public async Task<IActionResult> Liftingoperation(LiftingOperationPermit model)
 
         {
-            if (model.EndDate <= model.StartDate)
-            {
-                ModelState.AddModelError("Dates", "Please select an End Date after the Start Date.");
-            }
+            //if (model.EndDate <= model.StartDate)
+            //{
+            //    ModelState.AddModelError("Dates",
+            //        "End Date cannot be before Start Date."); 
+            //}
 
             if (!model.TruckMounted &&
                 !model.HydraCrane &&
@@ -1596,6 +1649,7 @@ REJECT
                 ContractorName = model.ContractorName,
                 Location = model.Location,
                 NoOfWorkmen = model.NoOfWorkmen,
+                WorkmenName = model.WorkmenName,
 
                 // ── Date & Time ────────────────────────────────────────────-
                 StartDate = model.StartDate,
@@ -1686,13 +1740,13 @@ REJECT
 
                 // ── Authorization ────────────────────────────────────────────
                 RaisedBy = model.RaisedBy,
-                DepartmentIncharge = model.DepartmentIncharge,
-                Facility = model.Facility,
-                Safety = model.Safety,
+                //DepartmentIncharge = model.DepartmentIncharge,
+                //Facility = model.Facility,
+                //Safety = model.Safety,
 
                 // ── Suspension ────────────────────────────────────────────
-                SuspensionName = model.SuspensionName,
-                SuspensionSignatureDate = model.SuspensionSignatureDate,
+                //SuspensionName = model.SuspensionName,
+                //SuspensionSignatureDate = model.SuspensionSignatureDate,
 
                 // ── Approver Details ────────────────────────────────────────────
                 ApproverOne = model.ApproverOne,
@@ -1726,9 +1780,10 @@ REJECT
         [HttpPost]
         public async Task<IActionResult> WorkAtHeightPermit(WorkAtHeightPermit model)
         {
-            if (model.EndDate <= model.StartDate)
+            if (model.EndDate.Date < model.StartDate.Date)
             {
-                ModelState.AddModelError("Dates", "Please select an End Date after the Start Date.");
+                ModelState.AddModelError("Dates",
+                    "End Date cannot be before Start Date.");
             }
 
             if (!model.Scaffolding &&
@@ -1804,6 +1859,7 @@ REJECT
                 ContractorTeam = model.ContractorTeam,
                 Location = model.Location,
                 NoOfWorkmen = model.NoOfWorkmen,
+                WorkmenName = model.WorkmenName,
 
                 // ── Date & Time ────────────────────────────────────────────
                 StartDate = model.StartDate,
@@ -1890,13 +1946,13 @@ REJECT
 
                 // ── Authorization ───────────────────────────────────────────
                 RaisedBy = model.RaisedBy,
-                DepartmentIncharge = model.DepartmentIncharge,
-                Facility = model.Facility,
-                Safety = model.Safety,
+                //DepartmentIncharge = model.DepartmentIncharge,
+                //Facility = model.Facility,
+                //Safety = model.Safety,
 
                 // ── SUSPENSION ───────────────────────────────────────────
-                SuspensionName = model.SuspensionName,
-                SuspensionSignatureDate = model.SuspensionSignatureDate,
+                //SuspensionName = model.SuspensionName,
+                //SuspensionSignatureDate = model.SuspensionSignatureDate,
 
                 // ── Approver Details ───────────────────────────────────────────
                 ApproverOne = model.ApproverOne,
@@ -1929,10 +1985,10 @@ REJECT
         [HttpPost]
         public async Task<IActionResult> ConfinedSpaceEntry(ConfinedSpacePermit model)
         {
-            if (model.EndDate <= model.StartDate)
-            {
-                ModelState.AddModelError("DateTime", "Please select an End Date after the Start Date.");
-            }
+            //if (model.EndDate <= model.StartDate)
+            //{
+            //    ModelState.AddModelError("Dates", "End Date cannot be before Start Date.");
+            //}
 
             if (!model.RiskOxygen &&
                 !model.RiskExplosion &&
@@ -2003,6 +2059,7 @@ REJECT
                 Contractor = model.Contractor,
                 Location = model.Location,
                 NoOfWorkmen = model.NoOfWorkmen,
+                WorkmenName = model.WorkmenName,
 
                 // ─── Dates ───────────────────────────────────────────
                 StartDate = model.StartDate,
@@ -2088,13 +2145,13 @@ REJECT
 
                 // ──── Issue and Acceptance  ────────────────────────────
                 RaisedBy = model.RaisedBy,
-                DepartmentIncharge = model.DepartmentIncharge,
-                Facility = model.Facility,
-                Safety = model.Safety,
+                //DepartmentIncharge = model.DepartmentIncharge,
+                //Facility = model.Facility,
+                //Safety = model.Safety,
 
                 // ──── Suspension ───────────────────────────────────
-                SuspensionName = model.SuspensionName,
-                SuspensionDate = model.SuspensionDate,
+                //SuspensionName = model.SuspensionName,
+                //SuspensionDate = model.SuspensionDate,
 
                 // ──── Approver Details ───────────────────────────
                 ApproverOne = model.ApproverOne,

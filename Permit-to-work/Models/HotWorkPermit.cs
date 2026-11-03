@@ -24,6 +24,9 @@ namespace Permit_to_work.Models
         [Required(ErrorMessage = "Please fill the No. of Workmen field")]
         public int? NoOfWorkmen { get; set; }
 
+        [Required(ErrorMessage = "Please fill the No. of Workmen field")]
+        public string? WorkmenName { get; set; }
+   
         // ===== DATE & TIME =====
 
         [Required(ErrorMessage = "Please fill the Starting Date field")]
@@ -131,17 +134,17 @@ namespace Permit_to_work.Models
 
 
         public string? RaisedBy { get; set; }
-        public string? DeptIncharge { get; set; }
-        public string? Facility { get; set; }
-        public string? Safety { get; set; }
+        //public string? DeptIncharge { get; set; }
+        //public string? Facility { get; set; }
+        //public string? Safety { get; set; }
 
         // ===== SUSPENSION =====
 
-        [Required(ErrorMessage = "Suspension Name is required")]
-        public string? SuspensionName { get; set; }
+        //[Required(ErrorMessage = "Suspension Name is required")]
+        //public string? SuspensionName { get; set; }
 
-        [Required(ErrorMessage = "Suspension Date is required")]
-        public DateTime? SuspensionSignatureDate { get; set; }
+        //[Required(ErrorMessage = "Suspension Date is required")]
+        //public DateTime? SuspensionSignatureDate { get; set; }
 
         // ===== APPROVER DETAILS =====
 

@@ -26,11 +26,21 @@
                 <div class="section-title">Basic Details</div>
                 @Html.ValidationMessage("BasicDetails", "", new { @class = "text-danger" })
                 <div class="row g-3">
+
                     <div class="col-md-3">
-                        <label>
+                        <label class="form-label">
                             Unit <span class="required-star">*</span>
                         </label>
-                        @Html.TextBoxFor(m => m.Unit, new { @class = "form-control" })
+                        @Html.DropDownListFor(m => m.Unit, new SelectList(new[]
+                                 {
+                        "Unit-1",
+                        "Unit-2",
+                        "Unit-3",
+                        "Unit-4",
+                        "Bargur"
+                        }),
+                                 "-- Select Unit --",
+                                 new { @class = "form-select" })
                         @Html.ValidationMessageFor(m => m.Unit, "", new { @class = "text-danger" })
                     </div>
 
@@ -57,6 +67,15 @@
                         @Html.TextBoxFor(m => m.NoOfWorkmen, new { @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.NoOfWorkmen, "", new { @class = "text-danger" })
                     </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">
+                            Workmen Name
+                        </label>
+                        @Html.TextBoxFor(m => m.WorkmenName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.WorkmenName, "", new { @class = "text-danger" })
+                    </div>
+
                 </div>
             </section>
 
@@ -532,7 +551,7 @@
                         @Html.TextBoxFor(m => m.RaisedBy, new { @class = "form-control" })
                     </div>
 
-                    <div class="col-md-3">
+                 @*    <div class="col-md-3">
                         <label>Department Incharge</label>
                         @Html.TextBoxFor(m => m.DepartmentIncharge, new { @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.DepartmentIncharge, "", new { @class = "text-danger" })
@@ -550,7 +569,7 @@
                         <label>Safety</label>
                         @Html.TextBoxFor(m => m.Safety, new { @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.Safety, "", new { @class = "text-danger" })
-                    </div>
+                    </div> *@
                 </div>
 
             </section>
@@ -558,7 +577,7 @@
             <!-- ════════════════════════════════════════════════════
               SECTION: SUSPENSION
             ════════════════════════════════════════════════════ -->
-            <section class="card permit-card">
+           @*  <section class="card permit-card">
                 @Html.ValidationMessage("Suspension", "", new { @class = "text-danger" })
                 <div class="section-title">
                     Suspension <span class="required-star">*</span>
@@ -577,39 +596,54 @@
                         @Html.ValidationMessageFor(m => m.SuspensionSignatureDate, "", new { @class = "text-danger" })
                     </div>
                 </div>
-            </section>
+            </section> *@
 
             <!-- ════════════════════════════════════════════════════
               SECTION: APPROVER DETAILS
              ════════════════════════════════════════════════════ -->
-            <section class="card permit-card">
+                       <section class="permit-section">
                 @Html.ValidationMessage("ApproverDetails", "", new { @class = "text-danger" })
-                <div class="section-title">
-                    Approver Details<span class="required-star">*</span>
-                </div>
-
+                <h5>Approver Details</h5>
                 <div class="row">
                     <div class="col-lg-3">
-                        <label>
-                            Approver One Email <span class="required-star">*</span>
+                        <label class="form-label">
+                            Approver One(Department Incharge)  <span class="required-star">*</span>
                         </label>
-
                         @Html.TextBoxFor(m => m.ApproverOne, new { @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.ApproverOne, "", new { @class = "text-danger" })
                     </div>
 
+
                     <div class="col-lg-3">
-                        <label>Approver Two Email</label>
-                        @Html.TextBoxFor(m => m.ApproverTwo, new { @class = "form-control" })
+                        <label>Approver Two (Facility Incharge)</label>
+                        @Html.DropDownListFor(m => m.ApproverTwo,
+                                          new List<SelectListItem>
+                        {
+                        new SelectListItem { Text = "-- Select Email --", Value = "" },
+                        new SelectListItem { Text = "solomon@syrmasgs.com", Value = "solomon@syrmasgs.com" },
+                        new SelectListItem { Text = "selvakumar@syrmasgs.com", Value = "selvakumar@syrmasgs.com" },
+                        new SelectListItem { Text = "rameswaran.n@syrmasgs.com", Value = "rameswaran.n@syrmasgs.com" },
+                        new SelectListItem { Text = "Vadivel.k@syrmasgs.com", Value = "Vadivel.k@syrmasgs.com" },
+                        new SelectListItem { Text = "johnrex.a@syrmasgs.com", Value = "johnrex.a@syrmasgs.com" }
+                        },
+                                          new { @class = "form-control" })
                     </div>
 
                     <div class="col-lg-3">
-                        <label>Approver Three Email</label>
-                        @Html.TextBoxFor(m => m.ApproverThree, new { @class = "form-control" })
+                        <label>Approver Three (Safety)</label>
+                        @Html.DropDownListFor(m => m.ApproverThree,
+                                          new List<SelectListItem>
+                        {
+                        new SelectListItem { Text = "-- Select Email --", Value = "" },
+                        new SelectListItem { Text = "hemachandran.v@syrmasgs.com", Value = "hemachandran.v@syrmasgs.com" },
+                        new SelectListItem { Text = "govindarajan.n@syrmasgs.com", Value = "govindarajan.n@syrmasgs.com" }
+                        },
+                                          new { @class = "form-control" })
                     </div>
 
+
                     <div class="col-lg-3">
-                        <label>Approver Four Email</label>
+                        <label>Approver Four</label>
                         @Html.TextBoxFor(m => m.ApproverFour, new { @class = "form-control" })
                     </div>
                 </div>
